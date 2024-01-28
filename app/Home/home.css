@@ -1,0 +1,58 @@
+.homepage{
+    display: flex;
+    flex-direction: column;
+    margin: 75px;
+}
+
+.homepage-slider {
+    background-color: #AFAFAF;
+    width: 100%;
+    border-radius: 20px;
+    min-width: 320px;
+    max-width: 1229px;
+    /* margin-left: auto;
+    margin-right: auto; */
+    max-height: 380px;
+    min-height: 320px;
+}
+
+.categories{
+    display: flex;
+}
+
+
+.cateogry {
+    background-color: #D9D9D9;
+    width: 136px;
+    height: 200px;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+.popular-container{
+    display: flex;
+    justify-content: space-around;
+}
+
+.popular{
+    background-color: #D9D9D9;
+    border-radius: 10px;
+    width: 230px;
+    height: 390px;
+    margin: 20px;
+}
+
+.brands{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.brand{
+    background-color: #D9D9D9;
+    border-radius: 10px;
+    margin: 20px;
+    width: 188px;
+    height: 100px;
+}
