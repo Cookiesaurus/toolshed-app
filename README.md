@@ -3,7 +3,14 @@ A database web application for the Southeast Area Coalition's Toolshed program i
 
 ## Getting Started
 
-First, run the development server:
+First, install necessary packages:
+```bash
+npm i
+# or
+yarn install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
