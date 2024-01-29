@@ -9,8 +9,8 @@ import Link from 'next/link';
 const Navbar = () => {
   return (
     <div className='navbar' role='Navigation' aria-label='Main'>
-    <Link href={'/Home'}>
-        <p className='navbar-logo'><a href="/Home">Home</a></p>
+    <Link href={'/'}>
+        <p className='navbar-logo'>Home</p>
     </Link>
         <div className='category-hover'>
             <button className='navbar-category'><Link href={'/Categories'}>Category</Link></button>
