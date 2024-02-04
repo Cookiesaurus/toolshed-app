@@ -40,7 +40,7 @@ export default function Layout({
 
                 <p className='product-price'>$$Price goes here$$</p>
                 <div className='product-quantity'>
-                    <form className='quanity-form'>
+                    <form className='quanity-form' onChange={null}>
                         <select name="quantity" id="quantity">
                             {options}
                         </select>
