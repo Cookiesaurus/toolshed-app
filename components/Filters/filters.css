@@ -1,0 +1,34 @@
+.filters-cont {
+    width: 230px;
+    display: flex;
+    flex-direction: column;
+}
+
+.price-range {
+    display: flex;
+    align-items: center;
+    width: min-content;
+    height: 120px;
+    border-width: 1px 0px 1px 0px;
+    border-style: solid;
+    border-color: #E4E7EE;
+    margin: 15px;
+}
+
+.range {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.brand-select {
+    height: 300px;
+    overflow-y: scroll;
+    width: 300px;
+}
+
+.filter-toggle {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}

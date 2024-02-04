@@ -98,3 +98,4 @@ sketch
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/nextjs,visualstudiocode,react
+package-lock.json
