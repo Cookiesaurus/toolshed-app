@@ -1,0 +1,27 @@
+.loginbox{
+    display:flexbox;
+    align-content: center;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    padding-right: 35%;
+    padding-left: 35%;
+}
+
+.basetext{
+    font-family: 'Poppins', 'sans-serif';
+    margin-top: 10px;
+}
+
+.button{
+    font-family: 'Poppins', 'sans-serif';
+    background-color: black;
+    color: white;
+    height: 40px;
+    width: 100px;
+    margin-top: 10px;
+}
+
+.link{
+    font-family: 'Poppins', 'sans-serif';
+    text-decoration: underline;
+}
