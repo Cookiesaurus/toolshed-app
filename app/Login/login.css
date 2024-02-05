@@ -1,27 +1,32 @@
-.loginbox{
-    display:flexbox;
-    align-content: center;
-    padding-top: 5%;
-    padding-bottom: 5%;
-    padding-right: 35%;
-    padding-left: 35%;
+.content{
+    font-family: 'Poppins', 'sans-serif';
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    /*background-color: blue;*/
 }
 
-.basetext{
-    font-family: 'Poppins', 'sans-serif';
-    margin-top: 10px;
+.loginbox{
+    text-align: center;
+    display:flexbox;
+    width: 80%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    /*background-color: aqua;*/
+}
+
+.input{
+    margin-bottom: 10px;
+    max-width: 75%;
 }
 
 .button{
-    font-family: 'Poppins', 'sans-serif';
     background-color: black;
     color: white;
     height: 40px;
-    width: 100px;
-    margin-top: 10px;
+    width: 150px;
 }
 
 .link{
-    font-family: 'Poppins', 'sans-serif';
     text-decoration: underline;
 }
