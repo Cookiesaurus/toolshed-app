@@ -9,25 +9,36 @@ const Filters = () => {
 
     for (let i = 0; i < 16; i++) {
       brands.push(
-        <><input type="checkbox" id={i} name={`brand:`+ i} value={`brand:`+ i} onChange={null}/>
-        <label for="vehicle1"> Brand Name</label><br/><br/></>
+        <><input type="checkbox" className='checkbox' id={i} name={`brand:`+ i} value={`brand:`+ i} onChange={null}/>
+        <label for="vehicle1" className='brand-label'> Brand Name</label><br/><br/></>
       );
     }
     const filters = [];
 
     for (let i = 0; i < 16; i++) {
       filters.push(
-        <><input type="checkbox" id={i} name={`filter:`+ i} value={`filter:`+ i} onChange={null}/>
-        <label for="vehicle1"> Filter Condition </label><br/><br/></>
+        <><input type="checkbox" className='checkbox' id={i} name={`filter:`+ i} value={`filter:`+ i} onChange={null}/>
+        <label for="vehicle1" className='filter-label'> Filter Condition </label><br/><br/></>
       );
     }
 
+    const categories = []
+    for (let i = 0; i < 16; i++) {
+        categories.push(
+          <>
+            <Link href={''} className='filter-cat'>Category {i}</Link>
+          </>
+        );
+      }
 
 
     return (
         <>
             <div className='filters-cont'>
                 <h4>Categories</h4>
+                <div className='filter-categories'>
+                    {categories}
+                </div>
                 <h4>Price Range</h4>
                 <div className='price-range'>
                     <input type='number' value={0} onChange={null}/>
@@ -50,12 +61,12 @@ const Filters = () => {
                 </div>
 
                 <div className='filters-conditions'>
-                    <input type='text' placeholder='Search' id='brand-search'/>
+                    <input type='text' placeholder='Search' id='filter-search'/>
                     <div className='brand-select'>
                         {filters}
                     </div>
                 </div>
-                <button type='submit'> Apply Filters</button>
+                <button type='submit' id='apply-filters'> Apply Filters</button>
             </div>
 
         </>
