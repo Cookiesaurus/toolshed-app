@@ -10,13 +10,16 @@ const Navbar = () => {
   return (
     <div className='navbar' role='Navigation' aria-label='Main'>
     <Link href={'/'}>
-        <p className='navbar-logo'>Home</p>
+        <p className='navbar-logo'>SEAC’s Tool Shed</p>
     </Link>
-        <div className='category-hover'>
-            <button className='navbar-category'><Link href={'/Categories'}>Category</Link></button>
-            {/* Do we want the categories to be hardcoded? */}
-            <CatOverlay/>
-        </div>
+    <div className='giftcard-inventory'>
+    <Link href={'/giftcard'}>
+        <p>Gift Card</p>
+    </Link>
+    <Link href={'/Inventory'}>
+        <p>View All Tools</p>
+    </Link>
+    </div>
         <form className='navbar-search'>
             <input type="text" name="search" id='navbar-search'/>
             <button type="submit" className='navbar-searchIcon'><FontAwesomeIcon icon={faMagnifyingGlass} size='sm' style={{color: 'white'}}/></button>

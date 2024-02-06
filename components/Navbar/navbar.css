@@ -72,6 +72,12 @@ p.navbar-cart, p.navbar-account{
     display: block;
 }
 
+.giftcard-inventory {
+    display: flex;
+    gap: 30px;
+    margin: 12px;
+}
+
 .dropdown-content{
     display: none;
     position: absolute;
