@@ -56,3 +56,29 @@
     width: 188px;
     height: 100px;
 }
+
+.button-center {
+    display: flex;
+    justify-content: space-around;
+    margin: 12px;
+}
+
+button{
+    border: none;
+}
+
+a.home-button {
+    width: 235px;
+    height: 55px;
+    background-color: black;
+    color: white;
+    border-radius: 4px;
+    padding: 16px 48px 16px 48px;
+    text-align: center;
+    font-family: 'Poppins';
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+}
