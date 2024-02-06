@@ -1,9 +1,13 @@
 import './login.css';
+import Image from 'next/image';
+import logo from '../public/images/toolshed_logo.png';
+
+
 export default function Page() {
     return (<>
     <div className="content">
         <div className="loginbox">
-            <img src="/app/img/toolshed_logo.png" alt="toolshed logo"></img>
+            <Image src={logo} alt="toolshed logo" width={200} height={200}></Image>
             <h1 className='pagetitle'>Sign In</h1>
             <div><input className="input" type="text" placeholder={" Email address"}/></div>
             <div><input className="input" type="text" placeholder={" Password"}/></div>
