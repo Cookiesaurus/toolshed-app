@@ -4,6 +4,15 @@
   margin: 0;
 }
 
+h1{
+  font-family: 'Poppins', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 48px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
 h2{
   font-family: 'Poppins', sans-serif;
   font-size: 28px;
