@@ -82,3 +82,19 @@ a.home-button {
     letter-spacing: 0em;
     text-align: left;
 }
+
+a.home-button:hover{
+    width: 235px;
+    height: 55px;
+    background-color: #FBC955;
+    color: white;
+    border-radius: 4px;
+    padding: 16px 48px 16px 48px;
+    text-align: center;
+    font-family: 'Poppins';
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+}
