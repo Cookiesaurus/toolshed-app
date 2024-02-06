@@ -17,7 +17,7 @@ export default function Page() {
                 <input className="input" placeholder={" Organization"}/>
                 <input className="input" type="email" placeholder={" myemail@example.com"} required/>
                 <input className="input" type="tel" placeholder={" Phone number Ex: 123-456-7890"} required/>
-                <p>Birthday:</p><input className="input" type="date" placeholder={"Birthday"} required/>
+                <p>Birthday:<input className="input" type="date" placeholder={"Birthday"} required/></p>
             </div>
 
             <div className="section">

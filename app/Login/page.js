@@ -12,9 +12,11 @@ export default function Page() {
             <div><input className="input" type="email" placeholder={" myemail@example.com"}/></div>
             <div><input className="input" type="password" placeholder={" Password"}/></div>
             <div><input className="button" type="submit" value={"Submit"}></input></div>
-            <p className='basetext'>New to Toolshed? <a className="link" href="">Sign up</a></p>
-            <p className='basetext'>Forgot password? <a className="link" href="">Click here</a></p>
         </form>
+        <div className="options">
+            <p>New to Toolshed? <a className="link" href="">Sign up</a></p>
+            <p>Forgot password? <a className="link" href="">Click here</a></p>
+        </div>
     </div>
     </>)
 }
