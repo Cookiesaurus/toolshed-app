@@ -38,7 +38,7 @@ export default function Layout({
                     <div className='inventory-cond'> Condition <span></span> </div>
                 </div>
                 <div className="sort">
-                    <select>
+                    <select id="filter-sort">
                         <option value="0">Sort By:</option>
                         <option value="1">Featured</option>
                         <option value="1">Popular</option>
