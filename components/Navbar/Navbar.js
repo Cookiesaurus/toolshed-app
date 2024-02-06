@@ -18,7 +18,7 @@ const Navbar = () => {
             <CatOverlay/>
         </div>
         <form className='navbar-search'>
-            <input type="text" name="search"/>
+            <input type="text" name="search" id='navbar-search'/>
             <button type="submit" className='navbar-searchIcon'><FontAwesomeIcon icon={faMagnifyingGlass} size='sm' style={{color: 'white'}}/></button>
         </form>
         <p className='navbar-cart'><Link href={'/Cart'}><FontAwesomeIcon icon={faCartShopping} size='lg'/></Link></p>
