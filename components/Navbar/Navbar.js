@@ -20,7 +20,7 @@ const Navbar = () => {
         <p>View All Tools</p>
     </Link>
     </div>
-        <form className='navbar-search'>
+        <form className='navbar-search' method='get'>
             <label htmlFor='navbar-search' className='sr-only'>Search products</label>
             <input type="text" name="search" id='navbar-search' aria-label='search products'/>
             <button type="submit" className='navbar-searchIcon' aria-hidden={true} tabIndex={-1}>
