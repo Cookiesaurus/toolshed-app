@@ -19,7 +19,7 @@ export default function Page() {
                 <input className="input" type="password" placeholder={" Password"} id="login-password"/>
             </div>
             <div>
-                <button value={"Submit"} id="login-submit">Sign-up</button>
+                <button value={"Submit"} id="login-submit">Login</button>
             </div>
         </form>
         <div className="options">
