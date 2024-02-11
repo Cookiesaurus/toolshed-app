@@ -19,8 +19,7 @@ export default function Page() {
                 <input className="input" type="password" placeholder={" Password"} id="login-password"/>
             </div>
             <div>
-                <label htmlFor="login-submit" className="sr-only">Submit</label>
-                <input className="button" type="submit" value={"Submit"} id="login-submit"/>
+                <button value={"Submit"} id="login-submit">Sign-up</button>
             </div>
         </form>
         <div className="options">
