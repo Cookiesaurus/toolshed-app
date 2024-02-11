@@ -355,8 +355,7 @@ export default function Page() {
                 <label htmlFor="address-zipcode" className="sr-only"> Zip Code</label>
                 <input className="input" type="numbers" placeholder="Zip code" id="address-zipcode"/>
                 <div>
-                    <label htmlFor="create-account" className="sr-only">Create Account</label>
-                    <input className="button" type="submit" value={"Submit"} id="create-account"/>
+                    <button type="submit" value={"Submit"} id="create-account">Create Account</button>
                 </div>
             </div>
             <p className='basetext'>Already have an account? <Link className="link" href={"/login"}>Log in</Link></p>
