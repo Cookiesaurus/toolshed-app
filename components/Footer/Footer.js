@@ -7,11 +7,15 @@ import './footer.css';
 const Footer = () => {
   return (
     <>
-    <div className='footer'>
+    <footer>
+    <div className='footer' role='Footer' aria-label='Footer'>
        <div className='column-one'>
           <Image src={logo} alt="toolshed logo" width={100} height={100}></Image>
-          <p className='footer-content'> Subscribe to our newsletter</p>
-          <input type="email" placeholder={" Enter your email"} style={{height: '40px'}}/>
+          <p className='footer-content'>Subscribe to our newsletter</p>
+          <form method="post">
+            <label htmlFor="newsletter-input" className="sr-only">Subscribe to our newsletter</label>
+            <input type="email" placeholder={"Enter your email"} style={{height: '40px'}} id="newsletter-input" aria-hidden={true}/>
+          </form>
        </div>
        <div className='column-two'>
           <p className='footer-title'> Contact</p>
@@ -46,6 +50,7 @@ const Footer = () => {
       <p className='footer-content' style={{textAlign: "center"}}>&copy; 2024  SEAC Tool Shed</p>
     </div>
     <hr/>
+    </footer>
     </>
   )
 }
