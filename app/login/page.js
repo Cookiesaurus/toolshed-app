@@ -1,6 +1,7 @@
 import Image from "next/image";
 import logo from '../public/images/toolshed_logo.png';
 import './login.css';
+import Link from "next/link";
 export default function Page() {
     return (<>
     <div className="content">
@@ -8,14 +9,23 @@ export default function Page() {
             <Image src={logo} alt="toolshed logo" width={200} height={200}></Image>
             <h1 className='pagetitle'>Sign In</h1>
         </div>
-        <form className="loginbox">
-            <div><input className="input" type="email" placeholder={" myemail@example.com"}/></div>
-            <div><input className="input" type="password" placeholder={" Password"}/></div>
-            <div><input className="button" type="submit" value={"Submit"}></input></div>
+        <form className="loginbox" method="post">
+            <div>
+                <label htmlFor="login-email" className="sr-only">Email</label>
+                <input className="input" type="email" placeholder={" myemail@example.com"}/>
+            </div>
+            <div>
+                <label htmlFor="login-password" className="sr-only">Submit</label>
+                <input className="input" type="password" placeholder={" Password"} id="login-password"/>
+            </div>
+            <div>
+                <label htmlFor="login-submit" className="sr-only">Submit</label>
+                <input className="button" type="submit" value={"Submit"} id="login-submit"/>
+            </div>
         </form>
         <div className="options">
-            <p>New to Toolshed? <a className="link" href="">Sign up</a></p>
-            <p>Forgot password? <a className="link" href="">Click here</a></p>
+            <p className="redirect-links">New to Toolshed? <Link className="link" href={"/sign-up"}>Sign up</Link></p>
+            <p className="redirect-links">Forgot password? <Link className="link" href="" aria-label='Go to forgot password'>Click here</Link></p>
         </div>
     </div>
     </>)
