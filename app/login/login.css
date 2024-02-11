@@ -1,16 +1,22 @@
 .content{
     font-family: 'Poppins', 'sans-serif';
     padding-top: 10px;
-    /*background-color: blue;*/
+    margin: 20px;
 }
 
-h1, p, .title, .loginbox, .options{
+.title, .loginbox, .options{
     text-align: center;
     align-content: center;
     width: 80%;
     margin-left: auto;
     margin-right: auto;
-    /*background-color: aqua;*/
+}
+.pagetitle, .title, .loginbox, .options, .redirect-links{
+    text-align: center;
+    align-content: center;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .input{

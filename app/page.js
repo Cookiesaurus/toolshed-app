@@ -6,22 +6,6 @@ export default function Page() {
     <>
     <SlideShow/>
     <div className="homepage">
-    <h2 className="headers">Browsing By Categories</h2>
-    <div className="categories">
-        <div className="cateogry"></div>
-        <div className="cateogry"></div>
-        <div className="cateogry"></div>
-        <div className="cateogry"></div>
-        <div className="cateogry"></div>
-        <div className="cateogry"></div>
-        <div className="cateogry"></div>
-        <div className="cateogry"></div>
-        <div className="cateogry"></div>
-        <div className="cateogry"></div>
-    </div>
-    <div className="button-center">
-      <button type="submit"> <Link href={'/Categories'} className="home-button">View tools by cateogry</Link></button>
-    </div>
     <h2> Popular Tools</h2>
     <div className="popular-container">
         <div className="popular-container">

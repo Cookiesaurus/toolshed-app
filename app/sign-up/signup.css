@@ -1,18 +1,19 @@
 .content{
     font-family: 'Poppins', 'sans-serif';
     padding-top: 10px;
-    /*background-color: blue;*/
 }
 
-h1, p, .title, .signup, .section{
+.pagetitle, .form-header, .basetext, .title, .signup, .section{
     text-align: center;
     width: 60%;
     margin-left: auto;
     margin-right: auto;
-    /*background-color: aqua;*/
 }
 
-.input, .select{
+#first-name, #last-name, #name-title, #organization, #email, #phone-number, 
+#birth-day, #username, #password, #re-password,
+#address-first, #address-second, #address-city,
+#address-country, #address-state, #address-zipcode{
     margin:10px;
     width: 400px;
     height: 50px;
