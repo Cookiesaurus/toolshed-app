@@ -78,7 +78,7 @@ export default function Layout({
               </div>
               <br/>
               <br/>
-              <button type="submit"> <Link className="apply-gift" href={'/'}>Proceed to checkout</Link></button>
+              <button type="submit"> <Link className="apply-gift" href={'/checkout'}>Proceed to checkout</Link></button>
 
             </div>
         </div>
