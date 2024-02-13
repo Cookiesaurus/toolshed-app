@@ -1,7 +1,30 @@
+.slide-container {
+    display: flex;
+    margin-top: 45px;
+    padding: 45px;
+}
+
+.slide-show {
+    flex: 50%;
+}
+
+.categories {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 15% 1;
+    padding-left: 10%;
+}
+
+.category-link {
+    display: grid;
+    grid-template-columns: .5fr auto;
+}
 .homepage{
     display: flex;
     flex-direction: column;
-    margin: 75px;
+    margin: 5%;
+
 }
 
 .homepage-slider {
@@ -14,19 +37,6 @@
     margin-right: auto; */
     max-height: 380px;
     min-height: 320px;
-}
-
-.categories{
-    display: flex;
-}
-
-
-.cateogry {
-    background-color: #D9D9D9;
-    width: 136px;
-    height: 200px;
-    border-radius: 10px;
-    margin: 20px;
 }
 
 .popular-container{
