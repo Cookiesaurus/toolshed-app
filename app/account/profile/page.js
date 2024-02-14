@@ -1,4 +1,8 @@
-
+import Profile from "@/components/Profile/Profile"
 export default function Page() {
-    return <h1>Hello, Profile Page!</h1>
+    return (
+    <>        
+    <Profile/>
+    </>
+    )
 }
