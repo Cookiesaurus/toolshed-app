@@ -116,6 +116,13 @@ CREATE TABLE Tool_Statuses (
     CONSTRAINT PK_Tool_Statuses PRIMARY KEY (Tool_Status)
 );
 
+INSERT INTO Tool_Statuses (Tool_Status, Tool_Status_Details) VALUES
+(1, 'Available'),
+(2, 'Checked Out'),
+(3, 'Reserved'),
+(4, 'Maintenance'),
+(5, 'Disabled');
+
 CREATE TABLE Tool_Conditions (
     Tool_Condition TINYINT UNSIGNED,
     Tool_Condition_Details VARCHAR(255) NOT NULL,
