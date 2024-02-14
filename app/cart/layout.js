@@ -13,43 +13,43 @@ export default function Layout({
 
         <div className="cart-cont">
         <table>
-  <thead>
-    <tr>
-      <th>Product</th>
-      <th>Type</th>
-      <th>Quantity</th>
-      <th>Duration</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td> <Image src={logo} width={50} height={50} alt="logo"></Image> Product Description</td>
-      <td>Pickup</td>
-      <td>
-        <select id="quantity">
-          <option value="one">1</option>
-          <option value="two">2</option>
-          <option value="three">3</option>
-          <option value="four">4</option>
-        </select>
-      </td>
-      <td>--</td>
-    </tr>
-    <tr>
-    <td><Image src={logo} width={50} height={50} alt="logo"></Image> Product Description</td>
-      <td>Reservation</td>
-      <td>
-        <select id="quantity">
-          <option value="one">1</option>
-          <option value="two">2</option>
-          <option value="three">3</option>
-          <option value="four">4</option>
-        </select>
-      </td>
-      <td>20 Days</td>
-    </tr>
-  </tbody>
-</table>
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Type</th>
+              <th>Quantity</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td> <Image src={logo} width={50} height={50} alt="logo"></Image> Product Description</td>
+              <td>Pickup</td>
+              <td>
+                <select id="quantity">
+                  <option value="one">1</option>
+                  <option value="two">2</option>
+                  <option value="three">3</option>
+                  <option value="four">4</option>
+                </select>
+              </td>
+              <td>--</td>
+            </tr>
+            <tr>
+            <td><Image src={logo} width={50} height={50} alt="logo"></Image> Product Description</td>
+              <td>Reservation</td>
+              <td>
+                <select id="quantity">
+                  <option value="one">1</option>
+                  <option value="two">2</option>
+                  <option value="three">3</option>
+                  <option value="four">4</option>
+                </select>
+              </td>
+              <td>20 Days</td>
+            </tr>
+          </tbody>
+        </table>
         </div>
 
         <div className="return-cont">
