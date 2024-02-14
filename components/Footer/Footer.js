@@ -12,7 +12,7 @@ const Footer = () => {
        <div className='column-one'>
           <Image src={logo} alt="toolshed logo" width={100} height={100}></Image>
           <p className='footer-content'>Subscribe to our newsletter</p>
-          <form method="post">
+          <form method="post" className="footer-form">
             <label htmlFor="newsletter-input" className="sr-only">Subscribe to our newsletter</label>
             <input type="email" placeholder={"Enter your email"} style={{height: '40px'}} id="newsletter-input" aria-hidden={true}/>
           </form>

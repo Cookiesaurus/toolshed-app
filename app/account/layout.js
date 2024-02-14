@@ -3,7 +3,7 @@ export default function Layout({
   }) {
     return (
       <>
-        {/* Anything created in here will be the deafult of what the account page will look like */}
+        {children}
         {/* Have to add in the children param so that the components from the page appear within the layout */}
       </>
     )
