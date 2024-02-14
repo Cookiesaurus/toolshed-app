@@ -6,8 +6,8 @@ USE SEAC_Tool_Shed;
 CREATE TABLE Membership_Levels (
     Membership_Level TINYINT UNSIGNED,
     Membership_Title VARCHAR(255) NOT NULL,
-    Membership_Price FLOAT NOT NULL, -- MONEY VALYE
-    Max_Tool_Checkout TINYINT UNSIGNED NOT NULL,
+    Membership_Price FLOAT NOT NULL,
+    Max_Tool_Checkout INT UNSIGNED NOT NULL,
     CONSTRAINT PK_Membership_Levels PRIMARY KEY (Membership_Level)
 );
 
@@ -23,14 +23,6 @@ CREATE TABLE Current_Membership_Status (
     CONSTRAINT PK_Current_Membership_Status PRIMARY KEY (Membership_Status)
 );
 
-CREATE TABLE Payment_Methods (
-    Payment_Method CHAR(16) NOT NULL,
-    Payment_Type VARCHAR(255) NOT NULL,
-    Expiration_Date DATE NOT NULL,
-    Security_Code CHAR(3) NOT NULL,
-    CONSTRAINT PK_Payment_Methods PRIMARY KEY (Payment_Method)
-);
-
 CREATE TABLE Accounts (
     Account_ID INT UNSIGNED AUTO_INCREMENT,
     First_Name VARCHAR(255) NOT NULL,
@@ -43,7 +35,6 @@ CREATE TABLE Accounts (
     Address_Line1 VARCHAR(255) NOT NULL,
     Address_Line2 VARCHAR(255),
     City VARCHAR(255) NOT NULL, 
-    Country VARCHAR(255) NOT NULL, -- Should this be not null?
     State VARCHAR(255) NOT NULL, -- Should this be not null?
     Postal_Code CHAR(5) NOT NULL, -- Should this be not null?
     Account_Creation_Date DATE NOT NULL DEFAULT (CURRENT_DATE),
@@ -55,12 +46,20 @@ CREATE TABLE Accounts (
     Membership_Creation_Date DATE NOT NULL DEFAULT (CURRENT_DATE()),
     Membership_Expiration_Date DATE NOT NULL DEFAULT (DATE_ADD(CURRENT_DATE(), INTERVAL 1 YEAR)), -- 
     Privilege_Level TINYINT UNSIGNED NOT NULL DEFAULT "0", -- Default Account made to be at privilege level (0); Should this be not null?
-    Payment_Method CHAR(16), -- Will need more info on how these are stored?
     CONSTRAINT PK_Accounts PRIMARY KEY (Account_ID),
     CONSTRAINT FK_Accounts_Membership_Levels FOREIGN KEY (Membership_Level) REFERENCES Membership_Levels (Membership_Level),
     CONSTRAINT FK_Accounts_Privilege_Levels FOREIGN KEY (Privilege_Level) REFERENCES Privilege_Levels (Privilege_Level),
-    CONSTRAINT FK_Accounts_Current_Membership_Status FOREIGN KEY (Membership_Status) REFERENCES Current_Membership_Status (Membership_Status),
-    CONSTRAINT FK_Accounts_Payment_Methods FOREIGN KEY (Payment_Method) REFERENCES Payment_Methods (Payment_Method)
+    CONSTRAINT FK_Accounts_Current_Membership_Status FOREIGN KEY (Membership_Status) REFERENCES Current_Membership_Status (Membership_Status)
+);
+
+CREATE TABLE Payment_Methods (
+    Account_ID INT UNSIGNED AUTO_INCREMENT,
+    Payment_Method CHAR(16) NOT NULL,
+    Payment_Type VARCHAR(255) NOT NULL,
+    Expiration_Date DATE NOT NULL,
+    Security_Code CHAR(3) NOT NULL,
+    CONSTRAINT PK_Payment_Methods PRIMARY KEY (Account_ID),
+    CONSTRAINT FK_Payment_Methods_Accounts FOREIGN KEY (Account_ID) REFERENCES Accounts (Account_ID)
 );
 
 CREATE TABLE Gift_Cards (
@@ -97,24 +96,18 @@ CREATE TABLE Transaction_Types (
 
 CREATE TABLE Transactions ( -- 7 DAY LOAN AMOUNT FOR LOANS
     Transaction_ID INT UNSIGNED AUTO_INCREMENT,
+    Account_ID INT UNSIGNED NOT NULL,
     Transaction_Date DATE NOT NULL,
     Transaction_Type TINYINT UNSIGNED NOT NULL,
-    Tool_ID INT UNSIGNED NOT NULL, -- Come back to later. Will need to address how reservations, and loads
+    Tool_ID INT UNSIGNED, -- Come back to later. Will need to address how reservations, and loads -- Can be empty
     Start_Date DATE,
     End_Date DATE,
     Check_Out_Date DATE,
     Check_In_Date DATE,
     Payment_Amount FLOAT, -- MONEY VALYE
     CONSTRAINT PK_Transactions PRIMARY KEY (Transaction_ID),
-    CONSTRAINT FK_Transaction_Transaction_Types FOREIGN KEY (Transaction_Type) REFERENCES Transaction_Types (Transaction_Type)
-);
-
-CREATE TABLE Account_Transactions (
-    Account_ID INT UNSIGNED,
-    Transaction_ID INT UNSIGNED,
-    CONSTRAINT PK_Account_Transactions PRIMARY KEY (Account_ID, Transaction_ID),
-    CONSTRAINT FK_Account_Transactions_Accounts FOREIGN KEY (Account_ID) REFERENCES Accounts (Account_ID),
-    CONSTRAINT FK_Account_Transactions_Transactions FOREIGN KEY (Transaction_ID) REFERENCES Transactions (Transaction_ID)
+    CONSTRAINT FK_Transaction_Transaction_Types FOREIGN KEY (Transaction_Type) REFERENCES Transaction_Types (Transaction_Type),
+    CONSTRAINT FK_Trasactions_Accounts FOREIGN KEY (Account_ID) REFERENCES Accounts (Account_ID)
 );
 
 CREATE TABLE Tool_Statuses (
@@ -130,7 +123,7 @@ CREATE TABLE Tool_Conditions (
 );
 
 CREATE TABLE Tool_Locations (
-    Tool_Location_ID TINYINT UNSIGNED NOT NULL,
+    Tool_Location_ID INT UNSIGNED NOT NULL,
     Location_Name VARCHAR(255) NOT NULL, -- Location_Name versus Location_Code
     CONSTRAINT PK_Tool_Locations PRIMARY KEY (Tool_Location_ID)
 
@@ -141,10 +134,11 @@ CREATE TABLE Tools (
     Tool_Name VARCHAR(255) NOT NULL,
     Tool_Brand VARCHAR(255),
     Tool_Model VARCHAR(255),
-    Tool_Weight INT,
-    Tool_Size INT,
-    Home_Location TINYINT UNSIGNED NOT NULL, -- Differenes?
-    Current_Location TINYINT UNSIGNED NOT NULL, -- Differences?
+    Tool_Weight FLOAT, -- Decimals 
+    Tool_Size FLOAT, -- Floats
+    Home_Location INT UNSIGNED NOT NULL,
+    Current_Location INT UNSIGNED NOT NULL,
+    Location_Code VARCHAR(255),
     Tool_Description TEXT,
     Tool_Admin_Notes TEXT,
     Tool_Status TINYINT UNSIGNED NOT NULL, -- Default Value?
@@ -153,7 +147,7 @@ CREATE TABLE Tools (
     Embodied_Carbon VARCHAR(255),
     Emission_Factor FLOAT, -- MONEY VALUE
     Tool_Image MEDIUMBLOB,
-    Tool_Manual BLOB,
+    Tool_Manual MEDIUMBLOB,
     Default_Loan_Length TINYINT UNSIGNED NOT NULL DEFAULT "7",
     Renewal_Amount TINYINT UNSIGNED NOT NULL Default "1",
     Default_Late_Fee FLOAT NOT NULL DEFAULT "1.00",
