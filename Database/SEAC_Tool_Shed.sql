@@ -11,17 +11,35 @@ CREATE TABLE Membership_Levels (
     CONSTRAINT PK_Membership_Levels PRIMARY KEY (Membership_Level)
 );
 
+INSERT INTO Membership_Levels (Membership_Level, Membership_Title, Membership_Price, Max_Tool_Checkout) VALUES
+(1,'Registration', 0.00, 0),
+(2,'Tinkerer', 25.00, 5),
+(3,'MacGyver', 35.00, 10),
+(4,'Builder', 50.00, 25),
+(5,'Contractor', 100.00, 50);
+
 CREATE TABLE Privilege_Levels (
     Privilege_Level TINYINT UNSIGNED,
     Privilege_Title VARCHAR(255) NOT NULL,
     CONSTRAINT PK_Privilege PRIMARY KEY (Privilege_Level)
 );
 
+INSERT INTO Privilege_Levels (Privilege_Level,Privilege_Title) VALUES
+(1,'Customer'),
+(2,'Volunteer'),
+(3,'Employee'),
+(4,'Manager'),
+(5,'Administrator');
+
 CREATE TABLE Current_Membership_Status (
     Membership_Status TINYINT UNSIGNED,
     Membership_Status_Description VARCHAR(255),
     CONSTRAINT PK_Current_Membership_Status PRIMARY KEY (Membership_Status)
 );
+
+INSERT INTO Current_Membership_Status (Membership_Status, Membership_Status_Description) VALUES
+(1,'Active'),
+(2,'Inactive');
 
 CREATE TABLE Accounts (
     Account_ID INT UNSIGNED AUTO_INCREMENT,
@@ -135,6 +153,14 @@ CREATE TABLE Tool_Locations (
     CONSTRAINT PK_Tool_Locations PRIMARY KEY (Tool_Location_ID)
 
 );
+
+INSERT INTO Tool_Locations (Tool_Location_ID, Location_Name) VALUES
+(1, 'Main Location'),
+(2, 'Mobile Unit'), 
+(3, 'Mobile Unit -> David F. Gantt Reacreation Center (Thursday)'),
+(4, 'Mobile Unit -> Edgerton Recreation Center (Tuesday)'),
+(5, 'Mobile Unit -> Thomas P. Ryan Center (Monday)'),
+(6, 'Mobile Unit -> Willie Walker Lightfoot Recreation Center (Wednesday)');
 
 CREATE TABLE Tools (
     Tool_ID INT UNSIGNED AUTO_INCREMENT,
