@@ -5,68 +5,76 @@ import './filters.css';
 import { useState } from 'react';
 
 const Filters = () => {
-    const brands = [];
+    const brands = ['DEWALT', 'Milwaukee', 'RYOBI', 'BLACK + DECKER', 'Makita', 'RIGID', 'GENESIS', 'Bosch', 'Craftsman',
+                    'Rigid', 'Huscky', 'Stanley', 'Hitachi'];
 
-    for (let i = 0; i < 16; i++) {
-      brands.push(
-        <><input type="checkbox" className='checkbox' id={i} name={`brand:`+ i} value={`brand:`+ i} onChange={null}/>
-        <label for="vehicle1" className='brand-label'> Brand Name</label><br/><br/></>
-      );
-    }
-    const filters = [];
-
-    for (let i = 0; i < 16; i++) {
-      filters.push(
-        <><input type="checkbox" className='checkbox' id={i} name={`filter:`+ i} value={`filter:`+ i} onChange={null}/>
-        <label for="vehicle1" className='filter-label'> Filter Condition </label><br/><br/></>
-      );
-    }
-
-    const categories = []
-    for (let i = 0; i < 16; i++) {
-        categories.push(
-          <>
-            <Link href={''} className='filter-cat'>Category {i}</Link>
-          </>
-        );
-      }
-
+    const categories = ['Crafting', 'Drill Extension', 'Drywall Tools', 'Electrical', 'Flooring', 'Masonry', 'Misc', 'Painting',
+                        'Plumbing', 'Roofing', 'Saw Blades', 'Welding', 'Woodworking']
 
     return (
         <>
             <div className='filters-cont'>
-                <h4>Categories</h4>
-                <div className='filter-categories'>
-                    {categories}
+              <form method='get' className='inventory-filters white'>
+                <h4 className='filter-headers white'>Categories</h4> 
+                <div className='filter-categories white'> 
+                  {categories.map(category => (
+                    <>
+                      <label htmlFor={category} className='checkbox-container white' key={category} >
+                        {category}
+                        <input type="checkbox" className='checkbox' id={category} key={category} />
+                        <span className="checkmark"></span>
+                      </label>
+                    </>
+                    ))}
                 </div>
-                <h4>Price Range</h4>
-                <div className='price-range'>
-                    <input type='number' value={0} onChange={null}/>
-                    <p>-</p>
-                    <input type='number' value={1000}/>
-                </div>
-                <div className='range'>
-                    <input type='range' min={0} max={1000} value={0} onChange={null}/>
-                </div>
-                <h4>Search by brand</h4>
-                <div className='filter-brand'>
-                    <input type='text' placeholder='Search' id='brand-search'/>
-                    <div className='brand-select'>
-                        {brands}
+                <div className='filter-brand white'>
+                  <h4 className='filter-headers white'>Brand</h4>
+                    <div className='brand-select white'>
+                    {brands.map(brand => (
+                    <>
+                      <label htmlFor={brand} className='checkbox-container white' key={brand} >
+                        {brand}
+                        <input type="checkbox" className='checkbox' id={brand} key={brand} />
+                        <span className="checkmark"></span>
+                      </label>
+                    </>
+                    ))}
                     </div>
                 </div>
-                <div className='filter-toggle'>
-                    <p>New Products</p> <p>toggle</p>
-                    <p>Discounts</p>  <p>Toogle</p>
+                <div className='filter-toggle white'>
+                    <p className='white'>In Stock Only</p>
+                    <label className="switch white" htmlFor='new-products'>
+                      <input type="checkbox" id='new-products'/>
+                      <span className="slider round"></span>
+                    </label>
                 </div>
 
-                <div className='filters-conditions'>
-                    <input type='text' placeholder='Search' id='filter-search'/>
+                <div className='filters-conditions white'>
+                  {/* <h4 className='filter-headers'>Cordless/Corded</h4> 
                     <div className='brand-select'>
-                        {filters}
+                      <label htmlFor='filter-cordless'>Cordless</label>
+                      <input type="checkbox" className='checkbox' id='filter-cordless'  />
+                      <label htmlFor='filter-corded'>Corded</label>
+                      <input type="checkbox" className='checkbox' id='filter-corded'  />
+                      <label htmlFor='filter-cordless'>Hybrid</label>
+                      <input type="checkbox" className='checkbox' id='filter-hybrid'  />
+                    </div> */}
+                    <h4 className='filter-headers white'>Location</h4> 
+                    <div className='brand-select white'>
+                      <label htmlFor='Location-Main' className='checkbox-container white'>
+                        Main Location
+                        <input type="checkbox" className='checkbox' id='Location-Main'/>
+                        <span className="checkmark"></span>
+                      </label>
+                      <label htmlFor='Location-Truck' className='checkbox-container white'>
+                        Truck
+                        <input type="checkbox" className='checkbox' id='Location-Truck'/>
+                        <span className="checkmark"></span>
+                      </label>
                     </div>
                 </div>
                 <button type='submit' id='apply-filters'> Apply Filters</button>
+                </form>
             </div>
 
         </>
