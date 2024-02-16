@@ -28,8 +28,8 @@ export default function Layout({
       <>
         <div className='bread-crumb'>
             <p><Link href={'/'} className='crumb-init'>SEAC Tool Shed /</Link></p>
-            <p className='crumb-init'><Link href={'/'} className='crumb-init'>Tool Category /</Link></p>
-            <p className='crumb-extra'><Link href={'/'} className='crumb-init'>Sub Category</Link></p>
+            <p className='crumb-init'><Link href={'/'} className='crumb-init'>Search /</Link></p>
+            <p className='crumb-extra'><Link href={'/'} className='crumb-init'>Inventory</Link></p>
         </div>
         <div className="conditions-cont">
                 <div className='conditions'>

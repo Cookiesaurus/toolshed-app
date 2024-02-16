@@ -15,9 +15,9 @@ const membership = () => {
             <Link href={''} className='light-paragraph'>Cancel Subscription</Link>
         </div>
         <div className='switch-container'>
-            <label class="switch" htmlFor='auto-renewal'>
+            <label className="switch" htmlFor='auto-renewal'>
                 <input type="checkbox" id='auto-renewal'/>
-                <span class="slider round"></span>
+                <span className="slider round"></span>
             </label>
             <p>Auto Renewal</p>
         </div>
