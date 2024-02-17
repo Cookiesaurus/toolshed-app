@@ -1,4 +1,4 @@
-import SlideShow from "@/components/Carousel/Slideshow";
+import SlideShow from "@/components/Carousel/slideshow";
 import Link from "next/link";
 import Image from "next/image";
 import dewalt from "./public/images/dewalt.png"
@@ -13,11 +13,12 @@ import husky from "./public/images/husky.jpeg"
 import stanley from "./public/images/stanley.png"
 import hitachi from "./public/images/hitachi.png"
 import genesis from "./public/images/genesis.png"
+import {slides} from "./public/data/slidedata.json"
+import Products from "@/components/homeproduct/Products";
 
 export default function Page() {
   const categories = ['Crafting', 'Drill Extension', 'Drywall Tools', 'Electrical', 'Flooring', 'Masonry', 'Misc', 'Painting',
-                        'Plumbing', 'Roofing', 'Saw Blades', 'Welding', 'Woodworking']
-
+                        'Plumbing', 'Roofing', 'Saw Blades', 'Welding', 'Woodworking'];
   return (
     <>
     <div className="slide-container">
@@ -32,23 +33,11 @@ export default function Page() {
         ))}
       </div>
         <div className="slide-show">
-          <SlideShow/>
+          <SlideShow data={slides}/>
         </div>
     </div>
     <div className="homepage">
-    <h2> Popular Tools</h2>
-    <div className="popular-container">
-        <div className="popular-container">
-            <div className="popular"></div>
-            <div className="popular"></div>
-            <div className="popular"></div>
-            <div className="popular"></div>
-            <div className="popular"></div>
-        </div>
-    </div>
-    <div className="button-center">
-      <button type="submit" tabIndex={-1}> <Link href={'/inventory'} className="home-button">View All Tools</Link></button>
-    </div>
+    <Products/>
 
     <h2>Browsing By Brands</h2>
     <div className="brands">
