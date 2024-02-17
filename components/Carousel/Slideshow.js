@@ -1,65 +1,56 @@
-'use client'
+"use client";
 
 import Image from "next/image";
-import './slideshow.css';
-import { useState } from "react";
+import "./slideshow.css";
+import { useState, useEffect } from "react";
 
-const SlideShow = () => {
+const SlideShow = ({ data }) => {
+  const [slide, setSlide] = useState(0);
 
-  const [slideIndex, setSlideIndex] = useState(1);
-
-  const plusSlides = (n) => {
-    showSlides(slideIndex + n);
+  const nextSlide = () => {
+    setSlide(slide === data.length - 1 ? 0 : slide + 1);
   };
 
-  const currentSlide = (n) => {
-    showSlides(n);
+  const prevSlide = () => {
+    setSlide(slide === 0 ? data.length - 1 : slide - 1);
   };
 
-  const showSlides = (n) => {
-    let i;
-    const slides = document.getElementsByClassName("slideshow-image");
-    const dots = document.getElementsByClassName("dot");
-
-    if (n > slides.length) {
-      setSlideIndex(1);
-    }
-    
-    if (n < 1) {
-      setSlideIndex(slides.length);
-    }
-
-    for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";
-    }
-
-    for (i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" active", "");
-    }
-
-    slides[slideIndex - 1].style.display = "block";
-    dots[slideIndex - 1].className += " active";
-    setSlideIndex(n);
-  };
 
 
   return (
-  <>
-    <div className="slideshow-container">
-      <div className="slideshow-image">
-        
+    <>
+      <div className="carousel">
+        <a className="arrow arrow-left" onClick={prevSlide}>
+          ❮
+        </a>
+        {data.map((img, i) => (
+          <Image
+            key={i} // Use a unique key, for example, the array index
+            src={img.src}
+            alt={img.alt}
+             width={900}
+             height={400}
+            className={slide === i ? "slide" : "slide slide-hidden"}
+            priority={true}
+          />
+        ))}
+        <a className="arrow arrow-right" onClick={nextSlide}>
+          ❯
+        </a>
+        <span className="indicators">
+          {data.map((_, i) => (
+            <button
+              key={i} // Use a unique key, for example, the array index
+              onClick={() => setSlide(i)}
+              className={
+                slide === i ? "indicator" : "indicator indiactor-inactive"
+              }
+            ></button>
+          ))}
+        </span>
       </div>
-        <a className="prev" >&#10094;</a>
-        <a className="next" >&#10095;</a>
-    </div>
-    <br/>
-    <div className="slideshow-dots">
-      <span className="dot" ></span>
-      <span className="dot" ></span>
-      <span className="dot" ></span>
-    </div>
-  </>  
-  )
-}
+    </>
+  );
+};
 
-export default SlideShow
+export default SlideShow;
