@@ -26,8 +26,8 @@ export default function Page() {
       {categories.map(category => (
         <>
           <div className="category-link">
-            <Link href={'/'} key={category}>{category}</Link>
-            <Link href={'/'} className="cat-arrow" tabIndex={-1}> &#10095;</Link>
+            <Link href={'/categories'} key={category}>{category}</Link>
+            <Link href={'/categories'} className="cat-arrow" tabIndex={-1}> &#10095;</Link>
           </div>
         </>
         ))}
@@ -42,62 +42,62 @@ export default function Page() {
     <h2>Browsing By Brands</h2>
     <div className="brands">
             <div className="brand">
-              <Link href={'/Categories'} className="brandimage-container">
+              <Link href={'/categories'} className="brandimage-container">
                 <Image src={dewalt} alt="Tool Brand Image" width={150} height={50}/>
               </Link>
             </div>
             <div className="brand">
-            <Link href={'/Categories'} className="brandimage-container">
+            <Link href={'/categories'} className="brandimage-container">
                 <Image src={makita} alt="Tool Brand Image" width={150} height={50}/>
               </Link>
             </div>
             <div className="brand">
-            <Link href={'/Categories'} className="brandimage-container">
+            <Link href={'/categories'} className="brandimage-container">
                 <Image src={milwaukee} alt="Tool Brand Image" width={150} height={50}/>
               </Link>
             </div>
             <div className="brand">
-            <Link href={'/Categories'} className="brandimage-container">
+            <Link href={'/categories'} className="brandimage-container">
                 <Image src={blackanddecker} alt="Tool Brand Image" width={150} height={50}/>
               </Link>
             </div>
             <div className="brand">
-            <Link href={'/Categories'} className="brandimage-container">
+            <Link href={'/categories'} className="brandimage-container">
                 <Image src={bosch} alt="Tool Brand Image" sizes={"(max-width: 100%)"} width={150} height={30} />
               </Link>
             </div>
             <div className="brand">
-            <Link href={'/Categories'} className="brandimage-container">
+            <Link href={'/categories'} className="brandimage-container">
                 <Image src={craftsman} alt="Tool Brand Image" sizes={"(max-width: 100%)"} width={150} height={30} />
               </Link>
             </div>
             <div className="brand">
-            <Link href={'/Categories'} className="brandimage-container">
+            <Link href={'/categories'} className="brandimage-container">
                 <Image src={rigid} alt="Tool Brand Image" sizes={"(max-width: 100%)"} width={150} height={30} />
               </Link>
             </div>
             <div className="brand">
-            <Link href={'/Categories'} className="brandimage-container">
+            <Link href={'/categories'} className="brandimage-container">
                 <Image src={ryobi} alt="Tool Brand Image" sizes={"(max-width: 100%)"} width={150} height={30} />
               </Link>
             </div>
             <div className="brand">
-            <Link href={'/Categories'} className="brandimage-container">
+            <Link href={'/categories'} className="brandimage-container">
                 <Image src={husky} alt="Tool Brand Image" sizes={"(max-width: 100%)"} width={150} height={30} />
               </Link>
             </div>
             <div className="brand">
-            <Link href={'/Categories'} className="brandimage-container">
+            <Link href={'/categories'} className="brandimage-container">
                 <Image src={stanley} alt="Tool Brand Image" sizes={"(max-width: 100%)"} width={150} height={30} />
               </Link>
             </div>
             <div className="brand">
-            <Link href={'/Categories'} className="brandimage-container">
+            <Link href={'/categories'} className="brandimage-container">
                 <Image src={hitachi} alt="Tool Brand Image" sizes={"(max-width: 100%)"} width={150} height={30} />
               </Link>
             </div>
             <div className="brand">
-            <Link href={'/Categories'} className="brandimage-container">
+            <Link href={'/categories'} className="brandimage-container">
                 <Image src={genesis} alt="Tool Brand Image" sizes={"(max-width: 100%)"} width={150} height={30} />
               </Link>
             </div>
