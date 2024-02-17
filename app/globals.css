@@ -282,3 +282,34 @@ input:checked + .slider:before {
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+
+p.light-paragraph{
+  color: #8A8A8A;
+  font-family: 'Poppins';
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+p.product-title{
+  color: black;
+  font-family: 'Poppins';
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 23px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin: 5%;
+}
+
+p.stock-green{
+  color: #3FBC1F;
+  font-family: 'Poppins';
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+}
