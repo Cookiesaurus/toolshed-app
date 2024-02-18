@@ -4,32 +4,37 @@ CREATE Database SEAC_Tool_Shed;
 USE SEAC_Tool_Shed;
 
 CREATE TABLE Membership_Levels (
-    Membership_Level TINYINT UNSIGNED,
-    Membership_Title VARCHAR(255) NOT NULL,
-    Membership_Price FLOAT NOT NULL,
-    Max_Tool_Checkout INT UNSIGNED NOT NULL,
-    CONSTRAINT PK_Membership_Levels PRIMARY KEY (Membership_Level)
+    /* The Membership_Levels table holds all active membership levels. These levels currently include: Registration, Tinkerer, MacGyver, Builder, Contractor */
+    Membership_Level TINYINT UNSIGNED AUTO_INCREMENT, -- Membership_Level is the identification number used to uniquely identify each membership tier.  1 -- Registration, 2 -- Tinkerer, 3 -- MacGyver, 4 -- Builder, 5 -- Contractor
+    Membership_Title VARCHAR(255) NOT NULL, -- Membership_Title holds the string name of each tieir i.e.  Registration, Tinkerer, MacGyver, Builder, Contractor
+    Membership_Price FLOAT NOT NULL, -- Membership_Price holds the decimal value for the price of each membership tier per year
+    Max_Tool_Checkout INT UNSIGNED NOT NULL, -- Max_Tool_Checkout holds the maximum value of tools a person with that membership tier can check out
+    Is_Organizational BOOL NOT NULL, -- Assigns each membership to an organization or individual
+    CONSTRAINT PK_Membership_Levels PRIMARY KEY (Membership_Level) -- Membership_Level is the primary key of this table
 );
 
-INSERT INTO Membership_Levels (Membership_Level, Membership_Title, Membership_Price, Max_Tool_Checkout) VALUES
-(1,'Registration', 0.00, 0),
-(2,'Tinkerer', 25.00, 5),
-(3,'MacGyver', 35.00, 10),
-(4,'Builder', 50.00, 25),
-(5,'Contractor', 100.00, 50);
+INSERT INTO Membership_Levels (Membership_Title, Membership_Price, Max_Tool_Checkout, Is_Organizational) VALUES -- Insert Default Membership_Levels into table
+/* More Membership_Levels can be added in future and should be an option on admin page */
+('Registration', 0.00, 0, 0),  -- Registration Level
+('Tinkerer', 25.00, 5, 0), -- Tinkerer Level
+('MacGyver', 35.00, 10, 0), -- MacGyver Level
+('Builder', 50.00, 25, 0), -- Builder Level
+('Contractor', 100.00, 50, 1); -- Contractor Level
+
 
 CREATE TABLE Privilege_Levels (
-    Privilege_Level TINYINT UNSIGNED,
-    Privilege_Title VARCHAR(255) NOT NULL,
-    CONSTRAINT PK_Privilege PRIMARY KEY (Privilege_Level)
+    /* The Provilege_Levels table holds all active privilege levels. These levels will be used to determine privileges with regard to the web application */
+    Privilege_Level TINYINT UNSIGNED, -- Privilege_Level is the identification number used to uniquly identify each privilege level tier. 1 -- Customer 2 -- Volunteer 3 -- Employee 4 -- Manager 5 -- Administrator
+    Privilege_Title VARCHAR(255) NOT NULL, -- Privilege_Title holds the string name for each privilege tier i.e.  Customer, Volunteer, Employee, Manager, Administrator
+    CONSTRAINT PK_Privilege PRIMARY KEY (Privilege_Level) -- Privilege_Level is the primary key of this table
 );
 
 INSERT INTO Privilege_Levels (Privilege_Level,Privilege_Title) VALUES
-(1,'Customer'),
-(2,'Volunteer'),
-(3,'Employee'),
-(4,'Manager'),
-(5,'Administrator');
+(1,'Customer'), -- Customer Level
+(2,'Volunteer'), -- Volunteer Level
+(3,'Employee'), -- Employee Level 
+(4,'Manager'), -- Manager Level
+(5,'Administrator'); -- Administrator Level
 
 CREATE TABLE Current_Membership_Status (
     Membership_Status TINYINT UNSIGNED,
