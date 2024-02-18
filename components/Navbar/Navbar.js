@@ -32,7 +32,7 @@ const Navbar = () => {
             <p className='navbar-account'><Link href={'/account/profile'} className='navbar-link'><FontAwesomeIcon icon={faUser} size='lg' aria-label='Go to account profile' style={{color: 'black', paddingRight: '10px' , backgroundColor: 'white'}} /></Link></p>
             <div className='dropdown-content'>
                 <div className='account'>
-                    <p className='navbar-link'><Link href={'/account'} className='navbar-link'>Account</Link></p>
+                    <p className='navbar-link'><Link href={'/account/profile'} className='navbar-link'>Account</Link></p>
                     <p><Link style={{color: '#FF0101'}} href={'/login'} aria-label='Go to login' className='navbar-link'>Login</Link></p>
                     </div> {/* This is going to have to be conditional based on if the user is logged in or not and will have to be styled inline */}
                 <Link href={'/account/profile'}><FontAwesomeIcon icon={faUser} style={{color: 'black', paddingRight: '10px', backgroundColor: 'white'}} aria-label='Go to  account settings'/><p>Account Settings</p></Link>
