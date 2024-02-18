@@ -1,7 +1,7 @@
 
 import './profile.css' 
 import Link from 'next/link'
-const membership = () => {
+const Membership = () => {
   return (
    <>
      <h1>Membership</h1>
@@ -26,4 +26,4 @@ const membership = () => {
   )
 }
 
-export default membership
+export default Membership

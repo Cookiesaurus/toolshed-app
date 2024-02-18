@@ -4,7 +4,7 @@ import Image from 'next/image'
 import visa from '../../app/public/images/visa.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-const cards = () => {
+const Cards = () => {
   return (
     <>
      <h1>Saved Cards</h1>
@@ -34,4 +34,4 @@ const cards = () => {
   )
 }
 
-export default cards
+export default Cards
