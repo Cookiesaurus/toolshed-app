@@ -210,6 +210,21 @@ CREATE TABLE Categories (
     CONSTRAINT PK_Categories PRIMARY KEY (Category_ID)
 );
 
+INSERT INTO Categories (Category_ID, Category_Name) VALUES
+(1, 'Crafting'),
+(2, 'Drill Extension'),
+(3, 'Drywall Tools'),
+(4, 'Electrical'),
+(5, 'Flooring'),
+(6, 'Masonry'),
+(7, 'Misc'),
+(8, 'Painting'),
+(9, 'Plumbing'),
+(10, 'Roofing'),
+(11, 'Saw Blades'),
+(12, 'Welding'),
+(13, 'Woodworking');
+
 CREATE TABLE Tool_Categories (
     Tool_ID INT UNSIGNED,
     Category_ID INT UNSIGNED,
