@@ -119,13 +119,18 @@ CREATE TABLE Payment_Methods (
 
 CREATE TABLE Gift_Cards (
     Account_ID INT UNSIGNED,
-    Card_Code CHAR(6) NOT NULL UNIQUE DEFAULT (FLOOR(RAND() * 999999.99)),
+    Card_Code CHAR(6) DEFAULT (LPAD(FLOOR(RAND() * 999999.99), 6, '0')),
     Membership_Level TINYINT UNSIGNED NOT NULL,
     Is_Applied BOOLEAN NOT NULL DEFAULT "0",
     CONSTRAINT PK_Gift_Cards PRIMARY KEY (Account_ID, Card_Code),
     CONSTRAINT FK_Gift_Cards_Accounts FOREIGN KEY (Account_ID) REFERENCES Accounts (Account_ID),
     CONSTRAINT FK_Gift_Cards_Membership_Levels FOREIGN KEY (Membership_Level) REFERENCES Membership_Levels (Membership_Level)
 );
+
+INSERT INTO Gift_Cards (Account_ID, Membership_Level, Is_Applied) VALUES 
+(1, 2, 0),
+(5, 4, 0),
+(3, 3, 1);
 
 CREATE TABLE Waivers (
     /* The Waivers table holds all waivers necessary for the SEAC Tool Shed buisness. Currently, there is the "Tool Waiver and Indemnification" and "Tool Lending Agreement" */
@@ -178,6 +183,22 @@ CREATE TABLE Account_Waivers (
     CONSTRAINT FK_Account_Waivers_Accounts FOREIGN KEY (Account_ID) REFERENCES Accounts (Account_ID),
     CONSTRAINT FK_Account_Waivers_Waivers FOREIGN KEY (Waiver_ID) REFERENCES Waivers (Waiver_ID)
 );
+
+INSERT INTO Account_Waivers (Account_ID, Waiver_ID, Is_Signed) VALUES -- Insert Data into Associative Table
+(1, 1, 0),
+(1, 2, 0),
+(2, 1, 0),
+(2, 2, 0),
+(3, 1, 0),
+(3, 2, 0),
+(4, 1, 0),
+(4, 2, 1),
+(5, 1, 0),
+(5, 2, 1),
+(6, 1, 1),
+(6, 2, 1),
+(7, 1, 1),
+(7, 2, 1);
 
 CREATE TABLE Transaction_Types (
     /* The Transaction Types table holds all codes related to all system transactions*/
