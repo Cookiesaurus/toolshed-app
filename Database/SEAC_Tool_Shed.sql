@@ -98,6 +98,13 @@ INSERT INTO Accounts (First_Name, Last_Name, Organization_Name, Email, Password,
 INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Account_Notes, Membership_Status) VALUES -- Disabled Customer
 ("Evan", "Hiltzik", "eh8319@g.rit.edu", AES_Encrypt("password","Evan"), "5704143466", "98 Lilac Street", "Gibsonia", "Pennsylvania", 15044, "User account was disabled on 01/10/24 as customer decided to drop membership.", 2);
 
+-- Voluteer ACCOUNTS -- 
+
+-- Employee ACCOUNTS -- 
+
+-- Manager ACCOUNTS -- 
+
+-- Administrator ACCOUNTS -- 
 --------------- ADD MORE ------------------
 
 CREATE TABLE Payment_Methods (
