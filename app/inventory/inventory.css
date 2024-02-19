@@ -95,3 +95,8 @@ form.inventory-filters.white {
     padding: 15px;
     border-radius: 10px;
 }
+
+.results {
+    display: flex;
+    flex-direction: column;
+}
