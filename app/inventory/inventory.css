@@ -4,8 +4,9 @@
     align-items: center;
 }
 
-.conditions{
+.conditions {
     display: flex;
+    flex: 0.5;
 }
 
 .inventory-cont {
@@ -38,7 +39,7 @@
 
 .inven-items {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
 }
 
@@ -71,4 +72,9 @@ select#filter-sort {
     line-height: 24px;
     letter-spacing: 0.01em;
     text-align: left;
+}
+
+form.inventory-filters.white {
+    padding: 15px;
+    border-radius: 10px;
 }
