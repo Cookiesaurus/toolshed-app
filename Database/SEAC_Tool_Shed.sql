@@ -110,8 +110,8 @@ CREATE TABLE Waivers (
     CONSTRAINT PK_Waivers PRIMARY KEY (Waiver_ID) -- Waiver_ID is the primary key for the Waivers table
 );
 
-INSERT INTO Waivers (Waiver_Name, Waiver_Details) VALUES 
-("Tool Waiver and Indemnification", 
+INSERT INTO Waivers (Waiver_ID, Waiver_Name, Waiver_Details) VALUES 
+(1, "Tool Waiver and Indemnification", 
 "I do hereby for myself, on behalf of my heirs, successors, and assigns, in consideration of being permitted to borrow tools, waive any and all claims against the SEAC’s Tool Shed for any personal injury, illness, death, or liability resulting from or arising out of the carelessness, recklessness, negligence and/or fault of the Tool Shed.
 
 I do hereby for myself, on behalf of my heirs, successors, and assigns, in consideration of being permitted to borrow tools, agree to release and indemnify and hold harmless and defend SEAC’s Tool Shed, their offices, agents, volunteers, and employees from any and all liability, loss, claims, and demands, actions or cause of action for the death or injury to any persons and for any property damage suffered or incurred by any person which arises or may arise or be occasioned in any way from the use or possession of tools I am borrowing from the Tool Shed.
@@ -121,7 +121,7 @@ I grant to SEAC’s Tool Shed its representatives, volunteers, and employees the
 The parties intend each provision to be severable and separate and apart from one another.
 
 The parties agree that any and all disputes resulting in litigation will be commenced, litigated, and adjudicated only in the County of Monroe, State of New York pursuant the laws of the State of New York."),
-("Tool Lending Agreement", 
+(2, "Tool Lending Agreement", 
 "1. Only residents of the Greater Rochester Area (Livingston, Monroe, Ontario, Orleans, Wayne, and Yates counties) who are over the age of 18 are eligible to borrow tools from SEAC’s Tool Shed.
 2. Prior to borrowing tools, all Members must (a) complete a Membership Application; (b) pay a membership fee; and (c) verify his/her identity and residency. Verification is accomplished by presenting a valid photo ID and piece of mail, both displaying a local address. In the event that the Member’s photo ID does not display a local address, a second ID or piece of mail must be produced to verify residency. Additionally, the Member must sign this Tool Lending Agreement and the attached Waiver and Indemnification.
 3. Members will be authorized a Membership Card. If the card is lost or stolen, the Member is responsible for reporting the loss or theft immediately. If a report is not made, the Member will be held responsible for any tools borrowed with a lost or stolen card.
@@ -155,10 +155,20 @@ CREATE TABLE Account_Waivers (
 );
 
 CREATE TABLE Transaction_Types (
-    Transaction_Type TINYINT UNSIGNED,
-    Transaction_Details VARCHAR(255),
-    CONSTRAINT PK_Transaction_Types PRIMARY KEY (Transaction_Type)
+    /* The Transaction Types table holds all codes related to all system transactions*/
+    Transaction_Type TINYINT UNSIGNED, -- Transaction_Type holds the integer value code for each type of transaction i.e. Membership Change -- 1, Tool Check Out -- 2, Tool Return -- 3, Gift Card Purchase -- 4, Gift Card Activation -- 4, Rental Late Fee -- 6, Tool Replacement Fee -- 7
+    Transaction_Details VARCHAR(255), -- Transaction_Details hold the string name value for each transaction code i.e. Membership Change, Tool Check Out, Tool Return, Gift Card Purchase, Tool Return Late Fee, Tool Replacement Fee
+    CONSTRAINT PK_Transaction_Types PRIMARY KEY (Transaction_Type) -- Transaction_Type is the primary key for the Transaction_Types table
 );
+
+INSERT INTO Transaction_Types (Transaction_Type, Transaction_Details) VALUES 
+(1, "Membership Change"), -- Membership Change Type
+(2, "Tool Check Out"), -- Tool Check Out Type
+(3, "Tool Return"), -- Tool Return Type
+(4, "Gift Card Purchase"), -- Gift Card Purchase Type
+(5, "Gift Card Activation"), -- Gift Card Activation Type
+(6, "Rental Late Fee"), -- Rental Late Fee Type
+(7, "Tool Replacement Fee"); -- Tool Replacement Fee Type
 
 CREATE TABLE Transactions ( -- 7 DAY LOAN AMOUNT FOR LOANS
     Transaction_ID INT UNSIGNED AUTO_INCREMENT,
@@ -176,39 +186,48 @@ CREATE TABLE Transactions ( -- 7 DAY LOAN AMOUNT FOR LOANS
     CONSTRAINT FK_Trasactions_Accounts FOREIGN KEY (Account_ID) REFERENCES Accounts (Account_ID)
 );
 
-CREATE TABLE Tool_Statuses (
-    Tool_Status TINYINT UNSIGNED,
-    Tool_Status_Details VARCHAR(255) NOT NULL,
-    CONSTRAINT PK_Tool_Statuses PRIMARY KEY (Tool_Status)
+CREATE TABLE Tool_Statuses ( 
+    /* Tool_Status table holds all tool status codes for tool availablity */
+    Tool_Status TINYINT UNSIGNED, -- Tool_Status holds the number code which identifies that status of a tool i.e. Available -- 1, Checked Out -- 2, Maintenance -- 3, Disabled -- 4
+    Tool_Status_Details VARCHAR(255) NOT NULL, -- Tool_Status_Details holds the string code defining each Tool_Status code
+    CONSTRAINT PK_Tool_Statuses PRIMARY KEY (Tool_Status) -- Tool_Status is the primary key
 );
 
 INSERT INTO Tool_Statuses (Tool_Status, Tool_Status_Details) VALUES
-(1, 'Available'),
-(2, 'Checked Out'),
-(3, 'Reserved'),
-(4, 'Maintenance'),
-(5, 'Disabled');
+(1, 'Available'), -- Available Status
+(2, 'Checked Out'), -- Checked Out Status
+(3, 'Maintenance'), -- Maintenance Status
+(4, 'Disabled'); -- Disabled Status
 
 CREATE TABLE Tool_Conditions (
-    Tool_Condition TINYINT UNSIGNED,
-    Tool_Condition_Details VARCHAR(255) NOT NULL,
-    CONSTRAINT PK_Tool_Conditions PRIMARY KEY (Tool_Condition)
+    /* Tool_Conditions table holds all condition codes for all tools */ 
+    Tool_Condition TINYINT UNSIGNED, -- Tool_Condition holds the number code which identifies the condition of a tool
+    Tool_Condition_Details VARCHAR(255) NOT NULL, -- Tool_Condition_Details holds the string value of each Tool_Condition
+    CONSTRAINT PK_Tool_Conditions PRIMARY KEY (Tool_Condition) -- Tool_Condition is the primary key
 );
+
+INSERT INTO Tool_Conditions (Tool_Condition, Tool_Condition_Details) VALUES
+(1, "Poor"), -- Poor Status
+(2, "Fair"), -- Fair Status
+(3, "Good"), -- Good Status
+(4, "Very Good"), -- Very Good Status
+(5, "Excellent"); -- Excellent Status
 
 CREATE TABLE Tool_Locations (
-    Tool_Location_ID INT UNSIGNED NOT NULL,
-    Location_Name VARCHAR(255) NOT NULL, -- Location_Name versus Location_Code
-    CONSTRAINT PK_Tool_Locations PRIMARY KEY (Tool_Location_ID)
-
+    /* Tool_Locations table holds all the current locations related to the Tool Shed System */
+    Tool_Location INT UNSIGNED AUTO_INCREMENT, -- Tool_Location holds the number code which identifies the location code for locations
+    Location_Name VARCHAR(255) NOT NULL, -- Location_Name holds the string value for each location code
+    CONSTRAINT PK_Tool_Locations PRIMARY KEY (Tool_Location) -- Tool_Location is the primary key
 );
 
-INSERT INTO Tool_Locations (Tool_Location_ID, Location_Name) VALUES
-(1, 'Main Location'),
-(2, 'Mobile Unit'), 
-(3, 'Mobile Unit -> David F. Gantt Reacreation Center (Thursday)'),
-(4, 'Mobile Unit -> Edgerton Recreation Center (Tuesday)'),
-(5, 'Mobile Unit -> Thomas P. Ryan Center (Monday)'),
-(6, 'Mobile Unit -> Willie Walker Lightfoot Recreation Center (Wednesday)');
+INSERT INTO Tool_Locations (Location_Name) VALUES
+/* More Tool_Locations can be added in future and should be an option on admin page */
+('Main Location'), -- Main Location Location
+('Mobile Unit'), -- Mobile Unit Location
+('Mobile Unit -> David F. Gantt Reacreation Center (Thursday)'),
+('Mobile Unit -> Edgerton Recreation Center (Tuesday)'),
+('Mobile Unit -> Thomas P. Ryan Center (Monday)'),
+('Mobile Unit -> Willie Walker Lightfoot Recreation Center (Wednesday)');
 
 CREATE TABLE Tools (
     Tool_ID INT UNSIGNED AUTO_INCREMENT,
