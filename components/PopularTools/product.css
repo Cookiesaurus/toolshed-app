@@ -4,12 +4,7 @@
 }
 
 .popular {
-    width: 230px;
-    height: 390px;
-    border: 1px solid #222224;
-    margin: 20px;
     padding: 12px;
-    display: inline-block;
 }
 .product-info {
     display: flex;
@@ -27,8 +22,14 @@ button{
     border: none;
 }
 
-.popular-img {
-    width: 100%;
-    display: block;
-    
+
+
+.img-cont{
+    border: 1px solid #2222224A;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: max-content;
+    padding-top: 25px;
+    padding-bottom: 25px;
 }
