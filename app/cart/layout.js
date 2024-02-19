@@ -37,7 +37,7 @@ export default function Layout({
             </tr>
             <tr className="white">
             <td className="white"><Image src={logo} width={50} height={50} alt="logo"></Image> Product Description</td>
-              <td className="white">Reservation</td>
+              <td className="white">Pickup</td>
               <td className="white">
                 <select id="quantity" className="white">
                   <option value="one">1</option>

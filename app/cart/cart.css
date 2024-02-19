@@ -54,7 +54,7 @@ a.return:hover, a.apply-gift:hover{
 
 .gift-card {
     display: flex;
-    gap: -7px;
+    gap: 10px;
 }
 
 .return-cont {
@@ -68,13 +68,15 @@ a.return:hover, a.apply-gift:hover{
     align-items: center;
 }
 
+
 input#gift-card {
     border-radius: 4px;
     border: 1px;
-    width: 40%;
     height: 55px;
     border-color: black;
     border-style: solid;
+    flex: 1;
+    width: 245px;
 }
 
 

@@ -94,9 +94,13 @@ button#place-order{
     width: 60%;
 }
 
+
 input#billing-giftcard, button#apply-giftcard {
     width: 50%;
+    border: 1px solid #000000;
+    border-radius: 2px;
 }
+
 
 .billing-giftcard {
     display: flex;
