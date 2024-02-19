@@ -9,7 +9,9 @@ const Filters = () => {
                     'Rigid', 'Huscky', 'Stanley', 'Hitachi'];
 
     const categories = ['Crafting', 'Drill Extension', 'Drywall Tools', 'Electrical', 'Flooring', 'Masonry', 'Misc', 'Painting',
-                        'Plumbing', 'Roofing', 'Saw Blades', 'Welding', 'Woodworking']
+                        'Plumbing', 'Roofing', 'Saw Blades', 'Welding', 'Woodworking'];
+    
+    const [selectedOption, setSelectedOption] = useState('');
 
     return (
         <>
