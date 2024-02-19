@@ -50,23 +50,23 @@ const SlideShow = ({ data }) => {
   return (
     <>
       <div className="carousel">
-        <a className="arrow arrow-left" onClick={prevSlide}>
-          ❮
-        </a>
         {imageUrl.map((img, i) => (
           <Image
             key={i} // Use a unique key, for example, the array index
             src={img.urls.regular}
             alt={img.alt_description}
-             width={900}
-             height={300}
+            sizes="100vw"
+            style={{
+              width: '100%',
+              height: 'auto',
+              maxHeight: '400px'
+            }}
+            width={500}
+            height={300}
             className={slide === i ? "slide" : "slide slide-hidden"}
             priority={true}
           />
         ))}
-        <a className="arrow arrow-right" onClick={nextSlide}>
-          ❯
-        </a>
         <span className="indicators">
           {imageUrl.map((_, i) => (
             <button
