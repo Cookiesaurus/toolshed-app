@@ -12,48 +12,48 @@ export default function Layout({
       </div>
 
         <div className="cart-cont">
-        <table>
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Type</th>
-              <th>Quantity</th>
-              <th>Duration</th>
+        <table className="white">
+          <thead className="white">
+            <tr className="white">
+              <th className="white">Product</th>
+              <th className="white">Type</th>
+              <th className="white">Quantity</th>
+              <th className="white">Duration</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td> <Image src={logo} width={50} height={50} alt="logo"></Image> Product Description</td>
-              <td>Pickup</td>
-              <td>
-                <select id="quantity">
+          <tbody className="white">
+            <tr className="white">
+              <td className="white"> <Image src={logo} width={50} height={50} alt="logo"></Image> Product Description</td>
+              <td className="white">Pickup</td>
+              <td className="white">
+                <select id="quantity" className="white">
                   <option value="one">1</option>
                   <option value="two">2</option>
                   <option value="three">3</option>
                   <option value="four">4</option>
                 </select>
               </td>
-              <td>--</td>
+              <td className="white">--</td>
             </tr>
-            <tr>
-            <td><Image src={logo} width={50} height={50} alt="logo"></Image> Product Description</td>
-              <td>Reservation</td>
-              <td>
-                <select id="quantity">
+            <tr className="white">
+            <td className="white"><Image src={logo} width={50} height={50} alt="logo"></Image> Product Description</td>
+              <td className="white">Reservation</td>
+              <td className="white">
+                <select id="quantity" className="white">
                   <option value="one">1</option>
                   <option value="two">2</option>
                   <option value="three">3</option>
                   <option value="four">4</option>
                 </select>
               </td>
-              <td>20 Days</td>
+              <td className="white">20 Days</td>
             </tr>
           </tbody>
         </table>
         </div>
 
         <div className="return-cont">
-          <button type="submit"><Link className="return" href={'/Inventory'}>Return To Shop</Link></button>
+          <button type="submit"><Link className="return" href={'/inventory'}>Return To Shop</Link></button>
         </div>
 
         <div className="giftcard-entry">
