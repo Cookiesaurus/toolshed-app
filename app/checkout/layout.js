@@ -40,8 +40,11 @@ export default function Layout({
                 <input className="input" type="email" required id="billing-phoneNumber"/>
 
                 <div className="save-info">
-                    <label htmlFor="save-billInfo">Save this address for future check-out</label>
-                    <input type="checkbox" id="save-billInfo"></input>
+                  <label htmlFor='save-billInfo' className='checkbox-container' >
+                      Save this address for future check-out
+                  <input type="checkbox" className='checkbox' id='save-billInfo' />
+                  <span className="checkmark"></span>
+                </label>
                 </div>
             </form>
           </div> 
