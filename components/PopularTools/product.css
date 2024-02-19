@@ -1,0 +1,34 @@
+.popular-container{
+    display: flex;
+    justify-content: space-around;
+}
+
+.popular {
+    width: 230px;
+    height: 390px;
+    border: 1px solid #222224;
+    margin: 20px;
+    padding: 12px;
+    display: inline-block;
+}
+.product-info {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 5%;
+}
+
+.button-center {
+    display: flex;
+    justify-content: space-around;
+    margin: 12px;
+}
+
+button{
+    border: none;
+}
+
+.product-img {
+    width: 100%;
+    display: block;
+    
+}
