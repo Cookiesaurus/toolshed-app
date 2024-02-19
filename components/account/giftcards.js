@@ -21,7 +21,7 @@ const Giftcards = () => {
                 <button className="redeem-button" type="submit" id="gift-redeem-button-25">$25.00</button>
               </div>
               <div className="rank">
-                <h3>MacGyver Level Gift Certificate</h3>
+                <h3>MacGyver Level<br/> Gift Certificate</h3>
                   <p>This is a gift certificate for one Tinkerer Level Membership (normally $25 per year).
                   <br/>
                   With this membership, the member can rent up to 10 tools at a time*</p>
@@ -35,7 +35,7 @@ const Giftcards = () => {
                   <button className="redeem-button" type="submit" id="gift-redeem-button-50">$50.00</button>
               </div>
               <div className="rank">
-                <h3>Contractor Level Gift Certificate</h3>
+                <h3>Contractor Level <br/> Gift Certificate</h3>
                   <p>This is a gift certificate for one Contractor Level Membership (normally $100 per year).
                   <br/>
                   With this membership, the member can rent up to 50 tools at a time*. This membership allows two users on the account.</p>

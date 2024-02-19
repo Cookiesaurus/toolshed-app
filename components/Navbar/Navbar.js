@@ -3,7 +3,6 @@
 import './navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faUser, faMagnifyingGlass, faFileInvoice} from '@fortawesome/free-solid-svg-icons';
-import CatOverlay from '../CatOverlay/CatOverlay';
 import Link from 'next/link';
 
 const Navbar = () => {
