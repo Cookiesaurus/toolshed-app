@@ -5,16 +5,6 @@ import ProductItem from '@/components/ProductItem/ProductItem';
 export default function Layout({
     children, // will be a page or nested layout
   }) {
-    let options = [];
-    for (let i = 0; i < 5; i++) {
-        options.push(<option value={i}>{i}</option>);
-    }
-
-
-    let relTools =[];
-    for (let i = 0; i < 5; i++) {
-        relTools.push(<div className="related-tools" key={i}></div>);
-    }
     return (
       <>
         <div className='bread-crumb'>
