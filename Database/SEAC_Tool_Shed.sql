@@ -52,7 +52,7 @@ CREATE TABLE Accounts (
     Account_ID INT UNSIGNED AUTO_INCREMENT, -- Account_ID is a unique identifier for all Tool Shed users.
     First_Name VARCHAR(255) NOT NULL, -- First_Name is a string value which holds a persons first name
     Last_Name VARCHAR(255) NOT NULL,  -- Last_Name is a string value which holds a persons first name
-    DOB DATE NOT NULL, -- DOB is a string value which hold a persons DOB. The format is YYYY-MM-DD
+    -- DOB DATE NOT NULL, -- DOB is a string value which hold a persons DOB. The format is YYYY-MM-DD
     Organization_Name VARCHAR(255), -- Organizational_Name shall be filled if account relates to an organization. This field holds the organizational name
     Email VARCHAR(255) NOT NULL UNIQUE, -- Email holds the email associated to the account
     Password VARBINARY(255) NOT NULL, -- Password here is the string value associated to an account. It will be stored using AES_Encrypt and verified using AES_Decrypt
@@ -69,16 +69,34 @@ CREATE TABLE Accounts (
     Membership_Auto_Renewal BOOL NOT NULL DEFAULT "0", -- Membership_Auto_Renewal holds the boolean value associated with auto membership renewal. By default, this value is set to false (0)
     Membership_Creation_Date DATE NOT NULL DEFAULT (CURRENT_DATE()), -- Membership_Creation_Date holds the date when a membership is activated. This value is always defaulted to the current date when Registration status is set; however, this value will be changed once a new membership is seleted
     Membership_Expiration_Date DATE NOT NULL DEFAULT (DATE_ADD(CURRENT_DATE(), INTERVAL 1 YEAR)), -- Membership_Expiration_Date holds the date when a membership expires. This value is always defaulted to the current date when Registration status is set plus one year; however, this value will be changed once a new membership is seleted
-    Privilege_Level TINYINT UNSIGNED NOT NULL DEFAULT "1", -- Privilege_Level is the identification number used to uniquly identify each privilege level tier. 1 -- Customer 2 -- Volunteer 3 -- Employee 4 -- Manager 5 -- Administrator. This value is always defaulted to customer unless specified by an employee
+    Privilege_Level TINYINT UNSIGNED NOT NULL DEFAULT "1", -- Privilege_Level is the identification number used to uniquly identify each privilege level tier. 1 -- Customer, 2 -- Volunteer, 3-- Employee, 4 -- Manager, 5 -- Administrator. This value is always defaulted to customer unless specified by an employee
     CONSTRAINT PK_Accounts PRIMARY KEY (Account_ID), -- The Account_ID is the primary key for the Accounts table
     CONSTRAINT FK_Accounts_Membership_Levels FOREIGN KEY (Membership_Level) REFERENCES Membership_Levels (Membership_Level), -- This statement creates a foreign key on Membership_Level, which is used to connect the Membership_Levels table to Accounts
     CONSTRAINT FK_Accounts_Privilege_Levels FOREIGN KEY (Privilege_Level) REFERENCES Privilege_Levels (Privilege_Level), -- This statement creates a foreign key on Privilege_Level, which is used to connect the Privilege_Levels table to Accounts
     CONSTRAINT FK_Accounts_Current_Membership_Status FOREIGN KEY (Membership_Status) REFERENCES Current_Membership_Status (Membership_Status) -- This statement creates a foreign key on Membership_Status, which is used to connect the Membership_Status table to Accounts
 );
 
-INSERT INTO Accounts (First_Name, Last_Name, DOB, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code) VALUES
-("Bryce", "Hofstom", "2002-03-11", "bgh3077@g.rit.edu", AES_Encrypt("password","key"), "2164075162", "8439 Sharp Lane", "Chesterland", "Ohio", 44026), -- key is currenly set to "key" this can change!
-("Shea", "Hofstom", "2004-01-24", "shofstrom@gmail.com", "password", "2164075702", "8439 Sharp Lane", "Chesterland", "Ohio", 44026);
+-- CUSTOMER ACCOUNTS -- 
+INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code) VALUES -- Normal Customer with registration status
+("Bryce", "Hofstom", "bgh3077@g.rit.edu", AES_Encrypt("password","Bryce"), "2164075162", "8439 Sharp Lane", "Chesterland", "Ohio", 44026);
+
+INSERT INTO ACCOUNTS (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with tinkerer status
+("Michael", "Pacholarz", "mfp7158@g.rit.edu", AES_Encrypt("password","Michael"), "7609223761", "7750 Sleepy Hollow Road", "Folsom", "California", 95630, 2);
+
+INSERT INTO ACCOUNTS (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with tinkerer status plus two address lines
+("Andy", "Erskine", "ate9624@g.rit.edu", AES_Encrypt("password","Andy"), "9037539683", "760 Lexington Ave.", "Apt. 4", "Cleburne", "Texas", 76031, 2);
+
+INSERT INTO ACCOUNTS (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal) VALUES -- Normal Customer with MacGyver Status and Auto-renewal membership payment set to true
+("Fei", "Gao", "fxg8365@g.rit.edu", AES_Encrypt("password","Fei"), "2184549695", "7908 South Durham St.", "Cottage Grove", "Minnesota", 55016, 3, 1);
+
+INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Account_Notes, Membership_Level) VALUES -- Normal Customer with Builder Status and account notes
+("Ian", "Dinga", "iad2750@g.rit.edu", AES_Encrypt("password","Ian"), "6462316017", "8402 Bridgeton Lane", "Corona", "New York", 11368, "Ian has not had any activity with the Tool Shed despite owning a Builder membership. Effort should be had to reach out and ensure he would still like to be a member.", 4);
+
+INSERT INTO Accounts (First_Name, Last_Name, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with Contractor Status and Organization name
+("Aryan", "Todi", "The Handymen LLC.","at1203@g.rit.edu", AES_Encrypt("password","Aryan"), "4236953998", "4 Windsor Ave.", "Memphis", "Tennessee", 38106, 5);
+
+INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Account_Notes, Membership_Status) VALUES -- Disabled Customer
+("Evan", "Hiltzik", "eh8319@g.rit.edu", AES_Encrypt("password","Evan"), "5704143466", "98 Lilac Street", "Gibsonia", "Pennsylvania", 15044, "User account was disabled on 01/10/24 as customer decided to drop membership.", 2);
 
 --------------- ADD MORE ------------------
 
@@ -223,11 +241,11 @@ CREATE TABLE Tool_Locations (
 INSERT INTO Tool_Locations (Location_Name) VALUES
 /* More Tool_Locations can be added in future and should be an option on admin page */
 ('Main Location'), -- Main Location Location
-('Mobile Unit'), -- Mobile Unit Location
-('Mobile Unit -> David F. Gantt Reacreation Center (Thursday)'),
-('Mobile Unit -> Edgerton Recreation Center (Tuesday)'),
-('Mobile Unit -> Thomas P. Ryan Center (Monday)'),
-('Mobile Unit -> Willie Walker Lightfoot Recreation Center (Wednesday)');
+('Mobile Unit'); -- Mobile Unit Location
+-- ('Mobile Unit -> David F. Gantt Reacreation Center (Thursday)'),
+-- ('Mobile Unit -> Edgerton Recreation Center (Tuesday)'),
+-- ('Mobile Unit -> Thomas P. Ryan Center (Monday)'),
+-- ('Mobile Unit -> Willie Walker Lightfoot Recreation Center (Wednesday)');
 
 CREATE TABLE Tools (
     Tool_ID INT UNSIGNED AUTO_INCREMENT,
@@ -259,8 +277,8 @@ CREATE TABLE Tools (
     CONSTRAINT PK_Tools PRIMARY KEY (Tool_ID),
     CONSTRAINT FK_Tools_Tool_Conditions FOREIGN KEY (Tool_Condition) REFERENCES Tool_Conditions (Tool_Condition),
     CONSTRAINT FK_Tools_Tool_Statuses FOREIGN KEY (Tool_Status) REFERENCES Tool_Statuses (Tool_Status),
-    CONSTRAINT FK_Tools_Tool_Locations_Home FOREIGN KEY (Home_Location) REFERENCES Tool_Locations (Tool_Location_ID),
-    CONSTRAINT FK_Tools_Tool_Locations_Current FOREIGN KEY (Current_Location) REFERENCES Tool_Locations (Tool_Location_ID)
+    CONSTRAINT FK_Tools_Tool_Locations_Home FOREIGN KEY (Home_Location) REFERENCES Tool_Locations (Tool_Location),
+    CONSTRAINT FK_Tools_Tool_Locations_Current FOREIGN KEY (Current_Location) REFERENCES Tool_Locations (Tool_Location)
 );
 
 CREATE TABLE Tool_Transactions (
