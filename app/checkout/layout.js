@@ -1,12 +1,17 @@
 import Link from "next/link";
 import './checkout.css';
+import Image from "next/image";
+import visa from '../public/images/visa.png'
 export default function Layout({
     children, // will be a page or nested layout
   }) {
     return (
     <>
         <div className='bread-crumb'>
-        <p><Link href={'/'} className='crumb-init'>SEAC Tool Shed /</Link></p><p className='crumb-extra'>Check out</p>
+        <p className='crumb-init'>
+          <Link href={'/'}>SEAC Tool Shed /</Link>
+        </p>
+        <p className='crumb-extra'>Check out</p>
       </div>
       <h1 id="billing">Billing Details</h1>
 
@@ -41,19 +46,18 @@ export default function Layout({
             </form>
           </div> 
           <div className="checkout-info">
-          <div className="cart-total">
-              <p>Cart total</p>
+          <div className="checkout-total">
               <div className="cart-items">
                 <p>Pickup Items</p>
                 <p></p>
               </div>
               <div className="cart-items">
-                <p>Reserved Items</p>
+                <p>Item One</p>
                 <p></p>
               </div>
               <div className="cart-items">
                 <p>Total: </p>
-                <p> items</p>
+                <p>items</p>
               </div>
               <br/>
               <br/>
@@ -61,17 +65,21 @@ export default function Layout({
             <form className="checkout-form" method="post">
                 <div className="billing">
                     <div className="billing-options">
-                        <label htmlFor="billing-selection">Credit/Debit</label>
+                      <div className="credit-debit">
                         <input type="radio" id="billing-selection" name="billing-option"/>
-                        <label htmlFor="billing-cash">Cash pickup</label>
+                        <label htmlFor="billing-selection">Credit/Debit</label>
+                      </div>
+                      <div className="cash">
                         <input type="radio" id="billing-cash" name="billing-option"/>
+                        <label htmlFor="billing-cash">Cash on pickup</label>
+                      </div>
                     </div>
+                  </div>
                     <div className="billing-giftcard">
                         <label htmlFor="billing-giftcard" className="sr-only">Gift card code</label>
                         <input type="text" placeholder="Gift Card" id="billing-giftcard"></input>
                         <button type="submit" id="apply-giftcard">Apply Gift Card</button>
                     </div>
-              </div>
               <div className="place-order">
                 <button type="submit" id="place-order">Place Order</button>
               </div>

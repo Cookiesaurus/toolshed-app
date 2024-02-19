@@ -1,4 +1,3 @@
-import SlideShow from "@/components/Carousel/slideshow";
 import Link from "next/link";
 import Image from "next/image";
 import dewalt from "./public/images/dewalt.png"
@@ -13,8 +12,8 @@ import husky from "./public/images/husky.jpeg"
 import stanley from "./public/images/stanley.png"
 import hitachi from "./public/images/hitachi.png"
 import genesis from "./public/images/genesis.png"
-import {slides} from "./public/data/slidedata.json"
-import Products from "@/components/homeproduct/Products";
+import SlideShow from "@/components/Slideshow/Slideshow";
+import PopularTools from "@/components/PopularTools/PopularTools";
 
 export default function Page() {
   const categories = ['Crafting', 'Drill Extension', 'Drywall Tools', 'Electrical', 'Flooring', 'Masonry', 'Misc', 'Painting',
@@ -33,11 +32,11 @@ export default function Page() {
         ))}
       </div>
         <div className="slide-show">
-          <SlideShow data={slides}/>
+          <SlideShow/>
         </div>
     </div>
     <div className="homepage">
-    <Products/>
+    <PopularTools/>
 
     <h2>Browsing By Brands</h2>
     <div className="brands">

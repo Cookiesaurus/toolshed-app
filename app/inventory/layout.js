@@ -1,6 +1,7 @@
 import Link from "next/link";
 import './inventory.css';
 import Filters from "@/components/Filters/filters";
+import InventoryItems from "@/components/InventoryItems/InventoryItems";
 
 export default function Layout({
     children, // will be a page or nested layout
@@ -27,15 +28,15 @@ export default function Layout({
     return (
       <>
         <div className='bread-crumb'>
-            <p><Link href={'/'} className='crumb-init'>SEAC Tool Shed /</Link></p>
-            <p className='crumb-init'><Link href={'/'} className='crumb-init'>Search /</Link></p>
-            <p className='crumb-extra'><Link href={'/'} className='crumb-init'>Inventory</Link></p>
+            <p className='crumb-init'><Link href={'/'}>SEAC Tool Shed /</Link></p>
+            <p className='crumb-init'><Link href={'/'}>Search /</Link></p>
+            <p className='crumb-extra'><Link href={'/'}>All Inventory</Link></p>
         </div>
         <div className="conditions-cont">
                 <div className='conditions'>
+                    {/* <div className='inventory-cond'> Condition <span></span> </div>
                     <div className='inventory-cond'> Condition <span></span> </div>
-                    <div className='inventory-cond'> Condition <span></span> </div>
-                    <div className='inventory-cond'> Condition <span></span> </div>
+                    <div className='inventory-cond'> Condition <span></span> </div> */}
                 </div>
                 <div className="sort">
                     <select id="filter-sort">
@@ -49,15 +50,7 @@ export default function Layout({
             </div>
         <div className='inventory-cont'>
         <Filters/>
-            <div className="inven-cont">
-                <div className="inven-items">
-                    {items}
-                </div>
-            </div>
-        </div>
-        <h3>Most Popular</h3>
-        <div className="popular-container">
-            {popular}
+            <InventoryItems/>
         </div>
         {/* Have to add in the children param so that the components from the page appear within the layout */}
       </>

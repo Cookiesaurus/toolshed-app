@@ -4,10 +4,6 @@
 }
 
 .popular {
-    width: 230px;
-    height: 390px;
-    border: 1px solid #222224;
-    margin: 20px;
     padding: 12px;
 }
 .product-info {
@@ -24,4 +20,16 @@
 
 button{
     border: none;
+}
+
+
+
+.img-cont{
+    border: 1px solid #2222224A;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: max-content;
+    padding-top: 25px;
+    padding-bottom: 25px;
 }

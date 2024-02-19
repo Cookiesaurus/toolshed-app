@@ -33,18 +33,25 @@ h1#billing {
     padding: 15px;
 }
 
-.save-info, .billing-options {
+.billing-options {
+    display: flex;
+    flex-direction: column;
+}
+
+.credit-debit, .cash {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.save-info {
     display: flex;
     flex-direction: row-reverse;
     gap: 15px;
     justify-content: center;
 }
 
-.cart-total {
-    border: 1.5px solid #000000;
-}
-
-.cart-total {
+.checkout-total {
     bottom: 300px;
     left: 1090px;
     right: 725px;
@@ -65,10 +72,17 @@ button#place-order, button#apply-giftcard{
     color: white;
     padding: 16px 48px 16px 48px;
     border-radius: 4px;
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.01em;
+    border: none;
 }
 
 button#place-order:hover, button#apply-giftcard:hover{
     background-color: #FBC955;
+    border: none;
     cursor: pointer;
 }
 

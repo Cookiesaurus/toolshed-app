@@ -2,14 +2,16 @@
 
 import Link from 'next/link';
 import './filters.css';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 const Filters = () => {
     const brands = ['DEWALT', 'Milwaukee', 'RYOBI', 'BLACK + DECKER', 'Makita', 'RIGID', 'GENESIS', 'Bosch', 'Craftsman',
                     'Rigid', 'Huscky', 'Stanley', 'Hitachi'];
 
     const categories = ['Crafting', 'Drill Extension', 'Drywall Tools', 'Electrical', 'Flooring', 'Masonry', 'Misc', 'Painting',
-                        'Plumbing', 'Roofing', 'Saw Blades', 'Welding', 'Woodworking']
+                        'Plumbing', 'Roofing', 'Saw Blades', 'Welding', 'Woodworking'];
+    
+    const [selectedOption, setSelectedOption] = useState('');
 
     return (
         <>
@@ -18,26 +20,26 @@ const Filters = () => {
                 <h4 className='filter-headers white'>Categories</h4> 
                 <div className='filter-categories white'> 
                   {categories.map(category => (
-                    <>
+                    <React.Fragment key={category}>
                       <label htmlFor={category} className='checkbox-container white' key={category} >
                         {category}
                         <input type="checkbox" className='checkbox' id={category} key={category} />
                         <span className="checkmark"></span>
                       </label>
-                    </>
+                    </React.Fragment>
                     ))}
                 </div>
                 <div className='filter-brand white'>
                   <h4 className='filter-headers white'>Brand</h4>
                     <div className='brand-select white'>
                     {brands.map(brand => (
-                    <>
-                      <label htmlFor={brand} className='checkbox-container white' key={brand} >
-                        {brand}
-                        <input type="checkbox" className='checkbox' id={brand} key={brand} />
-                        <span className="checkmark"></span>
-                      </label>
-                    </>
+                      <React.Fragment key={brand}>
+                        <label htmlFor={brand} className='checkbox-container white' >
+                          {brand}
+                          <input type="checkbox" className='checkbox' id={brand} key={brand} />
+                          <span className="checkmark"></span>
+                        </label>
+                      </React.Fragment>
                     ))}
                     </div>
                 </div>

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import './product.css'
 
-const Products = () => {
+const PopularTools = () => {
 
 
     const [product, setProduct] = useState([]);
@@ -27,7 +27,9 @@ const Products = () => {
         {product.slice(0, 5).map((productItem, index) => (
             <div className="popular" key={index}>
             <Link href={'/product'}>
-            {<Image src={productItem.images[0]} alt={'Product Place Holder'} width={230} height={280} className="product-img"/>}
+            <div className="img-cont">
+              {<Image src={productItem.images[0]} alt={'Product Place Holder'} width={230} height={280} className="popular-img"/>}
+            </div>
                 <p className="product-title">{productItem.title}</p>
                 <div className="product-info">
                     <p className="stock-green">{productItem.stock} In Stock</p>
@@ -49,4 +51,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default PopularTools;

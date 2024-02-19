@@ -77,11 +77,9 @@ input#gift-card {
     border-style: solid;
 }
 
-.cart-total {
-    border: 1.5px solid #000000;
-}
 
 .cart-total {
+    border: 1.5px solid #000000;
     bottom: 300px;
     left: 1090px;
     right: 725px;

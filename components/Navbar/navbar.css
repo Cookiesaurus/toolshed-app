@@ -61,8 +61,9 @@ form.navbar-search{
     background-color: white;
 }
 
-p.navbar-cart, p.navbar-account{
+p.navbar-cart, p.navbar-account {
     margin-right: 80px;
+    background-color: white;
 }
 
 .account{
