@@ -29,8 +29,8 @@ export default function Layout({
       <>
         <div className='bread-crumb'>
             <p className='crumb-init'><Link href={'/'}>SEAC Tool Shed /</Link></p>
-            <p className='crumb-extra'><Link href={'/'}>Search /</Link></p>
-            <p className='crumb-extra'><Link href={'/'}>Inventory</Link></p>
+            <p className='crumb-init'><Link href={'/'}>Search /</Link></p>
+            <p className='crumb-extra'><Link href={'/'}>All Inventory</Link></p>
         </div>
         <div className="conditions-cont">
                 <div className='conditions'>
