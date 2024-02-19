@@ -37,43 +37,50 @@ INSERT INTO Privilege_Levels (Privilege_Level,Privilege_Title) VALUES
 (5,'Administrator'); -- Administrator Level
 
 CREATE TABLE Current_Membership_Status (
-    Membership_Status TINYINT UNSIGNED,
-    Membership_Status_Description VARCHAR(255),
-    CONSTRAINT PK_Current_Membership_Status PRIMARY KEY (Membership_Status)
+    /* The Current_Membership_Status table holds all membership status. These currenly being 1 -- Active and 2 -- Inactive */
+    Membership_Status TINYINT UNSIGNED, -- Membership_Status holds the identification number for each unique membership status
+    Membership_Status_Description VARCHAR(255), -- Membership_Status_Description holds the string value to describe each status i.e. Active and Inactive
+    CONSTRAINT PK_Current_Membership_Status PRIMARY KEY (Membership_Status) -- Membership_Status is the primary key of this table
 );
 
 INSERT INTO Current_Membership_Status (Membership_Status, Membership_Status_Description) VALUES
-(1,'Active'),
-(2,'Inactive');
+(1,'Active'), -- Active Membership Status
+(2,'Inactive'); -- Inactive Membership Status
 
 CREATE TABLE Accounts (
-    Account_ID INT UNSIGNED AUTO_INCREMENT,
-    First_Name VARCHAR(255) NOT NULL,
-    Last_Name VARCHAR(255) NOT NULL,
-    DOB DATE NOT NULL,
-    Organization_Name VARCHAR(255),
-    Email VARCHAR(255) NOT NULL UNIQUE,
-    Password VARCHAR(255) NOT NULL, -- Store and retrieve with AES ENCRYPT and AES DECRYPT
-    Phone_Number CHAR(10) NOT NULL UNIQUE, -- Not including Country Code
-    Address_Line1 VARCHAR(255) NOT NULL,
-    Address_Line2 VARCHAR(255),
-    City VARCHAR(255) NOT NULL, 
-    State VARCHAR(255) NOT NULL, -- Should this be not null?
-    Postal_Code CHAR(5) NOT NULL, -- Should this be not null?
-    Account_Creation_Date DATE NOT NULL DEFAULT (CURRENT_DATE),
-    -- Account_Balance FLOAT NOT NULL DEFAULT "0.00", -- Should this be not null?
-    Account_Notes TEXT,
-    Membership_Level TINYINT UNSIGNED NOT NULL DEFAULT "0", -- Default Account made to be at Registration level (0); Should this be not null?
-    Membership_Status TINYINT UNSIGNED NOT NULL DEFAULT "1",
-    Membership_Auto_Renewal BOOLEAN NOT NULL DEFAULT "0",
-    Membership_Creation_Date DATE NOT NULL DEFAULT (CURRENT_DATE()),
-    Membership_Expiration_Date DATE NOT NULL DEFAULT (DATE_ADD(CURRENT_DATE(), INTERVAL 1 YEAR)), -- 
-    Privilege_Level TINYINT UNSIGNED NOT NULL DEFAULT "0", -- Default Account made to be at privilege level (0); Should this be not null?
-    CONSTRAINT PK_Accounts PRIMARY KEY (Account_ID),
-    CONSTRAINT FK_Accounts_Membership_Levels FOREIGN KEY (Membership_Level) REFERENCES Membership_Levels (Membership_Level),
-    CONSTRAINT FK_Accounts_Privilege_Levels FOREIGN KEY (Privilege_Level) REFERENCES Privilege_Levels (Privilege_Level),
-    CONSTRAINT FK_Accounts_Current_Membership_Status FOREIGN KEY (Membership_Status) REFERENCES Current_Membership_Status (Membership_Status)
+    /* The Accounts table holds all relevant information for any user account. Here, all user account information shall be stored */
+    Account_ID INT UNSIGNED AUTO_INCREMENT, -- Account_ID is a unique identifier for all Tool Shed users.
+    First_Name VARCHAR(255) NOT NULL, -- First_Name is a string value which holds a persons first name
+    Last_Name VARCHAR(255) NOT NULL,  -- Last_Name is a string value which holds a persons first name
+    DOB DATE NOT NULL, -- DOB is a string value which hold a persons DOB. The format is YYYY-MM-DD
+    Organization_Name VARCHAR(255), -- Organizational_Name shall be filled if account relates to an organization. This field holds the organizational name
+    Email VARCHAR(255) NOT NULL UNIQUE, -- Email holds the email associated to the account
+    Password VARBINARY(255) NOT NULL, -- Password here is the string value associated to an account. It will be stored using AES_Encrypt and verified using AES_Decrypt
+    Phone_Number CHAR(10) NOT NULL UNIQUE, -- Phone_Number holds the 10 digit code associated with a phone number. Format of XXXXXXXXXX.
+    Address_Line1 VARCHAR(255) NOT NULL, -- Address_Line1 hold the accounts registered address line 1
+    Address_Line2 VARCHAR(255), -- Address_Line2 hold the accounts registered address line 2 if it is needed
+    City VARCHAR(255) NOT NULL,  -- City holds the name of the city associated with the address
+    State VARCHAR(255) NOT NULL, -- State holds the name of the state associated with the address
+    Postal_Code CHAR(5) NOT NULL, -- Postal_Code holds the postal code associated with the address
+    Account_Creation_Date DATE NOT NULL DEFAULT (CURRENT_DATE()), -- Account_Creation_Date holds the date when the account was first created. This value is always defaulted to the current date upon account creation
+    Account_Notes TEXT, -- Account_Notes holds any notes important to the account for any employees
+    Membership_Level TINYINT UNSIGNED NOT NULL DEFAULT "1", -- Membership_Level holds the integer code value associated with the account. Unless specified by an employee, the default membership level will be Registration status (1)
+    Membership_Status TINYINT UNSIGNED NOT NULL DEFAULT "1", -- Membership_Status holds the integer code value associated with the active / inactive status of the account. The default status of an account is active unless specified by an employee
+    Membership_Auto_Renewal BOOL NOT NULL DEFAULT "0", -- Membership_Auto_Renewal holds the boolean value associated with auto membership renewal. By default, this value is set to false (0)
+    Membership_Creation_Date DATE NOT NULL DEFAULT (CURRENT_DATE()), -- Membership_Creation_Date holds the date when a membership is activated. This value is always defaulted to the current date when Registration status is set; however, this value will be changed once a new membership is seleted
+    Membership_Expiration_Date DATE NOT NULL DEFAULT (DATE_ADD(CURRENT_DATE(), INTERVAL 1 YEAR)), -- Membership_Expiration_Date holds the date when a membership expires. This value is always defaulted to the current date when Registration status is set plus one year; however, this value will be changed once a new membership is seleted
+    Privilege_Level TINYINT UNSIGNED NOT NULL DEFAULT "1", -- Privilege_Level is the identification number used to uniquly identify each privilege level tier. 1 -- Customer 2 -- Volunteer 3 -- Employee 4 -- Manager 5 -- Administrator. This value is always defaulted to customer unless specified by an employee
+    CONSTRAINT PK_Accounts PRIMARY KEY (Account_ID), -- The Account_ID is the primary key for the Accounts table
+    CONSTRAINT FK_Accounts_Membership_Levels FOREIGN KEY (Membership_Level) REFERENCES Membership_Levels (Membership_Level), -- This statement creates a foreign key on Membership_Level, which is used to connect the Membership_Levels table to Accounts
+    CONSTRAINT FK_Accounts_Privilege_Levels FOREIGN KEY (Privilege_Level) REFERENCES Privilege_Levels (Privilege_Level), -- This statement creates a foreign key on Privilege_Level, which is used to connect the Privilege_Levels table to Accounts
+    CONSTRAINT FK_Accounts_Current_Membership_Status FOREIGN KEY (Membership_Status) REFERENCES Current_Membership_Status (Membership_Status) -- This statement creates a foreign key on Membership_Status, which is used to connect the Membership_Status table to Accounts
 );
+
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code) VALUES
+("Bryce", "Hofstom", "2002-03-11", "bgh3077@g.rit.edu", AES_Encrypt("password","key"), "2164075162", "8439 Sharp Lane", "Chesterland", "Ohio", 44026), -- key is currenly set to "key" this can change!
+("Shea", "Hofstom", "2004-01-24", "shofstrom@gmail.com", "password", "2164075702", "8439 Sharp Lane", "Chesterland", "Ohio", 44026);
+
+--------------- ADD MORE ------------------
 
 CREATE TABLE Payment_Methods (
     Account_ID INT UNSIGNED AUTO_INCREMENT,
@@ -96,11 +103,47 @@ CREATE TABLE Gift_Cards (
 );
 
 CREATE TABLE Waivers (
-    Waiver_ID INT UNSIGNED,
-    Waiver_Name VARCHAR(255) NOT NULL,
-    Waiver_Details TEXT NOT NULL,
-    CONSTRAINT PK_Waivers PRIMARY KEY (Waiver_ID)
+    /* The Waivers table holds all waivers necessary for the SEAC Tool Shed buisness. Currently, there is the "Tool Waiver and Indemnification" and "Tool Lending Agreement" */
+    Waiver_ID INT UNSIGNED, -- Waiver_ID holds the unique identifier for each waiver i.e. Waiver_ID -- 1, "Tool Lending Agreement" -- 2
+    Waiver_Name VARCHAR(255) NOT NULL, -- Waiver_Name holds the string characters for the waiver_name
+    Waiver_Details TEXT NOT NULL, -- Waiver_Details holds the text for each waiver
+    CONSTRAINT PK_Waivers PRIMARY KEY (Waiver_ID) -- Waiver_ID is the primary key for the Waivers table
 );
+
+INSERT INTO Waivers (Waiver_Name, Waiver_Details) VALUES 
+("Tool Waiver and Indemnification", 
+"I do hereby for myself, on behalf of my heirs, successors, and assigns, in consideration of being permitted to borrow tools, waive any and all claims against the SEAC’s Tool Shed for any personal injury, illness, death, or liability resulting from or arising out of the carelessness, recklessness, negligence and/or fault of the Tool Shed.
+
+I do hereby for myself, on behalf of my heirs, successors, and assigns, in consideration of being permitted to borrow tools, agree to release and indemnify and hold harmless and defend SEAC’s Tool Shed, their offices, agents, volunteers, and employees from any and all liability, loss, claims, and demands, actions or cause of action for the death or injury to any persons and for any property damage suffered or incurred by any person which arises or may arise or be occasioned in any way from the use or possession of tools I am borrowing from the Tool Shed.
+
+I grant to SEAC’s Tool Shed its representatives, volunteers, and employees the right to take photographs of me and my property. I authorize the Tool Shed, its assigns and transferees to copyright, use and publish the same in print and/or electronically. I agree that the Tool Shed may use such photographs of me with or without my name and for any lawful purpose, including for example such purposes as publicity, illustration, advertising, and web content.
+
+The parties intend each provision to be severable and separate and apart from one another.
+
+The parties agree that any and all disputes resulting in litigation will be commenced, litigated, and adjudicated only in the County of Monroe, State of New York pursuant the laws of the State of New York."),
+("Tool Lending Agreement", 
+"1. Only residents of the Greater Rochester Area (Livingston, Monroe, Ontario, Orleans, Wayne, and Yates counties) who are over the age of 18 are eligible to borrow tools from SEAC’s Tool Shed.
+2. Prior to borrowing tools, all Members must (a) complete a Membership Application; (b) pay a membership fee; and (c) verify his/her identity and residency. Verification is accomplished by presenting a valid photo ID and piece of mail, both displaying a local address. In the event that the Member’s photo ID does not display a local address, a second ID or piece of mail must be produced to verify residency. Additionally, the Member must sign this Tool Lending Agreement and the attached Waiver and Indemnification.
+3. Members will be authorized a Membership Card. If the card is lost or stolen, the Member is responsible for reporting the loss or theft immediately. If a report is not made, the Member will be held responsible for any tools borrowed with a lost or stolen card.
+4. Only the Member is authorized to use Tool Shed tools. The Member shall not permit the use of items checked out to them by any other person unless by the expressed permission of SEAC and its staff. Volunteers do not have the right to authorize this.
+5. For those unfamiliar with a particular tool, safety training materials such as manuals (if in the possession of SEAC’s Tool Shed) will be made available upon request. However, by taking possession of any item, the member is certifying that they are capable of using that item in a safe and proper manner.
+6. Necessary safety equipment is available upon request by the Member.
+7. The Member agrees that SEAC and the Tool Shed is not responsible for any manufacturing defects in the quality of workmanship or materials inherent in any borrowed tools.
+8. The Member agrees that if any borrowed tool becomes unsafe or in a state of disrepair, they will immediately discontinue use of the tool and notify SEAC’s Tool Shed of the issue on return, if not earlier. If a Member fails to inform SEAC’s Tool Shed that a tool is not in working order upon return, said Member may be held liable for full replacement.
+9. Tools may only be reserved ahead of time for large community projects. Reservations should be made at least one week prior to project date. Requests should be in written form and can either be emailed or dropped off at SEAC’s Tool Shed in-person. Individual loans are on a first come first serve basis.
+10. The loan period for tools is five days unless otherwise specified. Tools are to be returned to SEAC’s Tool Shed by closing time one (1) week from the day borrowed.
+11. Late fees will be levied for each tool kept past the loan period. The late fee is $1 per tool per day, including days which the Tool Shed is not open. All tools borrowed from the Tool Shed must be returned during normal business hours.
+12. When tools are not returned by the designated due date, the Tool Shed will issue an overdue notice after 30 days. If tools are not returned after an overdue notice is issued, appropriate steps will be taken to retrieve them, including the use of a collection agency and/or legal action, the cost of which will be assessed to the delinquent member. The Tool Shed may replace severely delinquent tools, holding the Member responsible for full replacement cost. Fines must be paid in full before borrowing additional items.
+13. Any tools (including but not limited to those that require batteries and/or electric power to operate) require a member’s credit card to be kept on file as a deposit. Members will be assessed the full replacement cost of delinquent tools if they are not returned within thirty (30) days from the date they were originally checked out. The credit card on file will be charged on day thirty-one (31). A receipt of the charge or notice of the charge will be emailed to the address on file.
+14. All items may be renewed once, for a second five day loan period, by contacting the Tool Shed and requesting a renewal in advance of the due date. Additional renewals are at the discretion of the Tool Shed.
+14a. Renewal requests can be denied if tools have been requested for a community project.
+15. Items are to be returned in the same condition as they were issued, barring normal wear and tear. All items must be returned clean. A $5 cleaning fee will be assessed if tools are returned dirty. The Member agrees to pay for the loss of or damage to any items and further agrees to accept Tool Shed staff’s assessment of condition of items and to further agree to Tool Shed staff’s assessment of fair restitution for damage, dirtiness, delinquency and/or loss of items in part or total. This restitution amount could equal as much as replacement cost of the item.
+16. The Tool Shed retains the right to refuse the loan of any item to any person for any reason.
+17. The membership and borrowing privileges of all Tool Shed members are subject to the provisions of this Lending Agreement, and failure to comply with this Lending Agreement may result in revocation of membership, loss of borrowing privileges, or legal action, as appropriate. The Tool Shed’s board of directors may, at its sole discretion, modify this Lending Policy, and all Tool Shed members will be subject to any such modified version.
+
+I affirm that the information that I have provided on the Membership Application is current, true and correct. I understand that this information may be subject to verification.
+
+I further state that I have read and fully understand the rules and regulations of the Tool Shed, and I understand that failure to comply with any of these rules may result in revocation of my borrowing privileges and/or legal action against me. I have read and signed a Waiver and Indemnification form, relinquishing any and all claims against the Tool Shed.");
 
 CREATE TABLE Account_Waivers (
     Account_ID INT UNSIGNED,
