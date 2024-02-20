@@ -2,7 +2,13 @@ import Image from "next/image";
 import logo from '../public/images/toolshed_logo.png';
 import Link from "next/link";
 import './signup.css';
-export default function Page() {
+import db from '../config/db';
+
+
+export default async function Page() {
+		const query = "SELECT State_Name, State_Code from US_States"
+		const value = []
+		const [results] = await db.execute(query, value)
     return (<>
     <div className="content">
         <div className="title">
@@ -50,57 +56,7 @@ export default function Page() {
                     <label htmlFor="address-state" className="sr-only">State</label>
                     <select className="select" name="state" required id="address-state">
                         <option value="" >Select a State</option>
-                        <option value="AL">Alabama</option>
-                        <option value="AK">Alaska</option>
-                        <option value="AZ">Arizona</option>
-                        <option value="AR">Arkansas</option>
-                        <option value="CA">California</option>
-                        <option value="CO">Colorado</option>
-                        <option value="CT">Connecticut</option>
-                        <option value="DE">Delaware</option>
-                        <option value="DC">District Of Columbia</option>
-                        <option value="FL">Florida</option>
-                        <option value="GA">Georgia</option>
-                        <option value="HI">Hawaii</option>
-                        <option value="ID">Idaho</option>
-                        <option value="IL">Illinois</option>
-                        <option value="IN">Indiana</option>
-                        <option value="IA">Iowa</option>
-                        <option value="KS">Kansas</option>
-                        <option value="KY">Kentucky</option>
-                        <option value="LA">Louisiana</option>
-                        <option value="ME">Maine</option>
-                        <option value="MD">Maryland</option>
-                        <option value="MA">Massachusetts</option>
-                        <option value="MI">Michigan</option>
-                        <option value="MN">Minnesota</option>
-                        <option value="MS">Mississippi</option>
-                        <option value="MO">Missouri</option>
-                        <option value="MT">Montana</option>
-                        <option value="NE">Nebraska</option>
-                        <option value="NV">Nevada</option>
-                        <option value="NH">New Hampshire</option>
-                        <option value="NJ">New Jersey</option>
-                        <option value="NM">New Mexico</option>
-                        <option value="NY">New York</option>
-                        <option value="NC">North Carolina</option>
-                        <option value="ND">North Dakota</option>
-                        <option value="OH">Ohio</option>
-                        <option value="OK">Oklahoma</option>
-                        <option value="OR">Oregon</option>
-                        <option value="PA">Pennsylvania</option>
-                        <option value="RI">Rhode Island</option>
-                        <option value="SC">South Carolina</option>
-                        <option value="SD">South Dakota</option>
-                        <option value="TN">Tennessee</option>
-                        <option value="TX">Texas</option>
-                        <option value="UT">Utah</option>
-                        <option value="VT">Vermont</option>
-                        <option value="VA">Virginia</option>
-                        <option value="WA">Washington</option>
-                        <option value="WV">West Virginia</option>
-                        <option value="WI">Wisconsin</option>
-                        <option value="WY">Wyoming</option>
+    			{results.map(result => <option key={result.State_Code} value={result.State_Code}>{result.State_Name}</option>)}
                     </select>
                 </div>
                 <div>
@@ -159,7 +115,7 @@ export default function Page() {
                         <option value="Congo, The Democratic Republic of The">Congo, The Democratic Republic of The</option>
                         <option value="Cook Islands">Cook Islands</option>
                         <option value="Costa Rica">Costa Rica</option>
-                        <option value="Cote D'ivoire">Cote D'ivoire</option>
+                        <option value="Cote D'ivoire">Cote D&apos;ivoire</option>
                         <option value="Croatia">Croatia</option>
                         <option value="Cuba">Cuba</option>
                         <option value="Cyprus">Cyprus</option>
@@ -221,11 +177,11 @@ export default function Page() {
                         <option value="Kazakhstan">Kazakhstan</option>
                         <option value="Kenya">Kenya</option>
                         <option value="Kiribati">Kiribati</option>
-                        <option value="Korea, Democratic People's Republic of">Korea, Democratic People's Republic of</option>
+                        <option value="Korea, Democratic People's Republic of">Korea, Democratic People&apos;s Republic of</option>
                         <option value="Korea, Republic of">Korea, Republic of</option>
                         <option value="Kuwait">Kuwait</option>
                         <option value="Kyrgyzstan">Kyrgyzstan</option>
-                        <option value="Lao People's Democratic Republic">Lao People's Democratic Republic</option>
+                        <option value="Lao People's Democratic Republic">Lao People&apos;s Democratic Republic</option>
                         <option value="Latvia">Latvia</option>
                         <option value="Lebanon">Lebanon</option>
                         <option value="Lesotho">Lesotho</option>
