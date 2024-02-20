@@ -1,10 +1,10 @@
-import mysql from 'mysql2/promise';
+import mysql from "mysql2/promise";
 const db = await mysql.createConnection({
-	host: "ls-30d09da39dca6fcd96da0461a42f33aca4c5b07e.c3i8ssyyouhq.us-east-2.rds.amazonaws.com",
-	database: "dbmaster",
-	port: 3306,
-	user: "dbmasteruser",
-	password: "-M-MQ,Z.2lBNOHQQPx4gd%Zwt>,[P):r"
+    host: process.env.DB_HOSTNAME,
+    database: process.env.DB,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
 });
 
 export default db;
