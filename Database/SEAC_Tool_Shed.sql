@@ -233,3 +233,10 @@ CREATE TABLE Tool_Categories (
     CONSTRAINT FK_Tool_Categories FOREIGN KEY (Category_ID) REFERENCES Categories (Category_ID)
 );
 
+INSERT INTO Tool_Conditions VALUES 
+(0, "Not Set"),
+(1, "Poor"),
+(2, "Fair"),
+(3, "Good"),
+(4, "Very Good"),
+(5, "Excellent");
