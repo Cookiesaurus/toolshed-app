@@ -51,7 +51,7 @@ input#navbar-search {
 button.navbar-searchIcon {
     padding: 11px;
     border-radius: 2px 2px 2px 0px;
-    background-color: #555555;
+    background-color: black;
     border-style: none;
 }
 

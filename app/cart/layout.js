@@ -57,10 +57,6 @@ export default function Layout({
         </div>
 
         <div className="giftcard-entry">
-          <div className="gift-card">
-            <input type="text" placeholder="Giftcard" id="gift-card"></input>
-            <button type="submit"> <Link className="apply-gift" href={'/Inventory'}>Apply Gift Card</Link></button>
-          </div>
               <div className="cart-total">
               <p>Cart total</p>
 

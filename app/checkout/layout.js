@@ -78,11 +78,6 @@ export default function Layout({
                       </div>
                     </div>
                   </div>
-                    <div className="billing-giftcard">
-                        <label htmlFor="billing-giftcard" className="sr-only">Gift card code</label>
-                        <input type="text" placeholder="Gift Card" id="billing-giftcard"></input>
-                        <button type="submit" id="apply-giftcard">Apply Gift Card</button>
-                    </div>
               <div className="place-order">
                 <button type="submit" id="place-order">Place Order</button>
               </div>
