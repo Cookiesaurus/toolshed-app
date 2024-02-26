@@ -13,7 +13,7 @@ CREATE TABLE Membership_Levels (
     CONSTRAINT PK_Membership_Levels PRIMARY KEY (Membership_Level) -- Membership_Level is the primary key of this table
 );
 
-INSERT INTO Membership_Levels (Membership_Title, Membership_Price, Max_Tool_Checkout, Is_Organizational) VALUES -- Insert Default Membership_Levels into table
+INSERT INTO Membership_Levels (Membership_Title, Membership_Price, Max_Tool_Checkout, Is_Organizational) VALUES
 /* More Membership_Levels can be added in future and should be an option on admin page */
 ('Tinkerer', 25.00, 5, 0), -- Tinkerer Level
 ('MacGyver', 35.00, 10, 0), -- MacGyver Level
@@ -51,11 +51,10 @@ CREATE TABLE Accounts (
     Account_ID INT UNSIGNED AUTO_INCREMENT, -- Account_ID is a unique identifier for all Tool Shed users.
     First_Name VARCHAR(255) NOT NULL, -- First_Name is a string value which holds a persons first name
     Last_Name VARCHAR(255) NOT NULL,  -- Last_Name is a string value which holds a persons first name
-    -- DOB DATE NOT NULL, -- DOB is a string value which hold a persons DOB. The format is YYYY-MM-DD
     Organization_Name VARCHAR(255), -- Organizational_Name shall be filled if account relates to an organization. This field holds the organizational name
     Email VARCHAR(255) NOT NULL UNIQUE, -- Email holds the email associated to the account
     Password VARBINARY(255) NOT NULL, -- Password here is the string value associated to an account. It will be stored using AES_Encrypt and verified using AES_Decrypt
-    Phone_Number CHAR(10) NOT NULL UNIQUE, -- Phone_Number holds the 10 digit code associated with a phone number. Format of XXXXXXXXXX.
+    Phone_Number CHAR(10) NOT NULL, -- Phone_Number holds the 10 digit code associated with a phone number. Format of XXXXXXXXXX.
     Address_Line1 VARCHAR(255) NOT NULL, -- Address_Line1 hold the accounts registered address line 1
     Address_Line2 VARCHAR(255), -- Address_Line2 hold the accounts registered address line 2 if it is needed
     City VARCHAR(255) NOT NULL,  -- City holds the name of the city associated with the address
@@ -98,13 +97,19 @@ INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Addr
 ("Evan", "Hiltzik", "eh8319@g.rit.edu", AES_Encrypt("password","Evan"), "5704143466", "98 Lilac Street", "Gibsonia", "Pennsylvania", 15044, "User account was disabled on 01/10/24 as customer decided to drop membership.", 1, 1);
 
 -- Voluteer ACCOUNTS -- 
-
+INSERT INTO Accounts (First_Name, Last_Name, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
+("SEAC Tool Shed", "Volunteer", "South East Area Coalition", "toolshed@seacrochester.org", AES_Encrypt("password", "Volunteer"), "0000000000", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 2);
 -- Employee ACCOUNTS -- 
-
+INSERT INTO Accounts (First_Name, Last_Name, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
+("Kiki", "Smith", "South East Area Coalition", "kirstyn@SEACrochester.org", AES_Encrypt("password", "Kiki"), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3),
+("Lor", "Wood", "South East Area Coalition", "lori@SEACrochester.org", AES_Encrypt("password", "Lori"), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3),
+("Sara", "Glauser", "South East Area Coalition", "sara@SEACrochester.org", AES_Encrypt("password", "Sara"), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3);
 -- Manager ACCOUNTS -- 
-
+INSERT INTO Accounts (First_Name, Last_Name, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
+("Nick", "Wilbur", "South East Area Coalition", "nick@SEACrochester.org", AES_Encrypt("password", "Nick"), "5852718665", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 4);
 -- Administrator ACCOUNTS -- 
---------------- ADD MORE ------------------
+INSERT INTO Accounts (First_Name, Last_Name, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
+("Mike", "Evans", "South East Area Coalition", "mike@SEACrochester.org", AES_Encrypt("password", "Mike"), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 5);
 
 CREATE TABLE Payment_Methods (
     Account_ID INT UNSIGNED AUTO_INCREMENT,
