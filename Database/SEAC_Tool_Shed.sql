@@ -15,7 +15,6 @@ CREATE TABLE Membership_Levels (
 
 INSERT INTO Membership_Levels (Membership_Title, Membership_Price, Max_Tool_Checkout, Is_Organizational) VALUES -- Insert Default Membership_Levels into table
 /* More Membership_Levels can be added in future and should be an option on admin page */
-('Registration', 0.00, 0, 0),  -- Registration Level
 ('Tinkerer', 25.00, 5, 0), -- Tinkerer Level
 ('MacGyver', 35.00, 10, 0), -- MacGyver Level
 ('Builder', 50.00, 25, 0), -- Builder Level
@@ -64,7 +63,7 @@ CREATE TABLE Accounts (
     Postal_Code CHAR(5) NOT NULL, -- Postal_Code holds the postal code associated with the address
     Account_Creation_Date DATE NOT NULL DEFAULT (CURRENT_DATE()), -- Account_Creation_Date holds the date when the account was first created. This value is always defaulted to the current date upon account creation
     Account_Notes TEXT, -- Account_Notes holds any notes important to the account for any employees
-    Membership_Level TINYINT UNSIGNED NOT NULL DEFAULT "1", -- Membership_Level holds the integer code value associated with the account. Unless specified by an employee, the default membership level will be Registration status (1)
+    Membership_Level TINYINT UNSIGNED NOT NULL, -- Membership_Level holds the integer code value associated with the account. Membership will be populated following membership signup
     Membership_Status TINYINT UNSIGNED NOT NULL DEFAULT "1", -- Membership_Status holds the integer code value associated with the active / inactive status of the account. The default status of an account is active unless specified by an employee
     Membership_Auto_Renewal BOOL NOT NULL DEFAULT "0", -- Membership_Auto_Renewal holds the boolean value associated with auto membership renewal. By default, this value is set to false (0)
     Membership_Creation_Date DATE NOT NULL DEFAULT (CURRENT_DATE()), -- Membership_Creation_Date holds the date when a membership is activated. This value is always defaulted to the current date when Registration status is set; however, this value will be changed once a new membership is seleted
@@ -77,26 +76,26 @@ CREATE TABLE Accounts (
 );
 
 -- CUSTOMER ACCOUNTS -- 
-INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code) VALUES -- Normal Customer with registration status
-("Bryce", "Hofstom", "bgh3077@g.rit.edu", AES_Encrypt("password","Bryce"), "2164075162", "8439 Sharp Lane", "Chesterland", "Ohio", 44026);
+INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer
+("Bryce", "Hofstom", "bgh3077@g.rit.edu", AES_Encrypt("password","Bryce"), "2164075162", "8439 Sharp Lane", "Chesterland", "Ohio", 44026, 1);
 
 INSERT INTO ACCOUNTS (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with tinkerer status
-("Michael", "Pacholarz", "mfp7158@g.rit.edu", AES_Encrypt("password","Michael"), "7609223761", "7750 Sleepy Hollow Road", "Folsom", "California", 95630, 2);
+("Michael", "Pacholarz", "mfp7158@g.rit.edu", AES_Encrypt("password","Michael"), "7609223761", "7750 Sleepy Hollow Road", "Folsom", "California", 95630, 1);
 
 INSERT INTO ACCOUNTS (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with tinkerer status plus two address lines
-("Andy", "Erskine", "ate9624@g.rit.edu", AES_Encrypt("password","Andy"), "9037539683", "760 Lexington Ave.", "Apt. 4", "Cleburne", "Texas", 76031, 2);
+("Andy", "Erskine", "ate9624@g.rit.edu", AES_Encrypt("password","Andy"), "9037539683", "760 Lexington Ave.", "Apt. 4", "Cleburne", "Texas", 76031, 1);
 
 INSERT INTO ACCOUNTS (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal) VALUES -- Normal Customer with MacGyver Status and Auto-renewal membership payment set to true
-("Fei", "Gao", "fxg8365@g.rit.edu", AES_Encrypt("password","Fei"), "2184549695", "7908 South Durham St.", "Cottage Grove", "Minnesota", 55016, 3, 1);
+("Fei", "Gao", "fxg8365@g.rit.edu", AES_Encrypt("password","Fei"), "2184549695", "7908 South Durham St.", "Cottage Grove", "Minnesota", 55016, 3, 2);
 
 INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Account_Notes, Membership_Level) VALUES -- Normal Customer with Builder Status and account notes
-("Ian", "Dinga", "iad2750@g.rit.edu", AES_Encrypt("password","Ian"), "6462316017", "8402 Bridgeton Lane", "Corona", "New York", 11368, "Ian has not had any activity with the Tool Shed despite owning a Builder membership. Effort should be had to reach out and ensure he would still like to be a member.", 4);
+("Ian", "Dinga", "iad2750@g.rit.edu", AES_Encrypt("password","Ian"), "6462316017", "8402 Bridgeton Lane", "Corona", "New York", 11368, "Ian has not had any activity with the Tool Shed despite owning a Builder membership. Effort should be had to reach out and ensure he would still like to be a member.", 3);
 
 INSERT INTO Accounts (First_Name, Last_Name, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with Contractor Status and Organization name
-("Aryan", "Todi", "The Handymen LLC.","at1203@g.rit.edu", AES_Encrypt("password","Aryan"), "4236953998", "4 Windsor Ave.", "Memphis", "Tennessee", 38106, 5);
+("Aryan", "Todi", "The Handymen LLC.","at1203@g.rit.edu", AES_Encrypt("password","Aryan"), "4236953998", "4 Windsor Ave.", "Memphis", "Tennessee", 38106, 4);
 
-INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Account_Notes, Membership_Status) VALUES -- Disabled Customer
-("Evan", "Hiltzik", "eh8319@g.rit.edu", AES_Encrypt("password","Evan"), "5704143466", "98 Lilac Street", "Gibsonia", "Pennsylvania", 15044, "User account was disabled on 01/10/24 as customer decided to drop membership.", 2);
+INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Account_Notes, Membership_Level, Membership_Status) VALUES -- Disabled Customer
+("Evan", "Hiltzik", "eh8319@g.rit.edu", AES_Encrypt("password","Evan"), "5704143466", "98 Lilac Street", "Gibsonia", "Pennsylvania", 15044, "User account was disabled on 01/10/24 as customer decided to drop membership.", 1, 1);
 
 -- Voluteer ACCOUNTS -- 
 
