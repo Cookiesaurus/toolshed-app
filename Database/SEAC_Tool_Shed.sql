@@ -84,21 +84,21 @@ CREATE TABLE Accounts (
 
 -- Administrator ACCOUNTS -- 
 INSERT INTO Accounts (First_Name, Last_Name, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
-("Mike", "Evans", "South East Area Coalition", "mike@SEACrochester.org", AES_Encrypt("password", "Mike"), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 5);
+("Mike", "Evans", "South East Area Coalition", "mike@SEACrochester.org", AES_Encrypt("password", "Mike"), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 5); -- Mike Admin Account
 
 -- Manager ACCOUNTS -- 
 INSERT INTO Accounts (First_Name, Last_Name, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
-("Nick", "Wilbur", "South East Area Coalition", "nick@SEACrochester.org", AES_Encrypt("password", "Nick"), "5852718665", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 4);
+("Nick", "Wilbur", "South East Area Coalition", "nick@SEACrochester.org", AES_Encrypt("password", "Nick"), "5852718665", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 4); -- Nick Manager Account
 
 -- Employee ACCOUNTS -- 
 INSERT INTO Accounts (First_Name, Last_Name, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
-("Kiki", "Smith", "South East Area Coalition", "kirstyn@SEACrochester.org", AES_Encrypt("password", "Kiki"), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3),
-("Lor", "Wood", "South East Area Coalition", "lori@SEACrochester.org", AES_Encrypt("password", "Lori"), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3),
-("Sara", "Glauser", "South East Area Coalition", "sara@SEACrochester.org", AES_Encrypt("password", "Sara"), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3);
+("Kiki", "Smith", "South East Area Coalition", "kirstyn@SEACrochester.org", AES_Encrypt("password", "Kiki"), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3), -- Kiki Employee Account
+("Lori", "Wood", "South East Area Coalition", "lori@SEACrochester.org", AES_Encrypt("password", "Lori"), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3), -- Lori Employee Account
+("Sara", "Glauser", "South East Area Coalition", "sara@SEACrochester.org", AES_Encrypt("password", "Sara"), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3); -- Sara Employee Account
 
 -- Voluteer ACCOUNTS -- 
 INSERT INTO Accounts (First_Name, Last_Name, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
-("SEAC Tool Shed", "Volunteer", "South East Area Coalition", "toolshed@seacrochester.org", AES_Encrypt("password", "Volunteer"), "0000000000", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 2);
+("SEAC Tool Shed", "Volunteer", "South East Area Coalition", "toolshed@seacrochester.org", AES_Encrypt("password", "Volunteer"), "0000000000", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 2); -- Volunteer Account
 
 -- Customer ACCOUNTS -- 
 INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer
@@ -147,9 +147,9 @@ CREATE TABLE Gift_Cards (
 -- Gift_Cards Inserts --
 
 INSERT INTO Gift_Cards (Account_ID, Membership_Level, Is_Applied) VALUES 
-(1, 2, 0),
-(5, 4, 0),
-(3, 3, 1);
+(7, 2, 0), -- Bryce MacGuyver Unapplied Gift Card
+(12, 4, 0), -- Aryan Constructor Unapplied Gift Card
+(9, 3, 1); -- Andy Builder Applied Gift Card
 
 CREATE TABLE Waivers (
     /* The Waivers table holds all waivers necessary for the SEAC Tool Shed buisness. Currently, there is the "Tool Waiver and Indemnification" and "Tool Lending Agreement" */
@@ -210,33 +210,33 @@ CREATE TABLE Account_Waivers (
 
 INSERT INTO Account_Waivers (Account_ID, Waiver_ID, Is_Signed) VALUES -- Insert Data into Associative Table
 -- Admin Accounts --
-(1, 1, 1),
-(1, 2, 1),
-(2, 1, 1),
-(2, 2, 1),
-(3, 1, 1),
-(3, 2, 1),
-(4, 1, 1),
-(4, 2, 1),
-(5, 1, 1),
-(5, 2, 1),
-(6, 1, 1),
-(6, 2, 1),
+(1, 1, 1), -- Mike Tool Waiver and Indemnification Waiver *Signed
+(1, 2, 1), -- Mike Tool Lending Agreement Waiver *Signed
+(2, 1, 1), -- Nick Tool Waiver and Indemnification Waiver *Signed
+(2, 2, 1), -- Nick Tool Lending Agreement Waiver *Signed
+(3, 1, 1), -- Kiki Tool Waiver and Indemnification Waiver *Signed
+(3, 2, 1), -- Kiki Tool Lending Agreement Waiver *Signed
+(4, 1, 1), -- Lori Tool Waiver and Indemnification Waiver *Signed
+(4, 2, 1), -- Lori Tool Lending Agreement Waiver *Signed
+(5, 1, 1), -- Sara Tool Waiver and Indemnification Waiver *Signed
+(5, 2, 1), -- Sara Tool Lending Agreement Waiver *Signed
+(6, 1, 1), -- Volunteer Tool Waiver and Indemnification Waiver *Signed
+(6, 2, 1), -- Volunteer Tool Lending Agreement Waiver *Signed
 -- Admin Accounts --
-(7, 1, 0),
-(7, 2, 0),
-(8, 1, 0),
-(8, 2, 0),
-(9, 1, 0),
-(9, 2, 0),
-(10, 1, 0),
-(10, 2, 1),
-(11, 1, 0),
-(11, 2, 1),
-(12, 1, 1),
-(12, 2, 1),
-(13, 1, 1),
-(13, 2, 1);
+(7, 1, 0), -- Bryce Tool Waiver and Indemnification Waiver *Unsigned
+(7, 2, 0), -- Bryce Tool Lending Agreement Waiver *Unsigned
+(8, 1, 0), -- Michael Tool Waiver and Indemnification Waiver *Unsigned
+(8, 2, 0), -- Michael Tool Lending Agreement Waiver *Unsigned
+(9, 1, 0), -- Andy Tool Waiver and Indemnification Waiver *Unsigned
+(9, 2, 0), -- Andy Tool Lending Agreement Waiver *Unsigned
+(10, 1, 0), -- Fei Tool Waiver and Indemnification Waiver *Unsigned
+(10, 2, 1), -- Fei Tool Lending Agreement Waiver *Signed
+(11, 1, 0), -- Ian Tool Waiver and Indemnification Waiver
+(11, 2, 1), -- Ian Tool Lending Agreement Waiver *Signed
+(12, 1, 1), -- Aryan Tool Waiver and Indemnification Waiver *Signed
+(12, 2, 1), -- Aryan Tool Lending Agreement Waiver *Signed
+(13, 1, 1), -- Evan Tool Waiver and Indemnification Waiver *Signed
+(13, 2, 1); -- Evan Tool Lending Agreement Waiver *Signed
 
 CREATE TABLE Transaction_Types (
     /* The Transaction Types table holds all codes related to all system transactions*/
@@ -374,26 +374,26 @@ CREATE TABLE Categories (
 -- Categories Inserts --
 
 INSERT INTO Categories VALUES
-(1, "Crafting"),
-(2, "Drill Extension"),
-(3, "Drywall"),
-(4, "Masonry"),
-(5, "Electrical"),
-(6, "Carpentry & Woodworking"),
-(7, "Miscellaneous"),
-(8, "Painting"),
-(9, "Plumbing"),
-(10, "Roofing"),
-(11, "Welding"),
-(12, "Pneumatic"),
-(13, "Automotive"),
-(14, "Bike"),
-(15, "Clamps & Vises"),
-(16, "Flooring"),
-(17, "Gardening & Landscape"),
-(18, "Measuring & Diagnostics"),
-(19, "Crafting & Arts"),
-(20, "Event Planning");
+(1, "Crafting"), -- Crafting Category
+(2, "Drill Extension"), -- Drill Extension Category
+(3, "Drywall"), -- Drywall Category
+(4, "Masonry"), -- Masonry Category
+(5, "Electrical"), -- Electrical Category
+(6, "Carpentry & Woodworking"), -- Carpentry & Woodworking Category
+(7, "Miscellaneous"), -- Miscellaneous Category
+(8, "Painting"), -- Painting Category
+(9, "Plumbing"), -- Plumbing Category
+(10, "Roofing"), -- Roofing Category
+(11, "Welding"), -- Welding Category
+(12, "Pneumatic"), -- Pneumatic Category
+(13, "Automotive"), -- Automotive Category
+(14, "Bike"), -- Bike Category
+(15, "Clamps & Vises"), -- Clamps & Vises Category
+(16, "Flooring"), -- Flooring Category
+(17, "Gardening & Landscape"), -- Gardening & Landscape Category
+(18, "Measuring & Diagnostics"), -- Measuring & Diagnostics Category
+(19, "Crafting & Arts"), -- Crafting & Arts Category
+(20, "Event Planning"); -- Event Planning Category
 
 
 CREATE TABLE Tool_Categories (
