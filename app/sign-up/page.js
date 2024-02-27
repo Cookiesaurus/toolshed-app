@@ -3,60 +3,62 @@ import logo from '../public/images/toolshed_logo.png';
 import Link from "next/link";
 import './signup.css';
 import db from '../config/db';
+import { formHandler } from "@/lib/actions/formHandler";
 
 
 export default async function Page() {
 		const query = "SELECT State_Name, State_Code from US_States"
 		const value = []
 		const [results] = await db.execute(query, value)
+
     return (<>
     <div className="content">
         <div className="title">
             <Image src={logo} alt="toolshed logo" width={200} height={200}></Image>
             <h1 className='pagetitle'>Create an Account</h1>
         </div>
-        <form className="signup" method="post">
+        <form className="signup" action={formHandler}>
             <div className="section">
                 <p className="form-header">Please enter your personal info below:</p>
                 <label htmlFor="first-name" className="sr-only">First Name</label>
-                <input className="input" placeholder={" First Name"} required id="first-name"/>
-                <label htmlFor="last name" className="sr-only">Last name</label>
-                <input className="input" placeholder={" Last Name"} required id="last-name"/>
+                <input className="input" placeholder={" First Name"} required id="first-name" name="firstName"/>
+                <label htmlFor="last-name" className="sr-only">Last name</label>
+                <input className="input" placeholder={" Last Name"} required id="last-name" name="lastName"/>
                 <label htmlFor="name-title" className="sr-only">Title</label>
-                <input className="input" placeholder={" Title"} id="name-title"/>
+                <input className="input" placeholder={" Title"} id="name-title" name="title"/>
                 <label htmlFor="organization" className="sr-only">Organization</label>
-                <input className="input" placeholder={" Organization"} id="organization"/>
+                <input className="input" placeholder={" Organization"} id="organization" name="organi"/>
                 <label htmlFor="email" className="sr-only">Email</label>
-                <input className="input" type="email" placeholder={" myemail@example.com"} required id="email"/>
+                <input className="input" type="email" placeholder={" myemail@example.com"} required id="email" name="signup-email"/>
                 <label htmlFor="phone-number" className="sr-only">Phone number</label>
-                <input className="input" type="tel" placeholder={" Phone number Ex: 123-456-7890"} required id="phone-number"/>
-                <label htmlFor="birth-day" className="sr-only">Birthday</label>
-                <p className="form-header">Birthday:<input className="input" type="date" placeholder={"Birthday"} required id="birth-day"/></p>
+                <input className="input" type="tel" placeholder={" Phone number Ex: 123-456-7890"} required id="phone-number" name="number"/>
+                <label htmlFor="birthday" className="sr-only">Birthday</label>
+                <p className="form-header">Birthday:<input className="input" type="date" placeholder={"Birthday"} required id="birthday" name="birth-day"/></p>
             </div>
 
             <div className="section">
                 <p className="form-header">Please enter your account credentials:</p>
                 <label htmlFor="username" className="sr-only">Username</label>
-                <input className="input" placeholder={" Username"} required id="username"/>
+                <input className="input" placeholder={" Username"} required id="username" name="signup-user"/>
                 <label htmlFor="password" className="sr-only">Password</label>
-                <input className="input" placeholder={" Password"} required id="password" type="password"/>
+                <input className="input" placeholder={" Password"} required id="password" type="password" name="signup-password"/>
                 <label htmlFor="re-password" className="sr-only">Re-Enter password</label>
-                <input className="input" placeholder={" Re-enter password"} required type="password" id="re-password"/>
+                <input className="input" placeholder={" Re-enter password"} required type="password" id="re-password" name="reenter-pass"/>
             </div>
 
             <div className="section">
                 <p className="form-header">Please enter your account details</p>
                 <label htmlFor="address-first" className="sr-only">Address 1st line</label>
-                <input className="input" placeholder={"Address 1st line"} required id="address-first"/>
+                <input className="input" placeholder={"Address 1st line"} required id="address-first" name="addressLineOne"/>
                 <label htmlFor="address-second" className="sr-only">Address 2nd line</label>
-                <input className="input" placeholder={"Address 2nd line"} id="address-second"/>
+                <input className="input" placeholder={"Address 2nd line"} id="address-second" name="addressLineTwo"/>
                 <label htmlFor="address-city" className="sr-only">Address City</label>
-                <input className="input" placeholder={"City"} required id="address-city"/>
+                <input className="input" placeholder={"City"} required id="address-city" name="addressCity"/>
                 <div>
                     <label htmlFor="address-state" className="sr-only">State</label>
                     <select className="select" name="state" required id="address-state">
                         <option value="" >Select a State</option>
-    			{results.map(result => <option key={result.State_Code} value={result.State_Code}>{result.State_Name}</option>)}
+    			            {results.map(result => <option key={result.State_Code} value={result.State_Code}>{result.State_Name}</option>)}
                     </select>
                 </div>
                 <div>
@@ -309,7 +311,7 @@ export default async function Page() {
                     </select>
                 </div>
                 <label htmlFor="address-zipcode" className="sr-only"> Zip Code</label>
-                <input className="input" type="numbers" placeholder="Zip code" id="address-zipcode"/>
+                <input className="input" type="numbers" placeholder="Zip code" id="address-zipcode" name="zipcode"/>
                 <div>
                     <button type="submit" value={"Submit"} id="create-account">Create Account</button>
                 </div>

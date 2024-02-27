@@ -2,6 +2,7 @@ import Link from "next/link";
 import './checkout.css';
 import Image from "next/image";
 import visa from '../public/images/visa.png'
+import { formHandler } from "@/lib/actions/formHandler";
 export default function Layout({
     children, // will be a page or nested layout
   }) {
@@ -17,32 +18,33 @@ export default function Layout({
 
       <div className="checkout-container">
           <div className="billing-form">
-            <form method="post" className="billing-info">
+            <form action={formHandler} className="billing-info">
                 <label htmlFor="billing-firstName" >First Name</label>
-                <input className="input" required id="billing-firstName"/>
+                <input className="input" required id="billing-firstName" name="first-name"/>
+
                 
                 <label htmlFor="billing-company" >Company Name</label>
-                <input className="input" id="billing-company"/>
+                <input className="input" id="billing-company" name="company-name"/>
                 
-                <label htmlFor="billing-streetAddress" >Address Line One</label>
-                <input className="input" required id="billing-addressOne"/>
+                <label htmlFor="billing-addressOne" >Address Line One</label>
+                <input className="input" required id="billing-addressOne" name="addressLineOne"/>
                 
                 <label htmlFor="billing-streetAddress" >Address Line Two</label>
-                <input className="input" id="billing-addressTwo"/>
+                <input className="input" id="billing-addressTwo" name="addressLineTwo"/>
 
                 <label htmlFor="billing-addressTown" >Town/City</label>
-                <input className="input" required id="billing-addressTown"/>
+                <input className="input" required id="billing-addressTown" name="addressTown"/>
                 
                 <label htmlFor="billing-email" >Email</label>
-                <input className="input" required type="email" id="billing-email"/>
+                <input className="input" required type="email" id="billing-email" name="billing-email"/>
                 
                 <label htmlFor="billing-phoneNumber" >Phone number</label>
-                <input className="input" type="email" required id="billing-phoneNumber"/>
+                <input className="input" type="email" required id="billing-phoneNumber" name="number"/>
 
                 <div className="save-info">
                   <label htmlFor='save-billInfo' className='checkbox-container' >
                       Save this address for future check-out
-                  <input type="checkbox" className='checkbox' id='save-billInfo' />
+                  <input type="checkbox" className='checkbox' id='save-billInfo' name="save"/>
                   <span className="checkmark"></span>
                 </label>
                 </div>
@@ -65,12 +67,12 @@ export default function Layout({
               <br/>
               <br/>
             </div>
-            <form className="checkout-form" method="post">
+            <form className="checkout-form" action={formHandler}>
                 <div className="billing">
                     <div className="billing-options">
                       <div className="credit-debit">
-                        <input type="radio" id="billing-selection" name="billing-option"/>
-                        <label htmlFor="billing-selection">Credit/Debit</label>
+                        <input type="radio" id="billing-card" name="billing-option"/>
+                        <label htmlFor="billing-card">Credit/Debit</label>
                       </div>
                       <div className="cash">
                         <input type="radio" id="billing-cash" name="billing-option"/>
