@@ -4,8 +4,9 @@ import io;
 import pandas as pd;
 import math;
 from PIL import Image;
-import requests;
+import requests
 import base64;
+import os;
 
 #Connect to the database
 conn = pymysql.connect(
@@ -46,7 +47,7 @@ def insertTools():
         Location_Code = j['Location Code'] if not str(j['Location Code']) == "nan" else ""
         Tool_Description = j['Description'] if not str(j['Description']) == "nan" else ""
         Tool_Admin_Notes = j['Admin Notes'] if not str(j['Admin Notes']) == "nan" else ""
-        Tool_Status = j['Status'] if not str(j['Status']) == "nan" else 1
+        Tool_Status = j['Status(es)'] if not str(j['Status(es)']) == "nan" else 1
 
         #For Tool Conditions, we set the default as not set (value of 0)
         Tool_Condition = j['Condition'] if not str(j['Condition']) == "nan" else 0
@@ -134,5 +135,14 @@ def insertTest():
         print(i)
     conn.close()
 
-insertTools()
-insertTest()
+def change_Weight():
+    for i, j in dataframe1.iterrows():
+        weight = str(j['Weight'])
+        if any(char.isalpha() for char in weight) and 'nan' not in weight:
+            print(weight)
+    
+
+change_Weight()
+    
+#insertTools()
+#insertTest()
