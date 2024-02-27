@@ -10,17 +10,17 @@ import { formHandler } from '@/lib/actions/formHandler';
 const Navbar = () => {
   return (
     <div className='navbar' role='Navigation' aria-label='Website Navigation'>
-    <Link href={'/'} aria-label='Go to home' className='navbar-link' >
-        <p className='navbar-logo'>SEAC’s Tool Shed</p>
-    </Link>
-    <div className='giftcard-inventory'>
-    <Link href={'/giftcard'} aria-label='Go to gift cards' className='navbar-link'>
-        <p>Gift Card</p>
-    </Link>
-    <Link href={'/inventory'} aria-label='Go to inventory' className='navbar-link'>
-        <p>View All Tools</p>
-    </Link>
-    </div>
+        <Link href={'/'} aria-label='Go to home' className='navbar-link' >
+            <p className='navbar-logo'>SEAC Tool Shed</p>
+        </Link>
+        <div className='giftcard-inventory'>
+            <Link href={'/giftcard'} aria-label='Go to gift cards' className='navbar-link'>
+                <p>Gift Card</p>
+            </Link>
+            <Link href={'/inventory'} aria-label='Go to inventory' className='navbar-link'>
+                <p>View All Tools</p>
+            </Link>
+        </div>
         <form className='navbar-search' action={formHandler}>
             <label htmlFor='navbar-search' className='sr-only'>Search products</label>
             <input type="text" name="search" id='navbar-search' aria-label='search products'/>
