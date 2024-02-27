@@ -2,6 +2,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
+import { formHandler } from '@/lib/actions/formHandler'
 const ProductItem = () => {
     const [product, setProduct] = useState([]);
     const [quantity, setQuantity] = useState(0);
@@ -49,13 +50,14 @@ const ProductItem = () => {
                     </div>
                 </div>
                 <div className='product-quantity'>
-                    <form className='quanity-form' onChange={null} method='get' onSubmit={(e) =>{e.preventDefault()}}>
+                    <form className='quanity-form' action={formHandler} >
                         <button type="submit" className='rent' id='add-to-cart'> Add to Cart </button>
                         <div className='plus-minus'>
                             <button onClick={handleMinusClick} className='minus'>-</button>
                                 <input 
                                     id='quantity' 
                                     type='number'
+                                    name='amount'
                                     min='0' 
                                     max={productItem.stock} 
                                     value={quantity}
