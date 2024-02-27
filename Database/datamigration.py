@@ -29,7 +29,10 @@ def insertTools():
         Tool_Name = j['Name'] 
         Tool_Brand = j['Manufacturer'] if not str(j['Manufacturer']) == "nan" else "" 
         Tool_Model = j['Model'] if not str(j['Model']) == "nan" else ""
-        Tool_Weight = float(j['Weight']) if not str(j['Weight']) == "nan" else 0.0 
+
+        #Calculate Tool Weight
+        
+        Tool_Weight = float(j['Weight'].split(' ')[0]) if not str(j['Weight']) == "nan" else 0.0 
 
         # Need to change data for tool size since format is not consistent
         # Tool_Size = j['Size']#Required, available
