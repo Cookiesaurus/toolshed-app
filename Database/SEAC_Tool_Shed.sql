@@ -316,44 +316,59 @@ INSERT INTO Tool_Locations (Location_Name) VALUES
 /* More Tool_Locations can be added in future and should be an option on admin page */
 ('Main Location'), -- Main Location Location
 ('Mobile Unit'); -- Mobile Unit Location
--- ('Mobile Unit -> David F. Gantt Reacreation Center (Thursday)'),
--- ('Mobile Unit -> Edgerton Recreation Center (Tuesday)'),
--- ('Mobile Unit -> Thomas P. Ryan Center (Monday)'),
--- ('Mobile Unit -> Willie Walker Lightfoot Recreation Center (Wednesday)');
+
+CREATE Table Tool_Sub_Locations (
+    Tool_Sub_Location INT UNSIGNED AUTO_INCREMENT, -- Tool_Sub_Location holds the number code which identifes the sub locations
+    Sub_Location_Name VARCHAR(255) NOT NULL, -- Sub_Location_Name holds the string value for the sub location name
+    Tool_Location INT UNSIGNED NOT NULL, -- Tool_Location holds the number code which identifies the location code for locations
+    CONSTRAINT PK_Tool_Sub_Locations PRIMARY KEY (Tool_Sub_Location), -- Tool_Sub_Location holds the number code which identifies the sub location code
+    CONSTRAINT FK_Tool_Sub_Locations_Tool_Locations FOREIGN KEY (Tool_Location) REFERENCES Tool_Locations (Tool_Location) -- This statement creates a foreign key on Tool_Location , which is used to connect the to the Tool_Locations table
+);
+
+-- Sub_Tool_Locations Inserts --
+
+INSERT INTO Tool_Sub_Locations (Sub_Location_Name, Tool_Location) VALUES
+("David F. Gantt Reacreation Center (Thursday)", 2), -- David F. Gantt Reacreation Center (Thursday) Mobile Unit sub location
+("Edgerton Recreation Center (Tuesday)", 2), -- Edgerton Recreation Center (Tuesday) Mobile Unit sub location
+("Thomas P. Ryan Center (Monday)", 2), -- Thomas P. Ryan Center (Monday) Mobile Unit sub location
+("Willie Walker Lightfoot Recreation Center (Wednesday)", 2); -- Willie Walker Lightfoot Recreation Center (Wednesday) Mobile Unit sub location
 
 CREATE TABLE Tools (
-    Tool_ID INT UNSIGNED AUTO_INCREMENT,
-    Tool_Name VARCHAR(255) NOT NULL,
-    Tool_Brand VARCHAR(255),
-    Tool_Model VARCHAR(255),
-    Tool_Weight FLOAT, -- Decimals 
-    Tool_Size FLOAT, -- Floats
-    Home_Location INT UNSIGNED NOT NULL,
-    Current_Location INT UNSIGNED NOT NULL,
-    Location_Code VARCHAR(255),
-    Tool_Description TEXT,
-    Tool_Admin_Notes TEXT,
-    Tool_Status TINYINT UNSIGNED NOT NULL, -- Default Value?
-    Tool_Condition TINYINT UNSIGNED NOT NULL,
-    Eco_Rating VARCHAR(255),
-    Embodied_Carbon VARCHAR(255),
-    Emission_Factor FLOAT, -- MONEY VALUE
-    Tool_Image MEDIUMBLOB,
-    Tool_Manual MEDIUMBLOB,
-    Default_Loan_Length TINYINT UNSIGNED NOT NULL DEFAULT "7",
-    Renewal_Amount TINYINT UNSIGNED NOT NULL Default "1",
-    Default_Late_Fee FLOAT NOT NULL DEFAULT "1.00",
-    Was_Purchased BOOLEAN,
-    Date_Purchased DATE,
-    Purchase_Cost FLOAT, -- MONEY VALYE
-    Tool_Replacement_Cost FLOAT NOT NULL, -- MONEY VALYE
-    Tool_Supplier VARCHAR(255),
-    CONSTRAINT PK_Tools PRIMARY KEY (Tool_ID),
-    CONSTRAINT FK_Tools_Tool_Conditions FOREIGN KEY (Tool_Condition) REFERENCES Tool_Conditions (Tool_Condition),
-    CONSTRAINT FK_Tools_Tool_Statuses FOREIGN KEY (Tool_Status) REFERENCES Tool_Statuses (Tool_Status),
-    CONSTRAINT FK_Tools_Tool_Locations_Home FOREIGN KEY (Home_Location) REFERENCES Tool_Locations (Tool_Location),
-    CONSTRAINT FK_Tools_Tool_Locations_Current FOREIGN KEY (Current_Location) REFERENCES Tool_Locations (Tool_Location)
+    /* The Tools table contains all tools in the SEAC Tool Shed*/
+    Tool_ID INT UNSIGNED AUTO_INCREMENT, -- Tool_ID holds an integer value for each individual tool
+    Tool_Name VARCHAR(255) NOT NULL, -- Tool_Name holds the name associated to each tool
+    Tool_Brand VARCHAR(255), -- Tool_Brand holds the name of each tool
+    Tool_Model VARCHAR(255), -- Tool_Model holds the model of each tool
+    Tool_Weight FLOAT, -- Tool_Weight holds the weight of the tool 
+    Tool_Size FLOAT, -- Tool_Size holds the height or length of the tool
+    Home_Location INT UNSIGNED NOT NULL, -- Home_Location is the location where the tool is supposed to be returned to. 
+    Current_Location INT UNSIGNED NOT NULL, -- Current_Location is the location where the tool is currently located. This value and Home_Location will mostly be the same unless the tool is classified as floating
+    Location_Code VARCHAR(255), -- Location_Code is the string descriptor describing where the tool can be located at its current location
+    Tool_Description TEXT, -- Tool_Description holds any details regarding the tool
+    Tool_Admin_Notes TEXT, -- Tool_Admin_Notes holds any notes regarding the tool for admin/employee viewing
+    Tool_Status TINYINT UNSIGNED NOT NULL, -- Tool_Status determines the current status of the tool, these being Available, Checked Out, Maintenance, or Disabled
+    Tool_Condition TINYINT UNSIGNED NOT NULL, -- Tool_Condition describes the condtion of the tool, these being Poor, Fair, Good, Very Good, or Excellent
+    Eco_Rating VARCHAR(255), -- Eco_Rating for a tool
+    Embodied_Carbon VARCHAR(255), -- Embodied_Carbon for a tool or its CO2 equivalent
+    Emission_Factor FLOAT, -- Emission_Factor for a tool
+    Tool_Image MEDIUMBLOB, -- Tool_Image holds the image for a tool
+    Tool_Manual MEDIUMBLOB, -- Tool Manual holds any manual to assist with using a tool
+    Default_Loan_Length TINYINT UNSIGNED NOT NULL DEFAULT "7", -- Default_Loan_Length is used to determine the length of a loan before its required to be returned. By default, this value is 7 days
+    Renewal_Amount TINYINT UNSIGNED NOT NULL Default "1", -- Renewal_Amount is the number value associated to the number of times a loan may be extened by a certain number of days.
+    Default_Late_Fee FLOAT NOT NULL DEFAULT "1.00", -- Default_Late_Fee is the dollar amount to be charged to a user every day a tool is overdue. This value will continue to add up until returned until eventually charged
+    Was_Purchased BOOLEAN, -- Was_Purchased is a true or false value to suggest if the tool was purchases by the Tool Shed or aquired by other means
+    Date_Purchased DATE, -- Date_Purchased holds the date of purchase
+    Purchase_Cost FLOAT, -- Purchase_Cost holds the cost of the tool orginally 
+    Tool_Replacement_Cost FLOAT NOT NULL, -- Tool_Replacement_Cost holds the cost of replacing a tool
+    Tool_Supplier VARCHAR(255), -- Tool_Supplier holds the name of an organization who has supplied the tool to the Tool Shed
+    CONSTRAINT PK_Tools PRIMARY KEY (Tool_ID), -- Tool_ID is the primary key of this table
+    CONSTRAINT FK_Tools_Tool_Conditions FOREIGN KEY (Tool_Condition) REFERENCES Tool_Conditions (Tool_Condition), -- This statement creates a foreign key on Tool_Condition , which is used to connect the to the Tool_Conditions table
+    CONSTRAINT FK_Tools_Tool_Statuses FOREIGN KEY (Tool_Status) REFERENCES Tool_Statuses (Tool_Status), -- This statement creates a foreign key on Tool_Status , which is used to connect the to the Tool_Statuses table
+    CONSTRAINT FK_Tools_Tool_Locations_Home FOREIGN KEY (Home_Location) REFERENCES Tool_Locations (Tool_Location), -- This statement creates a foreign key on Home_Location , which is used to connect the to the Tool_Locations table
+    CONSTRAINT FK_Tools_Tool_Locations_Current FOREIGN KEY (Current_Location) REFERENCES Tool_Locations (Tool_Location) -- This statement creates a foreign key on Current_Location , which is used to connect the to the Tool_Locations table
 );
+
+-- Tool Inserts --
 
 CREATE TABLE Tool_Transactions (
     /* The Tool_Transactions tables is an associative table joining the Tools table to the Transactions table. This table will be populated upon Transaction creation */
