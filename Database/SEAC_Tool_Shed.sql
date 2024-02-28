@@ -22,7 +22,6 @@ INSERT INTO Membership_Levels (Membership_Title, Membership_Price, Max_Tool_Chec
 ('Builder', 50.00, 25, 0), -- Builder Level
 ('Contractor', 100.00, 50, 1); -- Contractor Level
 
-
 CREATE TABLE Privilege_Levels (
     /* The Provilege_Levels table holds all active privilege levels. These levels will be used to determine privileges with regard to the web application */
     Privilege_Level TINYINT UNSIGNED, -- Privilege_Level is the identification number used to uniquly identify each privilege level tier. 1 -- Customer 2 -- Volunteer 3 -- Employee 4 -- Manager 5 -- Administrator
@@ -253,8 +252,9 @@ INSERT INTO Transaction_Types (Transaction_Type, Transaction_Details) VALUES
 (3, "Tool Return"), -- Tool Return Type
 (4, "Gift Card Purchase"), -- Gift Card Purchase Type
 (5, "Gift Card Activation"), -- Gift Card Activation Type
-(6, "Rental Late Fee"), -- Rental Late Fee Type
-(7, "Tool Replacement Fee"); -- Tool Replacement Fee Type
+(6, "Tool Loan Fee"), -- Tool Loan Fee Type
+(7, "Rental Late Fee"), -- Rental Late Fee Type
+(8, "Tool Replacement Fee"); -- Tool Replacement Fee Type
 
 CREATE TABLE Transactions (
     /* The Transactions table holds all transactions related to each account */
@@ -286,22 +286,6 @@ INSERT INTO Tool_Statuses (Tool_Status, Tool_Status_Details) VALUES
 (2, 'Checked Out'), -- Checked Out Status
 (3, 'Maintenance'), -- Maintenance Status
 (4, 'Disabled'); -- Disabled Status
-
-CREATE TABLE Tool_Conditions (
-    /* Tool_Conditions table holds all condition codes for all tools */ 
-    Tool_Condition TINYINT UNSIGNED, -- Tool_Condition holds the number code which identifies the condition of a tool
-    Tool_Condition_Details VARCHAR(255) NOT NULL, -- Tool_Condition_Details holds the string value of each Tool_Condition
-    CONSTRAINT PK_Tool_Conditions PRIMARY KEY (Tool_Condition) -- Tool_Condition is the primary key
-);
-
--- Tool_Conditions Inserts --
-
-INSERT INTO Tool_Conditions (Tool_Condition, Tool_Condition_Details) VALUES
-(1, "Poor"), -- Poor Status
-(2, "Fair"), -- Fair Status
-(3, "Good"), -- Good Status
-(4, "Very Good"), -- Very Good Status
-(5, "Excellent"); -- Excellent Status
 
 CREATE TABLE Tool_Locations (
     /* Tool_Locations table holds all the current locations related to the Tool Shed System */
@@ -337,32 +321,25 @@ CREATE TABLE Tools (
     /* The Tools table contains all tools in the SEAC Tool Shed*/
     Tool_ID INT UNSIGNED AUTO_INCREMENT, -- Tool_ID holds an integer value for each individual tool
     Tool_Name VARCHAR(255) NOT NULL, -- Tool_Name holds the name associated to each tool
-    Tool_Brand VARCHAR(255), -- Tool_Brand holds the name of each tool
-    Tool_Model VARCHAR(255), -- Tool_Model holds the model of each tool
+    Tool_Brand VARCHAR(255), -- Tool_Brand holds the name of each tool brand manufacturer
     Tool_Weight FLOAT, -- Tool_Weight holds the weight of the tool 
-    Tool_Size FLOAT, -- Tool_Size holds the height or length of the tool
+    Tool_Size VARCHAR(255), -- Tool_Size holds the size of the tool
+    Tool_Serial_Number VARCHAR(255), -- Tool_Serial_Number holds the serial number for a tool
     Home_Location INT UNSIGNED NOT NULL, -- Home_Location is the location where the tool is supposed to be returned to. 
     Current_Location INT UNSIGNED NOT NULL, -- Current_Location is the location where the tool is currently located. This value and Home_Location will mostly be the same unless the tool is classified as floating
     Location_Code VARCHAR(255), -- Location_Code is the string descriptor describing where the tool can be located at its current location
     Tool_Description TEXT, -- Tool_Description holds any details regarding the tool
-    Tool_Admin_Notes TEXT, -- Tool_Admin_Notes holds any notes regarding the tool for admin/employee viewing
     Tool_Status TINYINT UNSIGNED NOT NULL, -- Tool_Status determines the current status of the tool, these being Available, Checked Out, Maintenance, or Disabled
-    Tool_Condition TINYINT UNSIGNED NOT NULL, -- Tool_Condition describes the condtion of the tool, these being Poor, Fair, Good, Very Good, or Excellent
-    Eco_Rating VARCHAR(255), -- Eco_Rating for a tool
-    Embodied_Carbon VARCHAR(255), -- Embodied_Carbon for a tool or its CO2 equivalent
-    Emission_Factor FLOAT, -- Emission_Factor for a tool
     Tool_Image MEDIUMBLOB, -- Tool_Image holds the image for a tool
     Tool_Manual MEDIUMBLOB, -- Tool Manual holds any manual to assist with using a tool
+    Tool_Loan_Fee FLOAT NOT NULL DEFAULT "0", -- Tool_Loan_Fee holds the monitary value for loaning a tool
+    Default_Late_Fee FLOAT NOT NULL DEFAULT "1.00", -- Default_Late_Fee is the dollar amount to be charged to a user every day a tool is overdue. This value will continue to add up until returned until eventually charged
     Default_Loan_Length TINYINT UNSIGNED NOT NULL DEFAULT "7", -- Default_Loan_Length is used to determine the length of a loan before its required to be returned. By default, this value is 7 days
     Renewal_Amount TINYINT UNSIGNED NOT NULL Default "1", -- Renewal_Amount is the number value associated to the number of times a loan may be extened by a certain number of days.
-    Default_Late_Fee FLOAT NOT NULL DEFAULT "1.00", -- Default_Late_Fee is the dollar amount to be charged to a user every day a tool is overdue. This value will continue to add up until returned until eventually charged
-    Was_Purchased BOOLEAN, -- Was_Purchased is a true or false value to suggest if the tool was purchases by the Tool Shed or aquired by other means
-    Date_Purchased DATE, -- Date_Purchased holds the date of purchase
-    Purchase_Cost FLOAT, -- Purchase_Cost holds the cost of the tool orginally 
     Tool_Replacement_Cost FLOAT NOT NULL, -- Tool_Replacement_Cost holds the cost of replacing a tool
-    Tool_Supplier VARCHAR(255), -- Tool_Supplier holds the name of an organization who has supplied the tool to the Tool Shed
+    Is_Floating BOOLEAN NOT NULL, -- Is_Floating determines if a tool must be returned to home location or not
+    Is_Featured BOOLEAN NOT NULL, -- Is_Featured determines if a tool will be featured on the main page
     CONSTRAINT PK_Tools PRIMARY KEY (Tool_ID), -- Tool_ID is the primary key of this table
-    CONSTRAINT FK_Tools_Tool_Conditions FOREIGN KEY (Tool_Condition) REFERENCES Tool_Conditions (Tool_Condition), -- This statement creates a foreign key on Tool_Condition , which is used to connect the to the Tool_Conditions table
     CONSTRAINT FK_Tools_Tool_Statuses FOREIGN KEY (Tool_Status) REFERENCES Tool_Statuses (Tool_Status), -- This statement creates a foreign key on Tool_Status , which is used to connect the to the Tool_Statuses table
     CONSTRAINT FK_Tools_Tool_Locations_Home FOREIGN KEY (Home_Location) REFERENCES Tool_Locations (Tool_Location), -- This statement creates a foreign key on Home_Location , which is used to connect the to the Tool_Locations table
     CONSTRAINT FK_Tools_Tool_Locations_Current FOREIGN KEY (Current_Location) REFERENCES Tool_Locations (Tool_Location) -- This statement creates a foreign key on Current_Location , which is used to connect the to the Tool_Locations table
@@ -380,9 +357,9 @@ CREATE TABLE Tool_Transactions (
 );
 
 CREATE TABLE Categories (
-    /* The Categories table contains all of the avaialble tool categories for the SEAC Tool Shed*/
+    /* The Categories table contains all of the avaialble tool categories for the SEAC Tool Shed */
     Category_ID INT UNSIGNED AUTO_INCREMENT, -- Category_ID contains the integer value for each category
-    Category_Name VARCHAR(255), -- Category_Name describes the string value for each category
+    Category_Name VARCHAR(255) NOT NULL, -- Category_Name describes the string value for each category
     CONSTRAINT PK_Categories PRIMARY KEY (Category_ID) -- Category_ID is the primary key
 );
 
@@ -410,13 +387,27 @@ INSERT INTO Categories VALUES
 (19, "Crafting & Arts"), -- Crafting & Arts Category
 (20, "Event Planning"); -- Event Planning Category
 
-
 CREATE TABLE Tool_Categories (
     /* The Tool_Categories tables is an associative table joining the Tools table to the Categories table. This table will be populated upon Tool creation */
     Tool_ID INT UNSIGNED, -- Tool_ID holds an integer value for each individual tool
     Category_ID INT UNSIGNED, -- Category_ID holds an integer value for each individual category
     CONSTRAINT PK_Tool_Categories PRIMARY KEY (Tool_ID, Category_ID), -- Tool_ID and Category_ID make up the primary keys
     CONSTRAINT FK_Tool_Categories_Tools FOREIGN KEY (Tool_ID) REFERENCES Tools (Tool_ID), -- This statement creates a foreign key on Tool_ID, which is used to connect the to the Tools table
-    CONSTRAINT FK_Tool_Categories FOREIGN KEY (Category_ID) REFERENCES Categories (Category_ID) -- This statement creates a foreign key on Category_ID, which is used to connect the to the Categories table
+    CONSTRAINT FK_Tool_Categories_Categories FOREIGN KEY (Category_ID) REFERENCES Categories (Category_ID) -- This statement creates a foreign key on Category_ID, which is used to connect the to the Categories table
 );
 
+CREATE TABLE Types (
+    /* The Types table contains all of the available tool types for the SEAC Tool Shed */
+    Type_ID INT UNSIGNED AUTO_INCREMENT, -- Type_ID contains the integer value for each tool type
+    Type_Name VARCHAR(255) NOT NULL, -- Type_Name contains the string value for each tool type
+    CONSTRAINT PK_Types PRIMARY KEY (Type_ID) -- PK_Types is the primary key
+);
+
+CREATE TABLE Tool_Types (
+    /* The Tool_Categories tables is an associative table joining the Tools table to the Categories table. This table will be populated upon Tool creation */
+    Tool_ID INT UNSIGNED, -- Tool_ID holds an integer value for each individual tool
+    Type_ID INT UNSIGNED, -- Type_ID holds an integer value for each individual type
+    CONSTRAINT PK_Tool_Categories PRIMARY KEY (Tool_ID, Type_ID), -- Tool_ID and Type_ID make up the primary keys
+    CONSTRAINT FK_Tool_Types_Tools FOREIGN KEY (Tool_ID) REFERENCES Tools (Tool_ID), -- This statement creates a foreign key on Tool_ID, which is used to connect the to the Tools table
+    CONSTRAINT FK_Tool_Types_Types FOREIGN KEY (Tool_ID) REFERENCES Types (Type_ID) -- This statement creates a foreign key on Type_ID, which is used to connect the to the Types table
+);
