@@ -324,7 +324,6 @@ CREATE TABLE Tools (
     Tool_Brand VARCHAR(255), -- Tool_Brand holds the name of each tool brand manufacturer
     Tool_Weight FLOAT, -- Tool_Weight holds the weight of the tool 
     Tool_Size VARCHAR(255), -- Tool_Size holds the size of the tool
-    Tool_Serial_Number VARCHAR(255), -- Tool_Serial_Number holds the serial number for a tool
     Home_Location INT UNSIGNED NOT NULL, -- Home_Location is the location where the tool is supposed to be returned to. 
     Current_Location INT UNSIGNED NOT NULL, -- Current_Location is the location where the tool is currently located. This value and Home_Location will mostly be the same unless the tool is classified as floating
     Location_Code VARCHAR(255), -- Location_Code is the string descriptor describing where the tool can be located at its current location
@@ -346,6 +345,16 @@ CREATE TABLE Tools (
 );
 
 -- Tool Inserts --
+INSERT INTO TOOLS (Tool_Name, Tool_Brand, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Tool_Image, Tool_Manual, Tool_Loan_Fee, Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost, Is_Floating, Is_Featured) VALUES
+('1/2" Hammer Drill', 'DeWalt', 13, NULL, 1, 1, 'Tool Shed', '1/2" V R S hammer Drill with metal case', 1, NULL, NULL, 0, 1, 7, 1, 129.00, 0, 0), -- M000161
+('1/2" Hammer Drill & 1/4" impact set', 'MILWAUKEE', 16, NULL, 1, 1, 'Tool Shed', '1/2" Hammer Drill Driver variable speed with side handle\n1/4" impact\ntwo batteries and one charger\nwith hard case', 2, NULL, NULL, 0, 1, 7, 1, 449.00, 0, 0), -- M000101
+('1/2" Hammer Drill (Cordless)', 'CRAFTSMAN', 3.5, NULL, 1, 1, 'Tool Shed', '1/2" Hammer Drill Driver\nvariable speed\ntwo batteries and one charger\nwith case', 1, NULL, NULL, 0, 1, 7, 1, 139.00, 0, 0), -- M000100
+('1/2" Hammer Drill (Cordless)', 'DeWalt', 10, NULL, 1, 1, 'Tool Shed', '1/2" Hammer Drill\n18V\n2 Batteries, 1 charger', 1, NULL, NULL, 0, 1, 7, 1, 179.00, 0, 0), -- M000087
+('1/2" Hammer Drill (Cordless)', 'DeWalt', 4, '1/2"', 1, 1, 'Tool Shed', '1/2" Hammer Drill (Cordless)', 1, NULL, NULL, 0, 1, 7, 1, 35.00, 0, 0), -- M000179
+-- Disabled --
+('Ratchet Socket Set', NULL, 3, NULL, 1, 1, NULL, '21 Piece, SAE/Metric', 4, NULL, NULL, 0, 1, 7, 1, 24.99, 0, 0), -- J000237
+-- In Maintenance
+('Oscillating Multitool', 'Chicago Electric', 2.5, NULL, 1, 1, 'Main Office', NULL, 3, NULL, NULL, 0, 1, 7, 1, 49.99, 0, 0); -- M000145
 
 CREATE TABLE Tool_Transactions (
     /* The Tool_Transactions tables is an associative table joining the Tools table to the Transactions table. This table will be populated upon Transaction creation */
