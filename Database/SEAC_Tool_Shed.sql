@@ -320,6 +320,7 @@ INSERT INTO Tool_Sub_Locations (Sub_Location_Name, Tool_Location) VALUES
 CREATE TABLE Tools (
     /* The Tools table contains all tools in the SEAC Tool Shed*/
     Tool_ID INT UNSIGNED AUTO_INCREMENT, -- Tool_ID holds an integer value for each individual tool
+    Old_Tool_ID INT UNSIGNED, -- Tool_ID holds an integer value for each individual tool
     Tool_Name VARCHAR(255) NOT NULL, -- Tool_Name holds the name associated to each tool
     Tool_Brand VARCHAR(255), -- Tool_Brand holds the name of each tool brand manufacturer
     Tool_Weight FLOAT, -- Tool_Weight holds the weight of the tool 
