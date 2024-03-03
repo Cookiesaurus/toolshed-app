@@ -1,27 +1,62 @@
 import { SubmitButton } from "@/components/FormComponents/submitButton";
+import { FormEvent } from "react";
 import db from "../config/db.mjs";
 import Link from "next/link";
 const query = "SELECT State_Name, State_Code from US_States";
 const [results] = await db.execute(query, []);
 import { z } from "zod";
+import bcrypt from "bcrypt";
+import { revalidatePath } from "next/cache";
+import { addUser } from "./addUserAccount";
 
-async function createAccount(event) {
+async function createAccount(formData) {
     "use server";
-    event.preventDefault();
-
-    try{
-        const formData = new FormData(event.currentTarget)
-        print(formData);
+    // event.preventDefault();
+    // Creating a user object in zod for parsing
+    const UserSchema = z
+        .object({
+            firstName: z.string(),
+            lastName: z.string(),
+            email: z.string().email(),
+            phone: z.string().min(10).max(10),            // birthday: z.date({ required_error: "Invalid Date Type" }),
+            password: z.string().min(8),
+            confirmPassword: z.string(),
+            // username: z.string(),
+            addressFirst: z.string(),
+            addressSecond: z.string(),
+            city: z.string(),
+            state: z.string(),
+            zipCode: z.string().length(5),
+        })
+        .refine((data) => data.password === data.confirmPassword, {
+            message: "Passwords do not match",
+            path: ["confirmPassword"],
+        });
+    try {
+        const data = UserSchema.parse({
+            firstName: formData.get("first-name"),
+            lastName: formData.get("last-name"),
+            email: formData.get("email"),
+            phone: formData.get("phone-number"),
+            // birthday: new Date(formData.get("birth-day")),
+            password: formData.get("password"),
+            confirmPassword: formData.get("re-password"),
+            // username: formData.get("username"),
+            addressFirst: formData.get("address-first"),
+            addressSecond: formData.get("address-second"),
+            city: formData.get("address-city"),
+            state: formData.get("state"),
+            zipCode: formData.get("address-zipcode"),
+        });
+        addUser(data);
+    } catch (error) {
+        console.log(error);
     }
-    catch(error){
-        print(error);
-    }
-    return ("OK");
 }
 
 export function SignupForm() {
     return (
-        <form onSubmit={createAccount} className="signup" method="post">
+        <form action={createAccount} className="signup">
             <div className="section">
                 <p className="form-header">
                     Please enter your personal info below:
@@ -30,6 +65,8 @@ export function SignupForm() {
                     First Name
                 </label>
                 <input
+                    type="text"
+                    name="first-name"
                     className="input"
                     placeholder={" First Name"}
                     required
@@ -43,6 +80,7 @@ export function SignupForm() {
                     placeholder={" Last Name"}
                     required
                     id="last-name"
+                    name="last-name"
                 />
                 <label htmlFor="name-title" className="sr-only">
                     Title
@@ -51,6 +89,7 @@ export function SignupForm() {
                     className="input"
                     placeholder={" Title"}
                     id="name-title"
+                    name="name-title"
                 />
                 <label htmlFor="organization" className="sr-only">
                     Organization
@@ -59,6 +98,7 @@ export function SignupForm() {
                     className="input"
                     placeholder={" Organization"}
                     id="organization"
+                    name="organization"
                 />
                 <label htmlFor="email" className="sr-only">
                     Email
@@ -69,6 +109,7 @@ export function SignupForm() {
                     placeholder={" myemail@example.com"}
                     required
                     id="email"
+                    name="email"
                 />
                 <label htmlFor="phone-number" className="sr-only">
                     Phone number
@@ -79,11 +120,12 @@ export function SignupForm() {
                     placeholder={" Phone number Ex: 123-456-7890"}
                     required
                     id="phone-number"
+                    name="phone-number"
                 />
-                <label htmlFor="birth-day" className="sr-only">
+                {/* <label htmlFor="birth-day" className="sr-only">
                     Birthday
-                </label>
-                <p className="form-header">
+                </label> */}
+                {/* <p className="form-header">
                     Birthday:
                     <input
                         className="input"
@@ -91,15 +133,16 @@ export function SignupForm() {
                         placeholder={"Birthday"}
                         required
                         id="birth-day"
+                        name="birth-day"
                     />
-                </p>
+                </p> */}
             </div>
 
             <div className="section">
                 <p className="form-header">
                     Please enter your account credentials:
                 </p>
-                <label htmlFor="username" className="sr-only">
+                {/* <label htmlFor="username" className="sr-only">
                     Username
                 </label>
                 <input
@@ -107,7 +150,8 @@ export function SignupForm() {
                     placeholder={" Username"}
                     required
                     id="username"
-                />
+                    name="username"
+                /> */}
                 <label htmlFor="password" className="sr-only">
                     Password
                 </label>
@@ -117,6 +161,7 @@ export function SignupForm() {
                     required
                     id="password"
                     type="password"
+                    name="password"
                 />
                 <label htmlFor="re-password" className="sr-only">
                     Re-Enter password
@@ -127,6 +172,7 @@ export function SignupForm() {
                     required
                     type="password"
                     id="re-password"
+                    name="re-password"
                 />
             </div>
 
@@ -140,6 +186,7 @@ export function SignupForm() {
                     placeholder={"Address 1st line"}
                     required
                     id="address-first"
+                    name="address-first"
                 />
                 <label htmlFor="address-second" className="sr-only">
                     Address 2nd line
@@ -148,6 +195,7 @@ export function SignupForm() {
                     className="input"
                     placeholder={"Address 2nd line"}
                     id="address-second"
+                    name="address-second"
                 />
                 <label htmlFor="address-city" className="sr-only">
                     Address City
@@ -157,6 +205,7 @@ export function SignupForm() {
                     placeholder={"City"}
                     required
                     id="address-city"
+                    name="address-city"
                 />
                 <div>
                     <label htmlFor="address-state" className="sr-only">
@@ -190,7 +239,9 @@ export function SignupForm() {
                         required
                         id="address-country"
                     >
-                        <option value="United States">United States</option>
+                        <option value="United States" disabled="disabled">
+                            United States
+                        </option>
                     </select>
                 </div>
                 <label htmlFor="address-zipcode" className="sr-only">
@@ -202,9 +253,13 @@ export function SignupForm() {
                     type="numbers"
                     placeholder="Zip code"
                     id="address-zipcode"
+                    name="address-zipcode"
                 />
                 <div>
-                    <SubmitButton text={"Create Account"} />
+                    <SubmitButton
+                        text={"Create Account"}
+                        id={"create-account"}
+                    />
                 </div>
             </div>
             <p className="basetext">

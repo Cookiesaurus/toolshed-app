@@ -1,3 +1,3 @@
-export function SubmitButton({text}) {
-    return <button type="submit">{text}</button>;
+export function SubmitButton({text, id}) {
+    return <button type="submit" id={id}>{text}</button>;
 }

@@ -2,6 +2,7 @@ import Image from "next/image";
 import logo from "../public/images/toolshed_logo.png";
 import "./signup.css";
 import { SignupForm } from "./sign-up-form";
+// import { useState } from "react";
 
 export default async function Page() {
     return (
