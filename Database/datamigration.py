@@ -9,10 +9,10 @@ import base64;
 
 #Connect to the database
 conn = pymysql.connect(
-    host='ls-30d09da39dca6fcd96da0461a42f33aca4c5b07e.c3i8ssyyouhq.us-east-2.rds.amazonaws.com',
+    host='ls-7627deed71079a866e6ed3198046fb55dada7381.c3i8ssyyouhq.us-east-2.rds.amazonaws.com',
     user='dbmasteruser',
     db='SEAC_Tool_Shed',
-    password='-M-MQ,Z.2lBNOHQQPx4gd%Zwt>,[P):r',
+    password='>R)Eo;wkX{-OC_ltmLa&6.^#wa,VXR{_',
     port=3306
 )
 curr = conn.cursor();
@@ -24,8 +24,10 @@ dataframe1 = pd.read_excel('toolshed_export.xls');
 
 #Function to insert tools into database
 def insertTools():
+    # curr.execute('SET GLOBAL connect_timeout=60000')
     for i, j in dataframe1.iterrows():
         Tool_ID = j['Item ID'] 
+        print(Tool_ID)
         Tool_Name = j['Name'] 
         Tool_Brand = j['Manufacturer'] if not str(j['Manufacturer']) == "nan" else "" 
         Tool_Model = j['Model'] if not str(j['Model']) == "nan" else ""
@@ -37,7 +39,7 @@ def insertTools():
             # Tool_Weight = j['Weight'] if not str(j['Weight']) == "nan" else 0.0
 
         # Need to change data for tool size since format is not consistent
-        # Tool_Size = j['Size']#Required, available
+        Tool_Size = j['Size'] if not str(j['Size']) == "nan" else ""
         Tool_Size = 0.0
 
         # Home Location - blanks
@@ -100,9 +102,8 @@ def insertTools():
         Categories = j['Categories']
 
         #Query using the tool IDs from excel
-        query = """INSERT INTO Tools (Tool_Name, Tool_Brand, Tool_Model, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Admin_Notes, Tool_Status, Tool_Condition, Eco_Rating, Emission_Factor, Tool_Image, Tool_Manual, Default_Loan_Length, Renewal_Amount, Default_Late_Fee, Was_Purchased, Tool_Replacement_Cost, Tool_Supplier) 
-        VALUES ('%s', '%s', '%s', %f, %f, %d, %d, '%s', '%s', '%s', %d, %d, '%s', %.2f, "%s", "%s", %d, %d, %.2f, %d, %.2f, '%s')""" % (Tool_Name, Tool_Brand, Tool_Model,Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Admin_Notes, Tool_Status, Tool_Condition, str(Eco_Rating), Emission_Factor, Image, Manual, Default_Loan_Length, Renewal_Amount, Default_Late_Fee, Was_Purchased , Tool_Replacement_Cost, Tool_Supplier)
-        # query = 'INSERT INTO Sample_Image ( ID, Image ) VALUE ( %d, "%s" )' % (2, Image)
+        query = """INSERT INTO Tools (Old_Tool_ID, Tool_Name, Tool_Brand, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Tool_Image, Tool_Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost) 
+        VALUES ('%s', '%s', '%s',  %f, '%s', %d, %d, '%s', '%s',  %d, "%s", "%s", %.2f, %d, %d, %.2f)""" % (Tool_ID, Tool_Name, Tool_Brand,Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Image, Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount,  Tool_Replacement_Cost)
         curr.execute(query)
 
         # Committing insertion
