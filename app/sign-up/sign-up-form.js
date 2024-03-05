@@ -2,7 +2,7 @@ import { SubmitButton } from "@/components/FormComponents/submitButton";
 import { FormEvent } from "react";
 import db from "../config/db.mjs";
 import Link from "next/link";
-const query = "SELECT State_Name, State_Code from US_States";
+const query = "SELECT State_Name, State_Code from States";
 const [results] = await db.execute(query, []);
 import { z } from "zod";
 import bcrypt from "bcrypt";
@@ -10,15 +10,13 @@ import { revalidatePath } from "next/cache";
 import { addUser } from "./addUserAccount";
 
 async function createAccount(formData) {
-    "use server";
-    // event.preventDefault();
     // Creating a user object in zod for parsing
     const UserSchema = z
         .object({
             firstName: z.string(),
             lastName: z.string(),
             email: z.string().email(),
-            phone: z.string().min(10).max(10),            // birthday: z.date({ required_error: "Invalid Date Type" }),
+            phone: z.string().min(10).max(10), // birthday: z.date({ required_error: "Invalid Date Type" }),
             password: z.string().min(8),
             confirmPassword: z.string(),
             // username: z.string(),
@@ -53,10 +51,11 @@ async function createAccount(formData) {
         console.log(error);
     }
 }
+const onSubmit = () => {};
 
 export function SignupForm() {
     return (
-        <form action={createAccount} className="signup">
+        <form onSubmit="submit" className="signup">
             <div className="section">
                 <p className="form-header">
                     Please enter your personal info below:
