@@ -40,7 +40,6 @@ def insertTools():
 
             # Need to change data for tool size since format is not consistent
             Tool_Size = j['Size'] if not str(j['Size']) == "nan" else ""
-            Tool_Size = 0.0
 
             # Home Location - blanks
             # Home_Location = int(j['Home Location']) if not str(j['Home Location']) == "nan" else 0
