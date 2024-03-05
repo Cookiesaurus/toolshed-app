@@ -103,13 +103,13 @@ INSERT INTO Accounts (First_Name, Last_Name, Organization_Name, Email, Password,
 INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer
 ("Bryce", "Hofstom", "bgh3077@g.rit.edu", AES_Encrypt("password","Bryce"), "2164075162", "8439 Sharp Lane", "Chesterland", "Ohio", 44026, 1);
 
-INSERT INTO ACCOUNTS (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with tinkerer status
+INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with tinkerer status
 ("Michael", "Pacholarz", "mfp7158@g.rit.edu", AES_Encrypt("password","Michael"), "7609223761", "7750 Sleepy Hollow Road", "Folsom", "California", 95630, 1);
 
-INSERT INTO ACCOUNTS (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with tinkerer status plus two address lines
+INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with tinkerer status plus two address lines
 ("Andy", "Erskine", "ate9624@g.rit.edu", AES_Encrypt("password","Andy"), "9037539683", "760 Lexington Ave.", "Apt. 4", "Cleburne", "Texas", 76031, 1);
 
-INSERT INTO ACCOUNTS (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal) VALUES -- Normal Customer with MacGyver Status and Auto-renewal membership payment set to true
+INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal) VALUES -- Normal Customer with MacGyver Status and Auto-renewal membership payment set to true
 ("Fei", "Gao", "fxg8365@g.rit.edu", AES_Encrypt("password","Fei"), "2184549695", "7908 South Durham St.", "Cottage Grove", "Minnesota", 55016, 3, 2);
 
 INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Account_Notes, Membership_Level) VALUES -- Normal Customer with Builder Status and account notes
@@ -346,7 +346,7 @@ CREATE TABLE Tools (
 );
 
 -- Tool Inserts --
-INSERT INTO TOOLS (Old_Tool_ID, Tool_Name, Tool_Brand, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Tool_Image, Tool_Manual, Tool_Loan_Fee, Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost, Is_Floating, Is_Featured) VALUES
+INSERT INTO Tools (Old_Tool_ID, Tool_Name, Tool_Brand, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Tool_Image, Tool_Manual, Tool_Loan_Fee, Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost, Is_Floating, Is_Featured) VALUES
 ('M000161', '1/2" Hammer Drill', 'DeWalt', 13, NULL, 1, 1, 'Tool Shed', '1/2" V R S hammer Drill with metal case', 1, NULL, NULL, 0, 1, 7, 1, 129.00, 0, 0), -- M000161
 ('M000101', '1/2" Hammer Drill & 1/4" impact set', 'MILWAUKEE', 16, NULL, 1, 1, 'Tool Shed', '1/2" Hammer Drill Driver variable speed with side handle\n1/4" impact\ntwo batteries and one charger\nwith hard case', 2, NULL, NULL, 0, 1, 7, 1, 449.00, 0, 0), -- M000101
 ('M000100', '1/2" Hammer Drill (Cordless)', 'CRAFTSMAN', 3.5, NULL, 1, 1, 'Tool Shed', '1/2" Hammer Drill Driver\nvariable speed\ntwo batteries and one charger\nwith case', 1, NULL, NULL, 0, 1, 7, 1, 139.00, 0, 0), -- M000100
