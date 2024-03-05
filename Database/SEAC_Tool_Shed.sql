@@ -207,7 +207,7 @@ CREATE TABLE Tool_Types (
     Type_ID INT UNSIGNED, -- Type_ID holds an integer value for each individual type
     CONSTRAINT PK_Tool_Categories PRIMARY KEY (Tool_ID, Type_ID), -- Tool_ID and Type_ID make up the primary keys
     CONSTRAINT FK_Tool_Types_Tools FOREIGN KEY (Tool_ID) REFERENCES Tools (Tool_ID), -- This statement creates a foreign key on Tool_ID, which is used to connect the to the Tools table
-    CONSTRAINT FK_Tool_Types_Types FOREIGN KEY (Tool_ID) REFERENCES Types (Type_ID) -- This statement creates a foreign key on Type_ID, which is used to connect the to the Types table
+    CONSTRAINT FK_Tool_Types_Types FOREIGN KEY (Type_ID) REFERENCES Types (Type_ID) -- This statement creates a foreign key on Type_ID, which is used to connect the to the Types table
 );
 
 CREATE TABLE States (
