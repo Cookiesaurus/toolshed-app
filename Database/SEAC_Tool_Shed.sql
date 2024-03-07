@@ -134,6 +134,7 @@ CREATE TABLE Tool_Locations (
 
 
 CREATE Table Tool_Sub_Locations (
+      /* Tool_Sub_Locations table holds all the current sub locations related to the Tool Shed System */
     Tool_Sub_Location INT UNSIGNED AUTO_INCREMENT, -- Tool_Sub_Location holds the number code which identifes the sub locations
     Sub_Location_Name VARCHAR(255) NOT NULL, -- Sub_Location_Name holds the string value for the sub location name
     Tool_Location INT UNSIGNED NOT NULL, -- Tool_Location holds the number code which identifies the location code for locations
@@ -141,12 +142,18 @@ CREATE Table Tool_Sub_Locations (
     CONSTRAINT FK_Tool_Sub_Locations_Tool_Locations FOREIGN KEY (Tool_Location) REFERENCES Tool_Locations (Tool_Location) -- This statement creates a foreign key on Tool_Location , which is used to connect the to the Tool_Locations table
 );
 
+CREATE TABLE Brands (
+      /* Brands table holds all the brands locations related to the Tool Shed System */
+    Brand_Name VARCHAR(255), -- Brand_Name which holds the string value of each brand
+    CONSTRAINT PK_Brands PRIMARY KEY (Brand_Name)
+);
+
 CREATE TABLE Tools (
     /* The Tools table contains all tools in the SEAC Tool Shed*/
     Tool_ID INT UNSIGNED AUTO_INCREMENT, -- Tool_ID holds an integer value for each individual tool
     Old_Tool_ID VARCHAR(255), -- Tool_ID holds an integer value for each individual tool
     Tool_Name VARCHAR(255) NOT NULL, -- Tool_Name holds the name associated to each tool
-    Tool_Brand VARCHAR(255), -- Tool_Brand holds the name of each tool brand manufacturer
+    Brand_Name VARCHAR(255), -- Tool_Brand holds the code of each tool brand manufacturer
     Tool_Weight FLOAT, -- Tool_Weight holds the weight of the tool 
     Tool_Size VARCHAR(255), -- Tool_Size holds the size of the tool
     Home_Location INT UNSIGNED NOT NULL, -- Home_Location is the location where the tool is supposed to be returned to. 
@@ -166,7 +173,8 @@ CREATE TABLE Tools (
     CONSTRAINT PK_Tools PRIMARY KEY (Tool_ID), -- Tool_ID is the primary key of this table
     CONSTRAINT FK_Tools_Tool_Statuses FOREIGN KEY (Tool_Status) REFERENCES Tool_Statuses (Tool_Status), -- This statement creates a foreign key on Tool_Status , which is used to connect the to the Tool_Statuses table
     CONSTRAINT FK_Tools_Tool_Locations_Home FOREIGN KEY (Home_Location) REFERENCES Tool_Locations (Tool_Location), -- This statement creates a foreign key on Home_Location , which is used to connect the to the Tool_Locations table
-    CONSTRAINT FK_Tools_Tool_Locations_Current FOREIGN KEY (Current_Location) REFERENCES Tool_Locations (Tool_Location) -- This statement creates a foreign key on Current_Location , which is used to connect the to the Tool_Locations table
+    CONSTRAINT FK_Tools_Tool_Locations_Current FOREIGN KEY (Current_Location) REFERENCES Tool_Locations (Tool_Location), -- This statement creates a foreign key on Current_Location , which is used to connect the to the Tool_Locations table
+    CONSTRAINT FK_Tools_Brands FOREIGN KEY (Brand_Name) REFERENCES Brands (Brand_Name)
 );
 
 CREATE TABLE Tool_Transactions (

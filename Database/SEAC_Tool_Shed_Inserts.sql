@@ -177,18 +177,6 @@ INSERT INTO Tool_Sub_Locations (Sub_Location_Name, Tool_Location) VALUES
 ("Thomas P. Ryan Center (Monday)", 2), -- Thomas P. Ryan Center (Monday) Mobile Unit sub location
 ("Willie Walker Lightfoot Recreation Center (Wednesday)", 2); -- Willie Walker Lightfoot Recreation Center (Wednesday) Mobile Unit sub location
 
--- Tool Inserts --
-INSERT INTO Tools (Old_Tool_ID, Tool_Name, Tool_Brand, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Tool_Image, Tool_Manual, Tool_Loan_Fee, Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost, Is_Floating, Is_Featured) VALUES
-('M000161', '1/2" Hammer Drill', 'DeWalt', 13, NULL, 1, 1, 'Tool Shed', '1/2" V R S hammer Drill with metal case', 1, NULL, NULL, 0, 1, 7, 1, 129.00, 0, 0), -- M000161
-('M000101', '1/2" Hammer Drill & 1/4" impact set', 'MILWAUKEE', 16, NULL, 1, 1, 'Tool Shed', '1/2" Hammer Drill Driver variable speed with side handle\n1/4" impact\ntwo batteries and one charger\nwith hard case', 2, NULL, NULL, 0, 1, 7, 1, 449.00, 0, 0), -- M000101
-('M000100', '1/2" Hammer Drill (Cordless)', 'CRAFTSMAN', 3.5, NULL, 1, 1, 'Tool Shed', '1/2" Hammer Drill Driver\nvariable speed\ntwo batteries and one charger\nwith case', 1, NULL, NULL, 0, 1, 7, 1, 139.00, 0, 0), -- M000100
-('M000087', '1/2" Hammer Drill (Cordless)', 'DeWalt', 10, NULL, 1, 1, 'Tool Shed', '1/2" Hammer Drill\n18V\n2 Batteries, 1 charger', 1, NULL, NULL, 0, 1, 7, 1, 179.00, 0, 0), -- M000087
-('M000179', '1/2" Hammer Drill (Cordless)', 'DeWalt', 4, '1/2"', 1, 1, 'Tool Shed', '1/2" Hammer Drill (Cordless)', 1, NULL, NULL, 0, 1, 7, 1, 35.00, 0, 0), -- M000179
--- Disabled --
-('J000237', 'Ratchet Socket Set', NULL, 3, NULL, 1, 1, NULL, '21 Piece, SAE/Metric', 4, NULL, NULL, 0, 1, 7, 1, 24.99, 0, 0), -- J000237
--- In Maintenance
-('M000145', 'Oscillating Multitool', 'Chicago Electric', 2.5, NULL, 1, 1, 'Main Office', NULL, 3, NULL, NULL, 0, 1, 7, 1, 49.99, 0, 0); -- M000145
-
 -- Categories Inserts --
 
 INSERT INTO Categories VALUES
@@ -197,23 +185,228 @@ INSERT INTO Categories VALUES
 (3, "Drywall"), -- Drywall Category
 (4, "Masonry"), -- Masonry Category
 (5, "Electrical"), -- Electrical Category
-(6, "Carpentry & Woodworking"), -- Carpentry & Woodworking Category
+(6, "Carpentry/Woodworking"), -- Carpentry & Woodworking Category
 (7, "Miscellaneous"), -- Miscellaneous Category
 (8, "Painting"), -- Painting Category
 (9, "Plumbing"), -- Plumbing Category
 (10, "Roofing"), -- Roofing Category
-(11, "Welding"), -- Welding Category
+(11, "Metalworking/Welding"), -- Welding Category
 (12, "Pneumatic"), -- Pneumatic Category
 (13, "Automotive"), -- Automotive Category
 (14, "Bike"), -- Bike Category
-(15, "Clamps & Vises"), -- Clamps & Vises Category
+(15, "Clamps/Vises"), -- Clamps & Vises Category
 (16, "Flooring"), -- Flooring Category
-(17, "Gardening & Landscape"), -- Gardening & Landscape Category
-(18, "Measuring & Diagnostics"), -- Measuring & Diagnostics Category
-(19, "Crafting & Arts"), -- Crafting & Arts Category
+(17, "Gardening/Landscape"), -- Gardening & Landscape Category
+(18, "Measuring/Diagnostics"), -- Measuring & Diagnostics Category
+(19, "Crafting/Arts"), -- Crafting & Arts Category
 (20, "Event Planning"); -- Event Planning Category
 
-INSERT INTO States (state_name, state_code) VALUES
+-- Brands Inserts -- 
+INSERT INTO Brands (Brand_Name) VALUES
+("Ace Hardware"),
+("ADIRpro"),
+("AdTech"),
+("Air Stream"),
+("Amana Tool"),
+("AMC"),
+("American Hickory"),
+("American Power Pull"),
+("Ames"),
+("AMT"),
+("Anvil"),
+("Arrow Fastener"),
+("Aspen Manufacturing Company"),
+("Avanti"),
+("B & K"),
+("Bare Bones"),
+("Bauer"),
+("Benchtop"),
+("Bessey"),
+("Bissell"),
+("BLACK+DECKER"),
+("BlackHawk"),
+("Blue Hawk"),
+("Blum"),
+("Bosch"),
+("Boss Industries"),
+("Bostitch"),
+("Brasscraft"),
+("Broan"),
+("Brother"),
+("Buffalo"),
+("Bussmann"),
+("C.S. Osbourne"),
+("Cen-Tech"),
+("Central Forge"),
+("Central Hydraulics"),
+("Central Pneumatic"),
+("Centurion"),
+("Chicago Electric"),
+("Christmas Tree Shops"),
+("Collins Axe"),
+("Commander"),
+("Commercial Electric"),
+("Companion"),
+("Convenience Concepts"),
+("Cosco"),
+("CRAFTSMAN"),
+("Crofton"),
+("Cummins"),
+("Cuprum"),
+("Dasco"),
+("Delta"),
+("DeWalt"),
+("Dexter"),
+("Dirt Devil"),
+("Dowel Crafter"),
+("Dremel"),
+("Drillmaster"),
+("Durakut International Corp."),
+("Earthwise"),
+("EDM"),
+("Ego"),
+("Elmers"),
+("Eklind"),
+("Empire"),
+("Estwing"),
+("Everbilt"),
+("Exact"),
+("Fiskars"),
+("Fletcher"),
+("Freud"),
+("Garden Basics"),
+("Gardener Bender"),
+("General"),
+("Gilmour"),
+("Goldblatt"),
+("Grabber"),
+("Great Neck Saw"),
+("Green Thumb"),
+("Grizzly Industrial"),
+("Hart"),
+("HDC"),
+("HDX"),
+("Hercules"),
+("Hi-Tech"),
+("Hitachi"),
+("Home Depot"),
+("Homelife"),
+("Honey Safety"),
+("Husky"),
+("Hyde"),
+("HyperTough"),
+("IDC"),
+("Illinois Industrial Tool"),
+("Industrial Manufacturer Inc"),
+("Irwin"),
+("Jiffy Steamer"),
+("Johnson"),
+("K-D mfg. co"),
+("Keson"),
+("KingCraft"),
+("Klein Tools"),
+("Kobalt"),
+("Kreg"),
+("Little Giant"),
+("Lowe's"),
+("Makita"),
+("Marco"),
+("Marshalltown"),
+("Master Appliance"),
+("Mastercraft"),
+("Masterhand"),
+("Mayer Paint & Hardware"),
+("MBI"),
+("Metabo"),
+("Milwaukee"),
+("Moen"),
+("Mr. Long Arm"),
+("Myro"),
+("Nelson"),
+("Newborn"),
+("Nilfisk"),
+("Pacific Hydrostar"),
+("Performance Tool"),
+("Pittsburgh"),
+("Porter Cable"),
+("Portland"),
+("Powershot Pro"),
+("Precision Components"),
+("QEP"),
+("QLP"),
+("Quick-Grip"),
+("RectorSeal"),
+("Red Devil"),
+("RIDGID"),
+("Roberts"),
+("RYOBI"),
+("Scotts"),
+("Sears"),
+("Seymour"),
+("SharkBite"),
+("Shockproof"),
+("Simer"),
+("Singer"),
+("Skil"),
+("Snap Cut"),
+("Southwire"),
+("Sperry Instruments"),
+("STAKON"),
+("STANLEY"),
+("Stark"),
+("Straight Line"),
+("Superior Tools"),
+("Swingline"),
+("Task Force"),
+("TELVAC"),
+("The Ridge Tool"),
+("The Tile Shop"),
+("Tool Source"),
+("Toro"),
+("TrimPro"),
+("Triumph"),
+("True Temper"),
+("True Value"),
+("Truper"),
+("Tuff Tools"),
+("Unger"),
+("Vaughan"),
+("Veritas"),
+("Vermont American"),
+("Vigaro"),
+("Wagner"),
+("Walco"),
+("Warren Tool Group"),
+("Warrior"),
+("Waxx Pro"),
+("Weed Eater"),
+("Weller"),
+("Wen"),
+("Wendel"),
+("White"),
+("Wiha"),
+("Wiss"),
+("Work Sharp"),
+("Workforce"),
+("Workpro"),
+("Worx"),
+("Xcelite"),
+("XLC"),
+("Zircon");
+
+-- Tool Inserts --
+INSERT INTO Tools (Old_Tool_ID, Tool_Name, Brand_Name, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Tool_Image, Tool_Manual, Tool_Loan_Fee, Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost, Is_Floating, Is_Featured) VALUES
+('M000161', '1/2" Hammer Drill', 'DeWalt', 13, NULL, 1, 1, 'Tool Shed', '1/2" V R S hammer Drill with metal case', 1, NULL, NULL, 0, 1, 7, 1, 129.00, 0, 0), -- M000161
+('M000101', '1/2" Hammer Drill & 1/4" impact set', 'Milwaukee', 16, NULL, 1, 1, 'Tool Shed', '1/2" Hammer Drill Driver variable speed with side handle\n1/4" impact\ntwo batteries and one charger\nwith hard case', 2, NULL, NULL, 0, 1, 7, 1, 449.00, 0, 0), -- M000101
+('M000100', '1/2" Hammer Drill (Cordless)', 'CRAFTSMAN', 3.5, NULL, 1, 1, 'Tool Shed', '1/2" Hammer Drill Driver\nvariable speed\ntwo batteries and one charger\nwith case', 1, NULL, NULL, 0, 1, 7, 1, 139.00, 0, 0), -- M000100
+('M000087', '1/2" Hammer Drill (Cordless)', 'DeWalt', 10, NULL, 1, 1, 'Tool Shed', '1/2" Hammer Drill\n18V\n2 Batteries, 1 charger', 1, NULL, NULL, 0, 1, 7, 1, 179.00, 0, 0), -- M000087
+('M000179', '1/2" Hammer Drill (Cordless)', 'DeWalt', 4, '1/2"', 1, 1, 'Tool Shed', '1/2" Hammer Drill (Cordless)', 1, NULL, NULL, 0, 1, 7, 1, 35.00, 0, 0), -- M000179
+-- Disabled --
+('J000237', 'Ratchet Socket Set', NULL, 3, NULL, 1, 1, NULL, '21 Piece, SAE/Metric', 4, NULL, NULL, 0, 1, 7, 1, 24.99, 0, 0), -- J000237
+-- In Maintenance
+('M000145', 'Oscillating Multitool', 'Chicago Electric', 2.5, NULL, 1, 1, 'Main Office', NULL, 3, NULL, NULL, 0, 1, 7, 1, 49.99, 0, 0); -- M000145
+
+INSERT INTO States (State_Name, State_Code) VALUES
 ('Alabama', 'AL'),
 ('Alaska', 'AK'),
 ('Arizona', 'AZ'),
