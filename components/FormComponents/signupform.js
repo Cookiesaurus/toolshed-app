@@ -1,23 +1,53 @@
 "use client";
-import { SubmitButton } from "./submitButton";
 import Link from "next/link";
 import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createNewUser } from "@/actions/addNewUser";
+import UserSchema from "./newUserSchema";
+import SelectStates from "./statesSelect";
 
-function onSubmit() {}
+export default function Signupform() {
+    const [formError, setFormError] = useState(null);
+    const createUser = async (formData) => {
+        const user = {
+            firstName: formData.get("first-name"),
+            lastName: formData.get("last-name"),
+            email: formData.get("email"),
+            phone: formData.get("phone-number"),
+            password: formData.get("password"),
+            confirmPassword: formData.get("re-password"),
+            addressFirst: formData.get("address-first"),
+            addressSecond: formData.get("address-second"),
+            city: formData.get("address-city"),
+            state: formData.get("state"),
+            zipCode: formData.get("address-zipcode"),
+        };
 
-const Signupform = () => {
-    const [dataa, setDataa] = useState([]);
-    fetch("http://localhost:3000/sign-up2/sign-up/api")
-        .then((res) => res.json())
-        .then((data) => {
-            setDataa(data.states);
-        });
-    const { register, handleSubmit, errors } = useForm();
+        const result = UserSchema.safeParse(user);
+        if (!result.success) {
+            let errorMessage = "";
+            result.error.issues.forEach((issue) => {
+                errorMessage += issue.path[0] + ":" + issue.message + ".\n";
+            });
+            const issue = result.error.issues[0];
+            setFormError({
+                message: issue.message,
+                path: issue.path[0],
+            });
+            return;
+        }
+        const response = await createNewUser(result.data);
+        console.log(response);
+    };
+
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)} className="signup">
+            <form action={createUser} className="signup">
+                <span style={{ color: "red" }}>
+                    {formError
+                        ? formError.path + " : " + formError.message
+                        : ""}
+                </span>
                 <div className="section">
                     <p className="form-header">
                         Please enter your personal info below:
@@ -30,7 +60,6 @@ const Signupform = () => {
                         type="text"
                         name="first-name"
                         placeholder="First Name"
-                        {...register("firstName")}
                     />
                     <label htmlFor="last name" className="sr-only">
                         Last name
@@ -40,7 +69,6 @@ const Signupform = () => {
                         className="input"
                         placeholder="Last Name"
                         name="last-name"
-                        {...register("lastName")}
                     />
                     <label htmlFor="name-title" className="sr-only">
                         Title
@@ -50,7 +78,6 @@ const Signupform = () => {
                         className="input"
                         placeholder="Title"
                         name="name-title"
-                        {...register("title")}
                     />
                     <label htmlFor="organization" className="sr-only">
                         Organization
@@ -60,7 +87,6 @@ const Signupform = () => {
                         className="input"
                         placeholder="Organization"
                         name="organization"
-                        {...register("org")}
                     />
                     <label htmlFor="email" className="sr-only">
                         Email
@@ -70,7 +96,6 @@ const Signupform = () => {
                         type="email"
                         placeholder={" myemail@example.com"}
                         name="email"
-                        {...register("email")}
                     />
                     <label htmlFor="phone-number" className="sr-only">
                         Phone number
@@ -80,7 +105,6 @@ const Signupform = () => {
                         type="tel"
                         placeholder="Phone number Ex: 123-456-7890"
                         name="phone-number"
-                        {...register("phone")}
                     />
                 </div>
                 <div className="section">
@@ -92,7 +116,6 @@ const Signupform = () => {
                         placeholder="Password"
                         type="password"
                         name="password"
-                        {...register("password")}
                     />
                     <label htmlFor="re-password" className="sr-only">
                         Re-Enter password
@@ -102,7 +125,6 @@ const Signupform = () => {
                         placeholder="Re-enter password"
                         type="password"
                         name="re-password"
-                        {...register("repassword")}
                     />
                 </div>
                 <div className="section">
@@ -114,7 +136,6 @@ const Signupform = () => {
                         className="input"
                         placeholder="Address 1st line"
                         name="address-first"
-                        {...register("addressFirst")}
                     />
                     <label htmlFor="address-second" className="sr-only">
                         Address 2nd line
@@ -124,7 +145,6 @@ const Signupform = () => {
                         className="input"
                         placeholder={"Address 2nd line"}
                         name="address-second"
-                        {...register("addressSecond")}
                     />
                     <label htmlFor="address-city" className="sr-only">
                         Address City
@@ -134,28 +154,12 @@ const Signupform = () => {
                         className="input"
                         placeholder={"City"}
                         name="address-city"
-                        {...register("city")}
                     />
                     <div>
                         <label htmlFor="address-state" className="sr-only">
                             State
                         </label>
-                        <select
-                            className="select"
-                            name="state"
-                            id="address-state"
-                            {...register("state")}
-                        >
-                            <option value="">Select a State</option>
-                            {dataa.map((result) => (
-                                <option
-                                    key={result.State_Code}
-                                    value={result.State_Code}
-                                >
-                                    {result.State_Name}
-                                </option>
-                            ))}
-                        </select>
+                        <SelectStates />
                     </div>
                     <div>
                         <label htmlFor="address-country" className="sr-only">
@@ -165,7 +169,6 @@ const Signupform = () => {
                             className="select"
                             defaultValue="United States"
                             name="country"
-                            {...register("country")}
                         >
                             <option value="United States" disabled="disabled">
                                 United States
@@ -180,11 +183,8 @@ const Signupform = () => {
                         type="numbers"
                         placeholder="Zip code"
                         name="address-zipcode"
-                        {...register("zip")}
                     />
-                    <div>
-                        <SubmitButton text={"Create Account"} />
-                    </div>
+                    <button type="submit">Create Account</button>
                 </div>
                 <p className="basetext">
                     Already have an account?{" "}
@@ -195,5 +195,4 @@ const Signupform = () => {
             </form>
         </>
     );
-};
-export default Signupform;
+}
