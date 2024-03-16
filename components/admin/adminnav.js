@@ -3,13 +3,14 @@ import React from 'react'
 import { useState} from 'react';
 import Dashboard from './dashboard';
 import Public_Site from './public_site';
-import Customers from './customers';
+import Create_New_User from './create_new_user';
+import All_User from './all_users';
 import Inventory from './inventory';
 import Reports from './reports';
 import Link from 'next/link';
 
 const Accountnav = () => {
-    const tabsTop = ['Dashboard', 'Public Site', 'Customers', 'Inventory', 'Reports'];
+    const tabsTop = ['Dashboard', 'Public Site', 'Create New User', 'All Users', 'Inventory', 'Reports'];
     const [selectedTab, setSelectedTab] = useState('');
     const [activeItem, setActiveItem] = useState(null);
 
@@ -23,8 +24,10 @@ const Accountnav = () => {
       componentToRender = <Dashboard />;
     } else if (selectedTab === 'Public Site') {
       componentToRender = <Public_Site />;
-    } else if (selectedTab === 'Customers') {
-      componentToRender = <Customers />;
+    } else if (selectedTab === 'Create New User') {
+      componentToRender = <Create_New_User />;
+    } else if (selectedTab === 'View All Users') {
+      componentToRender = <All_User />;
     } else if (selectedTab === 'Inventory') {
       componentToRender = <Inventory />;
     } else if (selectedTab === 'Reports') {
