@@ -2,14 +2,14 @@
 
 import './navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faUser, faMagnifyingGlass, faFileInvoice} from '@fortawesome/free-solid-svg-icons';
+import { faUser, faMagnifyingGlass, faFileInvoice} from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { formHandler } from '@/lib/actions/formHandler';
 
 
 const Navbar = () => {
   return (
-    <div className='navbar' role='Navigation' aria-label='Website Navigation'>
+    <nav className='navbar'>
         <Link href={'/'} aria-label='Go to home' className='navbar-link' >
             <p className='navbar-logo'>SEAC Tool Shed</p>
         </Link>
@@ -28,7 +28,6 @@ const Navbar = () => {
                 <FontAwesomeIcon icon={faMagnifyingGlass} size='lg' style={{color: 'white', backgroundColor: 'black'}}/>
             </button>
         </form>
-        <p className='navbar-cart'><Link href={'/cart'} className='navbar-link'><FontAwesomeIcon icon={faCartShopping} size='lg' aria-label='Go to cart' style={{backgroundColor: 'white'}}/></Link></p>
         <div className='account-hover'>
             <p className='navbar-account'><Link href={'/login'} className='navbar-link'>Login</Link></p>
             <div className='dropdown-content'>
@@ -40,7 +39,7 @@ const Navbar = () => {
                 <Link href={'/account/profile'}><FontAwesomeIcon icon={faFileInvoice} style={{color: 'black', paddingRight: '10px' , backgroundColor: 'white'}} aria-label='Go to account transaction' /><p>My transactions</p></Link>
             </div>
         </div>
-    </div>
+    </nav>
   )
 }
 
