@@ -3,35 +3,148 @@ const Create_New_User = () =>{
         <>
             <h1>Create a new user</h1>
 
-            <div>
+            <div className="accountInfo">
                 <h2>Account</h2>
                 <form>
-                    <label htmlFor="first-name" className="sr-only">First Name</label>
-                    <input className="input" placeholder={" First Name"} required id="first-name" name="firstName"/>
-                    <label htmlFor="last-name" className="sr-only">Last name</label>
-                    <input className="input" placeholder={" Last Name"} required id="last-name" name="lastName"/>
-                    <input className="input" placeholder={" Title"} id="name-title" name="title"/>
-                    <label htmlFor="organization" className="sr-only">Organization</label>
-                    <input className="input" placeholder={" Organization"} id="organization" name="organi"/>
-                    <label htmlFor="email" className="sr-only">Email</label>
-                    <input className="input" type="email" placeholder={" myemail@example.com"} required id="email" name="signup-email"/>
-                    <label htmlFor="phone-number" className="sr-only">Phone number</label>
-                    <input className="input" type="tel" placeholder={" Phone number Ex: 123-456-7890"} required id="phone-number" name="number"/>
-                    <label htmlFor="birthday" className="sr-only">Birthday</label>
-                    <p className="form-header">Birthday:<input className="input" type="date" placeholder={"Birthday"} required id="birthday" name="birth-day"/></p>
-                    </form>
+                    <input type="checkbox" id="generate_random" name="value" value="generate"/>
+                    <label for="value"> Automatically generate Username and password</label>
+                    <br/>
+                    <label for="password">Password</label>
+                    <br/>
+                    <input type="password" name="password" required/>
+                    <br/>
+                    <label for="re-enter_password">Re-enter password</label>
+                    <br/>
+                    <input type="password" name="re-enter_password" required/>
+                    <br/>
+                    <input type="checkbox" id="show_passwords" name="show" value="show"/>
+                    <label for="show"> Show passwords</label>
+                </form>
             </div>
 
-            <div>
+            <div className="membershipInfo">
                 <h2>Membership</h2>
+                <form>
+                    <label for="createDate">Member created (Date)</label>
+                    <br/>
+                    <input type="date" id="creation_date" name="createDate"/>
+                    <br/>
+                    <label for="memberID">Membership ID</label>
+                    <br/>
+                    <input id="membership_ID" name="memberID"/>
+                    <br/>
+                    <label for="memberType">Membership Type</label>
+                    <br/>
+                    <input id="membership_type" name="memberType"/>
+                    <br/>
+                    <label for="expiration">Expiration</label>
+                    <br/>
+                    <input type="date" id="expiration_date" name="expiration"/>
+                </form>
             </div>
 
-            <div>
+            <div className="primaryInfo">
                 <h2>Primary Info</h2>
+                <label for="firstName">First Name</label>
+                <br/>
+                <input type="text" id="first_Name" name="firstName"/>
+                <br/>
+                <label for="lastName">Last Name</label>
+                <br/>
+                <input type="text" id="last_Name" name="lastName"/>
+                <br/>
+                <label for="gender">Gender</label>
+                <br/>
+                <input type="text" id="gender" name="gender"/>
+                <br/>
+                <label for="dob">Expiration</label>
+                <br/>
+                <input type="date" id="date_of_birth" name="dob"/>
+                <br/>
+                <label for="email">Email</label>
+                <br/>
+                <input type="email" id="email" name="email"/>
+                <br/>
+                <label for="title">Title</label>
+                <br/>
+                <input type="text" id="title" name="title"/>
+                <br/>
+                <label for="organization">Organization</label>
+                <br/>
+                <input type="text" id="organization" name="organization"/>
+                <br/>
+                <label for="streetAddress">Street Address</label>
+                <br/>
+                <input type="text" id="street_address" name="streetAddress"/>
+                <br/>
+                <label for="Line2">Apt/Floor</label>
+                <br/>
+                <input type="text" id="2nd_Line" name="Line2"/>
+                <br/>
+                <label for="city">City</label>
+                <br/>
+                <input type="text" id="city" name="city"/>
+                <br/>
+                <label for="zipCode">ZIP code</label>
+                <br/>
+                <input type="text" id="zip_code" name="zipCode"/>
+                <br/>
+                <label for="phoneNumber">Phone Number</label>
+                <br/>
+                <input type="tel" id="phone_number" name="phoneNumber"/>
+                <br/>
             </div>
 
-            <div>
+            <div className="secondaryInfo">
                 <h2>Secondary Info</h2>
+                <label for="firstName">First Name</label>
+                <br/>
+                <input type="text" id="first_Name" name="firstName"/>
+                <br/>
+                <label for="lastName">Last Name</label>
+                <br/>
+                <input type="text" id="last_Name" name="lastName"/>
+                <br/>
+                <label for="gender">Gender</label>
+                <br/>
+                <input type="text" id="gender" name="gender"/>
+                <br/>
+                <label for="dob">Expiration</label>
+                <br/>
+                <input type="date" id="date_of_birth" name="dob"/>
+                <br/>
+                <label for="email">Email</label>
+                <br/>
+                <input type="email" id="email" name="email"/>
+                <br/>
+                <label for="title">Title</label>
+                <br/>
+                <input type="text" id="title" name="title"/>
+                <br/>
+                <label for="organization">Organization</label>
+                <br/>
+                <input type="text" id="organization" name="organization"/>
+                <br/>
+                <label for="streetAddress">Street Address</label>
+                <br/>
+                <input type="text" id="street_address" name="streetAddress"/>
+                <br/>
+                <label for="Line2">Apt/Floor</label>
+                <br/>
+                <input type="text" id="2nd_Line" name="Line2"/>
+                <br/>
+                <label for="city">City</label>
+                <br/>
+                <input type="text" id="city" name="city"/>
+                <br/>
+                <label for="zipCode">ZIP code</label>
+                <br/>
+                <input type="text" id="zip_code" name="zipCode"/>
+                <br/>
+                <label for="phoneNumber">Phone Number</label>
+                <br/>
+                <input type="tel" id="phone_number" name="phoneNumber"/>
+                <br/>
             </div>
         </>
     )
