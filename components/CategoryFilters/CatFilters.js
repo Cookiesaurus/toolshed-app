@@ -49,7 +49,7 @@ const CatFilters = () => {
               </div>
           </div>
           <div className='filter-toggle white'>
-              <p className='white'>In Stock Only</p>
+              <p >In Stock Only</p>
               <label className="switch white" htmlFor='availability'>
                 <input type="checkbox" id='availability' name='in-stock'/>
                 <span className="slider round"></span>
