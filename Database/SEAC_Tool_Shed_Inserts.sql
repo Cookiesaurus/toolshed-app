@@ -666,19 +666,6 @@ INSERT INTO Types (Type_Name) VALUES
 ("Worm Drive Circular Saws"),
 ("Wrenches");
 
-
--- Tool Inserts --
-INSERT INTO Tools (Old_Tool_ID, Tool_Name, Brand_Name, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Tool_Image, Tool_Manual, Tool_Loan_Fee, Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost, Is_Floating, Is_Featured) VALUES
-('M000161', '1/2" Hammer Drill', 'DeWalt', 13, NULL, 1, 1, 'Tool Shed', '1/2" V R S hammer Drill with metal case', 1, NULL, NULL, 0, 1, 7, 1, 129.00, 0, 0), -- M000161
-('M000101', '1/2" Hammer Drill & 1/4" impact set', 'Milwaukee', 16, NULL, 1, 1, 'Tool Shed', '1/2" Hammer Drill Driver variable speed with side handle\n1/4" impact\ntwo batteries and one charger\nwith hard case', 2, NULL, NULL, 0, 1, 7, 1, 449.00, 0, 0), -- M000101
-('M000100', '1/2" Hammer Drill (Cordless)', 'CRAFTSMAN', 3.5, NULL, 1, 1, 'Tool Shed', '1/2" Hammer Drill Driver\nvariable speed\ntwo batteries and one charger\nwith case', 1, NULL, NULL, 0, 1, 7, 1, 139.00, 0, 0), -- M000100
-('M000087', '1/2" Hammer Drill (Cordless)', 'DeWalt', 10, NULL, 1, 1, 'Tool Shed', '1/2" Hammer Drill\n18V\n2 Batteries, 1 charger', 1, NULL, NULL, 0, 1, 7, 1, 179.00, 0, 0), -- M000087
-('M000179', '1/2" Hammer Drill (Cordless)', 'DeWalt', 4, '1/2"', 1, 1, 'Tool Shed', '1/2" Hammer Drill (Cordless)', 1, NULL, NULL, 0, 1, 7, 1, 35.00, 0, 0), -- M000179
--- Disabled --
-('J000237', 'Ratchet Socket Set', NULL, 3, NULL, 1, 1, NULL, '21 Piece, SAE/Metric', 4, NULL, NULL, 0, 1, 7, 1, 24.99, 0, 0), -- J000237
--- In Maintenance
-('M000145', 'Oscillating Multitool', 'Chicago Electric', 2.5, NULL, 1, 1, 'Main Office', NULL, 3, NULL, NULL, 0, 1, 7, 1, 49.99, 0, 0); -- M000145
-
 INSERT INTO States (State_Name, State_Code) VALUES
 ('Alabama', 'AL'),
 ('Alaska', 'AK'),
