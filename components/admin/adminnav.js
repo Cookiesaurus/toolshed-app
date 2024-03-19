@@ -9,7 +9,7 @@ import Inventory from './inventory';
 import Reports from './reports';
 import Link from 'next/link';
 
-const Accountnav = () => {
+const Adminnav = () => {
     const tabsTop = ['Dashboard', 'Public Site', 'Create New User', 'All Users', 'Inventory', 'Reports'];
     const [selectedTab, setSelectedTab] = useState('');
     const [activeItem, setActiveItem] = useState(null);
@@ -39,7 +39,7 @@ const Accountnav = () => {
 
   return (
     <>
-        <div className="left-account">
+        <div className="left-admin">
             <h3>Administration</h3>
             <ul className='side-list'>
             {tabsTop.map((tab, index)=>(
@@ -55,11 +55,11 @@ const Accountnav = () => {
             ))}
             </ul>
         </div>
-        <div className='right-account'>
+        <div className='right-admin'>
         {componentToRender}
         </div>
     </>
   )
 }
 
-export default Accountnav
+export default Adminnav
