@@ -1,4 +1,5 @@
-import { SubmitButton } from "@/components/FormComponents/submitButton";
+"use server";
+//NOT USING THIS FILE
 import { FormEvent } from "react";
 import db from "../config/db.mjs";
 import Link from "next/link";
@@ -6,11 +7,17 @@ const query = "SELECT State_Name, State_Code from States";
 const [results] = await db.execute(query, []);
 import { z } from "zod";
 import bcrypt from "bcrypt";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { addUser } from "./addUserAccount";
 
+var errorDisp = {
+    message: "No error",
+};
 async function createAccount(formData) {
     // Creating a user object in zod for parsing
+}
+const onSubmit = (formData) => {
+    "use server";
     const UserSchema = z
         .object({
             firstName: z.string(),
@@ -46,16 +53,22 @@ async function createAccount(formData) {
             state: formData.get("state"),
             zipCode: formData.get("address-zipcode"),
         });
-        addUser(data);
+        console.log(data);
+        // addUser(data);
     } catch (error) {
-        console.log(error);
+        const errorFound = JSON.parse(error.message);
+        console.log(errorFound[0].message);
+        errorDisp = errorFound[0].message;
+        // errorDisp.message = error.message.message;
     }
-}
-const onSubmit = () => {};
+};
 
-export function SignupForm() {
+export async function SignupForm() {
     return (
-        <form onSubmit="submit" className="signup">
+        <form action={onSubmit} className="signup">
+            <span style={{ color: "red" }}>
+                {errorDisp ? errorDisp.message : ""}
+            </span>
             <div className="section">
                 <p className="form-header">
                     Please enter your personal info below:
@@ -255,10 +268,7 @@ export function SignupForm() {
                     name="address-zipcode"
                 />
                 <div>
-                    <SubmitButton
-                        text={"Create Account"}
-                        id={"create-account"}
-                    />
+                    <button type="submit">Create Account</button>
                 </div>
             </div>
             <p className="basetext">
