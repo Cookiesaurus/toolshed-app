@@ -10,7 +10,7 @@ import Reports from './reports';
 import Link from 'next/link';
 
 const Adminnav = () => {
-    const tabsTop = ['Dashboard', 'Public Site', 'Create New User', 'All Users', 'Inventory', 'Reports'];
+    const tabsTop = ['Dashboard', 'Public Site', 'Create New User', 'View All Users', 'Inventory', 'Reports'];
     const [selectedTab, setSelectedTab] = useState('');
     const [activeItem, setActiveItem] = useState(null);
 
