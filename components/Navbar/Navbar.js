@@ -1,11 +1,13 @@
-'use client'
 
 import './navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faUser, faMagnifyingGlass, faFileInvoice} from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import { getSession } from '@/actions/actions';
 
-const Navbar = () => {
+const Navbar = async () => {
+    const session = await getSession();
+    console.log(session)
   return (
     <div className='navbar' role='Navigation' aria-label='Website Navigation'>
     <Link href={'/'} aria-label='Go to home' className='navbar-link' >
