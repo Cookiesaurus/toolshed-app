@@ -93,7 +93,7 @@ const All_User = () =>{
                                 <th>
                                     <button className="editButton" type='button'>Edit</button>
                                     <br/>
-                                    <button className="loansButton" type='button'>Loans</button>
+                                    <button className="loansButton" type='button' onClick={""}>Loans</button>
                                     <br/>
                                     <button className="checkoutButton" type='button'>Checkout</button>
                                 </th>
