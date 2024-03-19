@@ -23,7 +23,7 @@ const Adminnav = () => {
     if (selectedTab === 'Dashboard') {
       componentToRender = <Dashboard />;
     } else if (selectedTab === 'Public Site') {
-      componentToRender = <Public_Site />;
+      window.location.replace("http://localhost:3000/")
     } else if (selectedTab === 'Create New User') {
       componentToRender = <Create_New_User />;
     } else if (selectedTab === 'View All Users') {
