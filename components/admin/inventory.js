@@ -1,9 +1,9 @@
 const Inventory = () =>{
     return(
         <>
-            <div className="filterOptions">
-                <form >
-                    <input list="type" name="type" placeholder="Type"/>
+            <div className="filterOptionsContainer">
+                <form className="filterOptions">
+                    <input list="type" name="type" placeholder=" Type"/>
                     <datalist id="type">
                         <option value="option1"/>
                         <option value="option2"/>
@@ -11,7 +11,9 @@ const Inventory = () =>{
                         <option value="option4"/>
                         <option value="option5"/>
                     </datalist>
-                    <input list="availability" name="availability" placeholder="Availability"/>
+                </form>
+                <form className="filterOptions">
+                    <input list="availability" name="availability" placeholder=" Availability"/>
                     <datalist id="availability">
                     <option value="option1"/>
                         <option value="option2"/>
@@ -25,13 +27,13 @@ const Inventory = () =>{
             <div className='mainContent'>
                 <table>
                         <thead>
-                            <tr >
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Type</th>
-                                <th>Location</th>
-                                <th>Availability</th>
-                                <th>Action</th>
+                            <tr className='topRow'>
+                                <th className='topRow'>ID</th>
+                                <th className='topRow'> Name</th>
+                                <th className='topRow'>Type</th>
+                                <th className='topRow'>Location</th>
+                                <th className='topRow'>Availability</th>
+                                <th className='topRow'>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,9 +44,11 @@ const Inventory = () =>{
                                 <th>Available</th>
                                 <th>March 17, 2024</th>
                                 <th>
-                                    <button type='button'>Edit</button>
-                                    <button type='button'>Loans</button>
-                                    <button type='button'>Checkout</button>
+                                    <button className="editButton" type='button'>Edit</button>
+                                    <br/>
+                                    <button className="loansButton" type='button'>Loans</button>
+                                    <br/>
+                                    <button className="checkoutButton" type='button'>Checkout</button>
                                 </th>
                             </tr>
                             <tr>
@@ -54,9 +58,11 @@ const Inventory = () =>{
                                 <th>Available</th>
                                 <th>March 17, 2024</th>
                                 <th>
-                                    <button type='button'>Edit</button>
-                                    <button type='button'>Loans</button>
-                                    <button type='button'>Checkout</button>
+                                    <button className="editButton" type='button'>Edit</button>
+                                    <br/>
+                                    <button className="loansButton" type='button'>Loans</button>
+                                    <br/>
+                                    <button className="checkoutButton" type='button'>Checkout</button>
                                 </th>
                             </tr>
                             <tr>
@@ -66,9 +72,11 @@ const Inventory = () =>{
                                 <th>Available</th>
                                 <th>March 17, 2024</th>
                                 <th>
-                                    <button type='button'>Edit</button>
-                                    <button type='button'>Loans</button>
-                                    <button type='button'>Checkout</button>
+                                    <button className="editButton" type='button'>Edit</button>
+                                    <br/>
+                                    <button className="loansButton" type='button'>Loans</button>
+                                    <br/>
+                                    <button className="checkoutButton" type='button'>Checkout</button>
                                 </th>
                             </tr>
                         </tbody>
