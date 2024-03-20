@@ -1,9 +1,5 @@
 import pymysql;
-from PyPDF2 import PdfReader;
-import io;
 import pandas as pd;
-import math;
-from PIL import Image;
 import requests
 import base64;
 
@@ -27,7 +23,6 @@ def insertTools():
     for i, j in dataframe1.iterrows():
         # try:
         Tool_ID = j['Item ID'] 
-        print(Tool_ID)
         Tool_Name = j['Name'] 
         Tool_Brand = j['Manufacturer'] if not str(j['Manufacturer']) == "nan" else "" 
 
@@ -73,10 +68,12 @@ def insertTools():
         # Item_Type = j['Item Type']#Required, available
         Tool_Replacement_Cost = j['Replacement Cost'] if not str(j['Replacement Cost']) == "nan" else 0.0
         Tool_Replacement_Cost = float(Tool_Replacement_Cost)
+        Is_Floating = 1 if str(j['Floating']) == "Y" else 0
+        Is_Featured = 1 if str(j['Featured']) == "Y" else 0
 
         #Query using the tool IDs from excel
-        query = """INSERT INTO Tools (Old_Tool_ID, Tool_Name, Brand_Name, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Tool_Image, Tool_Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost) 
-        VALUES ('%s', '%s', '%s',  %f, '%s', %d, %d, '%s', '%s',  %d, "%s", "%s", %.2f, %d, %d, %.2f)""" % (Tool_ID, Tool_Name, Tool_Brand,Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Image, Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount,  Tool_Replacement_Cost)
+        query = """INSERT INTO Tools (Old_Tool_ID, Tool_Name, Brand_Name, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Tool_Image, Tool_Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost, Is_Floating, Is_Featured) 
+        VALUES ('%s', '%s', '%s',  %f, '%s', %d, %d, '%s', '%s',  %d, "%s", "%s", %.2f, %d, %d, %.2f, %d, %d)""" % (Tool_ID, Tool_Name, Tool_Brand,Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Image, Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount,  Tool_Replacement_Cost, Is_Floating, Is_Featured)
         curr.execute(query)
         conn.commit()
         # except:
