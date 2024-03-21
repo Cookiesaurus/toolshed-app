@@ -1,10 +1,11 @@
 import Link from "next/link";
 import SlideShow from "@/components/Slideshow/Slideshow";
 import PopularTools from "@/components/PopularTools/PopularTools";
+import db from "./config/db.mjs";
 
-export default function Page() {
-  const categories = ['Crafting', 'Drill Extension', 'Drywall Tools', 'Electrical', 'Flooring', 'Masonry', 'Misc', 'Painting',
-                        'Plumbing', 'Roofing', 'Saw Blades', 'Welding', 'Woodworking'];
+export default async function Page() {
+	const categories = await db.selectFromDB("SELECT * FROM Categories")
+
   return (
     <>
     <div className="slide-container">
@@ -15,14 +16,14 @@ export default function Page() {
             <Link 
               href={{
                 pathname: '/inventory/category',
-                query: {category_name: category} 
+                query: {category_name: category.Category_Name} 
               }} 
-              key={category}>
-                {category}
+              key={category.Category_ID}>
+                {category.Category_Name}
               </Link>
             <Link href={{
                 pathname: '/inventory/category',
-                query: {category_name: category} 
+                query: {category_name: category.Category_Name} 
               }}  
               className="cat-arrow" 
               tabIndex={-1}> 
