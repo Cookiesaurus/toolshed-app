@@ -25,6 +25,14 @@ Then, run the development server:
 npm run dev
 ```
 
+## Database credentials
+Create a ```.env.local``` file and add in associated credentials:
+- DB_HOSTNAME
+- DB
+- DB_USER
+- DB_PORT
+- DB_PASSWORD
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

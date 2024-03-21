@@ -3,7 +3,7 @@ import { useSearchParams } from "next/navigation"
 export default function Page() {
 
     const searchParams = useSearchParams()
-    const categoryName = searchParams.get('category_name')
+    const categoryName = searchParams.get('search')
 
-    return <div>My Post: {categoryName}</div>
+    return <div>Search term: {categoryName}</div>
 }

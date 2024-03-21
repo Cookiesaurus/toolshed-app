@@ -1,0 +1,153 @@
+.topRowButtons {
+    display: flex;
+}
+
+.topRowButton {
+    height: 50px;
+    width: 25%;
+    border-radius: 8px;
+    border-width: 1px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: 50px;
+    margin-right: 50px;
+    font-family: 'Poppins';
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.topRowStats {
+    display: flex;
+}
+
+.container {
+    width: 25%;
+    margin-bottom: 25px;
+    margin-left: 50px;
+    margin-right: 50px;
+    background-color: white;
+}
+
+.statsTitle {
+    margin: 10px;
+    font-family: 'Poppins';
+    font-size: 16px;
+    background-color: white;
+}
+
+.stat {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-family: 'Poppins';
+    font-size: 24px;
+    font-weight: bold;
+    background-color: white;
+}
+
+.mainContent {
+    background-color: white;
+    padding: 10px;
+}
+
+.title {
+    background-color: white;
+}
+
+table, thread, tr, th {
+    background-color: white;
+}
+
+.topRow {
+    background-color: lightgray;
+}
+
+.checkInButton {
+    height: 30px;
+    width: 70px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    background-color: green;
+    color: white;
+}
+
+.detailsButton {
+    height: 30px;
+    width: 70px;
+    border-radius: 8px;
+    background-color: blue;
+    color: white;
+}
+
+.left-admin {
+    flex: 15%;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.right-admin {
+    flex: 85%;
+    font-family: 'Poppins';
+}
+
+.top_right_side_all_content, .bottom_right_side_all_content {
+    display: flex;
+}
+.accountInfo, .membershipInfo, .primaryInfo, .secondaryInfo {
+    flex: 50%;
+    margin: 25px;
+}
+
+.filterOptionsContainer {
+    display: flex;
+}
+
+.filterOptions {
+    margin-right: 40px;
+    border-radius: 8px;
+    border-width: 1px;
+    font-family: 'Poppins';
+}
+
+.editButton {
+    height: 30px;
+    width: 70px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    background-color: lightskyblue;
+    color: white;
+}
+
+.loansButton {
+    height: 30px;
+    width: 70px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    background-color: blue;
+    color: white;
+}
+
+.checkoutButton {
+    height: 30px;
+    width: 70px;
+    border-radius: 8px;
+    background-color: violet;
+    color: white;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input.checkbox {
+    margin-bottom: 10px;
+    width: auto;
+    height: auto;
+}
+
+input {
+    margin-bottom: 10px;
+    width: 100%;
+    height: 30px;  
+    font-family: 'Poppins';
+}

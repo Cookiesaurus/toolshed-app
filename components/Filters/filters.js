@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import './filters.css';
 import React, { useState } from 'react';
+import { formHandler } from '@/lib/actions/formHandler'; 
 
 const Filters = () => {
     const brands = ['DEWALT', 'Milwaukee', 'RYOBI', 'BLACK + DECKER', 'Makita', 'RIGID', 'GENESIS', 'Bosch', 'Craftsman',
@@ -13,17 +14,18 @@ const Filters = () => {
     
     const [selectedOption, setSelectedOption] = useState('');
 
+
     return (
         <>
             <div className='filters-cont'>
-              <form method='get' className='inventory-filters white'>
+              <form action={formHandler} className='inventory-filters white'>
                 <h4 className='filter-headers white'>Categories</h4> 
                 <div className='filter-categories white'> 
                   {categories.map(category => (
                     <React.Fragment key={category}>
-                      <label htmlFor={category} className='checkbox-container white' key={category} >
+                      <label htmlFor={category} className='checkbox-container white' key={category}>
                         {category}
-                        <input type="checkbox" className='checkbox' id={category} key={category} />
+                        <input type="checkbox" className='checkbox' id={category} key={category} name='category' value={category} />
                         <span className="checkmark"></span>
                       </label>
                     </React.Fragment>
@@ -36,7 +38,7 @@ const Filters = () => {
                       <React.Fragment key={brand}>
                         <label htmlFor={brand} className='checkbox-container white' >
                           {brand}
-                          <input type="checkbox" className='checkbox' id={brand} key={brand} />
+                          <input type="checkbox" className='checkbox' id={brand} key={brand} name='brand' value={brand}/>
                           <span className="checkmark"></span>
                         </label>
                       </React.Fragment>
@@ -44,33 +46,24 @@ const Filters = () => {
                     </div>
                 </div>
                 <div className='filter-toggle white'>
-                    <p className='white'>In Stock Only</p>
-                    <label className="switch white" htmlFor='new-products'>
-                      <input type="checkbox" id='new-products'/>
+                    <p >In Stock Only</p>
+                    <label className="switch white" htmlFor='availability'>
+                      <input type="checkbox" id='availability' name='in-stock'/>
                       <span className="slider round"></span>
                     </label>
                 </div>
 
                 <div className='filters-conditions white'>
-                  {/* <h4 className='filter-headers'>Cordless/Corded</h4> 
-                    <div className='brand-select'>
-                      <label htmlFor='filter-cordless'>Cordless</label>
-                      <input type="checkbox" className='checkbox' id='filter-cordless'  />
-                      <label htmlFor='filter-corded'>Corded</label>
-                      <input type="checkbox" className='checkbox' id='filter-corded'  />
-                      <label htmlFor='filter-cordless'>Hybrid</label>
-                      <input type="checkbox" className='checkbox' id='filter-hybrid'  />
-                    </div> */}
                     <h4 className='filter-headers white'>Location</h4> 
                     <div className='brand-select white'>
                       <label htmlFor='Location-Main' className='checkbox-container white'>
                         Main Location
-                        <input type="checkbox" className='checkbox' id='Location-Main'/>
+                        <input type="checkbox" className='checkbox' id='Location-Main' name='main-location'/>
                         <span className="checkmark"></span>
                       </label>
                       <label htmlFor='Location-Truck' className='checkbox-container white'>
                         Truck
-                        <input type="checkbox" className='checkbox' id='Location-Truck'/>
+                        <input type="checkbox" className='checkbox' id='Location-Truck' name='truck'/>
                         <span className="checkmark"></span>
                       </label>
                     </div>
