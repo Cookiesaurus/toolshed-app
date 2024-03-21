@@ -9,9 +9,27 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { getSession } from "@/actions/actions";
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { useCallback } from 'react';
 
 const Navbar = async () => {
     const session = await getSession();
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
+
+    // Get a new searchParams string by merging the current
+    // searchParams with a provided key/value pair
+    const createQueryString = useCallback(
+        (name, value) => {
+          const params = new URLSearchParams(searchParams)
+          params.set(name, value)
+     
+          return params.toString()
+        },
+        [searchParams]
+      )
+
     console.log(session);
     return (
         <div
@@ -47,6 +65,9 @@ const Navbar = async () => {
                     name="search"
                     id="navbar-search"
                     aria-label="search products"
+                    onChange={(e)=>{
+                        router.push(`/inventory/search` + `?` + createQueryString('search', e.target.value))
+                    }}
                 />
                 <button
                     type="submit"
