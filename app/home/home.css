@@ -1,0 +1,95 @@
+.slide-container {
+    display: flex;
+    margin-top: 45px;
+    padding: 45px;
+}
+
+.slide-show {
+    flex: 50%;
+}
+
+.categories {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 15% 1;
+    padding-left: 10%;
+}
+
+.category-link {
+    display: grid;
+    grid-template-columns: .5fr auto;
+}
+.homepage{
+    display: flex;
+    flex-direction: column;
+    margin: 5%;
+
+}
+
+.homepage-slider {
+    background-color: #AFAFAF;
+    width: 100%;
+    border-radius: 20px;
+    min-width: 320px;
+    max-width: 1229px;
+    max-height: 380px;
+    min-height: 320px;
+}
+
+.brands{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.brand{
+    background-color: white;
+    border-radius: 3px;
+    margin: 20px;
+    width: 188px;
+    height: 100px;
+    border: 1px solid #9D9D9D;
+}
+
+
+a.home-button {
+    width: 235px;
+    height: 55px;
+    background-color: black;
+    color: white;
+    border-radius: 4px;
+    padding: 16px 48px 16px 48px;
+    text-align: center;
+    font-family: 'Poppins';
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+a.home-button:hover{
+    width: 235px;
+    height: 55px;
+    background-color: #FBC955;
+    color: white;
+    border-radius: 4px;
+    padding: 16px 48px 16px 48px;
+    text-align: center;
+    font-family: 'Poppins';
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+a.brandimage-container {
+    display: flex;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    margin: 15%;
+}
