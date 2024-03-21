@@ -12,8 +12,22 @@ export default function Page() {
       {categories.map(category => (
         <>
           <div className="category-link">
-            <Link href={'/categories'} key={category}>{category}</Link>
-            <Link href={'/categories'} className="cat-arrow" tabIndex={-1}> &#10095;</Link>
+            <Link 
+              href={{
+                pathname: '/categories',
+                query: {category_name: category} 
+              }} 
+              key={category}>
+                {category}
+              </Link>
+            <Link href={{
+                pathname: '/categories',
+                query: {category_name: category} 
+              }}  
+              className="cat-arrow" 
+              tabIndex={-1}> 
+                &#10095;
+            </Link>
           </div>
         </>
         ))}
