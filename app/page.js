@@ -14,14 +14,14 @@ export default function Page() {
           <div className="category-link">
             <Link 
               href={{
-                pathname: '/categories',
+                pathname: '/inventory/category',
                 query: {category_name: category} 
               }} 
               key={category}>
                 {category}
               </Link>
             <Link href={{
-                pathname: '/categories',
+                pathname: '/inventory/category',
                 query: {category_name: category} 
               }}  
               className="cat-arrow" 
