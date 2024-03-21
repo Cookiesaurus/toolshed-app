@@ -9,6 +9,7 @@ export const getSession = async () => {
 
     if (!session.isLoggedIn) {
         session.isLoggedIn = defaultSession.isLoggedIn;
+        session.accId = defaultSession.accId;
     }
 
     return session;
@@ -24,24 +25,25 @@ export const login = async (formData) => {
         password: process.env.DB_PASSWORD,
     });
     const query =
-        "SELECT Account_ID as accId, CONVERT(Password using utf8) as password FROM Accounts WHERE Email='" +
+        "SELECT *, CONVERT(Password using utf8) as pwd FROM Accounts WHERE Email='" +
         formData.get("email") +
         "'";
     const result = await db.execute(query);
-    const db_pass = result[0][0].password;
-    console.log(db_pass);
-    if (formData.get("password") != db_pass) {
+    console.log(result)
+    const db_pass = result[0][0] ? result[0][0].pwd : undefined;
+    if (!db_pass && formData.get("password") != db_pass) {
         return { error: "Wrong credentials! " };
     }
     console.log("User authenticated.");
+    session.firstName = result[0][0].First_Name;
+    session.accId = result[0][0].Account_ID;
     session.isLoggedIn = true;
-    session.user = result[0].accId;
     await session.save();
+    const newSession = await getSession();
     redirect("/");
 };
 export const logout = async () => {
     const session = await getSession();
     session.destroy();
-    console.log("Session destroyed. ");
     redirect("/");
 };
