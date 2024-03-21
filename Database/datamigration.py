@@ -1,4 +1,5 @@
 import pymysql;
+
 import pandas as pd;
 import requests
 import base64;
@@ -20,6 +21,7 @@ dataframe1 = pd.read_excel('Gate_Review_2_Tools.xlsx');
 
 #Function to insert tools into database
 def insertTools():
+
     for i, j in dataframe1.iterrows():
         # try:
         Tool_ID = j['Item ID'] 
@@ -111,6 +113,7 @@ def addCategories( string , tool_id ):
 
         curr.execute(insert_query)
         conn.commit()
+
 
 # Function to add types
 def addTypes( string, tool_id ):
