@@ -23,14 +23,14 @@ export default async function Page() {
             <Link 
               href={{
                 pathname: '/inventory/category',
-                query: {category_name: category} 
+                query: {category_name: category.Category_Name} 
               }} 
-              key={category}>
-                {category}
+              key={category.Category_ID}>
+                {category.Category_Name}
               </Link>
             <Link href={{
                 pathname: '/inventory/category',
-                query: {category_name: category} 
+                query: {category_name: category.Category_Name} 
               }}  
               className="cat-arrow" 
               tabIndex={-1}> 

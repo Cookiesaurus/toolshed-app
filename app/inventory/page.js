@@ -1,8 +1,12 @@
 import Link from "next/link"
 import Filters from "@/components/Filters/filters"
 import InventoryItems from "@/components/InventoryItems/InventoryItems"
-export default function Page() {
+import db from "../config/db.mjs"
+export default async function Page() {
     // This would be all inventory items 
+    const categories = await db.selectFromDB("SELECT * FROM Categories")
+    const brands = await db.selectFromDB("SELECT * FROM Brands")
+    const types = await db.selectFromDB("SELECT * FROM Types")
     return (
         <>
           <div className='bread-crumb'>
@@ -27,8 +31,8 @@ export default function Page() {
                   </div>
               </div>
           <div className='inventory-cont'>
-          <Filters/>
-              <InventoryItems/>
+            <Filters categories={categories} brands={brands} types={types}/>
+            <InventoryItems/>
           </div>
         </>
       )
