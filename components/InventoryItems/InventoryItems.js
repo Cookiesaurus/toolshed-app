@@ -18,7 +18,10 @@ const InventoryItems = () => {
       <div className='inven-cont'>
         <div className='inven-items'>
             {product.slice(0, 24).map((productItem, index) => (
-                <Link key={index} href={'/product'}>
+                <Link key={index} href={{
+                pathname: '/inventory/product',
+                query: {product_id: productItem.id} 
+              }}  >
                 <div className='inventory-item'>
                     <div className='inventory-image'>
                         {<Image src={productItem.images[0]} alt={'Product Place Holder'} width={230} height={280} className="popular-img"/>}

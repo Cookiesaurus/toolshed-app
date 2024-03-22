@@ -1,4 +1,9 @@
-
+'use client'
+import { useSearchParams } from "next/navigation"
 export default function Page() {
-    return <h1>Hello, Categories Page!</h1>
+
+    const searchParams = useSearchParams()
+    const categoryName = searchParams.get('category_name')
+
+    return <div>My Post: {categoryName}</div>
 }

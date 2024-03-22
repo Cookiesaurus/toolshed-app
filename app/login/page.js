@@ -2,21 +2,22 @@ import Image from "next/image";
 import logo from '../public/images/toolshed_logo.png';
 import './login.css';
 import Link from "next/link";
+import { formHandler } from "@/lib/actions/formHandler";
 export default function Page() {
     return (<>
     <div className="content">
         <div className="title">
-            <Image src={logo} alt="toolshed logo" width={200} height={200}></Image>
+            <Image src={logo} alt="toolshed logo" width={200} height={200} priority={true}></Image>
             <h1 className='pagetitle'>Sign In</h1>
         </div>
-        <form className="loginbox" method="post">
+        <form className="loginbox" action={formHandler}>
             <div>
                 <label htmlFor="login-email" className="sr-only">Email</label>
-                <input className="input" type="email" placeholder={" myemail@example.com"}/>
+                <input className="input" type="email" placeholder={" myemail@example.com"} name="email"/>
             </div>
             <div>
                 <label htmlFor="login-password" className="sr-only">Submit</label>
-                <input className="input" type="password" placeholder={" Password"} id="login-password"/>
+                <input className="input" type="password" placeholder={" Password"} id="login-password" name="password"/>
             </div>
             <div>
                 <button value={"Submit"} id="login-submit">Login</button>

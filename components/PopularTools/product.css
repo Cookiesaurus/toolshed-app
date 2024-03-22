@@ -6,7 +6,7 @@
 .popular {
     padding: 12px;
 }
-.product-info {
+.popular-info {
     display: flex;
     justify-content: space-evenly;
     margin: 5%;

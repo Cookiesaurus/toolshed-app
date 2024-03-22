@@ -2,28 +2,21 @@
 
 import Link from 'next/link';
 import './filters.css';
-import React, { useState } from 'react';
+import React from 'react';
+import { formHandler } from '@/lib/actions/formHandler'; 
 
-const Filters = () => {
-    const brands = ['DEWALT', 'Milwaukee', 'RYOBI', 'BLACK + DECKER', 'Makita', 'RIGID', 'GENESIS', 'Bosch', 'Craftsman',
-                    'Rigid', 'Huscky', 'Stanley', 'Hitachi'];
-
-    const categories = ['Crafting', 'Drill Extension', 'Drywall Tools', 'Electrical', 'Flooring', 'Masonry', 'Misc', 'Painting',
-                        'Plumbing', 'Roofing', 'Saw Blades', 'Welding', 'Woodworking'];
-    
-    const [selectedOption, setSelectedOption] = useState('');
-
+const Filters = ({categories, brands, types}) => {
     return (
         <>
             <div className='filters-cont'>
-              <form method='get' className='inventory-filters white'>
+              <form action={formHandler} className='inventory-filters white'>
                 <h4 className='filter-headers white'>Categories</h4> 
-                <div className='filter-categories white'> 
+                <div className='filter white'> 
                   {categories.map(category => (
-                    <React.Fragment key={category}>
-                      <label htmlFor={category} className='checkbox-container white' key={category} >
-                        {category}
-                        <input type="checkbox" className='checkbox' id={category} key={category} />
+                    <React.Fragment key={category.Category_ID}>
+                      <label htmlFor={category.Category_Name} className='checkbox-container white'>
+                      {category.Category_Name}
+                        <input type="checkbox" className='checkbox' id={category.Category_Name} name='category' value={category.Category_Name} />
                         <span className="checkmark"></span>
                       </label>
                     </React.Fragment>
@@ -31,12 +24,26 @@ const Filters = () => {
                 </div>
                 <div className='filter-brand white'>
                   <h4 className='filter-headers white'>Brand</h4>
-                    <div className='brand-select white'>
+                    <div className='filter white'>
                     {brands.map(brand => (
-                      <React.Fragment key={brand}>
-                        <label htmlFor={brand} className='checkbox-container white' >
-                          {brand}
-                          <input type="checkbox" className='checkbox' id={brand} key={brand} />
+                      <React.Fragment key={brand.Brand_Name}>
+                        <label htmlFor={brand.Brand_Name} className='checkbox-container white' >
+                          {brand.Brand_Name}
+                          <input type="checkbox" className='checkbox' id={brand.Brand_Name}  name='brand' value={brand.Brand_Name}/>
+                          <span className="checkmark"></span>
+                        </label>
+                      </React.Fragment>
+                    ))}
+                    </div>
+                </div>
+                <div className='filter-brand white'>
+                  <h4 className='filter-headers white'>Tool Type</h4>
+                    <div className='filter white'>
+                    {types.map(type => (
+                      <React.Fragment key={type.Type_Name}>
+                        <label htmlFor={type.Type_Name} className='checkbox-container white' >
+                          {type.Type_Name}
+                          <input type="checkbox" className='checkbox' id={type.Type_Name}  name='brand' value={type.Type_Name}/>
                           <span className="checkmark"></span>
                         </label>
                       </React.Fragment>
@@ -45,32 +52,23 @@ const Filters = () => {
                 </div>
                 <div className='filter-toggle white'>
                     <p className='white'>In Stock Only</p>
-                    <label className="switch white" htmlFor='new-products'>
-                      <input type="checkbox" id='new-products'/>
+                    <label className="switch white" htmlFor='availability'>
+                      <input type="checkbox" id='availability' name='in-stock'/>
                       <span className="slider round"></span>
                     </label>
                 </div>
 
                 <div className='filters-conditions white'>
-                  {/* <h4 className='filter-headers'>Cordless/Corded</h4> 
-                    <div className='brand-select'>
-                      <label htmlFor='filter-cordless'>Cordless</label>
-                      <input type="checkbox" className='checkbox' id='filter-cordless'  />
-                      <label htmlFor='filter-corded'>Corded</label>
-                      <input type="checkbox" className='checkbox' id='filter-corded'  />
-                      <label htmlFor='filter-cordless'>Hybrid</label>
-                      <input type="checkbox" className='checkbox' id='filter-hybrid'  />
-                    </div> */}
                     <h4 className='filter-headers white'>Location</h4> 
                     <div className='brand-select white'>
                       <label htmlFor='Location-Main' className='checkbox-container white'>
                         Main Location
-                        <input type="checkbox" className='checkbox' id='Location-Main'/>
+                        <input type="checkbox" className='checkbox' id='Location-Main' name='main-location'/>
                         <span className="checkmark"></span>
                       </label>
                       <label htmlFor='Location-Truck' className='checkbox-container white'>
                         Truck
-                        <input type="checkbox" className='checkbox' id='Location-Truck'/>
+                        <input type="checkbox" className='checkbox' id='Location-Truck' name='truck'/>
                         <span className="checkmark"></span>
                       </label>
                     </div>

@@ -59,4 +59,5 @@ button#create-account {
 button#create-account:hover{
     background-color: #FBC955;
     cursor: pointer;
+    border: none;
 }

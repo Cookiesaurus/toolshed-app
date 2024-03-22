@@ -26,12 +26,15 @@ const PopularTools = () => {
         <div className="popular-container">
         {product.slice(0, 5).map((productItem, index) => (
             <div className="popular" key={index}>
-            <Link href={'/product'}>
+            <Link href={{
+                pathname: '/inventory/product',
+                query: {product_id: productItem.id} 
+              }}  >
             <div className="img-cont">
               {<Image src={productItem.images[0]} alt={'Product Place Holder'} width={230} height={280} className="popular-img"/>}
             </div>
                 <p className="product-title">{productItem.title}</p>
-                <div className="product-info">
+                <div className="popular-info">
                     <p className="stock-green">{productItem.stock} In Stock</p>
                     <p className="light-paragraph">Main Location</p>
                 </div>
