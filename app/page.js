@@ -1,10 +1,18 @@
 import Link from "next/link";
 import SlideShow from "@/components/Slideshow/Slideshow";
 import PopularTools from "@/components/PopularTools/PopularTools";
+import db from "./config/db.mjs";
 
-export default function Page() {
-  const categories = ['Crafting', 'Drill Extension', 'Drywall Tools', 'Electrical', 'Flooring', 'Masonry', 'Misc', 'Painting',
-                        'Plumbing', 'Roofing', 'Saw Blades', 'Welding', 'Woodworking'];
+export default async function Page() {
+	const categories = await db.selectFromDB("SELECT * FROM Categories")
+  let popular = await db.selectFromDB(`SELECT Tools.Tool_ID, Tools.Tool_Name, Tool_Locations.Location_Name, Tool_Statuses.Tool_Status_Details, Tools.Tool_Image FROM Tools
+  INNER JOIN Tool_Locations ON Tools.Home_Location=Tool_Locations.Tool_Location
+  INNER JOIN Tool_Statuses ON Tools.Tool_Status=Tool_Statuses.Tool_Status
+  WHERE Tools.Is_Featured = 1`)
+
+  //convert to json to send to component 
+  popular = JSON.parse(JSON.stringify(popular))
+  
   return (
     <>
     <div className="slide-container">
@@ -37,7 +45,7 @@ export default function Page() {
         </div>
     </div>
     <div className="homepage">
-    <PopularTools/>
+    <PopularTools tools={popular}/>
 
 </div></>
   )
