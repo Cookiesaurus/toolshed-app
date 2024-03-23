@@ -2,11 +2,15 @@ import Link from "next/link"
 import Filters from "@/components/Filters/filters"
 import InventoryItems from "@/components/InventoryItems/InventoryItems"
 import db from "../config/db.mjs"
-export default async function Page() {
+import { useSearchParams } from "next/navigation"
+export default async function Page({searchParams}) {
     // This would be all inventory items 
     const categories = await db.selectFromDB("SELECT * FROM Categories")
     const brands = await db.selectFromDB("SELECT * FROM Brands")
     const types = await db.selectFromDB("SELECT * FROM Types")
+
+    console.log(searchParams)
+
     return (
         <>
           <div className='bread-crumb'>
