@@ -5,38 +5,38 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import './product.css'
 
-const PopularTools = () => {
+const PopularTools = ({tools}) => {
 
+  const [imgeUrl, setImageURL] = useState([])
 
-    const [product, setProduct] = useState([]);
-    const [productImg, setProductImage] = useState([])
-    useEffect(() => {
-        fetch("https://dummyjson.com/products")
-        .then((res) => res.json())
-        .then((data) => {
-            setProduct(data.products);
-            setProductImage(data.images);
-        });
-    }, []);
-
+ console.log(tools)
+ useEffect(() => {
+  // Create image URLs from base64-encoded data
+  const urls = tools.map(tool => {
+    const base64Data = tool.Tool_Image.data;
+    const binaryData = Buffer.from(base64Data, 'base64');
+    return 'data:image/jpg;base64,'+binaryData;
+  });
+  setImageURL(urls);
+}, [tools]);
 
   return (
     <>
       <h2> Popular Tools</h2>
         <div className="popular-container">
-        {product.slice(0, 5).map((productItem, index) => (
-            <div className="popular" key={index}>
+        {tools.map((tool, index) => (
+            <div className="popular" key={tool.Tool_ID}>
             <Link href={{
                 pathname: '/inventory/product',
-                query: {product_id: productItem.id} 
+                query: {product_id: tool.Tool_ID} 
               }}  >
             <div className="img-cont">
-              {<Image src={productItem.images[0]} alt={'Product Place Holder'} width={230} height={280} className="popular-img"/>}
+              <img src={imgeUrl[index]} />
             </div>
-                <p className="product-title">{productItem.title}</p>
+                <p className="product-title">{tool.Tool_Name}</p>
                 <div className="popular-info">
-                    <p className="stock-green">{productItem.stock} In Stock</p>
-                    <p className="light-paragraph">Main Location</p>
+                    <p className="stock-green">{tool.Tool_Status_Details}</p>
+                    <p className="light-paragraph">{tool.Location_Name}</p>
                 </div>
                 </Link>
             </div>
