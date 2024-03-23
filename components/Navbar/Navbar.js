@@ -85,12 +85,12 @@ const Navbar = async () => {
                                 className="navbar-link"
                             >
                                 {session.isLoggedIn
-                                    ? session.firstName
+                                    ? session.user.First_Name + " " + session.user.Last_Name
                                     : "Profile Name "}
                             </Link>
                         </p>
                             <form action={logout}>
-                                <button class="" type="submit">Logout</button>
+                                <button className="navbar-category" type="submit">Logout</button>
                             </form>
                     </div>{" "}
                     {/* This is going to have to be conditional based on if the user is logged in or not and will have to be styled inline */}

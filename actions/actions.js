@@ -8,8 +8,7 @@ export const getSession = async () => {
     const session = await getIronSession(cookies(), sessionOptions);
 
     if (!session.isLoggedIn) {
-        session.isLoggedIn = defaultSession.isLoggedIn;
-        session.accId = defaultSession.accId;
+        session.isLoggedIn = false;
     }
 
     return session;
@@ -29,17 +28,17 @@ export const login = async (formData) => {
         formData.get("email") +
         "'";
     const result = await db.execute(query);
-    console.log(result)
+    console.log(result);
     const db_pass = result[0][0] ? result[0][0].pwd : undefined;
     if (!db_pass && formData.get("password") != db_pass) {
         return { error: "Wrong credentials! " };
     }
     console.log("User authenticated.");
+    session.user = result[0][0];
     session.firstName = result[0][0].First_Name;
     session.accId = result[0][0].Account_ID;
     session.isLoggedIn = true;
     await session.save();
-    const newSession = await getSession();
     redirect("/");
 };
 export const logout = async () => {
