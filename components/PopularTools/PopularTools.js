@@ -5,38 +5,38 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import './product.css'
 
-const PopularTools = ({tools}) => {
+const PopularTools = () => {
 
-  const [imgeUrl, setImageURL] = useState([])
 
- console.log(tools)
- useEffect(() => {
-  // Create image URLs from base64-encoded data
-  const urls = tools.map(tool => {
-    const base64Data = tool.Tool_Image.data;
-    const binaryData = Buffer.from(base64Data, 'base64');
-    return 'data:image/jpg;base64,'+binaryData;
-  });
-  setImageURL(urls);
-}, [tools]);
+    const [product, setProduct] = useState([]);
+    const [productImg, setProductImage] = useState([])
+    useEffect(() => {
+        fetch("https://dummyjson.com/products")
+        .then((res) => res.json())
+        .then((data) => {
+            setProduct(data.products);
+            setProductImage(data.images);
+        });
+    }, []);
+
 
   return (
     <>
       <h2> Popular Tools</h2>
         <div className="popular-container">
-        {tools.map((tool, index) => (
-            <div className="popular" key={tool.Tool_ID}>
+        {product.slice(0, 5).map((productItem, index) => (
+            <div className="popular" key={index}>
             <Link href={{
                 pathname: '/inventory/product',
-                query: {product_id: tool.Tool_ID} 
+                query: {product_id: productItem.id} 
               }}  >
             <div className="img-cont">
-              <img src={imgeUrl[index]} />
+              {<Image src={productItem.images[0]} alt={'Product Place Holder'} width={230} height={280} className="popular-img"/>}
             </div>
-                <p className="product-title">{tool.Tool_Name}</p>
+                <p className="product-title">{productItem.title}</p>
                 <div className="popular-info">
-                    <p className="stock-green">{tool.Tool_Status_Details}</p>
-                    <p className="light-paragraph">{tool.Location_Name}</p>
+                    <p className="stock-green">{productItem.stock} In Stock</p>
+                    <p className="light-paragraph">Main Location</p>
                 </div>
                 </Link>
             </div>

@@ -43,14 +43,15 @@ const Navbar = () => {
         [searchParams]
     );
 
+    console.log(session);
     return (
-    <nav className='navbar'>
-        <Link href={'/'} aria-label='Go to home' className='navbar-link' >
-            <p className='navbar-logo'>SEAC Tool Shed</p>
-        </Link>
-        <div className='giftcard-inventory'>
-            <Link href={'/giftcard'} aria-label='Go to gift cards' className='navbar-link'>
-                <p>Gift Card</p>
+        <div
+            className="navbar"
+            role="Navigation"
+            aria-label="Website Navigation"
+        >
+            <Link href={"/"} aria-label="Go to home" className="navbar-link">
+                <p className="navbar-logo">SEAC’s Tool Shed</p>
             </Link>
             <div className="giftcard-inventory">
                 <Link
@@ -167,7 +168,7 @@ const Navbar = () => {
                 )}
             </div>
         </div>
-    </nav>
-  )
-}
-export default Navbar
+    );
+};
+
+export default Navbar;

@@ -23,6 +23,10 @@
     align-items: center;
 }
 
+.brand-select {
+    overflow-y: scroll;
+    width: 300px;
+}
 
 .filter-toggle {
     display: flex;
@@ -88,7 +92,7 @@ button#apply-filters:hover{
 }
 
 
-.filter{
+.filter-categories {
     display: flex;
     flex-direction: column;
     gap: 12px;
