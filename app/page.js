@@ -54,7 +54,7 @@ export default async function Page() {
         </div>
     </div>
     <div className="homepage">
-    <PopularTools/>
+    <PopularTools tools={popular}/>
 
 </div></>
   )
