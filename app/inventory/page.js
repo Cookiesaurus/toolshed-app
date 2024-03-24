@@ -1,7 +1,10 @@
 import Link from "next/link";
 import Filters from "@/components/Filters/filters";
 import InventoryItems from "@/components/InventoryItems/InventoryItems";
-export default function Page() {
+import db from "../config/db.mjs";
+export default async function Page() {
+    // Pass items to Inventory Items as Props
+
     // This would be all inventory items
     return (
         <>
