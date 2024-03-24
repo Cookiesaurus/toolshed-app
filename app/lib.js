@@ -3,7 +3,6 @@ export const sessionOptions = {
     cookieName: "seac-session",
     cookieOptions: { httpOnly: true, secure: true },
 };
-
 export const defaultSession = {
     isLoggedIn: false,
     accId: undefined
