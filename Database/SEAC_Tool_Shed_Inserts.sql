@@ -28,43 +28,43 @@ INSERT INTO Current_Membership_Status (Membership_Status, Membership_Status_Desc
 
 -- Administrator ACCOUNTS -- 
 INSERT INTO Accounts (First_Name, Last_Name, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
-("Mike", "Evans", "South East Area Coalition", "mike@SEACrochester.org", AES_Encrypt("password", "Mike"), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 5); -- Mike Admin Account
+("Mike", "Evans", "South East Area Coalition", "mike@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 5); -- Mike Admin Account
 
 -- Manager ACCOUNTS -- 
 INSERT INTO Accounts (First_Name, Last_Name, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
-("Nick", "Wilbur", "South East Area Coalition", "nick@SEACrochester.org", AES_Encrypt("password", "Nick"), "5852718665", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 4); -- Nick Manager Account
+("Nick", "Wilbur", "South East Area Coalition", "nick@SEACrochester.org", AES_Encrypt("password", ""), "5852718665", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 4); -- Nick Manager Account
 
 -- Employee ACCOUNTS -- 
 INSERT INTO Accounts (First_Name, Last_Name, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
-("Kiki", "Smith", "South East Area Coalition", "kirstyn@SEACrochester.org", AES_Encrypt("password", "Kiki"), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3), -- Kiki Employee Account
-("Lori", "Wood", "South East Area Coalition", "lori@SEACrochester.org", AES_Encrypt("password", "Lori"), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3), -- Lori Employee Account
-("Sara", "Glauser", "South East Area Coalition", "sara@SEACrochester.org", AES_Encrypt("password", "Sara"), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3); -- Sara Employee Account
+("Kiki", "Smith", "South East Area Coalition", "kirstyn@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3), -- Kiki Employee Account
+("Lori", "Wood", "South East Area Coalition", "lori@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3), -- Lori Employee Account
+("Sara", "Glauser", "South East Area Coalition", "sara@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3); -- Sara Employee Account
 
 -- Voluteer ACCOUNTS -- 
 INSERT INTO Accounts (First_Name, Last_Name, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
-("SEAC Tool Shed", "Volunteer", "South East Area Coalition", "toolshed@seacrochester.org", AES_Encrypt("password", "Volunteer"), "0000000000", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 2); -- Volunteer Account
+("SEAC Tool Shed", "Volunteer", "South East Area Coalition", "toolshed@seacrochester.org", AES_Encrypt("password", ""), "0000000000", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 2); -- Volunteer Account
 
 -- Customer ACCOUNTS -- 
 INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer
-("Bryce", "Hofstom", "bgh3077@g.rit.edu", AES_Encrypt("password","Bryce"), "2164075162", "8439 Sharp Lane", "Chesterland", "Ohio", 44026, 1);
+("Bryce", "Hofstom", "bgh3077@g.rit.edu", AES_Encrypt("password",""), "2164075162", "8439 Sharp Lane", "Chesterland", "Ohio", 44026, 1);
 
 INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with tinkerer status
-("Michael", "Pacholarz", "mfp7158@g.rit.edu", AES_Encrypt("password","Michael"), "7609223761", "7750 Sleepy Hollow Road", "Folsom", "California", 95630, 1);
+("Michael", "Pacholarz", "mfp7158@g.rit.edu", AES_Encrypt("password",""), "7609223761", "7750 Sleepy Hollow Road", "Folsom", "California", 95630, 1);
 
 INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with tinkerer status plus two address lines
-("Andy", "Erskine", "ate9624@g.rit.edu", AES_Encrypt("password","Andy"), "9037539683", "760 Lexington Ave.", "Apt. 4", "Cleburne", "Texas", 76031, 1);
+("Andy", "Erskine", "ate9624@g.rit.edu", AES_Encrypt("password",""), "9037539683", "760 Lexington Ave.", "Apt. 4", "Cleburne", "Texas", 76031, 1);
 
 INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal) VALUES -- Normal Customer with MacGyver Status and Auto-renewal membership payment set to true
-("Fei", "Gao", "fxg8365@g.rit.edu", AES_Encrypt("password","Fei"), "2184549695", "7908 South Durham St.", "Cottage Grove", "Minnesota", 55016, 3, 2);
+("Fei", "Gao", "fxg8365@g.rit.edu", AES_Encrypt("password",""), "2184549695", "7908 South Durham St.", "Cottage Grove", "Minnesota", 55016, 3, 2);
 
 INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Account_Notes, Membership_Level) VALUES -- Normal Customer with Builder Status and account notes
-("Ian", "Dinga", "iad2750@g.rit.edu", AES_Encrypt("password","Ian"), "6462316017", "8402 Bridgeton Lane", "Corona", "New York", 11368, "Ian has not had any activity with the Tool Shed despite owning a Builder membership. Effort should be had to reach out and ensure he would still like to be a member.", 3);
+("Ian", "Dinga", "iad2750@g.rit.edu", AES_Encrypt("password",""), "6462316017", "8402 Bridgeton Lane", "Corona", "New York", 11368, "Ian has not had any activity with the Tool Shed despite owning a Builder membership. Effort should be had to reach out and ensure he would still like to be a member.", 3);
 
 INSERT INTO Accounts (First_Name, Last_Name, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with Contractor Status and Organization name
-("Aryan", "Todi", "The Handymen LLC.","at1203@g.rit.edu", AES_Encrypt("password","Aryan"), "4236953998", "4 Windsor Ave.", "Memphis", "Tennessee", 38106, 4);
+("Aryan", "Todi", "The Handymen LLC.","at1203@g.rit.edu", AES_Encrypt("password",""), "4236953998", "4 Windsor Ave.", "Memphis", "Tennessee", 38106, 4);
 
 INSERT INTO Accounts (First_Name, Last_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Account_Notes, Membership_Level, Membership_Status) VALUES -- Disabled Customer
-("Evan", "Hiltzik", "eh8319@g.rit.edu", AES_Encrypt("password","Evan"), "5704143466", "98 Lilac Street", "Gibsonia", "Pennsylvania", 15044, "User account was disabled on 01/10/24 as customer decided to drop membership.", 1, 1);
+("Evan", "Hiltzik", "eh8319@g.rit.edu", AES_Encrypt("password",""), "5704143466", "98 Lilac Street", "Gibsonia", "Pennsylvania", 15044, "User account was disabled on 01/10/24 as customer decided to drop membership.", 1, 1);
 
 -- Gift_Cards Inserts --
 
