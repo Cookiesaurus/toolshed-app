@@ -1,4 +1,5 @@
 import pymysql;
+
 import pandas as pd;
 import requests
 import base64;
@@ -20,6 +21,7 @@ dataframe1 = pd.read_excel('Gate_Review_2_Tools.xlsx');
 
 #Function to insert tools into database
 def insertTools():
+
     for i, j in dataframe1.iterrows():
         # try:
         Tool_ID = j['Item ID'] 
@@ -72,8 +74,8 @@ def insertTools():
         Is_Featured = 1 if str(j['Featured']) == "Y" else 0
 
         #Query using the tool IDs from excel
-        query = """INSERT INTO Tools (Old_Tool_ID, Tool_Name, Brand_Name, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Tool_Image, Tool_Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost, Is_Floating, Is_Featured, Tool_Link) 
-        VALUES ('%s', '%s', '%s',  %f, '%s', %d, %d, '%s', '%s',  %d, "%s", "%s", %.2f, %d, %d, %.2f, %d, %d, '%s')""" % (Tool_ID, Tool_Name, Tool_Brand,Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Image, Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount,  Tool_Replacement_Cost, Is_Floating, Is_Featured, Image_Link)
+        query = """INSERT INTO Tools (Old_Tool_ID, Tool_Name, Brand_Name, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Tool_Image, Tool_Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost, Is_Floating, Is_Featured) 
+        VALUES ('%s', '%s', '%s',  %f, '%s', %d, %d, '%s', '%s',  %d, "%s", "%s", %.2f, %d, %d, %.2f, %d, %d)""" % (Tool_ID, Tool_Name, Tool_Brand,Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Image, Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount,  Tool_Replacement_Cost, Is_Floating, Is_Featured)
         curr.execute(query)
         conn.commit()
         # except:
@@ -111,6 +113,7 @@ def addCategories( string , tool_id ):
 
         curr.execute(insert_query)
         conn.commit()
+
 
 # Function to add types
 def addTypes( string, tool_id ):

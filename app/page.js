@@ -1,7 +1,7 @@
 import Link from "next/link";
 import SlideShow from "@/components/Slideshow/Slideshow";
 import PopularTools from "@/components/PopularTools/PopularTools";
-import db from "./config/db.mjs";
+
 
 export default async function Page() {
 	const categories = await db.selectFromDB("SELECT * FROM Categories")
@@ -19,6 +19,7 @@ export default async function Page() {
       <div className="categories">
       {categories.map(category => (
         <>
+
           <table className="category-link">
             <tr className="side-selection">
               <td className="link-container">
@@ -52,7 +53,7 @@ export default async function Page() {
         </div>
     </div>
     <div className="homepage">
-    <PopularTools tools={popular}/>
+    <PopularTools/>
 
 </div></>
   )

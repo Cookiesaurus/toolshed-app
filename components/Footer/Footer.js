@@ -12,7 +12,11 @@ const Footer = () => {
     <div className='footer' role='Footer' aria-label='Footer'>
        <div className='column-one'>
           <Image src={logo} alt="toolshed logo" width={100} height={100}></Image>
-          <a href="" className="footer-link" >Subscribe to our newsletter</a>
+          <p className='footer-content'>Subscribe to our newsletter</p>
+          <form action={formHandler} className="footer-form">
+            <label htmlFor="newsletter-input" className="sr-only">Subscribe to our newsletter</label>
+            <input type="email" placeholder={"Enter your email"} style={{height: '40px'}} id="newsletter-input" aria-hidden={true} name="newsletter-email"/>
+          </form>
        </div>
        <div className='column-two'>
           <p className='footer-title'> Contact</p>

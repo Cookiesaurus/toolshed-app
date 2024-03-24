@@ -7,15 +7,4 @@ const db = await mysql.createConnection({
     password: process.env.DB_PASSWORD,
 });
 
-const helperFunctions= {
-
-    async selectFromDB(query){
-        const [data] = await db.execute(query);
-        return data;
-    }
-}
-
-Object.assign(db, helperFunctions)
-
-
 export default db;
