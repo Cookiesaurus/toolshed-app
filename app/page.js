@@ -5,7 +5,7 @@ import db from "./config/db.mjs";
 
 export default async function Page() {
 	const categories = await db.selectFromDB("SELECT * FROM Categories")
-  let popular = await db.selectFromDB(`SELECT Tools.Tool_ID, Tools.Tool_Name, Tool_Locations.Location_Name, Tool_Statuses.Tool_Status_Details, Tools.Tool_Image FROM Tools
+  let popular = await db.selectFromDB(`SELECT Tools.Tool_ID, Tools.Tool_Name, Tool_Locations.Location_Name, Tool_Statuses.Tool_Status_Details, Tools.Tool_Link FROM Tools
   INNER JOIN Tool_Locations ON Tools.Home_Location=Tool_Locations.Tool_Location
   INNER JOIN Tool_Statuses ON Tools.Tool_Status=Tool_Statuses.Tool_Status
   WHERE Tools.Is_Featured = 1`)
