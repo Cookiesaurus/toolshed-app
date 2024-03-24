@@ -162,6 +162,7 @@ CREATE TABLE Tools (
     Tool_Description TEXT, -- Tool_Description holds any details regarding the tool
     Tool_Status TINYINT UNSIGNED NOT NULL, -- Tool_Status determines the current status of the tool, these being Available, Checked Out, Maintenance, or Disabled
     Tool_Image MEDIUMBLOB, -- Tool_Image holds the image for a tool
+    Tool_Link VARCHAR(2000), -- Tool Image Link
     Tool_Manual MEDIUMBLOB, -- Tool Manual holds any manual to assist with using a tool
     Tool_Loan_Fee FLOAT NOT NULL DEFAULT "0", -- Tool_Loan_Fee holds the monitary value for loaning a tool
     Default_Late_Fee FLOAT NOT NULL DEFAULT "1.00", -- Default_Late_Fee is the dollar amount to be charged to a user every day a tool is overdue. This value will continue to add up until returned until eventually charged
