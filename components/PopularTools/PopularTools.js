@@ -1,57 +1,78 @@
-'use client'
+"use client";
 import React from "react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import './product.css'
-
-const PopularTools = () => {
+import "./product.css";
 
 
-    const [product, setProduct] = useState([]);
-    const [productImg, setProductImage] = useState([])
+const PopularTools = ({ tools }) => {
+    // const [imgeUrl, setImageURL] = useState([]);
+    const [imgLink, setImgLink] = useState(null);
+
+    // console.log(tools);
     useEffect(() => {
-        fetch("https://dummyjson.com/products")
-        .then((res) => res.json())
-        .then((data) => {
-            setProduct(data.products);
-            setProductImage(data.images);
+        const urls = tools.map((tool) => {
+            const link = tool.Tool_Link;
+            return link;
         });
     }, []);
+    // useEffect(() => {
+    //     // Create image URLs from base64-encoded data
+    //     const urls = tools.map((tool) => {
+    //         const base64Data = tool.Tool_Image.data;
+    //         const binData = atob(tool.Tool_Image.data);
+    //         console.log(binData);
+    //         const binaryData = Buffer.from(base64Data, "base64");
+    //         return "data:image/jpg;base64," + binaryData;
+    //     });
+    //     setImageURL(urls);
+    // }, [tools]);
 
-
-  return (
-    <>
-      <h2> Popular Tools</h2>
-        <div className="popular-container">
-        {product.slice(0, 5).map((productItem, index) => (
-            <div className="popular" key={index}>
-            <Link href={{
-                pathname: '/inventory/product',
-                query: {product_id: productItem.id} 
-              }}  >
-            <div className="img-cont">
-              {<Image src={productItem.images[0]} alt={'Product Place Holder'} width={230} height={280} className="popular-img"/>}
+    return (
+        <>
+            <h2> Popular Tools</h2>
+            <div className="popular-container">
+                {tools.map((tool, index) => (
+                    <div className="popular" key={tool.Tool_ID}>
+                        <Link
+                            href={{
+                                pathname: "/inventory/product",
+                                query: { product_id: tool.Tool_ID },
+                            }}
+                        >
+                            <div className="img-cont">
+                                <Image
+                                    src={tool.Tool_Link}
+                                    alt={tool.Tool_Name}
+                                    width={200}
+                                    height={200}
+                                />
+                                {/* <img src={imgeUrl[index]} /> */}
+                            </div>
+                            <div className="product-info">
+                                <p className="product-title">{tool.Tool_Name}</p>
+                                <p className="stock-green">
+                                    {tool.Tool_Status_Details}
+                                </p>
+                                <p className="light-paragraph">
+                                    {tool.Location_Name}
+                                </p>
+                            </div>
+                        </Link>
+                    </div>
+                ))}
             </div>
-                <p className="product-title">{productItem.title}</p>
-                <div className="popular-info">
-                    <p className="stock-green">{productItem.stock} In Stock</p>
-                    <p className="light-paragraph">Main Location</p>
-                </div>
-                </Link>
+            <div className="button-center">
+                <button type="submit" tabIndex={-1}>
+                    {" "}
+                    <Link href={"/inventory"} className="home-button">
+                        View All Tools
+                    </Link>
+                </button>
             </div>
-        ))}
-        </div>
-      <div className="button-center">
-        <button type="submit" tabIndex={-1}>
-          {" "}
-          <Link href={"/inventory"} className="home-button">
-            View All Tools
-          </Link>
-        </button>
-      </div>
-    </>
-  );
+        </>
+    );
 };
 
 export default PopularTools;
