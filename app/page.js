@@ -18,10 +18,8 @@ export default async function Page() {
     <>
     <div className="slide-container">
       <div className="categories">
-      {categories.map(category => (
-        <>
-
-          <table className="category-link">
+      <table className="category-link">
+          {categories.map(category => (
             <tr className="side-selection">
               <td className="link-container">
                   <Link 
@@ -45,9 +43,9 @@ export default async function Page() {
                   </Link>
               </td>
             </tr>
-          </table>
-        </>
-        ))}
+          
+          ))}
+        </table>
       </div>
         <div className="slide-show">
           <SlideShow/>

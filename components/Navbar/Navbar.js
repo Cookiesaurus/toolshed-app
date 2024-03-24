@@ -99,16 +99,6 @@ const Navbar = () => {
                     />
                 </button>
             </form>
-            <p className="navbar-cart">
-                <Link href={"/cart"} className="navbar-link">
-                    <FontAwesomeIcon
-                        icon={faCartShopping}
-                        size="lg"
-                        aria-label="Go to cart"
-                        style={{ backgroundColor: "white" }}
-                    />
-                </Link>
-            </p>
             <div className="account-hover">
                 <p className="navbar-account">
                     <Link href={"/login"} className="navbar-link">
