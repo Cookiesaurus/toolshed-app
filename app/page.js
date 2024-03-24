@@ -3,7 +3,6 @@ import SlideShow from "@/components/Slideshow/Slideshow";
 import PopularTools from "@/components/PopularTools/PopularTools";
 import db from "./config/db.mjs";
 
-
 export default async function Page() {
 	const categories = await db.selectFromDB("SELECT * FROM Categories")
   let popular = await db.selectFromDB(`SELECT Tools.Tool_ID, Tools.Tool_Name, Tool_Locations.Location_Name, Tool_Statuses.Tool_Status_Details, Tools.Tool_Link FROM Tools
