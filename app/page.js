@@ -19,24 +19,31 @@ export default async function Page() {
       <div className="categories">
       {categories.map(category => (
         <>
-          <div className="category-link">
-            <Link 
-              href={{
-                pathname: '/inventory/category',
-                query: {category_name: category.Category_Name} 
-              }} 
-              key={category.Category_ID}>
-                {category.Category_Name}
-              </Link>
-            <Link href={{
-                pathname: '/inventory/category',
-                query: {category_name: category.Category_Name} 
-              }}  
-              className="cat-arrow" 
-              tabIndex={-1}> 
-                &#10095;
-            </Link>
-          </div>
+          <table className="category-link">
+            <tr className="side-selection">
+              <td className="link-container">
+                  <Link 
+                  href={{
+                    pathname: '/inventory/category',
+                    query: {category_name: category.Category_Name} 
+                  }} 
+                  className="link-hypertext"
+                  key={category.Category_ID}>
+                    {category.Category_Name}
+                  </Link>
+              </td>
+              <td>
+                  <Link href={{
+                      pathname: '/inventory/category',
+                      query: {category_name: category.Category_Name} 
+                    }}  
+                    className="cat-arrow" 
+                    tabIndex={-1}> 
+                      &#10095;
+                  </Link>
+              </td>
+            </tr>
+          </table>
         </>
         ))}
       </div>

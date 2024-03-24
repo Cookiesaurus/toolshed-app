@@ -44,13 +44,13 @@ const PopularTools = ({ tools }) => {
                                 <Image
                                     src={tool.Tool_Link}
                                     alt={tool.Tool_Name}
-                                    width={100}
-                                    height={100}
+                                    width={200}
+                                    height={200}
                                 />
                                 {/* <img src={imgeUrl[index]} /> */}
                             </div>
-                            <p className="product-title">{tool.Tool_Name}</p>
-                            <div className="popular-info">
+                            <div className="product-info">
+                                <p className="product-title">{tool.Tool_Name}</p>
                                 <p className="stock-green">
                                     {tool.Tool_Status_Details}
                                 </p>
