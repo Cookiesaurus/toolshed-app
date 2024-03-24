@@ -1,57 +1,38 @@
-"use client";
-import "./navbar.css";
-import { logout } from "@/actions/actions";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faCartShopping,
-    faUser,
-    faMagnifyingGlass,
-    faFileInvoice,
-} from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { useCallback } from "react";
+'use client'
+
+import './navbar.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faMagnifyingGlass, faFileInvoice} from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { useCallback } from 'react';
+
 
 const Navbar = () => {
-    const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-
-    const [session, setSession] = useState(null);
-    useEffect(() => {
-        fetch("http://localhost:3000/api/me")
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                setSession({
-                    user: data.user,
-                    isLoggedIn: data.isLoggedIn,
-                });
-            });
-    }, []);
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
+   
     // Get a new searchParams string by merging the current
     // searchParams with a provided key/value pair
     const createQueryString = useCallback(
-        (name, value) => {
-            const params = new URLSearchParams(searchParams);
-            params.set(name, value);
+      (name, value) => {
+        const params = new URLSearchParams(searchParams)
+        params.set(name, value)
+   
+        return params.toString()
+      },
+      [searchParams]
+    )
 
-            return params.toString();
-        },
-        [searchParams]
-    );
-
-    console.log(session);
     return (
-        <div
-            className="navbar"
-            role="Navigation"
-            aria-label="Website Navigation"
-        >
-            <Link href={"/"} aria-label="Go to home" className="navbar-link">
-                <p className="navbar-logo">SEAC’s Tool Shed</p>
+    <nav className='navbar'>
+        <Link href={'/'} aria-label='Go to home' className='navbar-link' >
+            <p className='navbar-logo'>SEAC Tool Shed</p>
+        </Link>
+        <div className='giftcard-inventory'>
+            <Link href={'/giftcard'} aria-label='Go to gift cards' className='navbar-link'>
+                <p>Gift Card</p>
             </Link>
             <div className="giftcard-inventory">
                 <Link
@@ -99,16 +80,6 @@ const Navbar = () => {
                     />
                 </button>
             </form>
-            <p className="navbar-cart">
-                <Link href={"/cart"} className="navbar-link">
-                    <FontAwesomeIcon
-                        icon={faCartShopping}
-                        size="lg"
-                        aria-label="Go to cart"
-                        style={{ backgroundColor: "white" }}
-                    />
-                </Link>
-            </p>
             <div className="account-hover">
                 <p className="navbar-account">
                     <Link href={"/login"} className="navbar-link">
@@ -168,7 +139,8 @@ const Navbar = () => {
                 )}
             </div>
         </div>
-    );
-};
+    </nav>
+  )
+}
 
-export default Navbar;
+export default Navbar

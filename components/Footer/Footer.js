@@ -10,21 +10,19 @@ const Footer = () => {
     <>
     <footer>
     <div className='footer' role='Footer' aria-label='Footer'>
-       <div className='column-one'>
+       <div className='columns'>
           <Image src={logo} alt="toolshed logo" width={100} height={100}></Image>
-          <p className='footer-content'>Subscribe to our newsletter</p>
-          <form action={formHandler} className="footer-form">
-            <label htmlFor="newsletter-input" className="sr-only">Subscribe to our newsletter</label>
-            <input type="email" placeholder={"Enter your email"} style={{height: '40px'}} id="newsletter-input" aria-hidden={true} name="newsletter-email"/>
-          </form>
+          <a className='footer-hyperlink' href="">Subscribe to our newsletter</a>
+          
        </div>
-       <div className='column-two'>
-          <p className='footer-title'> Contact</p>
-          <p className='footer-content'> The Tool Shed 1255 University Ave, C010 (Lower Level) Rochester, NY 14607</p>
-          <p className='footer-content'> Email: toolshed@seacrochester.org</p>
-          <p className='footer-content'> Phone: 585-271-8665</p>
+       <div className='columns'>
+          <p className='footer-title'>Contact Us</p>
+          <p className="footer-content">Address: <br/><a className="footer-hyperlink" href="http://maps.google.com/?q=Lower Level, 1255 University Ave, Rochester, NY 14607">The Tool Shed 1255 University Ave <br/> C010 (Lower Level) <br/>Rochester, NY 14607</a></p>
+          <p className='footer-content'><a className="footer-hyperlink" href="https://www.google.com/maps/dir/?api=1&destination=Lower Level, 1255 University Ave, Rochester, NY 14607">Get Directions</a></p>
+          <p className='footer-content'>Email: <a className="footer-hyperlink" href="">toolshed@seacrochester.org</a></p>
+          <p className='footer-content'>Phone: <a className="footer-hyperlink" href="">585-271-8665</a></p>
        </div>
-       <div className='column-three'>
+       <div className='columns'>
           <p className='footer-title'>Pickup Hours</p>
           <p className='footer-content'> Monday: Closed </p>
           <p className='footer-content'> Tuesday: 3:00 PM to 7:00PM</p>
@@ -34,17 +32,11 @@ const Footer = () => {
           <p className='footer-content'> Saturday: 10:00 AM to 2:00PM</p>
           <p className='footer-content'> Sunday: Closed</p>
        </div>
-       <div className='column-four'>
-          <p className='footer-title'> Account</p>
-          <p className='footer-content'> My Account</p>
-          <p className='footer-content'> Login/Register</p>
-          <p className='footer-content'> Cart</p>
-       </div>
-       <div className='column-five'>
+       <div className='columns'>
           <p className='footer-title'> Quick Links</p>
-          <p className='footer-content'> Privacy Policy</p>
-          <p className='footer-content'> Terms of Use</p>
-          <p className='footer-content'> FAQ</p>
+          <a className='footer-hyperlink' href="">Privacy Policy</a>
+          <a className='footer-hyperlink' href="">Terms of Use</a>
+          <a className='footer-hyperlink' href="">FAQ</a>
        </div>
     </div>
     <div className='footer-end'>
