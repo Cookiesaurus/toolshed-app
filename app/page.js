@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SlideShow from "@/components/Slideshow/Slideshow";
 import PopularTools from "@/components/PopularTools/PopularTools";
+import db from "./config/db.mjs";
 
 
 export default async function Page() {
