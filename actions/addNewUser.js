@@ -1,6 +1,7 @@
 "use server";
 // import db from "@/app/config/db.mjs";
 import mysql from "mysql2/promise";
+import { redirect } from "next/dist/server/api-utils";
 export const createNewUser = async (formData) => {
     const db = await mysql.createConnection({
         host: process.env.DB_HOSTNAME,
@@ -30,10 +31,10 @@ export const createNewUser = async (formData) => {
     var query_second = "( ";
     for (const [key, value] of Object.entries(formData)) {
         if (neededKeys.includes(key)) {
-            // if (key === "password" || key === "zipCode")
-            //     query_second += String(value) + ", ";
+            if (key === "password" || key === "zipCode")
+                query_second += 'AES_Encrypt("' + String(value) + '", "") , ';
             // Username not included - Delete code after username implementation in database
-            query_second += "'" + String(value) + "', ";
+            else query_second += "'" + String(value) + "', ";
         }
     }
     query_second = query_second.substring(0, query_second.length - 2) + " ,1 )";
@@ -42,6 +43,7 @@ export const createNewUser = async (formData) => {
     try {
         const result = await db.execute(query);
         console.log(result);
+        redirect("/");
     } catch (error) {
         if (error.code == "ER_DUP_ENTRY") {
             console.log("Account already exists. Log in instead");

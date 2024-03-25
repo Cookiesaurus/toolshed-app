@@ -19,7 +19,7 @@ const Navbar = () => {
 
     const [session, setSession] = useState(null);
     useEffect(() => {
-        fetch("http://localhost:3000/api/me")
+        fetch("http://localhost:3000/api/me", { cache: "no-cache" })
             .then((response) => response.json())
             .then((data) => {
                 setSession({

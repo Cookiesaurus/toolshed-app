@@ -31,9 +31,10 @@ export const login = async (formData) => {
         "'";
     const result = await db.execute(query).then((res) => {
         user = res[0][0];
-        dbPass = res[0][0].pwd.toString();
+        dbPass = res[0][0] ? res[0][0].pwd.toString() : null;
     });
     if (!dbPass || formData.get("password") != dbPass) {
+        console.log("Wrong credentials!");
         return { error: "Wrong credentials! " };
     }
     console.log("User authenticated.");
