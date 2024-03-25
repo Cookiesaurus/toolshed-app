@@ -28,7 +28,6 @@ export const login = async (formData) => {
         formData.get("email") +
         "'";
     const result = await db.execute(query);
-    console.log(result);
     const db_pass = result[0][0] ? result[0][0].pwd : undefined;
     if (!db_pass && formData.get("password") != db_pass) {
         return { error: "Wrong credentials! " };
@@ -36,13 +35,15 @@ export const login = async (formData) => {
     console.log("User authenticated.");
     session.user = result[0][0];
     session.firstName = result[0][0].First_Name;
-    session.accId = result[0][0].Account_ID;
     session.isLoggedIn = true;
-    await session.save();
-    redirect("/");
+    await session.save().then(() => {
+        console.log("User logged in.");
+        redirect("/");
+    });
 };
 export const logout = async () => {
     const session = await getSession();
+    console.log("Logging out.");
     session.destroy();
     redirect("/");
 };

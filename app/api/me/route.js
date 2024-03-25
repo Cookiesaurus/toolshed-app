@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 export const GET = async () => {
     const ironSession = await getIronSession(cookies(), sessionOptions);
     const session = await getSession();
-    console.log("Current Session : ", session);
+    // console.log("Current session : " + session ? session.user.First_Name: "No user logged in yet.");
     let response = new NextResponse(
         JSON.stringify({ isLoggedIn: session.isLoggedIn, user: session.user })
     );
