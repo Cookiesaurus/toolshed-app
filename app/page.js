@@ -19,6 +19,7 @@ export default async function Page() {
             <div className="slide-container">
                 <div className="categories">
                     <table className="category-link">
+                      <tbody>
                         {categories.map((category) => (
                             <tr
                                 key={category.Category_ID}
@@ -56,6 +57,7 @@ export default async function Page() {
                                 </td>
                             </tr>
                         ))}
+                      </tbody>
                     </table>
                 </div>
                 <div className="slide-show">
