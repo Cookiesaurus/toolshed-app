@@ -31,7 +31,7 @@ export const createNewUser = async (formData) => {
     var query_second = "( ";
     for (const [key, value] of Object.entries(formData)) {
         if (neededKeys.includes(key)) {
-            if (key === "password" || key === "zipCode")
+            if (key === "password")
                 query_second += 'AES_Encrypt("' + String(value) + '", "") , ';
             // Username not included - Delete code after username implementation in database
             else query_second += "'" + String(value) + "', ";
