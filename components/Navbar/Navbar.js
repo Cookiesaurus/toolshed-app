@@ -40,7 +40,6 @@ const Navbar = () => {
         [searchParams]
     );
 
-    console.log(session);
     return (
         <div
             className="navbar"
