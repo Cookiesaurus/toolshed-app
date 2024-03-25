@@ -20,16 +20,14 @@ const Navbar = () => {
     const [session, setSession] = useState(null);
     useEffect(() => {
         fetch("http://localhost:3000/api/me")
-            .then((response) => {
-                return response.json();
-            })
+            .then((response) => response.json())
             .then((data) => {
                 setSession({
                     user: data.user,
                     isLoggedIn: data.isLoggedIn,
                 });
             });
-    }, []);
+    }, [session]);
     // Get a new searchParams string by merging the current
     // searchParams with a provided key/value pair
     const createQueryString = useCallback(
@@ -119,14 +117,6 @@ const Navbar = () => {
                                         : "Profile Name "}
                                 </Link>
                             </p>
-                            <form action={logout}>
-                                <button
-                                    className="navbar-category"
-                                    type="submit"
-                                >
-                                    Logout
-                                </button>
-                            </form>
                         </div>{" "}
                         {/* This is going to have to be conditional based on if the user is logged in or not and will have to be styled inline */}
                         <Link href={"/account/profile"}>
@@ -153,6 +143,9 @@ const Navbar = () => {
                             />
                             <p>My transactions</p>
                         </Link>
+                        <form action={logout}>
+                            <button>Logout</button>
+                        </form>
                     </div>
                 )}
             </div>
