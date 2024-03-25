@@ -24,7 +24,7 @@ if (brands.length > 0) {
 if (types.length > 0) {
     whereClause += ` ty.Type_Name IN (${types.map(type => `'${type}'`).join(', ')}) AND`;
 }
-if (status < 1) {
+if (status ==! null) {
     whereClause += ` t.Tool_Status = ${status} AND`;
 }
 if (locations.length > 0) {
@@ -33,7 +33,7 @@ if (locations.length > 0) {
 
 whereClause = whereClause.replace(/AND\s*$/, '');
 
-console.log(whereClause);
+
 
 //con.connect(function(err) {
 //  if (err) throw err;
