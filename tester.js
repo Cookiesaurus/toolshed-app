@@ -7,12 +7,19 @@ var con = mysql.createConnection({
   database: "SEAC_Tool_Shed"
 });*/
 
-const categories = ['Drill Extention', 'Roofing'];
+const categories = ['Drill Extention'];
 const brands = [];
-const types = ['Test'];
+const types = ['Corded'];
 const status = 1;
 const locations = ['Main Location'];
 
+let sqlQuery = 'SELECT Tools.Tool_ID, Tools.Tool_Name, Tools.Brand_Name, Tool_Locations.Location_Name, Tool_Statuses.Tool_Status_Details, GROUP_CONCAT(DISTINCT Categories.Category_Name SEPARATOR ', ') AS Categories, GROUP_CONCAT(DISTINCT Types.Type_Name SEPARATOR ', ') AS Types, Tools.Tool_Link FROM Tools 
+INNER JOIN Tool_Locations ON Tools.Home_Location = Tool_Locations.Tool_Location
+INNER JOIN Tool_Statuses ON Tools.Tool_Status=Tool_Statuses.Tool_Status
+INNER JOIN Tool_Categories ON Tools.Tool_ID=Tool_Categories.Tool_ID
+INNER JOIN Categories ON Tool_Categories.Category_ID=Categories.Category_ID
+INNER JOIN Tool_Types ON Tools.Tool_ID=Tool_Types.Tool_ID
+INNER JOIN Types ON Tool_Types.Type_ID=Types.Type_ID';
 
 let whereClause = 'WHERE';
 if (categories.length > 0) {
@@ -32,7 +39,9 @@ if (locations.length > 0) {
 }
 
 whereClause = whereClause.replace(/AND\s*$/, '');
-
+sqlQuery += whereClause;
+sqlQuery += 'GROUP BY t.tool_ID, t.Tool_Name HAVING COUNT(DISTINCT c.Category_Name) = ' + categories.length + ';';
+console.log(sqlQuery);
 
 
 //con.connect(function(err) {
