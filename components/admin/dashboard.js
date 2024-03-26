@@ -2,7 +2,7 @@ import Link from 'next/link';
 import './dashboard.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
-const Profile = () =>{
+const Dashboard= ({users, inventory}) =>{
     return (
         <>
             <div className='topRowButtons'>
@@ -15,11 +15,11 @@ const Profile = () =>{
             <div className='topRowStats'>
                 <div className='container'>
                     <p className='statsTitle'>Total users</p>
-                    <p className='stat'>9999</p>
+                    <p className='stat'>{users.length}</p>
                 </div>
                 <div className='container'>
                     <p className='statsTitle'>Total Inventory</p>
-                    <p className='stat'>9999</p>
+                    <p className='stat'>{inventory.length}</p>
                 </div>
                 <div className='container'>
                     <p className='statsTitle'>Total Sales</p>
@@ -88,4 +88,4 @@ const Profile = () =>{
     )
 }
 
-export default Profile
+export default Dashboard
