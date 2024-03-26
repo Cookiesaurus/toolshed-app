@@ -44,11 +44,11 @@ const InventoryItems = () => {
                                     <div className="product-info">
                                         <p>{productItem.Tool_Name}</p>
                                         <div className="item-aval">
-                                            <p className="stock-green">
-                                                {
-                                                    productItem.Tool_Status_Details
-                                                }{" "}
-                                            </p>
+                                            {productItem.Tool_Status_Details === "Available" ? (
+                                                <p className="stock-green">{productItem.Tool_Status_Details}</p>
+                                            ) : (
+                                                <p className="stock-red">{productItem.Tool_Status_Details}</p>
+                                            )}
                                             <p className="light-paragraph">
                                                 {productItem.Location_Name}
                                             </p>

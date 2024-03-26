@@ -69,6 +69,14 @@
     align-items: flex-start;
 }
 
+.stock-green {
+    color: yellowgreen !important;
+}
+
+.stock-red {
+    color: red;
+}
+
 
 .popular-logo {
     width: 230px;
