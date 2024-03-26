@@ -7,40 +7,35 @@ var con = mysql.createConnection({
   database: "SEAC_Tool_Shed"
 });*/
 
-const categories = ['Drill Extention'];
-const brands = [];
-const types = ['Corded'];
+const categories = ['Carpentry/Woodworking', 'Crafting', 'Drywall'];
+const brands = ['CRAFTSMAN', 'BLACK+DECKER'];
+const types = ['Drills'];
 const status = 1;
-const locations = ['Main Location'];
+const locations = ['Main Location', 'Mobile'];
+const searchBar = 'Power Drills';
 
-let sqlQuery = 'SELECT Tools.Tool_ID, Tools.Tool_Name, Tools.Brand_Name, Tool_Locations.Location_Name, Tool_Statuses.Tool_Status_Details, GROUP_CONCAT(DISTINCT Categories.Category_Name SEPARATOR ', ') AS Categories, GROUP_CONCAT(DISTINCT Types.Type_Name SEPARATOR ', ') AS Types, Tools.Tool_Link FROM Tools 
-INNER JOIN Tool_Locations ON Tools.Home_Location = Tool_Locations.Tool_Location
-INNER JOIN Tool_Statuses ON Tools.Tool_Status=Tool_Statuses.Tool_Status
-INNER JOIN Tool_Categories ON Tools.Tool_ID=Tool_Categories.Tool_ID
-INNER JOIN Categories ON Tool_Categories.Category_ID=Categories.Category_ID
-INNER JOIN Tool_Types ON Tools.Tool_ID=Tool_Types.Tool_ID
-INNER JOIN Types ON Tool_Types.Type_ID=Types.Type_ID';
+let sqlQuery = "SELECT Tools.Tool_ID, Tools.Tool_Name, Tools.Brand_Name, Tool_Locations.Location_Name, Tool_Statuses.Tool_Status_Details, GROUP_CONCAT(DISTINCT Categories.Category_Name SEPARATOR ', ') AS Categories, GROUP_CONCAT(DISTINCT Types.Type_Name SEPARATOR ', ') AS Types, Tools.Tool_Link FROM Tools INNER JOIN Tool_Locations ON Tools.Home_Location = Tool_Locations.Tool_Location INNER JOIN Tool_Statuses ON Tools.Tool_Status=Tool_Statuses.Tool_Status INNER JOIN Tool_Categories ON Tools.Tool_ID=Tool_Categories.Tool_ID INNER JOIN Categories ON Tool_Categories.Category_ID=Categories.Category_ID INNER JOIN Tool_Types ON Tools.Tool_ID=Tool_Types.Tool_ID INNER JOIN Types ON Tool_Types.Type_ID=Types.Type_ID";
 
-let whereClause = 'WHERE';
-if (categories.length > 0) {
-    whereClause += ` c.Category_Name IN (${categories.map(cat => `'${cat}'`).join(', ')}) AND`;
+let whereClause = ' WHERE';
+if(searchBar != null) {
+    whereClause += ' ( Tools.Tool_Name'
 }
-if (brands.length > 0) {
-    whereClause += ` t.Brand_Name IN (${brands.map(brand => `'${brand}'`).join(', ')}) AND`;
+if (categories.length > 0) {
+    whereClause += ` Categories.Category_Name IN (${categories.map(cat => `'${cat}'`).join(', ')}) AND`;
 }
 if (types.length > 0) {
-    whereClause += ` ty.Type_Name IN (${types.map(type => `'${type}'`).join(', ')}) AND`;
+    whereClause += ` Types.Type_Name IN (${types.map(type => `'${type}'`).join(', ')}) AND`;
 }
-if (status ==! null) {
-    whereClause += ` t.Tool_Status = ${status} AND`;
+if (brands.length > 0) {
+    whereClause += ` Tools.Brand_Name IN (${brands.map(brand => `'${brand}'`).join(', ')}) AND`;
 }
 if (locations.length > 0) {
-    whereClause += ` tl.Location_Name IN (${locations.map(loc => `'${loc}'`).join(', ')}) AND`;
+    whereClause += ` Tool_Locations.Location_Name IN (${locations.map(loc => `'${loc}'`).join(', ')}) AND`;
 }
 
 whereClause = whereClause.replace(/AND\s*$/, '');
 sqlQuery += whereClause;
-sqlQuery += 'GROUP BY t.tool_ID, t.Tool_Name HAVING COUNT(DISTINCT c.Category_Name) = ' + categories.length + ';';
+sqlQuery += 'GROUP BY Tools.Tool_ID';
 console.log(sqlQuery);
 
 
