@@ -15,7 +15,8 @@ export default async function Page({ searchParams }) {
     const cat = String(searchParams.category).split(",");
     const typ = String(searchParams.type).split(",");
     const bra = String(searchParams.brand).split(",");
-    const status = String(searchParams.status);
+    let status = String(searchParams.in_stock);
+    if (status != 'on'){status = 'off';}
     let useInven = true;
     let loc = String(searchParams.loc).split(",");
     //let searchBar = String(searchParams.search).split(" "); 
@@ -57,9 +58,18 @@ export default async function Page({ searchParams }) {
             .join(", ")}) AND`;
         useInven = false;
     }
+    if (status == 'off') {
+        whereClause += ` Tool_Statuses.Tool_Status_Details IN ('Available', 'Checked Out') AND`;
+        console.log('this is the status: ', status);
+    }
+    else if (status == 'on') {
+        whereClause += ` Tool_Statuses.Tool_Status_Details IN ('Available') AND`;
+        console.log('this is the status: ', status);
+    }
     whereClause = whereClause.replace(/AND\s*$/, "");
     if (whereClause != " WHERE") sqlQuery += whereClause;
     sqlQuery += " GROUP BY Tools.Tool_ID;";
+    console.log(sqlQuery);
     let tools = await db.execute(sqlQuery);
     tools = tools[0];
     // Debug
