@@ -1,9 +1,9 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import ProductItem from '@/components/ProductItem/ProductItem';
+import ProductItem from "@/components/ProductItem/ProductItem";
 
-import './product.css';
+import "./product.css";
 
 export default function Page() {
     const searchParams = useSearchParams();
@@ -17,15 +17,14 @@ export default function Page() {
             .then((data) => {
                 setTool(data[0]);
             });
-    }, []);
+    }, [tool, productid]);
 
     // Build a page for what the tool should look like instead of the return here
     return (
         <div>
-            Tool ID: {tool && tool.Tool_ID} and Tool Name:{" "}
-            {tool && tool.Tool_Name}{" "}
-
-            <ProductItem/>
+            {/* Tool ID: {tool && tool.Tool_ID} and Tool Name:{" "}
+            {tool && tool.Tool_Name} */}
+            <ProductItem tool={tool}/>
         </div>
     );
 }
