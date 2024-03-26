@@ -48,7 +48,7 @@ const AddNewPasswordModal = ({ onClose }) => {
 }
 
 
-const Cards = () => {
+const Cards = ({user}) => {
     const [showCards, setShowCards] = useState(true);
     const [showAddNewCardModal, setShowNewCardModal] = useState(false);
 

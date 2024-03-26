@@ -3,6 +3,7 @@ import Filters from "@/components/Filters/filters";
 import InventoryItems from "@/components/InventoryItems/InventoryItems";
 import db from "../config/db.mjs";
 
+
 import { useSearchParams } from "next/navigation";
 import ToolCard from "@/components/ToolCard/ToolCard";
 export default async function Page({ searchParams }) {

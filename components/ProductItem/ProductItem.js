@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import { useState, useEffect } from "react";
 import Image from "next/image";
 const ProductItem = ({ tool }) => {
+
     // Stuff we need : Product image, Product Name, Product availability, Product brand, Product weight, Product location, Product description
 
     return (
@@ -14,8 +14,8 @@ const ProductItem = ({ tool }) => {
                             <Image
                                 src={tool.Tool_Link}
                                 alt={"Product Place Holder"}
-                                width={230}
-                                height={280}
+                                width={400}
+                                height={600}
                                 className="product-img"
                                 priority={true}
                             />

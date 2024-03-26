@@ -2,19 +2,20 @@ import Link from 'next/link';
 import './profile.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
-const Profile = () =>{
+const Profile = ({user}) =>{
+    
     return (
         <>
 
                     <h1>Profile</h1>
                     <div className='account-name'>
                         <div className='account-info'>
-                            <p>Username</p>
+                            <p>{user.user.First_Name} {user.user.Last_Name}</p>
                             <Link href={''}><FontAwesomeIcon icon={faPencil} style={{backgroundColor: 'white'}} /></Link>
                         </div>
                         <div className='account-email'>
                             <p className='light-paragraph'>Email</p>
-                            <p>testemail@email.com</p> 
+                            <p>{user.user.Email}</p> 
                         </div>
                     </div>
                     <div className='address-cont'>
@@ -28,12 +29,11 @@ const Profile = () =>{
                             <Link href={'/'}><FontAwesomeIcon icon={faPencil} style={{backgroundColor: 'white'}}/></Link>
                         </div>
                         <div className='address-info'>
-                            <p>Name</p>
-                            <p>Address Line One</p>
-                            <p>Address Town/City</p>
-                            <p>Address State, Zip Code</p>
-                            <p>Address Country</p>
-                            <p>Phone Number</p>
+                            <p>{user.user.Address_Line1} {user.user.Address_Line2}</p>
+                            <p>{user.user.City}</p>
+                            <p>{user.user.Postal_Code}</p>
+                            <p>{user.user.State}</p>
+                            <p>{user.user.Phone_Number}</p>
                         </div>
                     </div>
                 </div>
