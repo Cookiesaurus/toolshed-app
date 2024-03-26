@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-const Transactions = () =>{
+const Transactions = ({user}) =>{
     return(
     <>
                     <h1>Transaction History</h1>

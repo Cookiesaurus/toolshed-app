@@ -29,7 +29,7 @@ const ChangePasswordModal = ({ onClose }) => {
     );
 }
 
-const Security = () => {
+const Security = ({user}) => {
     const [showSecurity, setShowSecurity] = useState(true);
     const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
 
@@ -51,7 +51,7 @@ const Security = () => {
                     <div className='account-name'>
                         <div className='account-email'>
                             <p className='light-paragraph'>Log-in Email</p>
-                            <p>testemail@email.com</p>
+                            <p>{user.user.Email}</p>
                         </div>
                         <div className='account-info'>
                             <button id="change-password" className="profile-button" onClick={handleOpenChangePasswordModal}>

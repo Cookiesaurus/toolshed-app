@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { useState} from 'react';
+import { useState, useEffect} from 'react';
 import Cards from './cards';
 import Membership from './membership';
 import Profile from './Profile';
@@ -15,6 +15,23 @@ const Accountnav = () => {
     const tabBottom = ['Saved Cards', 'Transaction Histroy', 'Gift Cards'];
     const [selectedTab, setSelectedTab] = useState('');
     const [activeItem, setActiveItem] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    const [session, setSession] = useState(null);
+    useEffect(() => {
+      fetch("/api/me", { cache: "no-cache" })
+          .then((response) => response.json())
+          .then((data) => {
+              setSession({
+                  user: data.user,
+                  isLoggedIn: data.isLoggedIn,
+              });
+              setLoading(false); 
+          });
+  }, []);
+  
+
+    
 
     const handleTabClick = (tab) =>{
         setSelectedTab(tab);
@@ -22,20 +39,22 @@ const Accountnav = () => {
 
     let componentToRender;
 
-    if (selectedTab === 'Profile') {
-      componentToRender = <Profile />;
-    } else if (selectedTab === 'Security') {
-      componentToRender = <Security />;
-    } else if (selectedTab === 'Membership') {
-      componentToRender = <Membership />;
-    } else if (selectedTab === 'Saved Cards') {   
-      componentToRender = <Cards />;
-    } else if (selectedTab === 'Transaction Histroy') {
-      componentToRender = <Transactions />;
-    } else if (selectedTab === 'Gift Cards') {
-      componentToRender = <Giftcards/>;
-    } else {
-      componentToRender = <Profile/>;
+    if (!loading && session) {
+      if (selectedTab === 'Profile') {
+        componentToRender = <Profile user={session} />;
+      } else if (selectedTab === 'Security') {
+        componentToRender = <Security user={session} />;
+      } else if (selectedTab === 'Membership') {
+        componentToRender = <Membership user={session}/>;
+      } else if (selectedTab === 'Saved Cards') {   
+        componentToRender = <Cards user={session}/>;
+      } else if (selectedTab === 'Transaction Histroy') {
+        componentToRender = <Transactions user={session}/>;
+      } else if (selectedTab === 'Gift Cards') {
+        componentToRender = <Giftcards/>;
+      } else {
+        componentToRender = <Profile user={session}/>;
+      }
     }
 
 
