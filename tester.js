@@ -7,11 +7,11 @@ var con = mysql.createConnection({
   database: "SEAC_Tool_Shed"
 });*/
 
-const categories = ['Carpentry/Woodworking', 'Crafting', 'Drywall'];
-const brands = ['CRAFTSMAN', 'BLACK+DECKER'];
-const types = ['Drills'];
+const categoriesArray = ['Carpentry/Woodworking', 'Crafting', 'Drywall'];
+const brandsArray = ['CRAFTSMAN', 'BLACK+DECKER'];
+const typesArray = ['Drills'];
 const status = 1;
-const locations = ['Main Location', 'Mobile'];
+const locationsArray = ['Main Location', 'Mobile'];
 const searchBar = 'Power Drills';
 const searchBarArray = searchBar.split(' ');
 
@@ -22,22 +22,22 @@ let whereClause = ' WHERE';
 if(searchBar != null) {
     whereClause += ' (';
     for(let i = 0; i < searchBarArray.length; i++){
-        whereClause += ` Tools.Tool_Name LIKE '%` + searchBarArray[i] + `%' OR Categories.Category_Name LIKE '%` + searchBarArray[i] + `%' OR Tools.Brand_Name LIKE '%` + searchBarArray[i] + `%' OR Types.Type_Name LIKE '%` + searchBarArray[i] + `%' OR`;
+        whereClause += " Tools.Tool_Name LIKE '%" + searchBarArray[i] + "%' OR Categories.Category_Name LIKE '%" + searchBarArray[i] + "%' OR Tools.Brand_Name LIKE '%" + searchBarArray[i] + "%' OR Types.Type_Name LIKE '%" + searchBarArray[i] + "%' OR";
     }
     whereClause = whereClause.replace(/OR\s*$/, '');
     whereClause += ') AND';
 }
-if (categories.length > 0) {
-    whereClause += ` Categories.Category_Name IN (${categories.map(cat => `'${cat}'`).join(', ')}) AND`;
+if (categoriesArray.length > 0) {
+    whereClause += ` Categories.Category_Name IN (${categoriesArray.map(cat => `'${cat}'`).join(', ')}) AND`;
 }
-if (types.length > 0) {
-    whereClause += ` Types.Type_Name IN (${types.map(type => `'${type}'`).join(', ')}) AND`;
+if (typesArray.length > 0) {
+    whereClause += ` Types.Type_Name IN (${typesArray.map(type => `'${type}'`).join(', ')}) AND`;
 }
-if (brands.length > 0) {
-    whereClause += ` Tools.Brand_Name IN (${brands.map(brand => `'${brand}'`).join(', ')}) AND`;
+if (brandsArray.length > 0) {
+    whereClause += ` Tools.Brand_Name IN (${brandsArray.map(brand => `'${brand}'`).join(', ')}) AND`;
 }
-if (locations.length > 0) {
-    whereClause += ` Tool_Locations.Location_Name IN (${locations.map(loc => `'${loc}'`).join(', ')}) AND`;
+if (locationsArray.length > 0) {
+    whereClause += ` Tool_Locations.Location_Name IN (${locationsArray.map(loc => `'${loc}'`).join(', ')}) AND`;
 }
 
 whereClause = whereClause.replace(/AND\s*$/, '');
