@@ -19,9 +19,8 @@ export default async function Page({ searchParams }) {
     let status = String(searchParams.in_stock);
     if (status != 'on'){status = 'off';}
     let useInven = true;
-    let loc = String(searchParams.loc).split(",");
-    //let searchBar = String(searchParams.search).split(" "); 
-    let searchBar = []; //Code this out once the search bar is updating the URL correctly
+    let loc = String(searchParams.location).split(",");
+    let searchBar = String(searchParams.search).split(" "); 
     let sqlQuery =
         "SELECT Tools.Tool_ID, Tools.Tool_Name, Tools.Brand_Name, Tool_Locations.Location_Name, Tool_Statuses.Tool_Status_Details, GROUP_CONCAT(DISTINCT Categories.Category_Name SEPARATOR ', ') AS Categories, GROUP_CONCAT(DISTINCT Types.Type_Name SEPARATOR ', ') AS Types, Tools.Tool_Link FROM Tools INNER JOIN Tool_Locations ON Tools.Home_Location = Tool_Locations.Tool_Location INNER JOIN Tool_Statuses ON Tools.Tool_Status=Tool_Statuses.Tool_Status INNER JOIN Tool_Categories ON Tools.Tool_ID=Tool_Categories.Tool_ID INNER JOIN Categories ON Tool_Categories.Category_ID=Categories.Category_ID INNER JOIN Tool_Types ON Tools.Tool_ID=Tool_Types.Tool_ID INNER JOIN Types ON Tool_Types.Type_ID=Types.Type_ID";
     let whereClause = " WHERE";
@@ -61,16 +60,13 @@ export default async function Page({ searchParams }) {
     }
     if (status == 'off') {
         whereClause += ` Tool_Statuses.Tool_Status_Details IN ('Available', 'Checked Out') AND`;
-        console.log('this is the status: ', status);
     }
     else if (status == 'on') {
         whereClause += ` Tool_Statuses.Tool_Status_Details IN ('Available') AND`;
-        console.log('this is the status: ', status);
     }
     whereClause = whereClause.replace(/AND\s*$/, "");
     if (whereClause != " WHERE") sqlQuery += whereClause;
     sqlQuery += " GROUP BY Tools.Tool_ID;";
-    console.log(sqlQuery);
     let tools = await db.execute(sqlQuery);
     tools = tools[0];
     // Debug
