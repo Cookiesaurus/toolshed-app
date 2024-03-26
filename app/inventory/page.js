@@ -2,15 +2,16 @@ import Link from "next/link";
 import Filters from "@/components/Filters/filters";
 import InventoryItems from "@/components/InventoryItems/InventoryItems";
 import db from "../config/db.mjs";
-
-
 import { useSearchParams } from "next/navigation";
 import ToolCard from "@/components/ToolCard/ToolCard";
+
+
 export default async function Page({ searchParams }) {
     // This would be all inventory items
     const categories = await db.selectFromDB("SELECT * FROM Categories");
     const brands = await db.selectFromDB("SELECT * FROM Brands");
     const types = await db.selectFromDB("SELECT * FROM Types");
+    const locations = await db.selectFromDB("SELECT * FROM SEAC_Tool_Shed.Tool_Locations");
 
     const cat = String(searchParams.category).split(",");
     const typ = String(searchParams.type).split(",");
@@ -109,6 +110,8 @@ export default async function Page({ searchParams }) {
                     categories={categories}
                     brands={brands}
                     types={types}
+                    locations={locations}
+                    totalTools={tools.length}
                 />
                 {useInven ? (
                     <InventoryItems />

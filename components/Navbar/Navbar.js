@@ -76,7 +76,7 @@ const Navbar = () => {
                     aria-label="search products"
                     onChange={(e) => {
                         router.push(
-                            `/inventory/search` +
+                            `/inventory` +
                                 `?` +
                                 createQueryString("search", e.target.value)
                         );

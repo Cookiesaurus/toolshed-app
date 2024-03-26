@@ -5,8 +5,7 @@ import React from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import {useState } from 'react';
 
-const Filters = ({categories, brands, types, locations}) => {
-
+const Filters = ({categories, brands, types, locations, totalTools}) => {
   //Arrays to hold the values of the input from the checkboxes
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
@@ -35,38 +34,73 @@ const Filters = ({categories, brands, types, locations}) => {
   const handleBrandChange = (event) => {
     const brandName = event.target.value;
     const isChecked = event.target.checked;
-    setSelectedBrands((prevSelectedBrand) =>
+    
+    setSelectedBrands((prevSelectedBrands) =>
       isChecked
-        ? [...prevSelectedBrand, brandName]
-        : prevSelectedBrand.filter((brandName) => brandName !== brandName)
+        ? [...prevSelectedBrands, brandName]
+        : prevSelectedBrands.filter((brand) => brand !== brandName)
     );
-
-    UpdateURLParams({ brand: isChecked ? [...selectedBrands, brandName] : selectedBrands.filter((brandName) => brandName !== brandName) });
+  
+    const updatedBrands = isChecked
+      ? [...selectedBrands, brandName]
+      : selectedBrands.filter((brand) => brand !== brandName);
+  
+    UpdateURLParams({ brand: updatedBrands });
   };
 
   const handleTypeChange = (event) => {
     const toolType = event.target.value;
     const isChecked = event.target.checked;
-    setSelectedTypes((prevSelectedType) =>
+  
+    setSelectedTypes((prevSelectedTypes) =>
       isChecked
-        ? [...prevSelectedType, toolType]
-        : prevSelectedType.filter((toolType) => toolType !== toolType)
+        ? [...prevSelectedTypes, toolType]
+        : prevSelectedTypes.filter((type) => type !== toolType)
     );
-
-    UpdateURLParams({ type: isChecked ? [...selectedTypes, toolType] : selectedTypes.filter((toolType) => toolType !== toolType) });
+  
+    const updatedTypes = isChecked
+      ? [...selectedTypes, toolType]
+      : selectedTypes.filter((type) => type !== toolType);
+  
+    UpdateURLParams({ type: updatedTypes });
   };
+  
 
   const handleStockChange = (event) => {
     const availability = event.target.value;
     const isChecked = event.target.checked;
+  
     setSelectedStock((prevSelectedStock) =>
       isChecked
         ? [...prevSelectedStock, availability]
-        : prevSelectedStock.filter((availability) => availability !== availability)
+        : prevSelectedStock.filter((stock) => stock !== availability)
     );
-
-    UpdateURLParams({ in_stock: isChecked ? [...selectedStock, availability] : selectedStock.filter((availability) => availability !== availability) });
+  
+    const updatedStock = isChecked
+      ? [...selectedStock, availability]
+      : selectedStock.filter((stock) => stock !== availability);
+  
+    UpdateURLParams({ in_stock: updatedStock });
   };
+  
+  const handleLocationChange = (event) => {
+    console.log('here')
+    const location = event.target.value;
+    const isChecked = event.target.checked;
+  
+    setSelectedLocation((prevSelectedLocation) =>
+      isChecked
+        ? [...prevSelectedLocation, location]
+        : prevSelectedLocation.filter((loc) => loc !== location)
+    );
+  
+    const updatedLocation = isChecked
+      ? [...selectedLocation, location]
+      : selectedLocation.filter((loc) => loc !== location);
+  
+    UpdateURLParams({ location: updatedLocation });
+  };
+  
 
   // Function to iterate through the arrays of input values and update the URL search qury params 
   const UpdateURLParams = (params) =>{
@@ -76,10 +110,30 @@ const Filters = ({categories, brands, types, locations}) => {
     router.push(`/inventory` + `?` + filterParams.toString())
   }
 
+  // const removeQueryParam = (param) => {
+  //   const { pathname, query } = router;
+  //   const params = new URLSearchParams(query);
+  //   params.delete(param);
+  //   router.replace(
+  //       { pathname, query: params.toString() },
+  //       undefined, 
+  //       { shallow: true }
+  //   );
+  // };
+
+
+  const urlSelectedCat = searchParams.get('category')
+
 
     return (
         <>
             <div className='filters-cont'>
+            <div className='results'>
+            <h1>
+              {urlSelectedCat}
+            </h1>
+            <p>{totalTools} Results</p>
+        </div>
               <form className='inventory-filters white'>
                 <h4 className='filter-headers white'>Categories</h4> 
                 <div className='filter white'> 
@@ -158,16 +212,22 @@ const Filters = ({categories, brands, types, locations}) => {
                 <div className='filters-conditions white'>
                     <h4 className='filter-headers white'>Location</h4> 
                     <div className='brand-select white'>
-                      <label htmlFor='Location-Main' className='checkbox-container white'>
-                        Main Location
-                        <input type="checkbox" className='checkbox' id='Location-Main' name='main-location'/>
-                        <span className="checkmark"></span>
-                      </label>
-                      <label htmlFor='Location-Truck' className='checkbox-container white'>
-                        Truck
-                        <input type="checkbox" className='checkbox' id='Location-Truck' name='truck'/>
-                        <span className="checkmark"></span>
-                      </label>
+                    {locations.map(place => (
+                      <React.Fragment key={place.Tool_Location}>
+                        <label htmlFor={place.Location_Name} className='checkbox-container white' >
+                        {place.Location_Name}
+                          <input 
+                            type="checkbox" 
+                            className='checkbox' 
+                            id={place.Location_Name} 
+                            name='brand' 
+                            value={place.Location_Name}
+                             onChange={(e)=>{handleLocationChange(e)}} 
+                            />
+                          <span className="checkmark"></span>
+                        </label>
+                      </React.Fragment>
+                    ))}
                     </div>
                 </div>
                 </form>
