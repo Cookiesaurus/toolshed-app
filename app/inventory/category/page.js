@@ -24,6 +24,7 @@ export default function Page() {
     if (fetched == 1) console.log("Data fetched");
     return (
         <>
+
             <ToolCard tools={tools} />
         </>
     );
