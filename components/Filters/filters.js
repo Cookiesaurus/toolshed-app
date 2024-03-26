@@ -5,7 +5,7 @@ import React from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import {useState } from 'react';
 
-const Filters = ({categories, brands, types, locations}) => {
+const Filters = ({categories, brands, types, locations, totalTools}) => {
 
   //Arrays to hold the values of the input from the checkboxes
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -76,10 +76,18 @@ const Filters = ({categories, brands, types, locations}) => {
     router.push(`/inventory` + `?` + filterParams.toString())
   }
 
+  const urlSelectedCat = searchParams.get('category')
+
 
     return (
         <>
             <div className='filters-cont'>
+            <div className='results'>
+            <h1>
+              {urlSelectedCat}
+            </h1>
+            <p>{totalTools} Results</p>
+        </div>
               <form className='inventory-filters white'>
                 <h4 className='filter-headers white'>Categories</h4> 
                 <div className='filter white'> 
