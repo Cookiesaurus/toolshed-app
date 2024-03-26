@@ -53,7 +53,10 @@ const ProductItem = ({ tool }) => {
                                 </div>
                             </div>
                             <div className="product-description">
-                                <p>{tool.Category_Name}</p>
+                                <p>Categories : {tool.Category_Name}</p>
+                            </div>
+                            <div className="product-description">
+                                <p>Item Types: {tool.Types}</p>
                             </div>
                         </React.Fragment>
                     )}
