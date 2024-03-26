@@ -44,11 +44,17 @@ const InventoryItems = () => {
                                     <div className="product-info">
                                         <p>{productItem.Tool_Name}</p>
                                         <div className="item-aval">
-                                            {productItem.Tool_Status_Details === "Available" ? (
-                                                <p className="stock-green">{productItem.Tool_Status_Details}</p>
-                                            ) : (
-                                                <p className="stock-red">{productItem.Tool_Status_Details}</p>
-                                            )}
+                                        {productItem.Tool_Status_Details === "Available" ? (
+                                            <p className="stock-green">{productItem.Tool_Status_Details}</p>
+                                        ) : productItem.Tool_Status_Details === "Checked Out" ? (
+                                            <p className="stock-red">{productItem.Tool_Status_Details}</p>
+                                        ) : productItem.Tool_Status_Details === "Maintenance" ? (
+                                            <p className="stock-orange">{productItem.Tool_Status_Details}</p>
+                                        ) : productItem.Tool_Status_Details === "Disabled" ? (
+                                            <p className="stock-gray">{productItem.Tool_Status_Details}</p>
+                                        ) : (
+                                            <p>{productItem.Tool_Status_Details}</p>
+                                        )}
                                             <p className="light-paragraph">
                                                 {productItem.Location_Name}
                                             </p>

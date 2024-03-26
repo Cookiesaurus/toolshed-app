@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const PaymentButton = ({paymentAmount}) =>{
   return (
@@ -47,14 +47,10 @@ const FromModal = () =>{
   )
 }
 
-const GiftCardOptions = ()=>{
-  const [paymentAmount, setPaymentAmount] = useState('$0.00')
-  const handleButtonClick = (event) =>{
-    setPaymentAmount(event.target.textContent)
-  }
-
-  return (<>
-    <div className="redeem-card">
+const RedeemGiftCard = () =>{
+  return (
+    <>
+      <div className="redeem-card">
       <h2 className='section-title'>Redeem a gift card</h2>
       <form className='giftcard-form'>
         <label className='giftcard-label' for="code">Enter gift card code</label>
@@ -62,6 +58,32 @@ const GiftCardOptions = ()=>{
         <button className="redeem-button" type="submit" id="card-redeem-button">Redeem gift card</button>
       </form>
     </div>
+    </>
+  )
+}
+
+const GiftCardOptions = ()=>{
+  const [paymentAmount, setPaymentAmount] = useState('$0.00')
+  const handleButtonClick = (event) =>{
+    setPaymentAmount(event.target.textContent)
+  }
+
+  const [session, setSession] = useState(null);
+  useEffect(() => {
+      fetch("/api/me", { cache: "no-cache" })
+          .then((response) => response.json())
+          .then((data) => {
+              setSession({
+                  user: data.user,
+                  isLoggedIn: data.isLoggedIn,
+              });
+          });
+  }, []);
+
+
+
+  return (<>
+    {session && session.isLoggedIn ? <RedeemGiftCard /> : null}
     <div className='buy-card'>
       <h2 className='section-title'>Buy a gift card</h2>
       
@@ -114,9 +136,7 @@ const GiftCardOptions = ()=>{
 const Giftcards = () => {
   return (
     <>
-        <form>
           <GiftCardOptions />
-        </form>
     </>
   )
 }
