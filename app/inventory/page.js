@@ -155,7 +155,11 @@ export default async function Page({ searchParams }) {
                 {useInven ? (
                     <InventoryItems />
                 ) : tools.length == 0 ? (
-                    "No items found"
+                    <div className="inven-cont">
+                        <div className="inven-items">
+                            <h1>No items found</h1>
+                        </div>
+                    </div>
                 ) : (
                     <ToolCard tools={tools} />
                 )}
