@@ -49,7 +49,7 @@ const InventoryItems = () => {
                                         ) : productItem.Tool_Status_Details === "Checked Out" ? (
                                             <p className="stock-red">{productItem.Tool_Status_Details}</p>
                                         ) : productItem.Tool_Status_Details === "Maintenance" ? (
-                                            <p className="stock-yellow">{productItem.Tool_Status_Details}</p>
+                                            <p className="stock-orange">{productItem.Tool_Status_Details}</p>
                                         ) : productItem.Tool_Status_Details === "Disabled" ? (
                                             <p className="stock-gray">{productItem.Tool_Status_Details}</p>
                                         ) : (
