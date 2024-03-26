@@ -16,19 +16,21 @@ export default async function Page({ searchParams }) {
     const cat = String(searchParams.category).split(",");
     const typ = String(searchParams.type).split(",");
     const bra = String(searchParams.brand).split(",");
+    const status = String(searchParams.status);
     let useInven = true;
     let loc = String(searchParams.loc).split(",");
-    let searchBar = null;
+    //let searchBar = String(searchParams.search).split(" "); 
+    let searchBar = []; //Code this out once the search bar is updating the URL correctly
     let sqlQuery =
         "SELECT Tools.Tool_ID, Tools.Tool_Name, Tools.Brand_Name, Tool_Locations.Location_Name, Tool_Statuses.Tool_Status_Details, GROUP_CONCAT(DISTINCT Categories.Category_Name SEPARATOR ', ') AS Categories, GROUP_CONCAT(DISTINCT Types.Type_Name SEPARATOR ', ') AS Types, Tools.Tool_Link FROM Tools INNER JOIN Tool_Locations ON Tools.Home_Location = Tool_Locations.Tool_Location INNER JOIN Tool_Statuses ON Tools.Tool_Status=Tool_Statuses.Tool_Status INNER JOIN Tool_Categories ON Tools.Tool_ID=Tool_Categories.Tool_ID INNER JOIN Categories ON Tool_Categories.Category_ID=Categories.Category_ID INNER JOIN Tool_Types ON Tools.Tool_ID=Tool_Types.Tool_ID INNER JOIN Types ON Tool_Types.Type_ID=Types.Type_ID";
     let whereClause = " WHERE";
-    if (searchBar != null) {
+    if (searchBar.length > 0 && searchBar[0] != "undefined" && searchBar[0] != "") {
         whereClause += " (";
-        for (let i = 0; i < searchBarArray.length; i++) {
+        for (let i = 0; i < searchBar.length; i++) {
             whereClause +=
-                "Tools.Tool_Name LIKE '% + searchBarArray[i] + %' OR Categories.Category_Name LIKE '% + searchBarArray[i] + %' OR Tools.Brand_Name LIKE '% + searchBarArray[i] + %' OR Types.Type_Name LIKE '% + searchBarArray[i] + %' OR";
+                " Tools.Tool_Name LIKE '%" + searchBar[i] + "%' OR Categories.Category_Name LIKE '%" + searchBar[i] + "%' OR Tools.Brand_Name LIKE '%" + searchBar[i] + "%' OR Types.Type_Name LIKE '%" + searchBar[i] + "%' OR";
         }
-        whereClause = whereClause.replace(/OR\s$/, "");
+        whereClause = whereClause.replace(/OR\s*$/, "");
         whereClause += ") AND";
         useInven = false;
     }
@@ -59,7 +61,6 @@ export default async function Page({ searchParams }) {
     whereClause = whereClause.replace(/AND\s*$/, "");
     if (whereClause != " WHERE") sqlQuery += whereClause;
     sqlQuery += " GROUP BY Tools.Tool_ID;";
-
     let tools = await db.execute(sqlQuery);
     tools = tools[0];
     // Debug
