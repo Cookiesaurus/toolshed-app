@@ -9,8 +9,8 @@ export default async function Page({searchParams}) {
     const categories = await db.selectFromDB("SELECT * FROM Categories")
     const brands = await db.selectFromDB("SELECT * FROM Brands")
     const types = await db.selectFromDB("SELECT * FROM Types")
+    const locations = await db.selectFromDB("SELECT * FROM SEAC_Tool_Shed.Tool_Locations")
 
-    console.log(searchParams)
 
     return (
         <>
@@ -43,7 +43,7 @@ export default async function Page({searchParams}) {
                 </div>
             </div>
             <div className="inventory-cont">
-                <Filters categories={categories} brands={brands} types={types}/>
+                <Filters categories={categories} brands={brands} types={types} locations={locations}/>
                 <InventoryItems />
             </div>
 
