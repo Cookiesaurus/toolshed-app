@@ -77,6 +77,13 @@
     color: red;
 }
 
+.stock-yellow {
+    color:orange;
+}
+
+.stock-gray {
+    color: gray;
+}
 
 .popular-logo {
     width: 230px;
