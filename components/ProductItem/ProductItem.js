@@ -3,16 +3,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 const ProductItem = ({ tool }) => {
-    const [product, setProduct] = useState([]);
-
-    useEffect(() => {
-        fetch("https://dummyjson.com/products")
-            .then((res) => res.json())
-            .then((data) => {
-                setProduct(data.products);
-            });
-    }, []);
-
     // Stuff we need : Product image, Product Name, Product availability, Product brand, Product weight, Product location, Product description
 
     return (
