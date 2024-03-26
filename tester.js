@@ -21,9 +21,11 @@ let sqlQuery = "SELECT Tools.Tool_ID, Tools.Tool_Name, Tools.Brand_Name, Tool_Lo
 let whereClause = ' WHERE';
 if(searchBar != null) {
     whereClause += ' (';
-    for(let i = 1; i <= searchBarArray.length; i++){
-        whereClause += ` Tools.Tool_Name LIKE %`
+    for(let i = 0; i < searchBarArray.length; i++){
+        whereClause += ` Tools.Tool_Name LIKE '%` + searchBarArray[i] + `%' OR Categories.Category_Name LIKE '%` + searchBarArray[i] + `%' OR Tools.Brand_Name LIKE '%` + searchBarArray[i] + `%' OR Types.Type_Name LIKE '%` + searchBarArray[i] + `%' OR`;
     }
+    whereClause = whereClause.replace(/OR\s*$/, '');
+    whereClause += ') AND';
 }
 if (categories.length > 0) {
     whereClause += ` Categories.Category_Name IN (${categories.map(cat => `'${cat}'`).join(', ')}) AND`;
@@ -40,8 +42,8 @@ if (locations.length > 0) {
 
 whereClause = whereClause.replace(/AND\s*$/, '');
 sqlQuery += whereClause;
-sqlQuery += 'GROUP BY Tools.Tool_ID';
-//console.log(sqlQuery);
+sqlQuery += 'GROUP BY Tools.Tool_ID;';
+console.log(sqlQuery);
 
 
 //con.connect(function(err) {
