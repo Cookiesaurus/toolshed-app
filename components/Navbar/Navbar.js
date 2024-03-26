@@ -97,9 +97,9 @@ const Navbar = () => {
             </form>
             <div className="account-hover">
                 <p className="navbar-account">
-                    <Link href={"/login"} className="navbar-link">
-                        {session && session.isLoggedIn ? "Profile" : "Login"}
-                    </Link>
+                <Link href={session && session.isLoggedIn ? "/account/profile" : "/login"} className="navbar-link">
+                    {session && session.isLoggedIn ? "Profile" : "Login"}
+                </Link>
                 </p>
                 {session && session.isLoggedIn && (
                     <div className="dropdown-content">
