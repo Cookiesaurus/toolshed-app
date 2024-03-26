@@ -8,7 +8,7 @@ const InventoryItems = () => {
     // Debug
     const [product, setProduct] = useState([]);
     useEffect(() => {
-        fetch("http://localhost:3000/api/tools")
+        fetch("/api/tools")
             .then((res) => res.json())
             .then((data) => {
                 setProduct(data);

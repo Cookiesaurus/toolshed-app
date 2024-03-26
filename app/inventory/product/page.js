@@ -10,7 +10,7 @@ export default function Page() {
     const productid = searchParams.get("product_id");
     const [tool, setTool] = useState(null);
     useEffect(() => {
-        fetch("http://localhost:3000/api/tools/tool?product_id=" + productid)
+        fetch("/api/tools/tool?product_id=" + productid)
             .then((response) => {
                 return response.json();
             })
