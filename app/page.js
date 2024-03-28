@@ -2,6 +2,7 @@ import Link from "next/link";
 import SlideShow from "@/components/Slideshow/Slideshow";
 import PopularTools from "@/components/PopularTools/PopularTools";
 import db from "./config/db.mjs";
+import Navbar from "@/components/Navbar/Navbar";
 
 export default async function Page() {
     const categories = await db.selectFromDB("SELECT * FROM Categories");
@@ -16,6 +17,7 @@ export default async function Page() {
 
     return (
         <>
+            <Navbar/>
             <div className="slide-container">
                 <div className="categories">
                     <table className="category-link">

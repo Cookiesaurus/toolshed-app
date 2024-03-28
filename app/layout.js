@@ -20,7 +20,6 @@ export default function RootLayout({ children }) {
     <>
       <html lang="en">
         <body>
-        <Navbar />
         <main>{children}</main>
         <Footer />
         </body>
