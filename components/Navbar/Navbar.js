@@ -97,7 +97,7 @@ const Navbar = () => {
             </form>
             <div className="account-hover">
                 <p className="navbar-account">
-                <Link href={session && session.isLoggedIn ? "/account/profile" : "/login"} className="navbar-link">
+                <Link href={session && session.isLoggedIn ? "/account" : "/login"} className="navbar-link">
                     {session && session.isLoggedIn ? "Profile" : "Login"}
                 </Link>
                 </p>
@@ -106,7 +106,7 @@ const Navbar = () => {
                         <div className="account">
                             <p className="navbar-link">
                                 <Link
-                                    href={"/account/profile"}
+                                    href={"/account"}
                                     className="navbar-link"
                                 >
                                     {session && session.isLoggedIn
@@ -118,7 +118,7 @@ const Navbar = () => {
                             </p>
                         </div>{" "}
                         {/* This is going to have to be conditional based on if the user is logged in or not and will have to be styled inline */}
-                        <Link href={"/account/profile"}>
+                        <Link href={"/account"}>
                             <FontAwesomeIcon
                                 icon={faUser}
                                 style={{
@@ -130,7 +130,7 @@ const Navbar = () => {
                             />
                             <p>Account Settings</p>
                         </Link>
-                        <Link href={"/account/profile"}>
+                        <Link href={"/account"}>
                             <FontAwesomeIcon
                                 icon={faFileInvoice}
                                 style={{
