@@ -2,11 +2,13 @@
 import Link from "next/link";
 import { z } from "zod";
 import { useEffect, useState } from "react";
+import React from 'react';
 import { createNewUser } from "@/actions/addNewUser";
 import UserSchema from "./newUserSchema";
 import SelectStates from "./statesSelect";
+import jsPDF from 'jspdf';
 
-export default function Signupform() {
+export default function Signupform({waivers}) {
     const [formError, setFormError] = useState(null);
     const createUser = async (formData) => {
         const user = {
@@ -38,6 +40,47 @@ export default function Signupform() {
         }
         const response = await createNewUser(result.data);
         console.log(response);
+    };
+
+    const downloadPDF = (text, fileName) => {
+        // Set margins
+        const margin = 10;
+        const pageWidth = 210; // A4 page width in mm
+        const pageHeight = 297; // A4 page height in mm
+        const textWidth = pageWidth - 2 * margin; // Text width within margins
+    
+        // Create a new jsPDF instance
+        const doc = new jsPDF({
+            unit: 'mm',
+            format: 'a4',
+            orientation: 'portrait',
+            marginLeft: margin,
+            marginRight: margin,
+            marginTop: margin,
+            marginBottom: margin
+        });
+    
+        // Set font size and type
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+    
+        // Split text into array of lines that fit within the page width
+        const lines = doc.splitTextToSize(text, textWidth);
+    
+        // Add text content with specified formatting, taking care of page breaks
+        let y = margin;
+        lines.forEach((line, index) => {
+            if (y + 12 > pageHeight) {
+                // If adding this line would exceed the page height, create a new page
+                doc.addPage();
+                y = margin;
+            }
+            doc.text(line, margin, y);
+            y += 12; // Increase y-coordinate for the next line
+        });
+    
+        // Save PDF with specified filename
+        doc.save(`${fileName}.pdf`);
     };
 
     return (
@@ -178,6 +221,14 @@ export default function Signupform() {
                     <label htmlFor="address-zipcode" className="sr-only">
                         Zip Code
                     </label>
+                    <p> I have read and accept the following: </p>
+                        <ul>
+                            {waivers.map((waiver, index) => (
+                                <React.Fragment key={index}>
+                                    <li key={index} onClick={() => downloadPDF(waiver.Waiver_Details, waiver.Waiver_Name)}>{waiver.Waiver_Name}</li>
+                                </React.Fragment>
+                            ))}
+                        </ul>
                     <input
                         className="input"
                         type="numbers"
