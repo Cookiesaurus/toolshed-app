@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { formHandler } from '@/lib/actions/formHandler';
 
 
-const Navbar = () => {
+const AdminNavBar = () => {
   return (
     <div className='navbar' role='Navigation' aria-label='Website Navigation'>
         <Link href={'/'} aria-label='Go to home' className='navbar-link' >
@@ -32,4 +32,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar_Admin
+export default AdminNavBar
