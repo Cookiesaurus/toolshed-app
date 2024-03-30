@@ -1,10 +1,14 @@
-// export default function Layout({
-//     children, // will be a page or nested layout
-//   }) {
-//     return (
-//       <>
-//         {children}
-//         {/* Have to add in the children param so that the components from the page appear within the layout */}
-//       </>
-//     )
-//   }
+import Adminnav from "@/components/admin/AdminSideBar"
+export default function Layout({
+    children, // will be a page or nested layout
+  }) {
+    return (
+      <>
+      <div className="account-cont">
+        <div className="right-admin">
+          {children}
+        </div>  
+      </div>
+      </>
+    )
+  }
