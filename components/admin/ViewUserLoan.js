@@ -1,45 +1,132 @@
-const ViewUserLoan = () =>{
-    return(
-        <>
-            <div className="title_and_buttons">
-                <h1>Robert Person</h1>
-                <div className="buttonsContainer">
-                    <button>View</button>
-                    <button>Edit</button>
-                    <button>Privalges</button>
-                    <button>Agreements</button>
-                    <button>Payment Method</button>
-                    <button>Check In/Out</button>
-                </div>
-            </div>
+"use client";
+import DataTable from "react-data-table-component";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCircleInfo,
+  faEye,
+  faShoppingCart
+} from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
+const ViewUserLoan = ({ customerData }) => {
+  const columns = [
+    {
+      name: "Date",
+      selector: (row) => row.id
+    },
+    {
+      name: "Amount",
+      selector: (row) => row.name,
+      sortable: true
+    },
+    {
+      name: "Payment Method",
+      selector: (row) => row.email,
+      sortable: true
+    },
+    {
+      name: "Loan Items",
+      selector: (row) => row.organization,
+      sortable: true
+    },
+    {
+      name: "Membership",
+      selector: (row) => row.membership,
+      sortable: true
+    },
+    {
+      name: "Action",
+      selector: (row) => row.action
+    }
+  ];
 
-            <div className='mainContent'>
-                <table>
-                        <thead>
-                            <tr className='topRow'>
-                                <th className='topRow'>Date</th>
-                                <th className='topRow'>Amount</th>
-                                <th className='topRow'>Payment Method</th>
-                                <th className='topRow'>Item</th>
-                                <th className='topRow'>Handled By</th>
-                                <th className='topRow'>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>3/19/24</th>
-                                <th>$0.00</th>
-                                <th>Checkout <br/>Belt Sander</th>
-                                <th>SEAC Voulenteer</th>
-                                <th>
-                                    <button className="loanDetailsButton" type='button'>Details</button>
-                                </th>
-                            </tr>
-                        </tbody>
-                        </table>
-            </div>
-        </>
-    )
-}
+  const data = customerData.map((user) => {
+    let membership;
+    if (user.Membership_Level === 1) {
+      membership = "Tinkerer";
+    } else if (user.Membership_Level === 2) {
+      membership = "MacGyver";
+    } else if (user.Membership_Level === 3 || user.Membership_Level === 4) {
+      membership = "Builder";
+    }
+    let expirationDate = new Date(user.Membership_Expiration_Date);
+    expirationDate = expirationDate.toDateString();
 
-export default ViewUserLoan
+    let name = user.First_Name + " " + user.Last_Name;
+
+    const actions = (
+      <div>
+        <Link
+          className="loansButton"
+          href={{
+            pathname: "/admin/customers/loan/details",
+            query: { account_id: user.Account_ID }
+          }}
+        >
+          <FontAwesomeIcon
+            icon={faCircleInfo}
+            style={{ backgroundColor: "transparent" }}
+          />
+          Details
+        </Link>
+        <br />
+      </div>
+    );
+
+    return {
+      id: user.Account_ID,
+      name: name,
+      email: user.Email,
+      organization: user.Organization_Name,
+      membership: membership,
+      member_expiration: expirationDate,
+      action: actions
+    };
+  });
+
+  return (
+    <>
+      <div className="title_and_buttons">
+      {customerData.map((user) => (
+  <>
+    <h1>{user.First_Name + " " + user.Last_Name}</h1>
+    <div className="buttonsContainer">
+      <Link
+        href={{
+          pathname: "/admin/customers/edit",
+          query: { account_id: user.Account_ID }
+        }}
+      >
+        <FontAwesomeIcon icon={faEye}></FontAwesomeIcon>
+        View/Edit
+      </Link>
+      <Link
+        href={{
+          pathname: "/admin/customers/checkin",
+          query: { account_id: user.Account_ID }
+        }}
+      >
+        <FontAwesomeIcon icon={faShoppingCart}></FontAwesomeIcon>
+        Check In
+      </Link>
+      <Link
+        href={{
+          pathname: "/admin/customers/checkout",
+          query: { account_id: user.Account_ID }
+        }}
+      >
+        <FontAwesomeIcon icon={faShoppingCart}></FontAwesomeIcon>
+        Check Out
+      </Link>
+    </div>
+  </>
+))}
+      </div>
+
+      <div className="mainContent">
+        <DataTable columns={columns} data={data} pagination />
+      </div>
+    </>
+  );
+};
+
+export default ViewUserLoan;

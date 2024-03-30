@@ -117,23 +117,15 @@ const ViewAllUsers = ({ customerData }) => {
       action: actions
     };
   });
+
   return (
     <>
       <div className="filterOptionsContainer">
-        <form className="filterOptions">
-          <input list="type" name="type" placeholder=" Find User" />
-          <datalist id="type">
-            {/* <option value="option1"/>
-                        <option value="option2"/>
-                        <option value="option3"/>
-                        <option value="option4"/>
-                        <option value="option5"/> */}
-          </datalist>
-        </form>
+        <h1>All Customers</h1>
       </div>
 
       <div className="mainContent">
-        <DataTable columns={columns} data={data} pagination />
+        <DataTable columns={columns} data={data} pagination/>
       </div>
     </>
   );
