@@ -19,8 +19,6 @@ const AdminNavBar = () => {
             <button type="submit" className='navbar-searchIcon' aria-hidden={true} tabIndex={-1}>
                 <FontAwesomeIcon icon={faMagnifyingGlass} size='lg' style={{color: 'white', backgroundColor: 'black'}}/>
             </button>
-        </form>
-        <form className='navbar-search' action={formHandler}>
             <label htmlFor='navbar-search' className='sr-only'>Search products</label>
             <input type="text" name="search" id='navbar-search' aria-label='search inventory' placeholder='Search inventory'/>
             <button type="submit" className='navbar-searchIcon' aria-hidden={true} tabIndex={-1}>
