@@ -91,6 +91,9 @@ const AdminInventory = ({ inventory }) => {
   });
   return (
     <>
+      <div className="filterOptionsContainer">
+        <h1>All Tools</h1>
+      </div>
       <div className="mainContent">
         <DataTable columns={columns} data={data} pagination />
       </div>
