@@ -22,7 +22,9 @@
     "nuka-carousel": "^7.0.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-square-web-payments-sdk": "^3.2.1",
     "react-toastify": "^10.0.5",
+    "square": "^35.1.0",
     "styled-components": "^6.1.6",
     "zod": "^3.22.4"
   },
