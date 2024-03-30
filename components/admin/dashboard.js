@@ -1,15 +1,13 @@
 import Link from 'next/link';
 import './dashboard.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil } from '@fortawesome/free-solid-svg-icons';
-const Dashboard= ({users, inventory}) =>{
+const Dashboard = ({users, inventory}) =>{
     return (
         <>
             <div className='topRowButtons'>
-                <button className='topRowButton' type='button'>Create User</button>
-                <button className='topRowButton' type='button'>Add Item</button>
-                <button className='topRowButton' type='button'>Check Out</button>
-                <button className='topRowButton' type='button'>Check In</button>
+                <Link className='topRowButton' href={'/admin/customers/createuser'}>Create User</Link>
+                <Link className='topRowButton' href={'/admin/inventory/new_item'}>Add Item</Link>
+                <Link className='topRowButton' href={'/admin/inventory/checkout'}>Check Out</Link>
+                <Link className='topRowButton' href={''}>Check In</Link>
             </div>
 
             <div className='topRowStats'>
