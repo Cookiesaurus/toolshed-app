@@ -23,8 +23,11 @@
     "react": "^18",
     "react-data-table-component": "^7.6.2",
     "react-dom": "^18",
+    "react-square-web-payments-sdk": "^3.2.1",
     "react-toastify": "^10.0.5",
     "styled-components": "^6.1.8",
+    "square": "^35.1.0",
+    "styled-components": "^6.1.6",
     "zod": "^3.22.4"
   },
   "devDependencies": {
