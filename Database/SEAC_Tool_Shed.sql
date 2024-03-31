@@ -13,12 +13,28 @@ CREATE TABLE Membership_Levels (
     CONSTRAINT PK_Membership_Levels PRIMARY KEY (Membership_Level) -- Membership_Level is the primary key of this table
 );
 
+-- Memebership_Levels Inserts -- 
+INSERT INTO Membership_Levels (Membership_Title, Membership_Price, Max_Tool_Checkout, Is_Organizational) VALUES
+/* More Membership_Levels can be added in future and should be an option on admin page */
+('Tinkerer', 25.00, 5, 0), -- Tinkerer Level
+('MacGyver', 35.00, 10, 0), -- MacGyver Level
+('Builder', 50.00, 25, 0), -- Builder Level
+('Contractor', 100.00, 50, 1); -- Contractor Level
+
 CREATE TABLE Privilege_Levels (
     /* The Privilege_Levels table holds all active privilege levels. These levels will be used to determine privileges with regard to the web application */
     Privilege_Level TINYINT UNSIGNED, -- Privilege_Level is the identification number used to uniquly identify each privilege level tier. 1 -- Customer 2 -- Volunteer 3 -- Employee 4 -- Manager 5 -- Administrator
     Privilege_Title VARCHAR(255) NOT NULL, -- Privilege_Title holds the string name for each privilege tier i.e.  Customer, Volunteer, Employee, Manager, Administrator
     CONSTRAINT PK_Privilege PRIMARY KEY (Privilege_Level) -- Privilege_Level is the primary key of this table
 );
+
+-- Privilege_Levels Inserts --
+INSERT INTO Privilege_Levels (Privilege_Level,Privilege_Title) VALUES
+(1,'Customer'), -- Customer Level
+(2,'Volunteer'), -- Volunteer Level
+(3,'Employee'), -- Employee Level 
+(4,'Manager'), -- Manager Level
+(5,'Administrator'); -- Administrator Level
 
 CREATE TABLE Current_Membership_Status (
     /* The Current_Membership_Status table holds all membership status. These currenly being 1 -- Active and 2 -- Inactive */
@@ -27,11 +43,31 @@ CREATE TABLE Current_Membership_Status (
     CONSTRAINT PK_Current_Membership_Status PRIMARY KEY (Membership_Status) -- Membership_Status is the primary key of this table
 );
 
+-- Current_Membership_Status Inserts --
+INSERT INTO Current_Membership_Status (Membership_Status, Membership_Status_Description) VALUES
+(1,'Active'), -- Active Membership Status
+(2,'Inactive'); -- Inactive Membership Status
+
+CREATE Table Genders (
+    Gender_Code TINYINT UNSIGNED AUTO_INCREMENT,
+    Gender_Name VARCHAR(255) NOT NULL,
+    CONSTRAINT PK_Genders PRIMARY KEY (Gender_Code)
+);
+
+-- Genders Inserts --
+INSERT INTO Genders (Gender_Name) VALUES
+("Male"),
+("Female"),
+("Other"),
+("Would Rather Not Specify");
+
 CREATE TABLE Accounts (
     /* The Accounts table holds all relevant information for any user account. Here, all user account information shall be stored */
     Account_ID INT UNSIGNED AUTO_INCREMENT, -- Account_ID is a unique identifier for all Tool Shed users
     First_Name VARCHAR(255) NOT NULL, -- First_Name is a string value which holds a persons first name
     Last_Name VARCHAR(255) NOT NULL,  -- Last_Name is a string value which holds a persons first name
+    DOB DATE NOT NULL, -- DOB is the date of birth for the account member
+    Gender_Code TINYINT UNSIGNED NOT NULL, -- Gender_Code holds the integer value for the persons sex
     Organization_Name VARCHAR(255), -- Organizational_Name shall be filled if account relates to an organization. This field holds the organizational name
     Email VARCHAR(255) NOT NULL UNIQUE, -- Email holds the email associated to the account
     Password VARBINARY(255) NOT NULL, -- Password here is the string value associated to an account. It will be stored using AES_Encrypt and verified using AES_Decrypt
@@ -52,8 +88,50 @@ CREATE TABLE Accounts (
     CONSTRAINT PK_Accounts PRIMARY KEY (Account_ID), -- The Account_ID is the primary key for the Accounts table
     CONSTRAINT FK_Accounts_Membership_Levels FOREIGN KEY (Membership_Level) REFERENCES Membership_Levels (Membership_Level), -- This statement creates a foreign key on Membership_Level, which is used to connect the Membership_Levels table to Accounts
     CONSTRAINT FK_Accounts_Privilege_Levels FOREIGN KEY (Privilege_Level) REFERENCES Privilege_Levels (Privilege_Level), -- This statement creates a foreign key on Privilege_Level, which is used to connect the Privilege_Levels table to Accounts
-    CONSTRAINT FK_Accounts_Current_Membership_Status FOREIGN KEY (Membership_Status) REFERENCES Current_Membership_Status (Membership_Status) -- This statement creates a foreign key on Membership_Status, which is used to connect the Membership_Status table to Accounts
+    CONSTRAINT FK_Accounts_Current_Membership_Status FOREIGN KEY (Membership_Status) REFERENCES Current_Membership_Status (Membership_Status), -- This statement creates a foreign key on Membership_Status, which is used to connect the Membership_Status table to Accounts
+    CONSTRAINT FK_Accounts_Genders FOREIGN KEY (Gender_Code) REFERENCES Genders (Gender_Code) -- This statement creates a foreign key on Gender_Code, which is used to connect the Genders table to Accounts
 );
+
+-- Accounts Inserts --
+-- Administrator Accounts -- 
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
+("Mike", "Evans", "2000-01-01", 1, "South East Area Coalition", "mike@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 5); -- Mike Admin Account
+
+-- Manager Accounts -- 
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
+("Nick", "Wilbur", "2000-01-01", 1, "South East Area Coalition", "nick@SEACrochester.org", AES_Encrypt("password", ""), "5852718665", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 4); -- Nick Manager Account
+
+-- Employee Accounts -- 
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
+("Kiki", "Smith", "2000-01-01", 2, "South East Area Coalition", "kirstyn@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3), -- Kiki Employee Account
+("Lori", "Wood", "2000-01-01", 2, "South East Area Coalition", "lori@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3), -- Lori Employee Account
+("Sara", "Glauser", "2000-01-01", 2, "South East Area Coalition", "sara@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3); -- Sara Employee Account
+
+-- Voluteer Accounts -- 
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
+("SEAC Tool Shed", "Volunteer", "2000-01-01", 3, "South East Area Coalition", "toolshed@seacrochester.org", AES_Encrypt("password", ""), "0000000000", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 2); -- Volunteer Account
+
+-- Customer Accounts -- 
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer
+("Bryce", "Hofstom", "2000-01-01", 3, "bgh3077@g.rit.edu", AES_Encrypt("password",""), "2164075162", "8439 Sharp Lane", "Chesterland", "Ohio", 44026, 1);
+
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with tinkerer status
+("Michael", "Pacholarz", "2000-01-01", 3, "mfp7158@g.rit.edu", AES_Encrypt("password",""), "7609223761", "7750 Sleepy Hollow Road", "Folsom", "California", 95630, 1);
+
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with tinkerer status plus two address lines
+("Andy", "Erskine", "2000-01-01", 3, "ate9624@g.rit.edu", AES_Encrypt("password",""), "9037539683", "760 Lexington Ave.", "Apt. 4", "Cleburne", "Texas", 76031, 1);
+
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal) VALUES -- Normal Customer with MacGyver Status and Auto-renewal membership payment set to true
+("Fei", "Gao", "2000-01-01", 4, "fxg8365@g.rit.edu", AES_Encrypt("password",""), "2184549695", "7908 South Durham St.", "Cottage Grove", "Minnesota", 55016, 3, 2);
+
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Account_Notes, Membership_Level) VALUES -- Normal Customer with Builder Status and account notes
+("Ian", "Dinga", "2000-01-01", 4, "iad2750@g.rit.edu", AES_Encrypt("password",""), "6462316017", "8402 Bridgeton Lane", "Corona", "New York", 11368, "Ian has not had any activity with the Tool Shed despite owning a Builder membership. Effort should be had to reach out and ensure he would still like to be a member.", 3);
+
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with Contractor Status and Organization name
+("Aryan", "Todi", "2000-01-01", 4, "The Handymen LLC.","at1203@g.rit.edu", AES_Encrypt("password",""), "4236953998", "4 Windsor Ave.", "Memphis", "Tennessee", 38106, 4);
+
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Account_Notes, Membership_Level, Membership_Status) VALUES -- Disabled Customer
+("Evan", "Hiltzik", "2000-01-01", 4, "eh8319@g.rit.edu", AES_Encrypt("password",""), "5704143466", "98 Lilac Street", "Gibsonia", "Pennsylvania", 15044, "User account was disabled on 01/10/24 as customer decided to drop membership.", 1, 1);
 
 CREATE TABLE Payment_Methods (
     /* TBD NEED SQUARE INFO FIRST*/
@@ -77,6 +155,12 @@ CREATE TABLE Gift_Cards (
     CONSTRAINT FK_Gift_Cards_Membership_Levels FOREIGN KEY (Membership_Level) REFERENCES Membership_Levels (Membership_Level)-- This statement creates a foreign key on Membership_Level, which is used to connect the Gift_Cards table to Membership_Levels 
 );
 
+-- Gift_Cards Inserts --
+INSERT INTO Gift_Cards (Account_ID, Membership_Level, Is_Applied) VALUES 
+(7, 2, 0), -- Bryce MacGuyver Unapplied Gift Card
+(12, 4, 0), -- Aryan Constructor Unapplied Gift Card
+(9, 3, 1); -- Andy Builder Applied Gift Card
+
 CREATE TABLE Waivers (
     /* The Waivers table holds all waivers necessary for the SEAC Tool Shed buisness. Currently, there is the "Tool Waiver and Indemnification" and "Tool Lending Agreement" */
     Waiver_ID INT UNSIGNED, -- Waiver_ID holds the unique identifier for each waiver i.e. Waiver_ID -- 1 = "Tool Waiver and Indemnification" and  -- 2 = "Tool Lending Agreement"
@@ -84,6 +168,42 @@ CREATE TABLE Waivers (
     Waiver_Details TEXT NOT NULL, -- Waiver_Details holds the text for each waiver
     CONSTRAINT PK_Waivers PRIMARY KEY (Waiver_ID) -- Waiver_ID is the primary key for the Waivers table
 );
+
+-- Waivers Inserts --
+INSERT INTO Waivers (Waiver_ID, Waiver_Name, Waiver_Details) VALUES 
+(1, "Tool Waiver and Indemnification", 
+"I do hereby for myself, on behalf of my heirs, successors, and assigns, in consideration of being permitted to borrow tools, waive any and all claims against the SEAC’s Tool Shed for any personal injury, illness, death, or liability resulting from or arising out of the carelessness, recklessness, negligence and/or fault of the Tool Shed.
+
+I do hereby for myself, on behalf of my heirs, successors, and assigns, in consideration of being permitted to borrow tools, agree to release and indemnify and hold harmless and defend SEAC’s Tool Shed, their offices, agents, volunteers, and employees from any and all liability, loss, claims, and demands, actions or cause of action for the death or injury to any persons and for any property damage suffered or incurred by any person which arises or may arise or be occasioned in any way from the use or possession of tools I am borrowing from the Tool Shed.
+
+I grant to SEAC’s Tool Shed its representatives, volunteers, and employees the right to take photographs of me and my property. I authorize the Tool Shed, its assigns and transferees to copyright, use and publish the same in print and/or electronically. I agree that the Tool Shed may use such photographs of me with or without my name and for any lawful purpose, including for example such purposes as publicity, illustration, advertising, and web content.
+
+The parties intend each provision to be severable and separate and apart from one another.
+
+The parties agree that any and all disputes resulting in litigation will be commenced, litigated, and adjudicated only in the County of Monroe, State of New York pursuant the laws of the State of New York."),
+(2, "Tool Lending Agreement", 
+"1. Only residents of the Greater Rochester Area (Livingston, Monroe, Ontario, Orleans, Wayne, and Yates counties) who are over the age of 18 are eligible to borrow tools from SEAC’s Tool Shed.
+2. Prior to borrowing tools, all Members must (a) complete a Membership Application; (b) pay a membership fee; and (c) verify his/her identity and residency. Verification is accomplished by presenting a valid photo ID and piece of mail, both displaying a local address. In the event that the Member’s photo ID does not display a local address, a second ID or piece of mail must be produced to verify residency. Additionally, the Member must sign this Tool Lending Agreement and the attached Waiver and Indemnification.
+3. Members will be authorized a Membership Card. If the card is lost or stolen, the Member is responsible for reporting the loss or theft immediately. If a report is not made, the Member will be held responsible for any tools borrowed with a lost or stolen card.
+4. Only the Member is authorized to use Tool Shed tools. The Member shall not permit the use of items checked out to them by any other person unless by the expressed permission of SEAC and its staff. Volunteers do not have the right to authorize this.
+5. For those unfamiliar with a particular tool, safety training materials such as manuals (if in the possession of SEAC’s Tool Shed) will be made available upon request. However, by taking possession of any item, the member is certifying that they are capable of using that item in a safe and proper manner.
+6. Necessary safety equipment is available upon request by the Member.
+7. The Member agrees that SEAC and the Tool Shed is not responsible for any manufacturing defects in the quality of workmanship or materials inherent in any borrowed tools.
+8. The Member agrees that if any borrowed tool becomes unsafe or in a state of disrepair, they will immediately discontinue use of the tool and notify SEAC’s Tool Shed of the issue on return, if not earlier. If a Member fails to inform SEAC’s Tool Shed that a tool is not in working order upon return, said Member may be held liable for full replacement.
+9. Tools may only be reserved ahead of time for large community projects. Reservations should be made at least one week prior to project date. Requests should be in written form and can either be emailed or dropped off at SEAC’s Tool Shed in-person. Individual loans are on a first come first serve basis.
+10. The loan period for tools is five days unless otherwise specified. Tools are to be returned to SEAC’s Tool Shed by closing time one (1) week from the day borrowed.
+11. Late fees will be levied for each tool kept past the loan period. The late fee is $1 per tool per day, including days which the Tool Shed is not open. All tools borrowed from the Tool Shed must be returned during normal business hours.
+12. When tools are not returned by the designated due date, the Tool Shed will issue an overdue notice after 30 days. If tools are not returned after an overdue notice is issued, appropriate steps will be taken to retrieve them, including the use of a collection agency and/or legal action, the cost of which will be assessed to the delinquent member. The Tool Shed may replace severely delinquent tools, holding the Member responsible for full replacement cost. Fines must be paid in full before borrowing additional items.
+13. Any tools (including but not limited to those that require batteries and/or electric power to operate) require a member’s credit card to be kept on file as a deposit. Members will be assessed the full replacement cost of delinquent tools if they are not returned within thirty (30) days from the date they were originally checked out. The credit card on file will be charged on day thirty-one (31). A receipt of the charge or notice of the charge will be emailed to the address on file.
+14. All items may be renewed once, for a second five day loan period, by contacting the Tool Shed and requesting a renewal in advance of the due date. Additional renewals are at the discretion of the Tool Shed.
+14a. Renewal requests can be denied if tools have been requested for a community project.
+15. Items are to be returned in the same condition as they were issued, barring normal wear and tear. All items must be returned clean. A $5 cleaning fee will be assessed if tools are returned dirty. The Member agrees to pay for the loss of or damage to any items and further agrees to accept Tool Shed staff’s assessment of condition of items and to further agree to Tool Shed staff’s assessment of fair restitution for damage, dirtiness, delinquency and/or loss of items in part or total. This restitution amount could equal as much as replacement cost of the item.
+16. The Tool Shed retains the right to refuse the loan of any item to any person for any reason.
+17. The membership and borrowing privileges of all Tool Shed members are subject to the provisions of this Lending Agreement, and failure to comply with this Lending Agreement may result in revocation of membership, loss of borrowing privileges, or legal action, as appropriate. The Tool Shed’s board of directors may, at its sole discretion, modify this Lending Policy, and all Tool Shed members will be subject to any such modified version.
+
+I affirm that the information that I have provided on the Membership Application is current, true and correct. I understand that this information may be subject to verification.
+
+I further state that I have read and fully understand the rules and regulations of the Tool Shed, and I understand that failure to comply with any of these rules may result in revocation of my borrowing privileges and/or legal action against me. I have read and signed a Waiver and Indemnification form, relinquishing any and all claims against the Tool Shed.");
 
 CREATE TABLE Account_Waivers (
     /* The Account_Waivers tables is an associative table joining the Accounts table to the Waivers table. This table will be populated upon Account creation */
@@ -95,12 +215,54 @@ CREATE TABLE Account_Waivers (
     CONSTRAINT FK_Account_Waivers_Waivers FOREIGN KEY (Waiver_ID) REFERENCES Waivers (Waiver_ID) --  This statement creates a foreign key on Waiver_ID, which is used to connect the Account_Waivers table to Waivers 
 );
 
+-- Account_Waivers Inserts --
+INSERT INTO Account_Waivers (Account_ID, Waiver_ID, Is_Signed) VALUES -- Insert Data into Associative Table
+-- Admin Accounts --
+(1, 1, 1), -- Mike Tool Waiver and Indemnification Waiver *Signed
+(1, 2, 1), -- Mike Tool Lending Agreement Waiver *Signed
+(2, 1, 1), -- Nick Tool Waiver and Indemnification Waiver *Signed
+(2, 2, 1), -- Nick Tool Lending Agreement Waiver *Signed
+(3, 1, 1), -- Kiki Tool Waiver and Indemnification Waiver *Signed
+(3, 2, 1), -- Kiki Tool Lending Agreement Waiver *Signed
+(4, 1, 1), -- Lori Tool Waiver and Indemnification Waiver *Signed
+(4, 2, 1), -- Lori Tool Lending Agreement Waiver *Signed
+(5, 1, 1), -- Sara Tool Waiver and Indemnification Waiver *Signed
+(5, 2, 1), -- Sara Tool Lending Agreement Waiver *Signed
+(6, 1, 1), -- Volunteer Tool Waiver and Indemnification Waiver *Signed
+(6, 2, 1), -- Volunteer Tool Lending Agreement Waiver *Signed
+-- Customer Accounts --
+(7, 1, 0), -- Bryce Tool Waiver and Indemnification Waiver *Unsigned
+(7, 2, 0), -- Bryce Tool Lending Agreement Waiver *Unsigned
+(8, 1, 0), -- Michael Tool Waiver and Indemnification Waiver *Unsigned
+(8, 2, 0), -- Michael Tool Lending Agreement Waiver *Unsigned
+(9, 1, 0), -- Andy Tool Waiver and Indemnification Waiver *Unsigned
+(9, 2, 0), -- Andy Tool Lending Agreement Waiver *Unsigned
+(10, 1, 0), -- Fei Tool Waiver and Indemnification Waiver *Unsigned
+(10, 2, 1), -- Fei Tool Lending Agreement Waiver *Signed
+(11, 1, 0), -- Ian Tool Waiver and Indemnification Waiver
+(11, 2, 1), -- Ian Tool Lending Agreement Waiver *Signed
+(12, 1, 1), -- Aryan Tool Waiver and Indemnification Waiver *Signed
+(12, 2, 1), -- Aryan Tool Lending Agreement Waiver *Signed
+(13, 1, 1), -- Evan Tool Waiver and Indemnification Waiver *Signed
+(13, 2, 1); -- Evan Tool Lending Agreement Waiver *Signed
+
 CREATE TABLE Transaction_Types (
     /* The Transaction Types table holds all codes related to all system transactions*/
     Transaction_Type TINYINT UNSIGNED, -- Transaction_Type holds the integer value code for each type of transaction i.e. Membership Change -- 1, Tool Check Out -- 2, Tool Return -- 3, Gift Card Purchase -- 4, Gift Card Activation -- 4, Rental Late Fee -- 6, Tool Replacement Fee -- 7
     Transaction_Details VARCHAR(255), -- Transaction_Details hold the string name value for each transaction code i.e. Membership Change, Tool Check Out, Tool Return, Gift Card Purchase, Tool Return Late Fee, Tool Replacement Fee
     CONSTRAINT PK_Transaction_Types PRIMARY KEY (Transaction_Type) -- Transaction_Type is the primary key for the Transaction_Types table
 );
+
+-- Tool_Transaction_Types Inserts --
+INSERT INTO Transaction_Types (Transaction_Type, Transaction_Details) VALUES 
+(1, "Membership Change"), -- Membership Change Type
+(2, "Tool Check Out"), -- Tool Check Out Type
+(3, "Tool Return"), -- Tool Return Type
+(4, "Gift Card Purchase"), -- Gift Card Purchase Type
+(5, "Gift Card Activation"), -- Gift Card Activation Type
+(6, "Tool Loan Fee"), -- Tool Loan Fee Type
+(7, "Rental Late Fee"), -- Rental Late Fee Type
+(8, "Tool Replacement Fee"); -- Tool Replacement Fee Type
 
 CREATE TABLE Transactions (
     /* The Transactions table holds all transactions related to each account */
@@ -125,6 +287,13 @@ CREATE TABLE Tool_Statuses (
     CONSTRAINT PK_Tool_Statuses PRIMARY KEY (Tool_Status) -- Tool_Status is the primary key
 );
 
+-- Tool_Statuses Inserts --
+INSERT INTO Tool_Statuses (Tool_Status, Tool_Status_Details) VALUES
+(1, 'Available'), -- Available Status
+(2, 'Checked Out'), -- Checked Out Status
+(3, 'Maintenance'), -- Maintenance Status
+(4, 'Disabled'); -- Disabled Status
+
 CREATE TABLE Tool_Locations (
     /* Tool_Locations table holds all the current locations related to the Tool Shed System */
     Tool_Location INT UNSIGNED AUTO_INCREMENT, -- Tool_Location holds the number code which identifies the location code for locations
@@ -132,21 +301,213 @@ CREATE TABLE Tool_Locations (
     CONSTRAINT PK_Tool_Locations PRIMARY KEY (Tool_Location) -- Tool_Location is the primary key
 );
 
-
-CREATE Table Tool_Sub_Locations (
-      /* Tool_Sub_Locations table holds all the current sub locations related to the Tool Shed System */
-    Tool_Sub_Location INT UNSIGNED AUTO_INCREMENT, -- Tool_Sub_Location holds the number code which identifes the sub locations
-    Sub_Location_Name VARCHAR(255) NOT NULL, -- Sub_Location_Name holds the string value for the sub location name
-    Tool_Location INT UNSIGNED NOT NULL, -- Tool_Location holds the number code which identifies the location code for locations
-    CONSTRAINT PK_Tool_Sub_Locations PRIMARY KEY (Tool_Sub_Location), -- Tool_Sub_Location holds the number code which identifies the sub location code
-    CONSTRAINT FK_Tool_Sub_Locations_Tool_Locations FOREIGN KEY (Tool_Location) REFERENCES Tool_Locations (Tool_Location) -- This statement creates a foreign key on Tool_Location , which is used to connect the to the Tool_Locations table
-);
+-- Tool_Locations Inserts --
+INSERT INTO Tool_Locations (Location_Name) VALUES
+/* More Tool_Locations can be added in future and should be an option on admin page */
+('Main Location'), -- Main Location Location
+('Mobile Unit - Thomas P. Ryan Center (Monday)'), -- Mobile Unit Location
+('Mobile Unit - Edgerton Recreation Center (Tuesday)'), -- Mobile Unit Location
+('Mobile Unit - Willie Walker Lightfoot Recreation Center (Wednesday)'), -- Mobile Unit Location
+('Mobile Unit - David F. Gantt Reacreation Center (Thursday)'); -- Mobile Unit Location
 
 CREATE TABLE Brands (
-      /* Brands table holds all the brands locations related to the Tool Shed System */
+    /* Brands table holds all the brands locations related to the Tool Shed System */
     Brand_Name VARCHAR(255), -- Brand_Name which holds the string value of each brand
-    CONSTRAINT PK_Brands PRIMARY KEY (Brand_Name)
+    CONSTRAINT PK_Brands PRIMARY KEY (Brand_Name) -- Brand_Name is the primary key
 );
+
+-- Brands Inserts -- 
+INSERT INTO Brands (Brand_Name) VALUES
+("Ace Hardware"),
+("ADIRpro"),
+("AdTech"),
+("Air Stream"),
+("Amana Tool"),
+("AMC"),
+("American Hickory"),
+("American Power Pull"),
+("Ames"),
+("AMT"),
+("Anvil"),
+("Arrow Fastener"),
+("Aspen Manufacturing Company"),
+("Avanti"),
+("B & K"),
+("Bare Bones"),
+("Bauer"),
+("Benchtop"),
+("Bessey"),
+("Bissell"),
+("BLACK+DECKER"),
+("BlackHawk"),
+("Blue Hawk"),
+("Blum"),
+("Bosch"),
+("Boss Industries"),
+("Bostitch"),
+("Brasscraft"),
+("Broan"),
+("Brother"),
+("Buffalo"),
+("Bussmann"),
+("C.S. Osbourne"),
+("Cen-Tech"),
+("Central Forge"),
+("Central Hydraulics"),
+("Central Pneumatic"),
+("Centurion"),
+("Chicago Electric"),
+("Christmas Tree Shops"),
+("Collins Axe"),
+("Commander"),
+("Commercial Electric"),
+("Companion"),
+("Convenience Concepts"),
+("Cosco"),
+("CRAFTSMAN"),
+("Crofton"),
+("Cummins"),
+("Cuprum"),
+("Dasco"),
+("Delta"),
+("DeWalt"),
+("Dexter"),
+("Dirt Devil"),
+("Dowel Crafter"),
+("Dremel"),
+("Drillmaster"),
+("Durakut International Corp."),
+("Earthwise"),
+("EDM"),
+("Ego"),
+("Elmers"),
+("Eklind"),
+("Empire"),
+("Estwing"),
+("Everbilt"),
+("Exact"),
+("Fiskars"),
+("Fletcher"),
+("Freud"),
+("Garden Basics"),
+("Gardener Bender"),
+("General"),
+("Gilmour"),
+("Goldblatt"),
+("Grabber"),
+("Great Neck Saw"),
+("Green Thumb"),
+("Grizzly Industrial"),
+("Hart"),
+("HDC"),
+("HDX"),
+("Hercules"),
+("Hi-Tech"),
+("Hitachi"),
+("Home Depot"),
+("Homelife"),
+("Honey Safety"),
+("Husky"),
+("Hyde"),
+("HyperTough"),
+("IDC"),
+("Illinois Industrial Tool"),
+("Industrial Manufacturer Inc"),
+("Irwin"),
+("Jiffy Steamer"),
+("Johnson"),
+("K-D mfg. co"),
+("Keson"),
+("KingCraft"),
+("Klein Tools"),
+("Kobalt"),
+("Kreg"),
+("Little Giant"),
+("Lowe's"),
+("Makita"),
+("Marco"),
+("Marshalltown"),
+("Master Appliance"),
+("Mastercraft"),
+("Masterhand"),
+("Mayer Paint & Hardware"),
+("MBI"),
+("Metabo"),
+("Milwaukee"),
+("Moen"),
+("Mr. Long Arm"),
+("Myro"),
+("Nelson"),
+("Newborn"),
+("Nilfisk"),
+("Pacific Hydrostar"),
+("Performance Tool"),
+("Pittsburgh"),
+("Porter Cable"),
+("Portland"),
+("Powershot Pro"),
+("Precision Components"),
+("QEP"),
+("QLP"),
+("Quick-Grip"),
+("RectorSeal"),
+("Red Devil"),
+("RIDGID"),
+("Roberts"),
+("RYOBI"),
+("Scotts"),
+("Sears"),
+("Seymour"),
+("SharkBite"),
+("Shockproof"),
+("Simer"),
+("Singer"),
+("Skil"),
+("Snap Cut"),
+("Southwire"),
+("Sperry Instruments"),
+("STAKON"),
+("STANLEY"),
+("Stark"),
+("Straight Line"),
+("Superior Tools"),
+("Swingline"),
+("Task Force"),
+("TELVAC"),
+("The Ridge Tool"),
+("The Tile Shop"),
+("Tool Source"),
+("Toro"),
+("TrimPro"),
+("Triumph"),
+("True Temper"),
+("True Value"),
+("Truper"),
+("Tuff Tools"),
+("Unger"),
+("Vaughan"),
+("Veritas"),
+("Vermont American"),
+("Vigaro"),
+("Wagner"),
+("Walco"),
+("Warren Tool Group"),
+("Warrior"),
+("Waxx Pro"),
+("Weed Eater"),
+("Weller"),
+("Wen"),
+("Wendel"),
+("White"),
+("Wiha"),
+("Wiss"),
+("Work Sharp"),
+("Workforce"),
+("Workpro"),
+("Worx"),
+("Xcelite"),
+("XLC"),
+("Zircon");
 
 CREATE TABLE Tools (
     /* The Tools table contains all tools in the SEAC Tool Shed*/
@@ -194,6 +555,29 @@ CREATE TABLE Categories (
     CONSTRAINT PK_Categories PRIMARY KEY (Category_ID) -- Category_ID is the primary key
 );
 
+-- Categories Inserts --
+INSERT INTO Categories (Category_Name) VALUES
+("Crafting"), -- Crafting Category
+("Drill Extension"), -- Drill Extension Category
+("Drywall"), -- Drywall Category
+("Masonry"), -- Masonry Category
+("Electrical"), -- Electrical Category
+("Carpentry/Woodworking"), -- Carpentry & Woodworking Category
+("Miscellaneous"), -- Miscellaneous Category
+("Painting"), -- Painting Category
+("Plumbing"), -- Plumbing Category
+("Roofing"), -- Roofing Category
+("Metalworking/Welding"), -- Welding Category
+("Pneumatic"), -- Pneumatic Category
+("Automotive"), -- Automotive Category
+("Bike"), -- Bike Category
+("Clamps/Vises"), -- Clamps & Vises Category
+("Flooring"), -- Flooring Category
+("Gardening/Landscape"), -- Gardening & Landscape Category
+("Measuring/Diagnostics"), -- Measuring & Diagnostics Category
+("Crafting/Arts"), -- Crafting & Arts Category
+("Event Planning"); -- Event Planning Category
+
 CREATE TABLE Tool_Categories (
     /* The Tool_Categories tables is an associative table joining the Tools table to the Categories table. This table will be populated upon Tool creation */
     Tool_ID INT UNSIGNED, -- Tool_ID holds an integer value for each individual tool
@@ -209,6 +593,277 @@ CREATE TABLE Types (
     Type_Name VARCHAR(255) NOT NULL, -- Type_Name contains the string value for each tool type
     CONSTRAINT PK_Types PRIMARY KEY (Type_ID) -- PK_Types is the primary key
 );
+-- Type Inserts
+INSERT INTO Types (Type_Name) VALUES
+("Action Clamps"),
+("Air Guns"),
+("Air Tanks"),
+("Angle Grinders"),
+("Automotive Jacks"),
+("Automotive Tools"),
+("Axes"),
+("Back Saws"),
+("Ball Peen Hammers"),
+("Band Saws"),
+("Bar Clamps"),
+("Basin Wrenches"),
+("Belt Sanders"),
+("Bench Grinders"),
+("Biscuit Joiners"),
+("Bolt Cutters"),
+("Books"),
+("Bow Saws"),
+("Braces & Bits"),
+("Brad Nailers"),
+("Brick Hammers"),
+("Brick Trowels"),
+("Brooms"),
+("Brushes and Rollers"),
+("Buffers"),
+("Buffs"),
+("C Clamps"),
+("Carpet Cutters"),
+("Carpet Kickers"),
+("Carpet Seam Irons"),
+("Carpet Steam Cleaners"),
+("Caulk Guns"),
+("Cement Chisels"),
+("Chain Wrenches"),
+("Chains, Ropes, and Straps"),
+("Chainsaws"),
+("Chalklines"),
+("Channellock Pliers"),
+("Chop Saws"),
+("Circuit Testers"),
+("Circular Saws"),
+("Clamps"),
+("Claw Hammers"),
+("Cold Chisels"),
+("Combination Wrench Sets"),
+("Compound Miter Saws"),
+("Compressors"),
+("Concrete Rakes"),
+("Conduit Benders"),
+("Corded"),
+("Cordless"),
+("Corner Clamps"),
+("Corner Trowels"),
+("Crimpers"),
+("Crosscut Saws"),
+("Cultivators"),
+("Dado Saw Blades"),
+("Detail Sanders"),
+("Die Grinders"),
+("Dollies"),
+("Dovetail Jigs"),
+("Drain Augers"),
+("Drain Spade Shovels"),
+("Drill Bits"),
+("Drill Press"),
+("Drills"),
+("Drywall Lifts"),
+("Drywall Saws"),
+("Drywall Tools"),
+("Electric"),
+("Electrical Tools"),
+("Extension Cords"),
+("Extension Poles"),
+("F Clamps"),
+("Fans"),
+("Fence Pliers"),
+("Files"),
+("Finish Nailers"),
+("Finishing Power Sanders"),
+("Fish Tapes"),
+("Flat Screwdrivers"),
+("Floats"),
+("Flooring Nailers"),
+("Flooring Tools"),
+("Framing Nailers"),
+("Garden Rakes"),
+("Garden Tools"),
+("Gear Pullers"),
+("Grinders"),
+("Grout Trowels"),
+("Hack Saws"),
+("Hammer Drills"),
+("Hammers & Mallets"),
+("Hand Miter Saws"),
+("Hand Pruner"),
+("Hand Pump Sprayers"),
+("Hand Seeders"),
+("Hand Tamps"),
+("Hand Tile Cutters"),
+("Hand Tillers"),
+("Hand Tools"),
+("Hatchets"),
+("Heat Guns"),
+("Heaters"),
+("Hedge Trimmers"),
+("Hex Keys"),
+("Hobbies & Crafts"),
+("Hobby & Craft Kits"),
+("Hoes"),
+("Hole Saw Kits"),
+("Hole Saws"),
+("Impact Drivers"),
+("Jack Stands"),
+("Jackhammers"),
+("Jig Saws"),
+("Jigs"),
+("Joiners"),
+("Jumper Cables"),
+("Ladders"),
+("Laminate Flooring Cutters"),
+("Lawn Edgers"),
+("Lawn Mowers"),
+("Leaf Blowers"),
+("Leaf Mulchers"),
+("Leaf Rakes"),
+("Levels"),
+("Lights"),
+("Lineman Pliers"),
+("Linoleum Knives"),
+("Locking Pliers"),
+("Loppers"),
+("Lug Wrenches"),
+("Manual Drain Augers"),
+("Margin Trowels"),
+("Measuring & Layout Tools"),
+("Meters & Diagnostics"),
+("Meters & Diagnostics Accessories"),
+("Misc Hand Tools"),
+("Miscellaneous Stands"),
+("Mixers"),
+("Mud Pans"),
+("Multimeters"),
+("Multitools"),
+("Nail Pullers"),
+("Needle Nose Pliers"),
+("Notched Trowels"),
+("Orbit Sanders"),
+("Paint Nozzles"),
+("Paint Removers"),
+("Paint Scrapers"),
+("Paint Sprayers"),
+("Parallel Action Pliers"),
+("Pedal Wrenches"),
+("Pick Mattocks"),
+("Pickaxes"),
+("Pipe Clamps"),
+("Pipe Cutters"),
+("Pipe Wrenches"),
+("Pitchforks"),
+("Planters"),
+("Plastic Tip Hammers"),
+("Pliers"),
+("Plumb Bobs"),
+("Plumbing Tools"),
+("Pocket Hole Jigs"),
+("Pole Pickers"),
+("Post Hole Diggers"),
+("Power Drills"),
+("Power Planers"),
+("Power Sanders"),
+("Power Tools"),
+("Pressure Washers"),
+("Pruning Saws"),
+("Pruning Shears"),
+("Pry Bars & Crowbars"),
+("Pumps"),
+("Rachet Sets"),
+("Rasps"),
+("Ratcheting Wrench Sets"),
+("Reciprocating Saws"),
+("Respirators"),
+("Rip Hammers"),
+("Rivet Tools"),
+("Roller Tools"),
+("Roof Brackets"),
+("Roofing Nailers"),
+("Roofing Shovels"),
+("Rotary Tools"),
+("Rototiller"),
+("Round Point Shovels"),
+("Router Tables"),
+("Routers"),
+("Rubber Mallets"),
+("Rulers"),
+("Safety Equipment"),
+("Safety Glasses"),
+("Sandblasters"),
+("Sanders"),
+("Saw Horses"),
+("Saws"),
+("Scissors"),
+("Screwdriver Sets"),
+("Screwdrivers"),
+("Screwguns"),
+("Scroller Power Saws"),
+("Sewer Cables"),
+("Sewing Machines"),
+("Sharpeners"),
+("Sheet Sanders"),
+("Shovels"),
+("Sledgehammers"),
+("Sliding Compound Miter Saws"),
+("Socket Sets"),
+("Soldering Irons"),
+("Spade Shovels"),
+("Spiral Saws"),
+("Splitters"),
+("Sprinklers"),
+("Square Shovel"),
+("Square Shovels"),
+("Squares"),
+("Squeegees"),
+("Staple Guns"),
+("Staplers"),
+("Steam Cleaners"),
+("Stem Keys"),
+("Stepstools"),
+("String Trimmer"),
+("String Trimmers"),
+("Striping Tools"),
+("Stud Finders"),
+("Submersible Pumps"),
+("Table Rollers"),
+("Table Saws"),
+("Tachometers"),
+("Tack Hammers"),
+("Tap and Die"),
+("Tape Measures"),
+("Taping Knives"),
+("Tents & Canopies"),
+("Testers "),
+("Tile Nippers"),
+("Timing Lights"),
+("Tin Snips"),
+("Toilet Augers"),
+("Tool Bench Work Mate"),
+("Tool Boxes"),
+("Tool Kits"),
+("Tool Stands & Work Tables"),
+("Torque Wrenches"),
+("Trimmers"),
+("Trowels"),
+("Tubbing Benders"),
+("Tuck Point Trowels"),
+("Tuck Pointers"),
+("Utility Knives"),
+("Vacuums"),
+("Vises"),
+("Voltage Testers"),
+("Wallpaper Steamers"),
+("Weeders"),
+("Wet Tile Saws"),
+("Wet-Dry Vacs"),
+("Wheel Seeders"),
+("Wheelbarrows"),
+("Wire Cutters"),
+("Wire Strippers"),
+("Worm Drive Circular Saws"),
+("Wrenches");
 
 CREATE TABLE Tool_Types (
     /* The Tool_Categories tables is an associative table joining the Tools table to the Categories table. This table will be populated upon Tool creation */
@@ -217,11 +872,4 @@ CREATE TABLE Tool_Types (
     CONSTRAINT PK_Tool_Categories PRIMARY KEY (Tool_ID, Type_ID), -- Tool_ID and Type_ID make up the primary keys
     CONSTRAINT FK_Tool_Types_Tools FOREIGN KEY (Tool_ID) REFERENCES Tools (Tool_ID), -- This statement creates a foreign key on Tool_ID, which is used to connect the to the Tools table
     CONSTRAINT FK_Tool_Types_Types FOREIGN KEY (Type_ID) REFERENCES Types (Type_ID) -- This statement creates a foreign key on Type_ID, which is used to connect the to the Types table
-);
-
-CREATE TABLE States (
-    State_ID INT AUTO_INCREMENT,
-    State_Name VARCHAR(50),
-    State_Code CHAR(2),
-    CONSTRAINT PK_States PRIMARY KEY (State_ID)
 );
