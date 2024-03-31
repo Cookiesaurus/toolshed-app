@@ -54,11 +54,11 @@ const AdminSideBar = () => {
   ];
 
   const reportOptions = [
-    { text: "Loan Report", href: "" },
-    { text: "Revenue Report", href: "" },
-    { text: "Checked Items Report", href: "" },
-    { text: "Maintenance Report", href: "" },
-    { text: "Membershipt Report", href: "" }
+    { text: "Loan Report", href: "/admin/reports/loans" },
+    { text: "Revenue Report", href: "/admin/reports/revenue" },
+    { text: "Checked Items Report", href: "/admin/reports/items" },
+    { text: "Maintenance Report", href: "/admin/reports/maintenance" },
+    { text: "Membership Report", href: "/admin/reports/membership" }
   ];
 
   return (
