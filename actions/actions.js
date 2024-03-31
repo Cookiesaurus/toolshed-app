@@ -64,18 +64,18 @@ BigInt.prototype.toJSON = function () {
     return this.toString();
 };
 
-export async function submitPayment(sourceId) {
+export const submitPayment = async (sourceId) => {
     try {
         const { result } = await paymentsApi.createPayment({
             idempotencyKey: randomUUID(),
             sourceId,
             amountMoney: {
                 currency: "USD",
-                amount: 1,
+                amount: 100,
             },
         });
         return result;
     } catch (error) {
         console.log(error);
     }
-}
+};
