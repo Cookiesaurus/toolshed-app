@@ -22,7 +22,7 @@ const AdminSideBar = () => {
     return (
       <div className="click-dropdown">
         <button onClick={() => setIsOpen(!isOpen)} className="admin-sidebar-button">
-          {icon && <FontAwesomeIcon icon={icon} />}   {optionText}
+          {icon && <FontAwesomeIcon icon={icon} size="xl"/>}   {optionText}
         </button>
         {isOpen && (
           <div className="dropdown-menu">
@@ -66,11 +66,11 @@ const AdminSideBar = () => {
       <h3>Administration</h3>
       <div className="side-list">
         <Link href={"/admin/dashboard"}>
-          <FontAwesomeIcon icon={faGaugeHigh} />
+          <FontAwesomeIcon icon={faGaugeHigh} size="xl"/>
           Dashboard
         </Link>
         <Link href={"/"}>
-          <FontAwesomeIcon icon={faWindowRestore}></FontAwesomeIcon>
+          <FontAwesomeIcon icon={faWindowRestore} size="xl"/>
           Public Site
         </Link>
         <ClickDropdown
