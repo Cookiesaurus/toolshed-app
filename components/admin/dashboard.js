@@ -1,75 +1,120 @@
-"use client"
-import Link from 'next/link';
-import './dashboard.css';
-import DataTable from 'react-data-table-component';
-const Dashboard = ({users, inventory}) =>{
-    const columns = [
-        {
-          name: "User",
-          selector: (row) => row.id
-        },
-        {
-          name: "Name",
-          selector: (row) => row.name,
-          sortable: true
-        },
-        {
-          name: "Due Date",
-          selector: (row) => row.location,
-          sortable: true
-        },
-        {
-          name: "Item",
-          selector: (row) => row.type,
-          sortable: true
-        },
-        {
-          name: "Location",
-          selector: (row) => row.brand,
-          sortable: true
-        },
-        {
-          name: "Action",
-          selector: (row) => row.status,
-          sortable: true
-        },
-      ];
-    
-    
-    return (
-        <>
-            <div className='topRowButtons'>
-                <Link className='topRowButton' href={'/admin/customers/createuser'}>Create User</Link>
-                <Link className='topRowButton' href={'/admin/inventory/new_item'}>Add Item</Link>
-                <Link className='topRowButton' href={'/admin/inventory/checkout'}>Check Out</Link>
-                <Link className='topRowButton' href={''}>Check In</Link>
-            </div>
+"use client";
+import Link from "next/link";
+import "./dashboard.css";
+import DataTable from "react-data-table-component";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUserPlus,
+  faSquarePlus,
+  faArrowRightToBracket,
+  faUserGroup,
+  faBox,
+  faChartColumn,
+  faClockRotateLeft
+} from "@fortawesome/free-solid-svg-icons";
+const Dashboard = ({ users, inventory }) => {
+  const columns = [
+    {
+      name: "User",
+      selector: (row) => row.id
+    },
+    {
+      name: "Name",
+      selector: (row) => row.name,
+      sortable: true
+    },
+    {
+      name: "Due Date",
+      selector: (row) => row.location,
+      sortable: true
+    },
+    {
+      name: "Item",
+      selector: (row) => row.type,
+      sortable: true
+    },
+    {
+      name: "Location",
+      selector: (row) => row.brand,
+      sortable: true
+    },
+    {
+      name: "Action",
+      selector: (row) => row.status,
+      sortable: true
+    }
+  ];
 
-            <div className='topRowStats'>
-                <div className='container'>
-                    <p className='statsTitle'>Total users</p>
-                    <p className='stat'>{users.length}</p>
-                </div>
-                <div className='container'>
-                    <p className='statsTitle'>Total Inventory</p>
-                    <p className='stat'>{inventory.length}</p>
-                </div>
-                <div className='container'>
-                    <p className='statsTitle'>Total Sales</p>
-                    <p className='stat'>$9999</p>
-                </div>
-                <div className='container'>
-                    <p className='statsTitle'>Active Loans</p>
-                    <p className='stat'>9999</p>
-                </div>
-            </div>
+  return (
+    <>
+      <div className="topRowButtons">
+        <Link className="topRowButton" href={"/admin/customers/createuser"}>
+          <FontAwesomeIcon icon={faUserPlus} size="xl" />
+          Create User
+        </Link>
+        <Link className="topRowButton" href={"/admin/inventory/new_item"}>
+          <FontAwesomeIcon icon={faSquarePlus} size="xl" />
+          Add Item
+        </Link>
+        <Link className="topRowButton" href={"/admin/inventory/checkout"}>
+          <FontAwesomeIcon icon={faArrowRightToBracket} size="xl" />
+          Check Out
+        </Link>
+        <Link className="topRowButton" href={""}>
+          <FontAwesomeIcon
+            icon={faArrowRightToBracket}
+            rotation={180}
+            size="xl"
+          />
+          Check In
+        </Link>
+      </div>
 
-            <div className='mainContent'>
-                <h2 className='title'>Recent Activities</h2>
-                <DataTable columns={columns} className='white'/>
-            </div>
-        </>
-    )
-}
+      <div className="topRowStats">
+        <div className="container">
+          <div className="stat">
+            <p className="statsTitle">Total users</p>
+            <p className="stat">{users.length}</p>
+          </div>
+          <div className="white">
+            <FontAwesomeIcon icon={faUserGroup} size="xl" style={{backgroundColor: 'transparent'}}/>
+          </div>
+        </div>
+        <div className="container">
+          <div className="stat">
+            <p className="statsTitle">Total Inventory</p>
+            <p className="stat">{inventory.length}</p>
+          </div>
+          <div className="white">
+            <FontAwesomeIcon icon={faBox} size="xl" style={{backgroundColor: 'transparent'}}/>
+          </div>
+        </div>
+        <div className="container">
+          <div className="stat">
+            <p className="statsTitle">Total Sales</p>
+            <p className="stat">$9999</p>
+          </div>
+          <div className="white">
+            <FontAwesomeIcon icon={faChartColumn} size="xl" style={{backgroundColor: 'transparent'}} />
+          </div>
+        </div>
+        <div className="container">
+          <div className="stat">
+            <p className="statsTitle">Active Loans</p>
+            <p className="stat">$9999</p>
+          </div>
+          <div className="white">
+            <FontAwesomeIcon icon={faClockRotateLeft} size="xl" style={{backgroundColor: 'transparent'}}/>
+          </div>
+        </div>
+      </div>
 
-export default Dashboard
+      <div className="mainContent">
+        <h2 className="title">Recent Activities</h2>
+        <DataTable columns={columns} className="white" />
+      </div>
+    </>
+  );
+};
+
+export default Dashboard;
