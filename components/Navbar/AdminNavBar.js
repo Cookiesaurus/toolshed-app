@@ -13,6 +13,7 @@ const AdminNavBar = () => {
         <Link href={'/'} aria-label='Go to home' className='navbar-link' >
             <p className='navbar-logo'>SEAC Tool Shed</p>
         </Link>
+        <p className='navbar-account'><Link href={'/'} aria-label='Go to home' className='navbar-link'>Return to Main site</Link></p>
         <form className='navbar-search' action={formHandler}>
             <label htmlFor='navbar-search' className='sr-only'>Find User</label>
             <input type="text" name="search" id='navbar-search' aria-label='find user' placeholder='Find user'/>

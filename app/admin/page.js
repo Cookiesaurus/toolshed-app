@@ -3,6 +3,7 @@ import './dashboard.css'
 import Cards from '@/components/account/cards'
 import Adminnav from '@/components/admin/adminnav'
 import db from '../config/db.mjs'
+import AdminNavBar from '@/components/Navbar/AdminNavBar'
 export default async function AdminPage() { 
     
     let customers = await db.selectFromDB(`SELECT 
