@@ -2,7 +2,7 @@
 // import db from "@/app/config/db.mjs";
 import mysql from "mysql2/promise";
 import { redirect } from "next/navigation";
-import { Client } from "square";
+import { createSquareCustomer } from "./squareActions";
 export const createNewUser = async (formData) => {
     const neededKeys = [
         "firstName",
@@ -20,7 +20,7 @@ export const createNewUser = async (formData) => {
 
     // Prepare account addition query
     const query_First =
-        "INSERT INTO Accounts (First_Name, Last_Name, Email, Phone_Number, Password, Address_Line1, Address_Line2, City, State, Postal_Code, Membership_Level ) VALUES ";
+        "INSERT INTO Accounts (First_Name, Last_Name, Email, Phone_Number, Password, Address_Line1, Address_Line2, City, State, Postal_Code, Membership_Level, Gender_Code ) VALUES ";
 
     var query_second = "( ";
     for (const [key, value] of Object.entries(formData)) {
@@ -31,7 +31,7 @@ export const createNewUser = async (formData) => {
             else query_second += "'" + String(value) + "', ";
         }
     }
-    query_second = query_second.substring(0, query_second.length - 2) + " ,1 )";
+    query_second = query_second.substring(0, query_second.length - 2) + " ,1 ,1 )";
     // query_second += " )";
     const query = query_First + query_second;
     const result = await addToDB(query);
@@ -62,34 +62,5 @@ const addToDB = async (query) => {
         } else {
             console.log(error);
         }
-    }
-};
-
-const { customersApi } = new Client({
-    accessToken: process.env.SQUARE_ACCESS_TOKEN,
-    environment: "sandbox",
-});
-
-export const createSquareCustomer = async (userInfo, customerId) => {
-    try {
-        const response = await customersApi.createCustomer({
-            givenName: userInfo.firstName,
-            familyName: userInfo.lastName,
-            emailAddress: userInfo.email,
-            address: {
-                addressLine1: userInfo.addressFirst,
-                addressLine2: userInfo.addressSecond
-                    ? userInfo.addressSecond
-                    : null,
-                administrativeDistrictLevel1: userInfo.state,
-                postalCode: userInfo.zipCode,
-                country: "US",
-            },
-            referenceId: String(customerId),
-            note: "New Customer added.",
-        });
-        console.log("Created square customer : ", response.result);
-    } catch (error) {
-        console.log(error);
     }
 };

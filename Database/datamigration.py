@@ -93,6 +93,7 @@ def insertTools():
         Types = j['Item Type']
         addTypes(Types, new_tool_id)
 
+# Add functionality for gender
 
 
 
