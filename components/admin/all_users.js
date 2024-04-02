@@ -1,3 +1,5 @@
+import All_User_Loans from "./all_user_loans";
+
 const All_User = ({customerData}) =>{
     return(
         <>

@@ -6,12 +6,13 @@ import Create_New_User from './create_new_user';
 import All_User from './all_users';
 import Inventory from './inventory';
 import Reports from './reports';
+import New_Tool from './new_tool';
 import Link from 'next/link';
 
 const Adminnav = ({ customer, inventory }) => {
     const tabsAdmin = ['Dashboard'];
     const tabsUser = ['View All Users', 'Find User', 'Create New User'];
-    const tabsInventory = ['View All Tools', 'Find Tool', 'Check Item In', 'Check Item Out'];
+    const tabsInventory = ['View All Tools', 'Create New Tool', 'Find Tool', 'Check Item In', 'Check Item Out'];
     const tabsReports = ['Custom Report', 'Revenue/Expenses', 'Members', 'Tools'];
     const [selectedTab, setSelectedTab] = useState(null);
     const [activeItem, setActiveItem] = useState(null);
@@ -39,6 +40,8 @@ const Adminnav = ({ customer, inventory }) => {
         componentToRender = <Inventory inventory={inventory} />;
     } else if (selectedTab === 'Reports') {
         componentToRender = <Reports />;
+    } else if (selectedTab === 'Create New Tool') {
+        componentToRender = <New_Tool />;
     } else {
         componentToRender = null; // Render nothing until the data is loaded
     }
