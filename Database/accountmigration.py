@@ -20,14 +20,14 @@ def insertAccounts():
         Account_ID = j['Customer ID'] #These are standard
         First_Name = j['First Name'] 
         Last_Name = j['Last Name'] 
-        Organization_Name = j['Organization'] if not str(j['Organization']) == "nan" else "" #this is confirmed
+        Organization_Name = j['Organization'] if not str(j['Organization']) == "nan" else "" 
         Email = j['Email'] 
-        Address_Line1 = j['Address'] if not str(j['Address']) == "nan" else "" #this works
-        Address_Line2 = j['Address2'] if not str(j['Address2']) == "nan" else "" #this works
+        Address_Line1 = j['Address'] if not str(j['Address']) == "nan" else "" 
+        Address_Line2 = j['Address2'] if not str(j['Address2']) == "nan" else "" 
         City = j['City'] 
         State = j['State/Province'] 
         Postal_Code = j['Postal Code'] 
-        Account_Notes = j['User Note'] if not str(j['User Note']) == "nan" else "" #this works
+        Account_Notes = j['User Note'] if not str(j['User Note']) == "nan" else "" 
 
         
         #Needed to change the DOB to correct format
@@ -37,6 +37,8 @@ def insertAccounts():
         
         #collects the gender code from the table
         gender = j['Sex'] 
+        if(gender == "would rather not say"):
+            gender = "Would Rather Not Specify"
         gender_query = "SELECT Gender_Code FROM Genders WHERE Gender_Name = '" + gender + "'"
         curr.execute(gender_query)
         Gender_Code = curr.fetchone()[0]
@@ -51,7 +53,8 @@ def insertAccounts():
         Account_Creation_Date = Account_obj.strftime('%Y-%m-%d')
         
         #needed to set the Membership level based on table
-        memb_level = j['Current Membership Type'] 
+        memb_level = j['Current Membership Type']
+        
         level_query = "SELECT Membership_Level FROM Membership_Levels WHERE Membership_Title = '" + memb_level + "'" 
         curr.execute(level_query)
         Membership_Level = curr.fetchone()[0]
@@ -64,17 +67,18 @@ def insertAccounts():
             Membership_Auto_Renewal = 2
 
         #Not sure how to handle this yet!!
-        Membership_Creation_Date = '1900-01-01'
+        memb_creation_date = j['Latest Membership Change (request, upgrade, renewal, cancellation...) (M/D/YYYY)']
+        creation_date_obj = datetime.strptime(memb_creation_date, '%m/%d/%Y')
+        Membership_Creation_Date = creation_date_obj.strftime('%Y-%m-%d')
         
         
         #gets the expiration date
-        check_exp = j['Current Membership Expiration (M/D/YYYY)'] if not str(j['Current Membership Expiration (M/D/YYYY)']) == "nan" else 'NULL'
+        check_exp = j['Current Membership Expiration (M/D/YYYY)'] if not str(j['Current Membership Expiration (M/D/YYYY)']) == "nan" else ''
 
         #all memberships that have expired are left blank therefore we enter here
-        if(check_exp == 'NULL'):
+        if(check_exp == ''):
             Membership_Status = 2
-            Membership_Expiration_Date = '' #sets the two vales
-            Membership_Creation_Date = ''
+            Membership_Expiration_Date = Membership_Creation_Date
         else:
             #if not blank it gets the date in the right format and sets status
             Membership_Exp_obj = datetime.strptime(check_exp, '%m/%d/%Y') 
