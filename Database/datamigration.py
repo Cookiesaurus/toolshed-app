@@ -61,7 +61,7 @@ def insertTools():
         Manual_Link = j['Attachment']
         # Adding attachment if there is one
         if not ( str(Manual_Link) == "nan" ):
-            Manual = base64.b64encode(requests.get( Manual_Link ).content)
+            Manual = Manual_Link
         else:
             Manual = ""
 
