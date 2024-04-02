@@ -5,10 +5,10 @@ import base64;
 
 #Connect to the database
 conn = pymysql.connect(
-    host='ls-7627deed71079a866e6ed3198046fb55dada7381.c3i8ssyyouhq.us-east-2.rds.amazonaws.com',
-    user='dbmasteruser',
+    host='localhost',
+    user='root',
     db='SEAC_Tool_Shed',
-    password='>R)Eo;wkX{-OC_ltmLa&6.^#wa,VXR{_',
+    password='student#6226',
     port=3306
 )
 curr = conn.cursor();

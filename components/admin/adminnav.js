@@ -9,7 +9,10 @@ import Reports from './reports';
 import Link from 'next/link';
 
 const Adminnav = ({ customer, inventory }) => {
-    const tabsTop = ['Dashboard', 'Public Site', 'Create New User', 'View All Users', 'Inventory', 'Reports'];
+    const tabsAdmin = ['Dashboard'];
+    const tabsUser = ['View All Users', 'Find User', 'Create New User'];
+    const tabsInventory = ['View All Tools', 'Find Tool', 'Check Item In', 'Check Item Out'];
+    const tabsReports = ['Custom Report', 'Revenue/Expenses', 'Members', 'Tools'];
     const [selectedTab, setSelectedTab] = useState(null);
     const [activeItem, setActiveItem] = useState(null);
 
@@ -28,13 +31,11 @@ const Adminnav = ({ customer, inventory }) => {
 
     if (selectedTab === 'Dashboard') {
         componentToRender = <Dashboard users={customer} inventory={inventory} />;
-    } else if (selectedTab === 'Public Site') {
-        window.location.replace("http://localhost:3000/")
     } else if (selectedTab === 'Create New User') {
         componentToRender = <Create_New_User />;
     } else if (selectedTab === 'View All Users') {
         componentToRender = <All_User customerData={customer} />;
-    } else if (selectedTab === 'Inventory') {
+    } else if (selectedTab === 'View All Tools') {
         componentToRender = <Inventory inventory={inventory} />;
     } else if (selectedTab === 'Reports') {
         componentToRender = <Reports />;
@@ -47,9 +48,54 @@ const Adminnav = ({ customer, inventory }) => {
             {selectedTab && (
                 <>
                     <div className="left-admin">
-                        <h3>Administration</h3>
+                        <p className='section-title'>Admin Tools</p>
                         <ul className='side-list'>
-                            {tabsTop.map((tab, index) => (
+                            {tabsAdmin.map((tab, index) => (
+                                <li className={`side-link ${selectedTab === tab ? 'active-tab' : ''}`}
+                                    key={index}
+                                    id={tab}
+                                    onClick={() => handleTabClick(tab)}
+                                    onFocus={() => handleTabClick(tab)}
+                                    tabIndex={0}
+                                >
+                                    {tab}
+                                </li>
+                            ))}
+                        </ul>
+
+                        <p className='section-title'>Customers</p>
+                        <ul className='side-list'>
+                            {tabsUser.map((tab, index) => (
+                                <li className={`side-link ${selectedTab === tab ? 'active-tab' : ''}`}
+                                    key={index}
+                                    id={tab}
+                                    onClick={() => handleTabClick(tab)}
+                                    onFocus={() => handleTabClick(tab)}
+                                    tabIndex={0}
+                                >
+                                    {tab}
+                                </li>
+                            ))}
+                        </ul>
+
+                        <p className='section-title'>Inventory</p>
+                        <ul className='side-list'>
+                            {tabsInventory.map((tab, index) => (
+                                <li className={`side-link ${selectedTab === tab ? 'active-tab' : ''}`}
+                                    key={index}
+                                    id={tab}
+                                    onClick={() => handleTabClick(tab)}
+                                    onFocus={() => handleTabClick(tab)}
+                                    tabIndex={0}
+                                >
+                                    {tab}
+                                </li>
+                            ))}
+                        </ul>
+
+                        <p className='section-title'>Reports</p>
+                        <ul className='side-list'>
+                            {tabsReports.map((tab, index) => (
                                 <li className={`side-link ${selectedTab === tab ? 'active-tab' : ''}`}
                                     key={index}
                                     id={tab}
