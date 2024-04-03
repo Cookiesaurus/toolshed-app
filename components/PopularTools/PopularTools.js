@@ -3,7 +3,6 @@ import React from "react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import "./product.css";
 
 const PopularTools = ({ tools }) => {
     // const [imgeUrl, setImageURL] = useState([]);

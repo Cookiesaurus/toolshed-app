@@ -1,5 +1,4 @@
 "use client";
-import "./navbar.css";
 import { logout } from "@/actions/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import logo from "../public/images/toolshed_logo.png";
-import "./login.css";
 import Link from "next/link";
 import { login } from "@/actions/actions";
 export default function Page() {

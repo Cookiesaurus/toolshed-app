@@ -19,7 +19,8 @@ INSERT INTO Membership_Levels (Membership_Title, Membership_Price, Max_Tool_Chec
 ('Tinkerer', 25.00, 5, 0), -- Tinkerer Level
 ('MacGyver', 35.00, 10, 0), -- MacGyver Level
 ('Builder', 50.00, 25, 0), -- Builder Level
-('Contractor', 100.00, 50, 1); -- Contractor Level
+('Contractor', 100.00, 50, 1), -- Contractor Level
+('Expired', 0.00, 0, 0); -- Contractor Level
 
 CREATE TABLE Privilege_Levels (
     /* The Privilege_Levels table holds all active privilege levels. These levels will be used to determine privileges with regard to the web application */
@@ -77,6 +78,10 @@ CREATE TABLE Accounts (
     City VARCHAR(255) NOT NULL,  -- City holds the name of the city associated with the address
     State VARCHAR(255) NOT NULL, -- State holds the name of the state associated with the address
     Postal_Code CHAR(5) NOT NULL, -- Postal_Code holds the postal code associated with the address
+    Secondary_First_Name VARCHAR(255),
+    Secondary_Last_Name VARCHAR(255),
+    Secondary_Email VARCHAR(255),
+    Secondary_Phone_Number CHAR(10),
     Account_Creation_Date DATE NOT NULL DEFAULT (CURRENT_DATE()), -- Account_Creation_Date holds the date when the account was first created. This value is always defaulted to the current date upon account creation
     Account_Notes TEXT, -- Account_Notes holds any notes important to the account for any employees
     Membership_Level TINYINT UNSIGNED NOT NULL, -- Membership_Level holds the integer code value associated with the account. Membership will be populated following membership signup
@@ -112,8 +117,8 @@ INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name
 ("SEAC Tool Shed", "Volunteer", "2000-01-01", 3, "South East Area Coalition", "toolshed@seacrochester.org", AES_Encrypt("password", ""), "0000000000", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 2); -- Volunteer Account
 
 -- Customer Accounts -- 
-INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer
-("Bryce", "Hofstom", "2000-01-01", 3, "bgh3077@g.rit.edu", AES_Encrypt("password",""), "2164075162", "8439 Sharp Lane", "Chesterland", "Ohio", 44026, 1);
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Secondary_First_Name, Secondary_Last_Name, Secondary_Email, Secondary_Phone_Number, Membership_Level) VALUES -- Normal Customer W/Secondary Account
+("Bryce", "Hofstom", "2000-01-01", 3, "bgh3077@g.rit.edu", AES_Encrypt("password",""), "2164075162", "8439 Sharp Lane", "Chesterland", "Ohio", 44026, "Shea", "Hofstrom", "sjh@g.rit.edu", "2164075702", 1);
 
 INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with tinkerer status
 ("Michael", "Pacholarz", "2000-01-01", 3, "mfp7158@g.rit.edu", AES_Encrypt("password",""), "7609223761", "7750 Sleepy Hollow Road", "Folsom", "California", 95630, 1);
@@ -131,7 +136,7 @@ INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name
 ("Aryan", "Todi", "2000-01-01", 4, "The Handymen LLC.","at1203@g.rit.edu", AES_Encrypt("password",""), "4236953998", "4 Windsor Ave.", "Memphis", "Tennessee", 38106, 4);
 
 INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Account_Notes, Membership_Level, Membership_Status) VALUES -- Disabled Customer
-("Evan", "Hiltzik", "2000-01-01", 4, "eh8319@g.rit.edu", AES_Encrypt("password",""), "5704143466", "98 Lilac Street", "Gibsonia", "Pennsylvania", 15044, "User account was disabled on 01/10/24 as customer decided to drop membership.", 1, 1);
+("Evan", "Hiltzik", "2000-01-01", 4, "eh8319@g.rit.edu", AES_Encrypt("password",""), "5704143466", "98 Lilac Street", "Gibsonia", "Pennsylvania", 15044, "User account was disabled on 01/10/24 as customer decided to drop membership.", 5, 2);
 
 CREATE TABLE Payment_Methods (
     /* TBD NEED SQUARE INFO FIRST*/
@@ -318,6 +323,7 @@ CREATE TABLE Brands (
 
 -- Brands Inserts -- 
 INSERT INTO Brands (Brand_Name) VALUES
+("noBrand"),
 ("Ace Hardware"),
 ("ADIRpro"),
 ("AdTech"),
@@ -522,16 +528,15 @@ CREATE TABLE Tools (
     Location_Code VARCHAR(255), -- Location_Code is the string descriptor describing where the tool can be located at its current location
     Tool_Description TEXT, -- Tool_Description holds any details regarding the tool
     Tool_Status TINYINT UNSIGNED NOT NULL, -- Tool_Status determines the current status of the tool, these being Available, Checked Out, Maintenance, or Disabled
-    Tool_Image MEDIUMBLOB, -- Tool_Image holds the image for a tool
     Tool_Link VARCHAR(2000), -- Tool Image Link
-    Tool_Manual MEDIUMBLOB, -- Tool Manual holds any manual to assist with using a tool
+    Tool_Manual VARCHAR(2000), -- Tool Manual holds any manual to assist with using a tool
     Tool_Loan_Fee FLOAT NOT NULL DEFAULT "0", -- Tool_Loan_Fee holds the monitary value for loaning a tool
     Default_Late_Fee FLOAT NOT NULL DEFAULT "1.00", -- Default_Late_Fee is the dollar amount to be charged to a user every day a tool is overdue. This value will continue to add up until returned until eventually charged
     Default_Loan_Length TINYINT UNSIGNED NOT NULL DEFAULT "7", -- Default_Loan_Length is used to determine the length of a loan before its required to be returned. By default, this value is 7 days
     Renewal_Amount TINYINT UNSIGNED NOT NULL Default "1", -- Renewal_Amount is the number value associated to the number of times a loan may be extened by a certain number of days.
     Tool_Replacement_Cost FLOAT NOT NULL, -- Tool_Replacement_Cost holds the cost of replacing a tool
     Is_Floating BOOLEAN NOT NULL, -- Is_Floating determines if a tool must be returned to home location or not
-    Is_Featured BOOLEAN NOT NULL, -- Is_Featured determines if a tool will be featured on the main page
+    Is_Featured BOOLEAN NOT NULL DEFAULT 0, -- Is_Featured determines if a tool will be featured on the main page
     CONSTRAINT PK_Tools PRIMARY KEY (Tool_ID), -- Tool_ID is the primary key of this table
     CONSTRAINT FK_Tools_Tool_Statuses FOREIGN KEY (Tool_Status) REFERENCES Tool_Statuses (Tool_Status), -- This statement creates a foreign key on Tool_Status , which is used to connect the to the Tool_Statuses table
     CONSTRAINT FK_Tools_Tool_Locations_Home FOREIGN KEY (Home_Location) REFERENCES Tool_Locations (Tool_Location), -- This statement creates a foreign key on Home_Location , which is used to connect the to the Tool_Locations table
