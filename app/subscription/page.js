@@ -3,13 +3,17 @@ import Giftcards from "@/components/account/giftcards";
 // import { addSubscription } from "@/actions/squareActions";
 import { addSubscriptionAction } from "@/actions/actions";
 import { PaymentForm, CreditCard } from "react-square-web-payments-sdk";
-import { submitFirstTimePayment } from "@/actions/squareActions";
+import { subscribe } from "@/actions/squareActions";
 import { useEffect, useState } from "react";
+import { getLoggedInCustId } from "@/components/Square/Customer";
+import { useSearchParams } from "next/navigation";
 const appId = "sandbox-sq0idb-b3GBVpDWCRZfpKe13OsWQQ";
 const locationId = "LFETGS2GE8TGC";
 import { DOMElement } from "react";
 
 export default function Page() {
+    const custId = useSearchParams().get("custid");
+    // console.log("Customer ID is : ", custId);
     const [selectedPlan, setSelectedPlan] = useState(null);
     const [addCard, setAddCard] = useState(false);
     const selectionChanged = (res) => {
@@ -18,6 +22,9 @@ export default function Page() {
     const setSaveOption = (res) => {
         setAddCard(res.target.checked);
     };
+
+    const sendPayment = () => {};
+
     return (
         <>
             <div>
@@ -61,23 +68,27 @@ export default function Page() {
                             name="save"
                             type="checkbox"
                             onClick={setSaveOption}
-                            checked
                         />
                         <label>Save card on file</label>
                     </div>
                 </form>
+                <PaymentForm
+                    applicationId={appId}
+                    locationId={locationId}
+                    cardTokenizeResponseReceived={async (token) => {
+                        // we’ll come back to this soon
+                        const result = await subscribe(
+                            token.token,
+                            selectedPlan,
+                            addCard,
+                            custId
+                        );
+                        console.log(result);
+                    }}
+                >
+                    <CreditCard />
+                </PaymentForm>
             </div>
-            <PaymentForm
-                applicationId={appId}
-                locationId={locationId}
-                cardTokenizeResponseReceived={async (token) => {
-                    // we’ll come back to this soon
-                    const result = await submitFirstTimePayment(token.token, selectedPlan, addCard);
-                    console.log(result);
-                }}
-            >
-                <CreditCard>Add Card</CreditCard>
-            </PaymentForm>
         </>
     );
 }

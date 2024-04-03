@@ -31,14 +31,20 @@ export const createNewUser = async (formData) => {
             else query_second += "'" + String(value) + "', ";
         }
     }
-    query_second = query_second.substring(0, query_second.length - 2) + " ,1 ,1 )";
+    query_second =
+        query_second.substring(0, query_second.length - 2) + " ,1 ,1 )";
     // query_second += " )";
     const query = query_First + query_second;
     const result = await addToDB(query);
-    result != -1 ? createSquareCustomer(formData, result) : null;
+    const squareCustID =
+        result != -1 ? await createSquareCustomer(formData, result) : null;
     if (result != -1) {
-        console.log("Sign up successful");
-        redirect("/");
+        console.log("Sign up part 1 successful");
+        // redirect("/");
+        // redirect("/subscription");
+        redirect("/subscription?custid=" + squareCustId);
+        // redirect("/subscription?custid=" + "JMHP57PQ596KNTFAYQCFKYDVEG");
+        // console.log("Square customer ID : ", squareCustID);
     }
 };
 
@@ -60,7 +66,7 @@ const addToDB = async (query) => {
         if (error.code == "ER_DUP_ENTRY") {
             console.log("Account already exists. Log in instead");
         } else {
-            console.log(error);
+            console.log("Could not add user to databse : ", error);
         }
     }
 };
