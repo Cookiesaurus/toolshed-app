@@ -1,0 +1,109 @@
+.filters-cont {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.price-range {
+    display: flex;
+    align-items: center;
+    width: min-content;
+    height: 120px;
+    border-width: 1px 0px 1px 0px;
+    border-style: solid;
+    border-color: #E4E7EE;
+    margin: 15px;
+}
+
+.range {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.filter-toggle {
+    display: flex;
+    flex-wrap: wrap;
+    border-width: 1px 0 1px 0;
+    border-style: solid;
+    border-color: #E4E7EE;
+    width: 100%;
+    margin-top: 12px;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.filter-brand {
+    border-width: 1px 0 1px 0;
+    border-style: solid;
+    border-color: #E4E7EE;
+}
+
+input#brand-search, input#filter-search {
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    margin-top: 12px;
+    font-family: Poppins;
+}
+
+label.brand-label, label.filter-label {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin: 12px;
+}
+
+.filters-conditions {
+    border-width: 1px 0px 1px 0px;
+    border-style: solid;
+    border-color: #E4E7EE;
+    margin-bottom: 12px;
+    margin-top: 12px;
+}
+
+button#apply-filters {
+    width: 100%;
+    height: 45px;
+    padding: 9px 0px 9px 0px;
+    border-radius: 10px;
+    color: white;
+    background-color: black;
+    cursor: pointer;
+    border: none;
+    font-family: 'Poppins';
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: center;
+}
+button#apply-filters:hover{
+    background-color: #FBC955;
+}
+
+
+.filter{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 300px;
+    overflow-y: scroll;
+    width: 100%;
+    border-bottom: 1px solid #E4E7EE;
+    margin-bottom: 12px;
+}
+
+a.filter-cat {
+    font-family: 'Poppins';
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.01em;
+    text-align: left;
+}

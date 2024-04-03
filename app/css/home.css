@@ -1,0 +1,105 @@
+.slide-container {
+    display: flex;
+    margin-top: 45px;
+}
+
+.slide-show {
+    flex: 100%;
+    margin-top: 20px;
+}
+
+.categories {
+    margin-right: 30px;
+}
+
+.side-selection {
+    height: auto;
+    padding-bottom: 5px;
+}
+
+.category-link {
+    width: 250px;
+}
+
+.link-container {
+    width: 230px;
+    text-align: left;
+}
+
+.cat-arrow {
+    padding-left: 5px;
+}
+
+.homepage{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.homepage-slider {
+    background-color: #AFAFAF;
+    width: 100%;
+    border-radius: 20px;
+    min-width: 320px;
+    max-width: 1229px;
+    max-height: 380px;
+    min-height: 320px;
+}
+
+.brands{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.brand{
+    background-color: white;
+    border-radius: 3px;
+    margin: 20px;
+    width: 188px;
+    height: 100px;
+    border: 1px solid #9D9D9D;
+}
+
+
+a.home-button {
+    width: 235px;
+    height: 55px;
+    background-color: black;
+    color: white;
+    border-radius: 4px;
+    padding: 16px 48px 16px 48px;
+    text-align: center;
+    font-family: 'Poppins';
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+a.home-button:hover{
+    width: 235px;
+    height: 55px;
+    background-color: #FBC955;
+    color: white;
+    border-radius: 4px;
+    padding: 16px 48px 16px 48px;
+    text-align: center;
+    font-family: 'Poppins';
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+a.brandimage-container {
+    display: flex;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    margin: 15%;
+}

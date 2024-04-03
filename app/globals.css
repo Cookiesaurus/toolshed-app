@@ -1,4 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* Importing css for each page */
+@import './css/giftcard.css';
+@import './css/home.css';
+@import './css/inventory.css';
+@import './css/login.css';
+@import './css/product.css';
+@import './css/signup.css';
+
+/* Importing css for each component: which is the content of each page */
+@import './css/components/AdminDashboard.css';
+@import './css/components/AdminNav.css';
+@import './css/components/FeaturedTools.css';
+@import './css/components/Filters.css';
+@import './css/components/footer.css';
+@import './css/components/Navbar.css';
+@import './css/components/slideshow.css';
+@import './css/components/UserProfile.css';
+
 *{
   padding: 0;
   margin: 0;
@@ -73,7 +92,7 @@ a:visited{
 }
 
 label {
-  font-family: Poppins;
+  font-family: 'Poppins';
   font-size: 14px;
   font-weight: 400;
   line-height: 21px;
