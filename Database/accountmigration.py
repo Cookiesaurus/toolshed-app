@@ -6,11 +6,6 @@ from datetime import datetime;
 import re;
 
 conn = pymysql.connect(
-    """host='ls-7627deed71079a866e6ed3198046fb55dada7381.c3i8ssyyouhq.us-east-2.rds.amazonaws.com',
-    user='dbmasteruser',
-    db='SEAC_Tool_Shed',
-    password='>R)Eo;wkX{-OC_ltmLa&6.^#wa,VXR{_',
-    port=3306"""
     host='localhost',
     user='root',
     db='SEAC_Tool_Shed',
@@ -76,9 +71,11 @@ def insertAccounts():
         memb_level = j['Current Membership Type']
         if(memb_level == 'Registration'):
             memb_level = 'Expired'
-        level_query = "SELECT Membership_Level FROM Membership_Levels WHERE Membership_Title = '" + memb_level + "'" 
+        if('Level' in memb_level):
+            memb_level = memb_level.replace(' Level', '')
+        level_query = "SELECT Membership_Level FROM Membership_Levels WHERE Membership_Title = '" + memb_level + "'"
         curr.execute(level_query)
-        Membership_Level = curr.fetchone()[0]
+        Membership_Level = curr.fetchone()
         
         #Converts the true false to a 1 or 2
         Membership_Auto_Renewal = j['Renews Automatically']
@@ -111,10 +108,10 @@ def insertAccounts():
         
         
         
-        query = """INSERT INTO Accounts (Account_ID, First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Account_Creation_Date, Account_Notes, Membership_Level, Membership_Status, Membership_Auto_Renewal, Membership_Creation_Date, Membership_Expiration_Date, Privilege_Level, Password)
-        VALUES ('%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s')""" % (Account_ID, First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Account_Creation_Date, Account_Notes, Membership_Level, Membership_Status, Membership_Auto_Renewal, Membership_Creation_Date, Membership_Expiration_Date, Priviledge_Level, Password)
+        query = """INSERT INTO Accounts (Account_ID, First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Account_Creation_Date, Account_Notes, Membership_Level, Membership_Status, Membership_Auto_Renewal, Membership_Creation_Date, Membership_Expiration_Date, Privilege_Level, Password, Secondary_First_Name, Secondary_Last_Name, Secondary_Email, Secondary_Phone)
+        VALUES ('%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s','%s','%s','%s','%s')""" % (Account_ID, First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Account_Creation_Date, Account_Notes, Membership_Level, Membership_Status, Membership_Auto_Renewal, Membership_Creation_Date, Membership_Expiration_Date, Priviledge_Level, Password, Secondary_First_Name, Secondary_Last_Name, Secondary_Email, Secondary_Phone)
         
-        print(query)
+        #print(query)
         
         
         
