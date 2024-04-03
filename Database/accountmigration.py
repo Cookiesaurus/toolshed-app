@@ -3,6 +3,7 @@ import pandas as pd;
 import requests
 import base64;
 from datetime import datetime;
+import re;
 
 conn = pymysql.connect(
     host='ls-7627deed71079a866e6ed3198046fb55dada7381.c3i8ssyyouhq.us-east-2.rds.amazonaws.com',
@@ -10,6 +11,7 @@ conn = pymysql.connect(
     db='SEAC_Tool_Shed',
     password='>R)Eo;wkX{-OC_ltmLa&6.^#wa,VXR{_',
     port=3306
+    
 )
 curr = conn.cursor();
 
@@ -28,6 +30,14 @@ def insertAccounts():
         State = j['State/Province'] 
         Postal_Code = j['Postal Code'] 
         Account_Notes = j['User Note'] if not str(j['User Note']) == "nan" else "" 
+        Secondary_First_Name = j['Secondary First Name'] if not str(j['Secondary First Name']) == "nan" else ""
+        Secondary_Last_Name = j['Secondary Last Name'] if not str(j['Secondary Last Name']) == "nan" else ""
+        Secondary_Email = j['Secondary Email'] if not str(j['Secondary Email']) == "nan" else ""
+        
+        Secondary_Numb = j['Secondary Phone'] if not str(j['Secondary Phone']) == "nan" else ""
+        Secondary_Phone = re.sub(r'\D', '', Secondary_Numb)
+        if(len(Secondary_Phone) == 11 and Secondary_Phone.startswith('1')):
+            Secondary_Phone = Secondary_Phone[1:]
 
         
         #Needed to change the DOB to correct format
@@ -40,12 +50,17 @@ def insertAccounts():
         if(gender == "would rather not say"):
             gender = "Would Rather Not Specify"
         gender_query = "SELECT Gender_Code FROM Genders WHERE Gender_Name = '" + gender + "'"
-        curr.execute(gender_query)
-        Gender_Code = curr.fetchone()[0]
+        #curr.execute(gender_query)
+        #Gender_Code = curr.fetchone()[0]
         
         #drops all of the - so that it fits in the database
-        Phone = j['Phone'] 
-        Phone_Number = Phone.replace("-","")
+        Phone = j['Phone']
+        Phone_Number = re.sub(r'\D', '', Phone)
+        if(len(Phone_Number) == 11 and Phone_Number.startswith('1') ):
+            Phone_Number = Phone_Number[1:]
+        if len(Phone_Number) > 10:
+            Phone_Number = Phone_Number[:10]
+        
         
         #changes the account creation date to correct format
         date_Create = j['Member Created (M/D/YYYY)'] 
@@ -54,10 +69,11 @@ def insertAccounts():
         
         #needed to set the Membership level based on table
         memb_level = j['Current Membership Type']
-        
+        if(memb_level == 'Registration'):
+            memb_level = 'Expired'
         level_query = "SELECT Membership_Level FROM Membership_Levels WHERE Membership_Title = '" + memb_level + "'" 
-        curr.execute(level_query)
-        Membership_Level = curr.fetchone()[0]
+        #curr.execute(level_query)
+        #Membership_Level = curr.fetchone()[0]
         
         #Converts the true false to a 1 or 2
         Membership_Auto_Renewal = j['Renews Automatically']
@@ -65,8 +81,8 @@ def insertAccounts():
             Membership_Auto_Renewal = 1
         else:
             Membership_Auto_Renewal = 2
-
-        #Not sure how to handle this yet!!
+            
+        
         memb_creation_date = j['Latest Membership Change (request, upgrade, renewal, cancellation...) (M/D/YYYY)']
         creation_date_obj = datetime.strptime(memb_creation_date, '%m/%d/%Y')
         Membership_Creation_Date = creation_date_obj.strftime('%Y-%m-%d')
@@ -90,11 +106,11 @@ def insertAccounts():
         
         
         
-        query = """INSERT INTO Accounts (Account_ID, First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Account_Creation_Date, Account_Notes, Membership_Level, Membership_Status, Membership_Auto_Renewal, Membership_Creation_Date, Membership_Expiration_Date, Privilege_Level, Password)
-        VALUES ('%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s')""" % (Account_ID, First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Account_Creation_Date, Account_Notes, Membership_Level, Membership_Status, Membership_Auto_Renewal, Membership_Creation_Date, Membership_Expiration_Date, Priviledge_Level, Password)
+        #query = """INSERT INTO Accounts (Account_ID, First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Account_Creation_Date, Account_Notes, Membership_Level, Membership_Status, Membership_Auto_Renewal, Membership_Creation_Date, Membership_Expiration_Date, Privilege_Level, Password)
+        #VALUES ('%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s')""" % (Account_ID, First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Account_Creation_Date, Account_Notes, Membership_Level, Membership_Status, Membership_Auto_Renewal, Membership_Creation_Date, Membership_Expiration_Date, Priviledge_Level, Password)
         
         
-        print(query)
+        #print(query)
         
         
         
