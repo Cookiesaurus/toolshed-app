@@ -1,6 +1,6 @@
 "use client";
 import { CreditCard, PaymentForm } from "react-square-web-payments-sdk";
-import { submitPayment } from "@/actions/squareActions";
+import { addNewCard } from "@/actions/squareActions";
 import { getCustomers, getCustomerByEmail } from "@/components/Square/Customer";
 import { CustomersApi } from "square";
 
@@ -15,11 +15,11 @@ export default function Page() {
                 locationId={locationId}
                 cardTokenizeResponseReceived={async (token) => {
                     // we’ll come back to this soon
-                    const result = await submitPayment(token.token);
+                    const result = await addNewCard(token.token);
                     console.log(result);
                 }}
             >
-                <CreditCard />
+                <CreditCard>Add Card</CreditCard>
             </PaymentForm>
         </>
     );

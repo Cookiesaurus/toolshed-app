@@ -10,8 +10,8 @@ a.navbar-link{
     box-shadow: 0px 4px 12px 0px #0000001F;
     display: flex;
     gap: 12px;
+    width: 100%;
     align-items: center;
-    overflow: hidden;
 }
 
 p.navbar-logo {

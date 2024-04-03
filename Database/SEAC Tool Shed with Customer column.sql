@@ -84,12 +84,12 @@ CREATE TABLE Accounts (
     Membership_Auto_Renewal BOOL NOT NULL DEFAULT "0", -- Membership_Auto_Renewal holds the boolean value associated with auto membership renewal. By default, this value is set to false (0)
     Membership_Creation_Date DATE NOT NULL DEFAULT (CURRENT_DATE()), -- Membership_Creation_Date holds the date when a membership is activated. This value is always defaulted to the current date when Registration status is set; however, this value will be changed once a new membership is seleted
     Membership_Expiration_Date DATE NOT NULL DEFAULT (DATE_ADD(CURRENT_DATE(), INTERVAL 1 YEAR)), -- Membership_Expiration_Date holds the date when a membership expires. This value is always defaulted to the current date when Registration status is set plus one year; however, this value will be changed once a new membership is seleted
+    Customer_ID VARCHAR(40) UNIQUE, 
     Privilege_Level TINYINT UNSIGNED NOT NULL DEFAULT "1", -- Privilege_Level is the identification number used to uniquly identify each privilege level tier. 1 -- Customer, 2 -- Volunteer, 3-- Employee, 4 -- Manager, 5 -- Administrator. This value is always defaulted to customer unless specified by an employee
     CONSTRAINT PK_Accounts PRIMARY KEY (Account_ID), -- The Account_ID is the primary key for the Accounts table
     CONSTRAINT FK_Accounts_Membership_Levels FOREIGN KEY (Membership_Level) REFERENCES Membership_Levels (Membership_Level), -- This statement creates a foreign key on Membership_Level, which is used to connect the Membership_Levels table to Accounts
     CONSTRAINT FK_Accounts_Privilege_Levels FOREIGN KEY (Privilege_Level) REFERENCES Privilege_Levels (Privilege_Level), -- This statement creates a foreign key on Privilege_Level, which is used to connect the Privilege_Levels table to Accounts
-    CONSTRAINT FK_Accounts_Current_Membership_Status FOREIGN KEY (Membership_Status) REFERENCES Current_Membership_Status (Membership_Status), -- This statement creates a foreign key on Membership_Status, which is used to connect the Membership_Status table to Accounts
-    CONSTRAINT FK_Accounts_Genders FOREIGN KEY (Gender_Code) REFERENCES Genders (Gender_Code) -- This statement creates a foreign key on Gender_Code, which is used to connect the Genders table to Accounts
+    CONSTRAINT FK_Accounts_Current_Membership_Status FOREIGN KEY (Membership_Status) REFERENCES Current_Membership_Status (Membership_Status), -- This statement creates a foreign key on Membership_Status, which is used to connect the Membership_Status table to Accounts-- This statement creates a foreign key on Gender_Code, which is used to connect the Genders table to Accounts
 );
 
 -- Accounts Inserts --
@@ -318,7 +318,6 @@ CREATE TABLE Brands (
 
 -- Brands Inserts -- 
 INSERT INTO Brands (Brand_Name) VALUES
-("noBrand"),
 ("Ace Hardware"),
 ("ADIRpro"),
 ("AdTech"),
@@ -525,7 +524,7 @@ CREATE TABLE Tools (
     Tool_Status TINYINT UNSIGNED NOT NULL, -- Tool_Status determines the current status of the tool, these being Available, Checked Out, Maintenance, or Disabled
     Tool_Image MEDIUMBLOB, -- Tool_Image holds the image for a tool
     Tool_Link VARCHAR(2000), -- Tool Image Link
-    Tool_Manual VARCHAR(2000), -- Tool Manual holds any manual to assist with using a tool
+    Tool_Manual MEDIUMBLOB, -- Tool Manual holds any manual to assist with using a tool
     Tool_Loan_Fee FLOAT NOT NULL DEFAULT "0", -- Tool_Loan_Fee holds the monitary value for loaning a tool
     Default_Late_Fee FLOAT NOT NULL DEFAULT "1.00", -- Default_Late_Fee is the dollar amount to be charged to a user every day a tool is overdue. This value will continue to add up until returned until eventually charged
     Default_Loan_Length TINYINT UNSIGNED NOT NULL DEFAULT "7", -- Default_Loan_Length is used to determine the length of a loan before its required to be returned. By default, this value is 7 days
