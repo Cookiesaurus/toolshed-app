@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import logo from '../../app/public/images/toolshed_logo.png';
-import './footer.css';
-import { formHandler } from "@/lib/actions/formHandler";
 
 const Footer = () => {
   return (

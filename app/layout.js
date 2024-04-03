@@ -1,8 +1,6 @@
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
 import './globals.css';
-import './home/home.css';
-import Navbar from '@/components/Navbar/Navbar';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import Footer from '@/components/Footer/Footer';
