@@ -1,3 +1,4 @@
+import { getSession } from "@/actions/actions";
 import { Client } from "square";
 const { customersApi } = new Client({
     accessToken: process.env.SQUARE_ACCESS_TOKEN,
@@ -34,3 +35,8 @@ export const getCustomerByEmail = async (email) => {
     }
 };
 
+export const getLoggedInCustId = async () => {
+    const result = await getSession();
+    console.log("Session is : ", JSON.stringify(result));
+    return "OK";
+};

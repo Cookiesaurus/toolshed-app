@@ -27,7 +27,7 @@ const Navbar = () => {
                     isLoggedIn: data.isLoggedIn,
                 });
             });
-    }, [session]);
+    }, []);
     // Get a new searchParams string by merging the current
     // searchParams with a provided key/value pair
     const createQueryString = useCallback(
