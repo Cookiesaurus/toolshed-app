@@ -4,11 +4,12 @@ import { FormEvent } from "react";
 import db from "../config/db.mjs";
 import Link from "next/link";
 const query = "SELECT State_Name, State_Code from States";
-const [results] = await db.execute(query, []);
+// const [results] = await db.execute(query, []);
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { addUser } from "./addUserAccount";
+import SelectStates from "@/components/FormComponents/statesSelect";
 
 var errorDisp = {
     message: "No error",
@@ -230,14 +231,15 @@ export async function SignupForm() {
                         id="address-state"
                     >
                         <option value="">Select a State</option>
-                        {results.map((result) => (
+                        <SelectStates />
+                        {/* {results.map((result) => (
                             <option
                                 key={result.State_Code}
                                 value={result.State_Code}
                             >
                                 {result.State_Name}
                             </option>
-                        ))}
+                        ))} */}
                     </select>
                 </div>
                 <div>

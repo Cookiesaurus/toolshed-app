@@ -1,19 +1,13 @@
 import AdminNavBar from "@/components/Navbar/AdminNavBar"
-import AdminSideBar from "@/components/admin/AdminSideBar"
+import Adminnav from "@/components/admin/adminnav"
 export default function Layout({
   children, // will be a page or nested layout
 }) {
   return (
     <>
       <AdminNavBar/>
-       <div className="admin-container">
-        <div className="left-admin">
-          <AdminSideBar/>
-        </div>
-       <div className="right-admin">
-          {children}
-        </div>
-       </div>
+      <Adminnav/>
+      {children}
     </>
   )
 }

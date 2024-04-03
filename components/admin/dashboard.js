@@ -1,120 +1,91 @@
-"use client";
-import Link from "next/link";
-import "./dashboard.css";
-import DataTable from "react-data-table-component";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUserPlus,
-  faSquarePlus,
-  faArrowRightToBracket,
-  faUserGroup,
-  faBox,
-  faChartColumn,
-  faClockRotateLeft
-} from "@fortawesome/free-solid-svg-icons";
-const Dashboard = ({ users, inventory }) => {
-  const columns = [
-    {
-      name: "User",
-      selector: (row) => row.id
-    },
-    {
-      name: "Name",
-      selector: (row) => row.name,
-      sortable: true
-    },
-    {
-      name: "Due Date",
-      selector: (row) => row.location,
-      sortable: true
-    },
-    {
-      name: "Item",
-      selector: (row) => row.type,
-      sortable: true
-    },
-    {
-      name: "Location",
-      selector: (row) => row.brand,
-      sortable: true
-    },
-    {
-      name: "Action",
-      selector: (row) => row.status,
-      sortable: true
-    }
-  ];
+import Link from 'next/link';
+import './dashboard.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencil } from '@fortawesome/free-solid-svg-icons';
+const Dashboard= ({users, inventory}) =>{
+    return (
+        <>
+            <div className='topRowButtons'>
+                <button className='topRowButton' type='button'>Create User</button>
+                <button className='topRowButton' type='button'>Add Item</button>
+                <button className='topRowButton' type='button'>Check Out</button>
+                <button className='topRowButton' type='button'>Check In</button>
+            </div>
 
-  return (
-    <>
-      <div className="topRowButtons">
-        <Link className="topRowButton" href={"/admin/customers/createuser"}>
-          <FontAwesomeIcon icon={faUserPlus} size="xl" />
-          Create User
-        </Link>
-        <Link className="topRowButton" href={"/admin/inventory/new_item"}>
-          <FontAwesomeIcon icon={faSquarePlus} size="xl" />
-          Add Item
-        </Link>
-        <Link className="topRowButton" href={"/admin/inventory/checkout"}>
-          <FontAwesomeIcon icon={faArrowRightToBracket} size="xl" />
-          Check Out
-        </Link>
-        <Link className="topRowButton" href={""}>
-          <FontAwesomeIcon
-            icon={faArrowRightToBracket}
-            rotation={180}
-            size="xl"
-          />
-          Check In
-        </Link>
-      </div>
+            <div className='topRowStats'>
+                <div className='container'>
+                    <p className='statsTitle'>Total users</p>
+                    <p className='stat'>{users.length}</p>
+                </div>
+                <div className='container'>
+                    <p className='statsTitle'>Total Inventory</p>
+                    <p className='stat'>{inventory.length}</p>
+                </div>
+                <div className='container'>
+                    <p className='statsTitle'>Total Sales</p>
+                    <p className='stat'>$9999</p>
+                </div>
+                <div className='container'>
+                    <p className='statsTitle'>Active Loans</p>
+                    <p className='stat'>9999</p>
+                </div>
+            </div>
 
-      <div className="topRowStats">
-        <div className="container">
-          <div className="stat">
-            <p className="statsTitle">Total users</p>
-            <p className="stat">{users.length}</p>
-          </div>
-          <div className="white">
-            <FontAwesomeIcon icon={faUserGroup} size="xl" style={{backgroundColor: 'transparent'}}/>
-          </div>
-        </div>
-        <div className="container">
-          <div className="stat">
-            <p className="statsTitle">Total Inventory</p>
-            <p className="stat">{inventory.length}</p>
-          </div>
-          <div className="white">
-            <FontAwesomeIcon icon={faBox} size="xl" style={{backgroundColor: 'transparent'}}/>
-          </div>
-        </div>
-        <div className="container">
-          <div className="stat">
-            <p className="statsTitle">Total Sales</p>
-            <p className="stat">$9999</p>
-          </div>
-          <div className="white">
-            <FontAwesomeIcon icon={faChartColumn} size="xl" style={{backgroundColor: 'transparent'}} />
-          </div>
-        </div>
-        <div className="container">
-          <div className="stat">
-            <p className="statsTitle">Active Loans</p>
-            <p className="stat">$9999</p>
-          </div>
-          <div className="white">
-            <FontAwesomeIcon icon={faClockRotateLeft} size="xl" style={{backgroundColor: 'transparent'}}/>
-          </div>
-        </div>
-      </div>
+            <div className='mainContent'>
+                <h2 className='title'>Recent Activities</h2>
+                <table className='table'>
+                        <thead>
+                            <tr className='topRow'>
+                                <th className='topRow'>User</th>
+                                <th className='topRow'>Name</th>
+                                <th className='topRow'>Due</th>
+                                <th className='topRow'>Item</th>
+                                <th className='topRow'>Location</th>
+                                <th className='topRow'>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>JDoe0282</th>
+                                <th>John Doe</th>
+                                <th>March 17, 2024</th>
+                                <th>Angle Grinder</th>
+                                <th>Main Location</th>
+                                <th>
+                                    <button className='checkInButton' type='button'>Check In</button>
+                                    <br/>
+                                    <button className='detailsButton' type='button'>Details</button>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>JDoe0282</th>
+                                <th>John Doe</th>
+                                <th>March 24, 2024</th>
+                                <th>Screw driver</th>
+                                <th>Main Location</th>
+                                <th>
+                                    <button className='checkInButton' type='button'>Check In</button>
+                                    <br/>
+                                    <button className='detailsButton' type='button'>Details</button>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>SMac844</th>
+                                <th>Sally Mac</th>
+                                <th>March 9, 2024</th>
+                                <th>Hammer</th>
+                                <th>Truck</th>
+                                <th>
+                                    <button className='checkInButton' type='button'>Check In</button>
+                                    <br/>
+                                    <button className='detailsButton' type='button'>Details</button>
+                                </th>
+                            </tr>
+                        </tbody>
+                        </table>
+            </div>
+        </>
+    )
+}
 
-      <div className="mainContent">
-        <h2 className="title">Recent Activities</h2>
-        <DataTable columns={columns} className="white" />
-      </div>
-    </>
-  );
-};
-
-export default Dashboard;
+export default Dashboard

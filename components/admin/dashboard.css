@@ -12,12 +12,8 @@
     margin-left: 50px;
     margin-right: 50px;
     font-family: 'Poppins';
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
 }
 
 .topRowStats {
@@ -30,7 +26,6 @@
     margin-left: 50px;
     margin-right: 50px;
     background-color: white;
-    display: flex;
 }
 
 .statsTitle {
@@ -84,10 +79,6 @@ table, thread, tr, th {
     color: white;
 }
 
-.admin-container{
-    display: flex;
-}
-
 .left-admin {
     flex: 15%;
     margin-left: 20px;
@@ -101,9 +92,9 @@ table, thread, tr, th {
 
 .top_right_side_all_content, .bottom_right_side_all_content {
     display: flex;
+    flex-direction: row;
 }
-.accountInfo, .membershipInfo, .primaryInfo, .secondaryInfo {
-    flex: 50%;
+.accountInfo, .membershipInfo, .additionalInfo, .address, .primaryInfo, .secondaryInfo {
     margin: 25px;
 }
 
@@ -118,24 +109,29 @@ table, thread, tr, th {
     font-family: 'Poppins';
 }
 
-a.editButton {
+.editButton {
+    height: 30px;
+    width: 70px;
     margin-bottom: 5px;
     border-radius: 8px;
-    background-color: #77B8E4;
+    background-color: lightskyblue;
     color: white;
 }
 
-
-a.loansButton {
+.loansButton {
+    height: 30px;
+    width: 70px;
     margin-bottom: 5px;
     border-radius: 8px;
-    background-color: #0028B6;
+    background-color: blue;
     color: white;
 }
 
-a.checkoutButton {
+.checkoutButton {
+    height: 30px;
+    width: 70px;
     border-radius: 8px;
-    background-color: #8B1AA7;
+    background-color: violet;
     color: white;
 }
 
@@ -156,89 +152,22 @@ input {
     font-family: 'Poppins';
 }
 
-.side-list{
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .admin-container{
-    display: flex;
-  }
-  
-  .new-item-container{
-    display: flex;
-    flex-direction: row;
-  
-  }
-  
-  .new-item-left{
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .item-info {
-    display: flex;
-    flex-direction: column;
-    margin: 1%;
-    padding: 12px;
-  }
-  
-  a.editButton {
-    margin-bottom: 5px;
-    border-radius: 8px;
-    background-color: #77B8E4;
+.createNewItemButton {
+    height: 60px;
+    width: 120px;
+    margin: 15px;
     color: white;
-  }
-  
-  
-  a.loansButton {
-    margin-bottom: 5px;
-    border-radius: 8px;
-    background-color: #0028B6;
+    background-color: black;
+    font-family: 'Poppins';
+    font-size: 20px;
+}
+
+.createNewUserButton {
+    height: 60px;
+    width: 120px;
+    margin: 15px;
     color: white;
-  }
-  
-  a.checkoutButton {
-    border-radius: 8px;
-    background-color: #8B1AA7;
-    color: white;
-  }
-  
-  .checkout-container {
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .checkout-buttons{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 12px;
-  }
-  
-  a.link-button {
-    padding: 12px;
-    border-radius: 4px;
-    background-color: #FBC955;
-  }
-  
-  .dropdown-menu {
-    display: flex;
-    flex-direction: column;
-    padding: 12px;
-  }
-  
-  button.admin-sidebar-button {
-    border: none;
-    font-family: Poppins;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 24px;
-    text-align: left;
-  }
-  
-  .icon-container{
-    background-color: white;
-  }
+    background-color: black;
+    font-family: 'Poppins';
+    font-size: 20px;
+}

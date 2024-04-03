@@ -1,104 +1,36 @@
-"use client";
+'use client'
 
-import "./navbar_admin.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCartShopping,
-  faUser,
-  faMagnifyingGlass,
-  faFileInvoice
-} from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { useCallback } from "react";
+import './navbar_admin.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping, faUser, faMagnifyingGlass, faFileInvoice} from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
+import { formHandler } from '@/lib/actions/formHandler';
+
 
 const AdminNavBar = () => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const createQueryString = useCallback(
-    (name, value) => {
-      const params = new URLSearchParams(searchParams);
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams]
-  );
-
   return (
-    <div className="navbar" role="Navigation" aria-label="Website Navigation">
-      <Link href={"/"} aria-label="Go to home" className="navbar-link">
-        <p className="navbar-logo">SEAC Tool Shed</p>
-      </Link>
-      <form className="navbar-search">
-        <label htmlFor="navbar-search" className="sr-only">
-          Find User
-        </label>
-        <input
-          type="text"
-          name="search"
-          id="navbar-search"
-          aria-label="find user"
-          placeholder="Find user"
-          onChange={(e) => {
-            router.push(
-              `/admin/customers/edit` +
-                `?` +
-                createQueryString("search", e.target.value)
-            );
-          }}
-        />
-        <button
-          type="submit"
-          className="navbar-searchIcon"
-          aria-hidden={true}
-          tabIndex={-1}
-        >
-          <FontAwesomeIcon
-            icon={faMagnifyingGlass}
-            size="lg"
-            style={{ color: "white", backgroundColor: "black" }}
-          />
-        </button>
-        <label htmlFor="navbar-search" className="sr-only">
-          Search products
-        </label>
-        <input
-          type="text"
-          name="search"
-          id="navbar-search"
-          aria-label="search inventory"
-          placeholder="Search inventory"
-          onChange={(e) => {
-            router.push(
-              `/admin/inventory/edit` +
-                `?` +
-                createQueryString("search", e.target.value)
-            );
-          }}
-        />
-        <button
-          type="submit"
-          className="navbar-searchIcon"
-          aria-hidden={true}
-          tabIndex={-1}
-        >
-          <FontAwesomeIcon
-            icon={faMagnifyingGlass}
-            size="lg"
-            style={{ color: "white", backgroundColor: "black" }}
-          />
-        </button>
-      </form>
-      <p className="navbar-account">
-        <Link href={"/login"} className="navbar-link">
-          Example Admin
+    <div className='navbar' role='Navigation' aria-label='Website Navigation'>
+        <Link href={'/'} aria-label='Go to home' className='navbar-link' >
+            <p className='navbar-logo'>SEAC Tool Shed</p>
         </Link>
-      </p>
+        <p className='navbar-account'><Link href={'/'} aria-label='Go to home' className='navbar-link'>Return to Main site</Link></p>
+        <form className='navbar-search' action={formHandler}>
+            <label htmlFor='navbar-search' className='sr-only'>Find User</label>
+            <input type="text" name="search" id='navbar-search' aria-label='find user' placeholder='Find user'/>
+            <button type="submit" className='navbar-searchIcon' aria-hidden={true} tabIndex={-1}>
+                <FontAwesomeIcon icon={faMagnifyingGlass} size='lg' style={{color: 'white', backgroundColor: 'black'}}/>
+            </button>
+        </form>
+        <form className='navbar-search' action={formHandler}>
+            <label htmlFor='navbar-search' className='sr-only'>Search products</label>
+            <input type="text" name="search" id='navbar-search' aria-label='search inventory' placeholder='Search inventory'/>
+            <button type="submit" className='navbar-searchIcon' aria-hidden={true} tabIndex={-1}>
+                <FontAwesomeIcon icon={faMagnifyingGlass} size='lg' style={{color: 'white', backgroundColor: 'black'}}/>
+            </button>
+        </form>
+        <p className='navbar-account'><Link href={'/login'} className='navbar-link'>Example Admin</Link></p>
     </div>
-  );
-};
+  )
+}
 
-export default AdminNavBar;
+export default AdminNavBar

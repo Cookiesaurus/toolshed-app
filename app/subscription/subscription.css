@@ -1,0 +1,14 @@
+.box {
+    width: 200px;
+    height: 200px;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 20px;
+}
+
+.bigbox {
+    clear: both;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
