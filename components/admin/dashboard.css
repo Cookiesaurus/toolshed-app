@@ -92,9 +92,9 @@ table, thread, tr, th {
 
 .top_right_side_all_content, .bottom_right_side_all_content {
     display: flex;
+    flex-direction: row;
 }
-.accountInfo, .membershipInfo, .primaryInfo, .secondaryInfo {
-    flex: 50%;
+.accountInfo, .membershipInfo, .additionalInfo, .address, .primaryInfo, .secondaryInfo {
     margin: 25px;
 }
 
@@ -150,4 +150,24 @@ input {
     width: 100%;
     height: 30px;  
     font-family: 'Poppins';
+}
+
+.createNewItemButton {
+    height: 60px;
+    width: 120px;
+    margin: 15px;
+    color: white;
+    background-color: black;
+    font-family: 'Poppins';
+    font-size: 20px;
+}
+
+.createNewUserButton {
+    height: 60px;
+    width: 120px;
+    margin: 15px;
+    color: white;
+    background-color: black;
+    font-family: 'Poppins';
+    font-size: 20px;
 }
