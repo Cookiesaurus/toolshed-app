@@ -12,8 +12,12 @@
     margin-left: 50px;
     margin-right: 50px;
     font-family: 'Poppins';
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .topRowStats {
@@ -26,6 +30,7 @@
     margin-left: 50px;
     margin-right: 50px;
     background-color: white;
+    display: flex;
 }
 
 .statsTitle {
@@ -79,6 +84,10 @@ table, thread, tr, th {
     color: white;
 }
 
+.admin-container{
+    display: flex;
+}
+
 .left-admin {
     flex: 15%;
     margin-left: 20px;
@@ -109,29 +118,24 @@ table, thread, tr, th {
     font-family: 'Poppins';
 }
 
-.editButton {
-    height: 30px;
-    width: 70px;
+a.editButton {
     margin-bottom: 5px;
     border-radius: 8px;
-    background-color: lightskyblue;
+    background-color: #77B8E4;
     color: white;
 }
 
-.loansButton {
-    height: 30px;
-    width: 70px;
+
+a.loansButton {
     margin-bottom: 5px;
     border-radius: 8px;
-    background-color: blue;
+    background-color: #0028B6;
     color: white;
 }
 
-.checkoutButton {
-    height: 30px;
-    width: 70px;
+a.checkoutButton {
     border-radius: 8px;
-    background-color: violet;
+    background-color: #8B1AA7;
     color: white;
 }
 
@@ -151,6 +155,93 @@ input {
     height: 30px;  
     font-family: 'Poppins';
 }
+
+.side-list{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .admin-container{
+    display: flex;
+  }
+  
+  .new-item-container{
+    display: flex;
+    flex-direction: row;
+  
+  }
+  
+  .new-item-left{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .item-info {
+    display: flex;
+    flex-direction: column;
+    margin: 1%;
+    padding: 12px;
+  }
+  
+  a.editButton {
+    margin-bottom: 5px;
+    border-radius: 8px;
+    background-color: #77B8E4;
+    color: white;
+  }
+  
+  
+  a.loansButton {
+    margin-bottom: 5px;
+    border-radius: 8px;
+    background-color: #0028B6;
+    color: white;
+  }
+  
+  a.checkoutButton {
+    border-radius: 8px;
+    background-color: #8B1AA7;
+    color: white;
+  }
+  
+  .checkout-container {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .checkout-buttons{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+  }
+  
+  a.link-button {
+    padding: 12px;
+    border-radius: 4px;
+    background-color: #FBC955;
+  }
+  
+  .dropdown-menu {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+  }
+  
+  button.admin-sidebar-button {
+    border: none;
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+  }
+  
+  .icon-container{
+    background-color: white;
+  }
 
 .createNewItemButton {
     height: 60px;
