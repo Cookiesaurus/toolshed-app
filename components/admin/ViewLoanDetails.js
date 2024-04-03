@@ -1,4 +1,4 @@
-const Loan_Details = () =>{
+const ViewLoanDetails = () =>{
     return(
         <>
             <div className="titleBar">
@@ -65,4 +65,4 @@ const Loan_Details = () =>{
     )
 }
 
-export default Loan_Details
+export default ViewLoanDetails
