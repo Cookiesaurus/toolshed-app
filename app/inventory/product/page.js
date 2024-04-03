@@ -3,8 +3,6 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ProductItem from "@/components/ProductItem/ProductItem";
 
-import "./product.css";
-
 export default function Page() {
     const searchParams = useSearchParams();
     const productid = searchParams.get("product_id");

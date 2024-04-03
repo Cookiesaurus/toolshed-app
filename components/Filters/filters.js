@@ -1,6 +1,5 @@
 'use client'
 
-import './filters.css';
 import React from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import {useState } from 'react';

@@ -1,6 +1,4 @@
 "use client";
-
-import "./navbar_admin.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCartShopping,
