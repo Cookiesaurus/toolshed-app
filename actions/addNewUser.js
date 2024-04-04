@@ -42,7 +42,7 @@ export const createNewUser = async (formData) => {
         console.log("Sign up part 1 successful");
         // redirect("/");
         // redirect("/subscription");
-        redirect("/subscription?custid=" + squareCustId);
+        redirect("/subscription?custid=" + squareCustID);
         // redirect("/subscription?custid=" + "JMHP57PQ596KNTFAYQCFKYDVEG");
         // console.log("Square customer ID : ", squareCustID);
     }

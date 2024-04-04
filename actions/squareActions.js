@@ -46,12 +46,7 @@ export const submitPayment = async (sourceId) => {
 };
 
 // Function to submit payment for the first time.
-export const subscribe = async (
-    sourceId,
-    planName,
-    addCardBool,
-    custId
-) => {
+export const subscribe = async (sourceId, planName, addCardBool, custId) => {
     let amount;
     let cardId;
 
@@ -90,14 +85,17 @@ export const subscribe = async (
         // Create a subscription
         let subscription = await addSubscription(
             cardId,
-            planId,
+            process.env.SUBSCRIPTION_PLAN_ID,
             custId,
             orderId
         );
+        console.log("Subscription added : ", subscription.id);
 
-        return subscription.result;
+        // Update membership in db table
+
+        return JSON.stringify({ status: 200, subscription });
     } catch (error) {
-        console.log("Error in submitting payment : ", error);
+        console.log("Error in subscribing : ", error);
     }
     // DEBUG
     // console.log("PROPS: amount - ", planName);
@@ -170,7 +168,7 @@ export const createOrder = async (custId, planId) => {
             },
         });
 
-        console.log("created object", response.result.order.id);
+        console.log("created object", result.order.id);
         return result.order.id;
     } catch (error) {
         console.log("Could not create order : ", error);
@@ -178,12 +176,12 @@ export const createOrder = async (custId, planId) => {
 };
 
 // Function to add a subscription to the SEAC website
-export const addSubscription = async (cardId, planId, custId, orderId) => {
+export const addSubscription = async (cardId, subPlanId, custId, orderId) => {
     try {
         const response = await client.subscriptionsApi.createSubscription({
             idempotencyKey: v4(),
             locationId: process.env.LOCATION_ID,
-            planVariationId: planId,
+            planVariationId: subPlanId,
             customerId: custId,
             cardId: cardId,
             phases: [
@@ -194,12 +192,14 @@ export const addSubscription = async (cardId, planId, custId, orderId) => {
             ],
         });
 
-        console.log(response);
+        // FEEDBACK
+        return response.result.subscription;
     } catch (error) {
         console.log("Could not add subscription : ", error);
     }
 
     // DEBUG
+    // console.log(response);
     // console.log("Plan to be added : ", plan);
 };
 
@@ -261,10 +261,18 @@ export const addCustomerToDB = async (custId, accId) => {
             "' where Account_Id = " +
             accId;
         const result = await db.execute(query);
-
-        // DEBUG
-        // console.log(" Updated database with customer id.");
     } catch (error) {
         console.log("Error in adding customer to Database", error);
     }
+
+    // DEBUG
+    // console.log(" Updated database with customer id.");
+};
+
+// Function to clean up in case of any error
+export const removeCustomer = async () => {
+    // Delete customer from database
+    // Delete customer from square
+    // Delete all orders from customer
+    // Delete all subscriptions for user
 };

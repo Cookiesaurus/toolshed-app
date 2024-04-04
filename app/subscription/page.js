@@ -1,6 +1,5 @@
 "use client";
-import Giftcards from "@/components/account/giftcards";
-// import { addSubscription } from "@/actions/squareActions";
+import { useRouter } from "next/navigation";
 import { addSubscriptionAction } from "@/actions/actions";
 import { PaymentForm, CreditCard } from "react-square-web-payments-sdk";
 import { subscribe } from "@/actions/squareActions";
@@ -12,6 +11,7 @@ const locationId = "LFETGS2GE8TGC";
 import { DOMElement } from "react";
 
 export default function Page() {
+    const router = useRouter();
     const custId = useSearchParams().get("custid");
     // console.log("Customer ID is : ", custId);
     const [selectedPlan, setSelectedPlan] = useState(null);
@@ -22,8 +22,6 @@ export default function Page() {
     const setSaveOption = (res) => {
         setAddCard(res.target.checked);
     };
-
-    const sendPayment = () => {};
 
     return (
         <>
@@ -77,13 +75,19 @@ export default function Page() {
                     locationId={locationId}
                     cardTokenizeResponseReceived={async (token) => {
                         // we’ll come back to this soon
-                        const result = await subscribe(
+                        let result = await subscribe(
                             token.token,
                             selectedPlan,
                             addCard,
                             custId
                         );
-                        console.log(result);
+                        result = JSON.parse(result);
+                        if (result.status == 200) {
+                            console.log("Sign up successful.")
+                            router.push("/");
+                        } else {
+                            console.log("Card tokenizer result : ", result);
+                        }
                     }}
                 >
                     <CreditCard />
