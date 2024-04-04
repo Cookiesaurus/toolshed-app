@@ -1,4 +1,12 @@
+"use client"
+import { useState } from "react";
 const CreateNewUser = () => {
+    const [showPasswords, setShowPasswords] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPasswords(prevState => !prevState);
+  };
+
   return(
     <>
     <form>
@@ -6,19 +14,15 @@ const CreateNewUser = () => {
         <div className="top_right_side_all_content">
             <div className="accountInfo">
                 <h2>Account</h2>
-                <label htmlFor="username">Username</label>
-                <br/>
-                <input type="text" name="username" required/>
                 <br/>
                 <label htmlFor="password">Password</label>
-                <br/>
-                <input type="password" name="password" required/>
+                <input type={showPasswords ? "text" : "password"} name="password" id="password" required/>
                 <br/>
                 <label htmlFor="re-enter_password">Re-enter password</label>
                 <br/>
-                <input type="password" name="re-enter_password" required/>
+                <input type={showPasswords ? "text" : "password"} name="re-enter password" id="re-enter_password" required/>
                 <br/>
-                <input className="checkbox" type="checkbox" id="show_passwords" name="show" value="show"/>
+                <input className="checkbox" type="checkbox" id="show_passwords" name="show" value="show" onChange={togglePasswordVisibility}/>
                 <label htmlFor="show"> Show passwords</label>
             </div>
             <div className="membershipInfo">
@@ -53,28 +57,28 @@ const CreateNewUser = () => {
                 <br/>
                 <input type="email" id="email" name="email"/>
                 <br/>
-                <label htmlFor="phoneNumber">Phone Number</label>
+                <label htmlFor="phone_number">Phone Number</label>
                 <br/>
-                <input type="tel" id="phone_number" name="phoneNumber"/>
+                <input type="tel" id="phone_number" name="phone number"/>
                 <br/>
             </div>
             <div className="secondaryInfo">
                 <h2>Secondary Info</h2>
-                <label htmlFor="firstName">First Name</label>
+                <label htmlFor="secondary_first_name">First Name</label>
                 <br/>
-                <input type="text" id="first_Name" name="firstName"/>
+                <input type="text" id="secondary_first_name" name="secondary-first-name"/>
                 <br/>
-                <label htmlFor="lastName">Last Name</label>
+                <label htmlFor="secondary_last_name">Last Name</label>
                 <br/>
-                <input type="text" id="last_Name" name="lastName"/>
+                <input type="text" id="secondary_last_name" name="secondary-last-name"/>
                 <br/>
-                <label htmlFor="email">Email</label>
+                <label htmlFor="secondary_email">Email</label>
                 <br/>
-                <input type="email" id="email" name="email"/>
+                <input type="email" id="secondary_email" name="secondary-email"/>
                 <br/>
-                <label htmlFor="phoneNumber">Phone Number</label>
+                <label htmlFor="secondary_number">Phone Number</label>
                 <br/>
-                <input type="tel" id="phone_number" name="phoneNumber"/>
+                <input type="tel" id="secondary_number" name="secondary-number"/>
                 <br/>
             </div>
         </div>
@@ -85,9 +89,9 @@ const CreateNewUser = () => {
                 <br/>
                 <input type="text" id="gender" name="gender"/>
                 <br/>
-                <label htmlFor="dob">Expiration</label>
+                <label htmlFor="date_of_birth">Date of Bith</label>
                 <br/>
-                <input type="date" id="date_of_birth" name="dob"/>
+                <input type="date" id="date_of_birth" name="date-of-birth"/>
                 <br/>
                 <label htmlFor="title">Title</label>
                 <br/>
@@ -100,19 +104,19 @@ const CreateNewUser = () => {
             </div>
             <div className="address">
                 <h2>Address</h2>
-                <label htmlFor="streetAddress">Street Address</label>
+                <label htmlFor="street_address">Street Address</label>
                 <br/>
-                <input type="text" id="street_address" name="streetAddress"/>
+                <input type="text" id="street_address" name="street-address"/>
                 <br/>
-                <label htmlFor="Line2">Apt/Floor</label>
+                <label htmlFor="2nd_Line">Apt/Floor</label>
                 <br/>
-                <input type="text" id="2nd_Line" name="Line2"/>
+                <input type="text" id="2nd_Line" name="street-address-two"/>
                 <br/>
                 <label htmlFor="city">City</label>
                 <br/>
                 <input type="text" id="city" name="city"/>
                 <br/>
-                <label htmlFor="zipCode">ZIP code</label>
+                <label htmlFor="zip_code">ZIP code</label>
                 <br/>
                 <input type="text" id="zip_code" name="zipCode"/>
                 <br/>
