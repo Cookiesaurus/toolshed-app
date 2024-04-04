@@ -50,12 +50,6 @@ export const subscribe = async (sourceId, planName, addCardBool, custId) => {
     let amount;
     let cardId;
 
-    // Set amount according to the plan
-    if (planName == "tinker") amount = 25;
-    else if (planName == "macgyver") amount = 35;
-    else if (planName == "builder") amount = 50;
-    else if (planName == "contractor") amount = 100;
-
     try {
         // Create a payment
         const { result } = await paymentsApi.createPayment({
@@ -68,13 +62,11 @@ export const subscribe = async (sourceId, planName, addCardBool, custId) => {
         });
 
         // Add card to customer file if addCard is true
-        if (addCardBool) {
-            cardId = await addCard(
-                custId,
-                result.payment.id,
-                result.payment.cardDetails.card
-            );
-        }
+        cardId = await addCard(
+            custId,
+            result.payment.id,
+            result.payment.cardDetails.card
+        );
         console.log("Card has been added to account. ");
 
         let plan = await getItemVariation(planName);
