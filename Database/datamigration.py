@@ -53,7 +53,7 @@ def insertTools():
         # Getting the image from the link if there is one
         Image_Link = j['Image']
         if not ( str(Image_Link) == "nan" ):
-            Image = base64.b64encode(requests.get( Image_Link ).content)
+            Image = Image_Link
         else:
             Image = ""
         
@@ -72,8 +72,8 @@ def insertTools():
         Is_Featured = 1 if str(j['Featured']) == "Y" else 0
 
         #Query using the tool IDs from excel
-        query = """INSERT INTO Tools (Old_Tool_ID, Tool_Name, Brand_Name, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Tool_Image, Tool_Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost, Is_Floating, Is_Featured, Tool_Link) 
-        VALUES ('%s', '%s', '%s',  %f, '%s', %d, %d, '%s', '%s',  %d, "%s", "%s", %.2f, %d, %d, %.2f, %d, %d, '%s')""" % (Tool_ID, Tool_Name, Tool_Brand,Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Image, Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount,  Tool_Replacement_Cost, Is_Floating, Is_Featured, Image_Link)
+        query = """INSERT INTO Tools (Old_Tool_ID, Tool_Name, Brand_Name, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Tool_Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost, Is_Floating, Is_Featured, Tool_Link) 
+        VALUES ('%s', '%s', '%s',  %f, '%s', %d, %d, '%s', '%s',  %d, "%s", %.2f, %d, %d, %.2f, %d, %d, '%s')""" % (Tool_ID, Tool_Name, Tool_Brand,Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount,  Tool_Replacement_Cost, Is_Floating, Is_Featured, Image)
         curr.execute(query)
         conn.commit()
         # except:

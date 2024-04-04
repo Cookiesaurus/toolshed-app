@@ -1,38 +1,109 @@
-import { Client } from "square";
+"use server";
+
 import mysql from "mysql2/promise";
-import { randomUUID } from "crypto";
+import { v4 } from "uuid";
+import { client } from "@/components/Square/Client";
 
-export const { paymentsApi, customersApi, cardsApi, subscriptionsApi } =
-    new Client({
-        accessToken: process.env.SQUARE_ACCESS_TOKEN,
-        environment: "sandbox",
-    });
-
+// Different APIs for Square functions
+const {
+    paymentsApi,
+    customersApi,
+    cardsApi,
+    ordersApi,
+    subscriptionsApi,
+    catalogApi,
+} = client;
 BigInt.prototype.toJSON = function () {
     return this.toString();
 };
 
-export const submitFirstTimePayment = async (sourceId, amount, addCard) => {
+// Function to pay using just a credit card.
+// -- Should not be in use as of yet.
+// -- params sourceID - tokenized card to use to create payment.
+// -- returns the payment if successful, nothing if unsuccessful (as of yet).
+export const submitPayment = async (sourceId) => {
     try {
         const { result } = await paymentsApi.createPayment({
-            idempotencyKey: randomUUID(),
+            idempotencyKey: v4(),
+            sourceId,
+            amountMoney: {
+                currency: "USD",
+                amount: 100,
+            },
+        });
+
+        return result;
+    } catch (error) {
+        console.log("Error in submitting payment : ", error);
+    }
+    /* DEBUG
+    console.log("Result payment: ", result.payment);
+    console.log(
+        "Result payment card details : ",
+        result.payment.cardDetails.card
+    );
+    */
+};
+
+// Function to submit payment for the first time.
+export const subscribe = async (sourceId, planName, addCardBool, custId) => {
+    let amount;
+    let cardId;
+
+    try {
+        // Create a payment
+        const { result } = await paymentsApi.createPayment({
+            idempotencyKey: v4(),
             sourceId,
             amountMoney: {
                 currency: "USD",
                 amount: 100 * amount,
             },
         });
-        console.log(result.payment.cardDetails.card);
-        return result;
+
+        // Add card to customer file if addCard is true
+        cardId = await addCard(
+            custId,
+            result.payment.id,
+            result.payment.cardDetails.card
+        );
+        console.log("Card has been added to account. ");
+
+        let plan = await getItemVariation(planName);
+        // Get the plan id from the plan
+        let planId = plan.id;
+        // Create an order for the subscription
+        let orderId = await createOrder(custId, planId);
+        // Create a subscription
+        let subscription = await addSubscription(
+            cardId,
+            process.env.SUBSCRIPTION_PLAN_ID,
+            custId,
+            orderId
+        );
+        console.log("Subscription added : ", subscription.id);
+
+        // Update membership in db table
+
+        return JSON.stringify({ status: 200, subscription });
     } catch (error) {
-        console.log(error);
+        console.log("Error in subscribing : ", error);
     }
+    // DEBUG
+    // console.log("PROPS: amount - ", planName);
+    // console.log("Source id is : ", sourceId);
+    // console.log("Result payment: ", result.payment);
+    // console.log(
+    //     "Result payment card details : ",
+    //     result.payment.cardDetails.card
+    // );
 };
 
+// Function to create a new square customer
 export const createSquareCustomer = async (userInfo, customerId) => {
     try {
         const response = await customersApi.createCustomer({
-            idempotencyKey: randomUUID(),
+            idempotencyKey: v4(),
             givenName: userInfo.firstName,
             familyName: userInfo.lastName,
             emailAddress: userInfo.email,
@@ -48,47 +119,125 @@ export const createSquareCustomer = async (userInfo, customerId) => {
             referenceId: String(customerId),
             note: "New Customer added.",
         });
-        console.log("Created square customer : ", response.result);
+        // console.log("Created square customer : ", response.result);
         const custId = response.result.customer.id;
         const accId = response.result.customer.referenceId;
-        const res = await addCustomerToDB(custId, accId);
+        await addCustomerToDB(custId, accId);
+        return custId;
     } catch (error) {
-        console.log(error);
+        console.log("Unable to add square customer: ", error);
     }
 };
 
+// Function to add a card to a customer's file on square
 export const addCard = async (custId, sourceId, cardInfo) => {
     const { result } = await cardsApi.createCard({
-        idempotencyKey: randomUUID(),
+        idempotencyKey: v4(),
         sourceId: sourceId,
         card: { ...cardInfo.card, customerId: custId },
     });
-    console.log(result);
+    return result.card.id;
+
+    // DEBUG
+    // console.log("Card ", result.card.id, " has been added to account.");
 };
 
-export const addSubscription = async (plan) => {
-    // Check if client has card
-    let card = cardsApi.retrieveCard();
-    console.log("Plan to be added : ", plan);
+// Function to create a new order for the subscription in square
+export const createOrder = async (custId, planId) => {
+    try {
+        const { result } = await client.ordersApi.createOrder({
+            order: {
+                locationId: process.env.LOCATION_ID,
+                customerId: custId,
+                lineItems: [
+                    {
+                        quantity: "1",
+                        catalogObjectId: planId,
+                        itemType: "ITEM",
+                    },
+                ],
+                state: "DRAFT",
+            },
+        });
+
+        console.log("created object", result.order.id);
+        return result.order.id;
+    } catch (error) {
+        console.log("Could not create order : ", error);
+    }
 };
 
+// Function to add a subscription to the SEAC website
+export const addSubscription = async (cardId, subPlanId, custId, orderId) => {
+    try {
+        const response = await client.subscriptionsApi.createSubscription({
+            idempotencyKey: v4(),
+            locationId: process.env.LOCATION_ID,
+            planVariationId: subPlanId,
+            customerId: custId,
+            cardId: cardId,
+            phases: [
+                {
+                    ordinal: 0,
+                    orderTemplateId: orderId,
+                },
+            ],
+        });
+
+        // FEEDBACK
+        return response.result.subscription;
+    } catch (error) {
+        console.log("Could not add subscription : ", error);
+    }
+
+    // DEBUG
+    // console.log(response);
+    // console.log("Plan to be added : ", plan);
+};
+
+// Function to retrieve the item variation for given plan name
+export const getItemVariation = async (planName) => {
+    let planId;
+    try {
+        const response = await client.catalogApi.searchCatalogObjects({
+            objectTypes: ["ITEM_VARIATION"],
+            query: {
+                exactQuery: {
+                    attributeName: "name",
+                    attributeValue: planName,
+                },
+            },
+        });
+        planId = response.result.objects[0];
+        return planId;
+    } catch (error) {
+        console.log("Could not retrieve plan variation : ", error);
+    }
+
+    // DEBUG
+    // console.log("Plan variation object : ", response.result.objects[0])
+    // console.log("Plan id for plan name ", planName, " is : ", planId);
+};
+
+// Function to add a new card to an account
 export const addNewCard = async (sourceId) => {
     try {
         const { result } = await paymentsApi.createPayment({
-            idempotencyKey: randomUUID(),
+            idempotencyKey: v4(),
             sourceId,
             amountMoney: {
                 currency: "USD",
                 amount: 1,
             },
         });
-        console.log(result.payment.cardDetails.card);
+        console.log("Payment card : ", result.payment.cardDetails.card);
         return result;
     } catch (error) {
         console.log(error);
     }
 };
 
+// Function to add the square Customer ID to a SEAC Tool Shed database user's Account table
 export const addCustomerToDB = async (custId, accId) => {
     try {
         const db = await mysql.createConnection({
@@ -104,8 +253,18 @@ export const addCustomerToDB = async (custId, accId) => {
             "' where Account_Id = " +
             accId;
         const result = await db.execute(query);
-        console.log(" Updated database with customer id.");
     } catch (error) {
         console.log("Error in adding customer to Database", error);
     }
+
+    // DEBUG
+    // console.log(" Updated database with customer id.");
+};
+
+// Function to clean up in case of any error
+export const removeCustomer = async () => {
+    // Delete customer from database
+    // Delete customer from square
+    // Delete all orders from customer
+    // Delete all subscriptions for user
 };

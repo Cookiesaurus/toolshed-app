@@ -18,7 +18,8 @@ const Navbar = () => {
 
     const [session, setSession] = useState(null);
     useEffect(() => {
-        fetch("/api/me", { cache: "no-cache" })
+        // fetch("/api/me", { cache: "no-cache" })
+        fetch("/api/me")
             .then((response) => response.json())
             .then((data) => {
                 setSession({
@@ -96,18 +97,22 @@ const Navbar = () => {
             </form>
             <div className="account-hover">
                 <p className="navbar-account">
-                <Link href={session && session.isLoggedIn ? "/account" : "/login"} className="navbar-link">
-                    {session && session.isLoggedIn ? "Profile" : "Login"}
-                </Link>
+                    <Link
+                        href={
+                            session && session.isLoggedIn
+                                ? "/account"
+                                : "/login"
+                        }
+                        className="navbar-link"
+                    >
+                        {session && session.isLoggedIn ? "Profile" : "Login"}
+                    </Link>
                 </p>
                 {session && session.isLoggedIn && (
                     <div className="dropdown-content">
                         <div className="account">
                             <p className="navbar-link">
-                                <Link
-                                    href={"/account"}
-                                    className="navbar-link"
-                                >
+                                <Link href={"/account"} className="navbar-link">
                                     {session && session.isLoggedIn
                                         ? session.user.First_Name +
                                           " " +
