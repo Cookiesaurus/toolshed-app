@@ -1,12 +1,21 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar/Navbar";
+import Breadcrumb from "@/components/BReadCrumb";
 export default function Layout({
-    children, // will be a page or nested layout
-  }) {
-    return (
-      <>
-    <Navbar/>
+  children // will be a page or nested layout
+}) {
+  return (
+    <>
+      <Navbar />
+      <Breadcrumb
+        homeElement={"Home"}
+        containerClasses={"bread-crumb"}
+        listClasses={"crumb-init"}
+        separator={<span className="seperator"> / </span>}
+        activeClasses={"crumb-extra"}
+        capitalizeLinks
+      />
       {children}
-      </>
-    )
-  }
+    </>
+  );
+}

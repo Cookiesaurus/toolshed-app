@@ -14,15 +14,6 @@
     margin-bottom: 15px;
 }
 
-#first-name, #last-name, #name-title, #organization, #email, #phone-number, 
-#birth-day, #username, #password, #re-password,
-#address-first, #address-second, #address-city,
-#address-country, #address-state, #address-zipcode{
-    margin:10px;
-    width: 400px;
-    height: 50px;
-    max-width: 100%;
-}
 
 .button{
     background-color: black;

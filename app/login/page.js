@@ -1,8 +1,24 @@
+"use client"
 import Image from "next/image";
 import logo from "../public/images/toolshed_logo.png";
 import Link from "next/link";
 import { login } from "@/actions/actions";
 export default function Page() {
+  function handleLogin(formData) {
+    login(formData)
+        .then(response => {
+            if (response && response.error) {
+                alert("Invalid username or password")
+            } else {
+                // Proceed with the next steps after successful login
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            // Handle other potential errors, e.g., network error
+        });
+}
+
   return (
     <>
       <div className="content">
@@ -15,7 +31,7 @@ export default function Page() {
           ></Image>
           <h1 className="pagetitle">Sign In</h1>
         </div>
-        <form action={login} className="loginbox">
+        <form action={handleLogin} className="loginbox">
           <div>
             <label htmlFor="login-email" className="sr-only">
               Email

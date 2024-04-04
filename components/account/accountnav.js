@@ -8,7 +8,6 @@ import Transactions from './Transactions';
 import Security from './security';
 import Giftcards from './giftcards';
 import Link from 'next/link';
-import '../../app/giftcard/giftcard.css'
 
 const Accountnav = () => {
     const tabsTop = ['Profile', 'Security', 'Membership'];
