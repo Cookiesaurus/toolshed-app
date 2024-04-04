@@ -51,7 +51,7 @@ const RedeemGiftCard = () =>{
   return (
     <>
       <div className="redeem-card">
-      <h2 className='section-title'>Redeem a gift card</h2>
+      <h2 className='section-title white'>Redeem a gift card</h2>
       <form className='giftcard-form'>
         <label className='giftcard-label' for="code">Enter gift card code</label>
         <input className="giftcard-input" type='text' id='code' name='code' ></input>
