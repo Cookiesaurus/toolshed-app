@@ -91,6 +91,11 @@ a:visited{
   color: black;
 }
 
+.crumb-init.crumb-extra > a {
+  color: #6C757D
+}
+
+
 label {
   font-family: 'Poppins';
   font-size: 14px;
@@ -129,28 +134,10 @@ input[type="number"] {
 }
 
 
-p.crumb-init {
-  font-family: 'Poppins', 'sans-serif';
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 21px;
-  letter-spacing: 0em;
+span.seperator {
+  font-size: xx-large;
+  padding: 12px;
   color: #6C757D;
-  text-align: left;
-
-  a:visited{
-    color: #6C757D;
-  }
-}
-
-p.crumb-extra {
-  font-family: 'Poppins' , 'sans-serif';
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 21px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: black;
 }
 
 table {
