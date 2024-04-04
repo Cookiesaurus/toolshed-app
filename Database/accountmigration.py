@@ -19,7 +19,7 @@ data = pd.read_excel('Accounts_ToolShed.xls')
 
 def insertAccounts():
     for i, j in data.iterrows():
-        Account_ID = j['Customer ID'] #These are standard
+        #Account_ID = j['Customer ID'] #These are standard
         First_Name = j['First Name'] 
         Last_Name = j['Last Name'] 
         Organization_Name = j['Organization'] if not str(j['Organization']) == "nan" else "" 
@@ -28,7 +28,7 @@ def insertAccounts():
         Address_Line2 = j['Address2'] if not str(j['Address2']) == "nan" else "" 
         City = j['City'] 
         State = j['State/Province'] 
-        Postal_Code = j['Postal Code'] 
+        Postal_Code = j['Postal Code']
         Account_Notes = j['User Note'] if not str(j['User Note']) == "nan" else "" 
         Secondary_First_Name = j['Secondary First Name'] if not str(j['Secondary First Name']) == "nan" else ""
         Secondary_Last_Name = j['Secondary Last Name'] if not str(j['Secondary Last Name']) == "nan" else ""
@@ -38,7 +38,7 @@ def insertAccounts():
         Secondary_Phone = re.sub(r'\D', '', Secondary_Numb)
         if(len(Secondary_Phone) == 11 and Secondary_Phone.startswith('1')):
             Secondary_Phone = Secondary_Phone[1:]
-
+        
         
         #Needed to change the DOB to correct format
         date_DOB = j['Date of Birth']
@@ -82,7 +82,7 @@ def insertAccounts():
         if(Membership_Auto_Renewal == True):
             Membership_Auto_Renewal = 1
         else:
-            Membership_Auto_Renewal = 2
+            Membership_Auto_Renewal = 0
             
         
         memb_creation_date = j['Latest Membership Change (request, upgrade, renewal, cancellation...) (M/D/YYYY)']
@@ -108,11 +108,13 @@ def insertAccounts():
         
         
         
-        query = """INSERT INTO Accounts (Account_ID, First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Account_Creation_Date, Account_Notes, Membership_Level, Membership_Status, Membership_Auto_Renewal, Membership_Creation_Date, Membership_Expiration_Date, Privilege_Level, Password, Secondary_First_Name, Secondary_Last_Name, Secondary_Email, Secondary_Phone_Number)
-        VALUES ('%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s','%s','%s','%s','%s')""" % (Account_ID, First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Account_Creation_Date, Account_Notes, Membership_Level, Membership_Status, Membership_Auto_Renewal, Membership_Creation_Date, Membership_Expiration_Date, Priviledge_Level, Password, Secondary_First_Name, Secondary_Last_Name, Secondary_Email, Secondary_Phone)
+        query = """INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Account_Creation_Date, Account_Notes, Membership_Level, Membership_Status, Membership_Auto_Renewal, Membership_Creation_Date, Membership_Expiration_Date, Privilege_Level, Password, Secondary_First_Name, Secondary_Last_Name, Secondary_Email, Secondary_Phone_Number)
+        VALUES ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%d", "%s", "%s", "%s", "%s","%s","%s","%s","%s")""" % (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Account_Creation_Date, Account_Notes, Membership_Level, Membership_Status, Membership_Auto_Renewal, Membership_Creation_Date, Membership_Expiration_Date, Priviledge_Level, Password, Secondary_First_Name, Secondary_Last_Name, Secondary_Email, Secondary_Phone)
         
         curr.execute(query)
         conn.commit()
+        
+        print('Added Account: ' + First_Name + ' ' + Last_Name)
         
         
         
