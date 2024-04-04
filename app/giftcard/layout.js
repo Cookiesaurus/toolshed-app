@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar/Navbar";
-import Breadcrumb from "@/components/BReadCrumb";
+import Breadcrumb from "@/components/BreadCrumb";
 export default function Layout({
   children // will be a page or nested layout
 }) {
