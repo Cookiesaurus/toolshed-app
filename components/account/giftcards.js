@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 
 const PaymentButton = ({paymentAmount}) =>{
   return (
-    <h2 type='submit'> {paymentAmount} </h2>
+    <h2 type='submit' className='white'> {paymentAmount} </h2>
   )
 }
 
@@ -12,7 +12,7 @@ const RecipientModal = () =>{
   return (
     <>
     <div className='form-section'>
-      <h3>Recipient Info</h3>
+      <h3 className='white'>Recipient Info</h3>
       <form className="form-section">
         <label className="giftcard-label" htmlFor='first name'>First Name </label>
         <input className="giftcard-input" type='text' required name='first name' />
@@ -33,7 +33,7 @@ const FromModal = () =>{
   return (
     <>
     <div className='form-section'>
-      <h3>Sender Info</h3>
+      <h3 className='white'>Sender Info</h3>
       <form className="form-section">
         <label className="giftcard-label" htmlFor='first name'>First Name </label>
         <input className="giftcard-input" type='text' required name='first name' />
@@ -85,7 +85,7 @@ const GiftCardOptions = ()=>{
   return (<>
     {session && session.isLoggedIn ? <RedeemGiftCard /> : null}
     <div className='buy-card'>
-      <h2 className='section-title'>Buy a gift card</h2>
+      <h2 className='section-title white'>Buy a gift card</h2>
       
       <div className="gift-card-ranks">
         <div className="rank">
@@ -121,7 +121,7 @@ const GiftCardOptions = ()=>{
         <RecipientModal/>
         <FromModal/>
         <div className="form-section">
-          <h3>Total Due: </h3>
+          <h3 className='white'>Total Due: </h3>
           <PaymentButton paymentAmount={paymentAmount} />
         </div>
         

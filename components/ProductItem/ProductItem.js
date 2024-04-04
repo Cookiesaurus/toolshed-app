@@ -1,69 +1,68 @@
-"use client";
 import React from "react";
 import Image from "next/image";
+
 const ProductItem = ({ tool }) => {
-
-    // Stuff we need : Product image, Product Name, Product availability, Product brand, Product weight, Product location, Product description
-
-    return (
-        <>
-            <div className="product-cont">
-                <div className="product-left">
-                    {tool && (
-                        <div className="product-img" key={1}>
-                            <Image
-                                src={tool.Tool_Link}
-                                alt={"Product Place Holder"}
-                                width={400}
-                                height={600}
-                                className="product-img"
-                                priority={true}
-                            />
-                        </div>
-                    )}
-                </div>
-                <div className="product-right">
-                    {tool && (
-                        <React.Fragment>
-                            <h2 className="product-title">{tool.Tool_Name}</h2>
-                            <div className="item-avaliability">
-                                <p className="pickup">Pickup</p>
-                                <div className="availability">
-                                    <p>{tool.Tool_Status_Details}</p>
-                                    <p className="stock-green">Today</p>
-                                </div>
-                            </div>
-                            <div className="replace-cont">
-                                <p className="replacement">Replacement Cost:</p>
-                                <p className="cost">
-                                    ${tool.Tool_Replacement_Cost}
-                                </p>
-                            </div>
-                            <div className="product-info">
-                                <div className="info-left">
-                                    <p className="product-info">
-                                        Brand: {tool.Brand_Name}
-                                    </p>
-                                    <p className="product-info">
-                                        Weight: {tool.Tool_Weight} lbs
-                                    </p>
-                                    <p className="product-info">
-                                        Location: {tool.Location_Name}
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="product-description">
-                                <p>Categories : {tool.Category_Name}</p>
-                            </div>
-                            <div className="product-description">
-                                <p>Item Types: {tool.Types}</p>
-                            </div>
-                        </React.Fragment>
-                    )}
-                </div>
+  function RoundToTenth(decimal) {
+    const roundedDecimal = parseFloat(decimal).toFixed(1);
+    const roundedNumber = parseFloat(roundedDecimal);
+    return roundedNumber;
+  }
+  function RoundToHun(decimal){
+    const roundedDecimal = parseFloat(decimal).toFixed(2);
+    const roundedNum = parseFloat(roundedDecimal);
+    return roundedNum;
+  }
+  return (
+    <>
+      <div className="product-cont">
+        <div className="product-left">
+          {tool && (
+            <div className="product-img" key={1}>
+              <Image
+                src={tool.Tool_Link}
+                alt={"Product Place Holder"}
+                width={400}
+                height={600}
+                className="product-img"
+                priority={true}
+              />
             </div>
-        </>
-    );
+          )}
+        </div>
+        <div className="product-right">
+          {tool && (
+            <React.Fragment>
+              <h2 className="product-title">{tool.Tool_Name}</h2>
+              <div className="item-avaliability">
+                <p className="pickup">Pickup</p>
+                <div className="availability">
+                  <p>{tool.Tool_Status_Details}</p>
+                  <p className="stock-green">Today</p>
+                </div>
+              </div>
+              <div className="replace-cont">
+                <p className="replacement">Replacement Cost:</p>
+                <p className="cost">${RoundToHun(tool.Tool_Replacement_Cost)}</p>
+              </div>
+              <div className="product-info">
+                <div className="info-left">
+                  <p className="product-info">Brand: {tool.Brand_Name}</p>
+                  <p className="product-info">Weight: {RoundToTenth(tool.Tool_Weight)} lbs</p>
+                  <p className="product-info">Location: {tool.Location_Name}</p>
+                </div>
+              </div>
+              <div className="product-description">
+                <p>Categories : {tool.Category_Name}</p>
+              </div>
+              <div className="product-description">
+                <p>Item Types: {tool.Types}</p>
+              </div>
+            </React.Fragment>
+          )}
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default ProductItem;
