@@ -23,48 +23,68 @@ const ToolCard = ({ tools }) => {
 
     return <p className={statusClass}>{productItem.Tool_Status_Details}</p>;
   };
+
+  const ToolLocation = ({productItem}) => {
+    let location;
+    switch (productItem.Location_Name) {
+      case "Main Location":
+        location = "Main Location";
+        break;
+      case "Mobile Unit - Thomas P. Ryan Center (Monday)":
+        location = "Thomas P. Ryan Center";
+        break;
+      case "Mobile Unit - David F. Gantt Reacreation Center (Thursday)":
+        location = "David F. Gantt Rec Center ";
+        break;
+      case "Mobile Unit - Willie Walker Lightfoot Recreation Center (Wednesday)":
+        location = "Willie Walker Lightfoot RecCenter ";
+        break;
+      case "Mobile Unit - Edgerton Recreation Center (Tuesday)":
+       location = "Edgerton Rec Center";
+    }
+    return <p className="light-paragraph">{location}</p>;
+  }
   // Debug
   return (
     <>
       <div className="inven-cont">
         <div className="inven-items">
-          {tools &&
-            tools.map((productItem, index) => {
-              return (
-                <Link
-                  key={index}
-                  href={{
-                    pathname: "/inventory/product",
-                    query: {
-                      product_id: productItem.Tool_ID
-                    }
-                  }}
-                >
-                  <div className="inventory-item">
-                    <div className="inventory-image">
-                      {
-                        <Image
-                          src={productItem.Tool_Link}
-                          alt={"Product Place Holder"}
-                          width={230}
-                          height={280}
-                          className="popular-img"
-                        />
-                      }
-                    </div>
-                    <div className="product-info">
+          {tools.length > 0 ? (
+            tools.map((productItem, index) => (
+              <Link
+                key={index}
+                href={{
+                  pathname: "/inventory/product",
+                  query: {
+                    product_id: productItem.Tool_ID
+                  }
+                }}
+              >
+                <div className="inventory-item">
+                  <div className="inventory-image">
+                    <Image
+                      src={productItem.Tool_Link}
+                      alt={"Product Placeholder"}
+                      width={230}
+                      height={280}
+                      className="popular-img"
+                    />
+                  </div>
+                  <div className="product-info">
                     <p>{productItem.Tool_Name}</p>
                     <div className="item-aval">
-                      <p className="light-paragraph">
-                        {productItem.Location_Name}
-                      </p>
+                      <ToolLocation productItem={productItem}/>
                       <ToolStatus productItem={productItem} />
                     </div>
                   </div>
-                  </div>
-                </Link>
-              );
-            })}
+                </div>
+              </Link>
+            ))
+          ) : (
+            <div className="no-items">
+              <h1>No items found</h1>
+            </div>
+          )}
         </div>
       </div>
     </>
