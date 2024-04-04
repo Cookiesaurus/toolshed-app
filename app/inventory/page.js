@@ -153,7 +153,7 @@ export default async function Page({ searchParams }) {
                     totalTools={tools.length}
                 />
                 {useInven ? (
-                    <InventoryItems />
+                    <InventoryItems tools={tools}/>
                 ) : tools.length == 0 ? (
                     <div className="inven-cont">
                         <div className="inven-items">
