@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import './profile.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 const Profile = ({user}) =>{

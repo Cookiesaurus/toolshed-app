@@ -1,5 +1,3 @@
-
-import './profile.css' 
 import Link from 'next/link'
 
 const Membership = ({user}) => {
