@@ -114,14 +114,13 @@ export default async function Page({ searchParams }) {
     tools = tools[0];
     // Debug
     // console.log("Returned tools length: ", tools.length);
-
+    const urlSelectedCat = searchParams.category;
     return (
         <>
+        <div className="inventory-page">
             <div className="conditions-cont">
                 <div className="conditions">
-                    {/* <div className='inventory-cond'> Condition <span></span> </div>
-                      <div className='inventory-cond'> Condition <span></span> </div>
-                      <div className='inventory-cond'> Condition <span></span> </div> */}
+                    <h1>{urlSelectedCat} </h1>
                 </div>
                 <div className="sort">
                     <select id="filter-sort">
@@ -143,17 +142,12 @@ export default async function Page({ searchParams }) {
                 />
                 {useInven ? (
                     <InventoryItems tools={tools}/>
-                ) : tools.length == 0 ? (
-                    <div className="inven-cont">
-                        <div className="inven-items">
-                            <h1>No items found</h1>
-                        </div>
-                    </div>
                 ) : (
                     <ToolCard tools={tools} />
                 )}
                 {}
             </div>
+        </div>
         </>
     );
 }
