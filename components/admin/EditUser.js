@@ -1,7 +1,6 @@
 //Using the create new user component, just need to pass in data from the query
-
-
-const EditUser = () => {
+const EditUser = ({customerInfo}) => {
+  console.log(customerInfo)
     return (
         <>
         <h1>Edit Customer</h1>
@@ -52,23 +51,23 @@ const EditUser = () => {
             <h2>Primary Info</h2>
             <label htmlFor="firstName">First Name</label>
             <br />
-            <input type="text" id="first_Name" name="firstName" />
+            <input type="text" id="first_Name" name="firstName" defaultValue={customerInfo.First_Name} />
             <br />
             <label htmlFor="lastName">Last Name</label>
             <br />
-            <input type="text" id="last_Name" name="lastName" />
+            <input type="text" id="last_Name" name="lastName" defaultValue={customerInfo.Last_Name} />
             <br />
             <label htmlFor="gender">Gender</label>
             <br />
             <input type="text" id="gender" name="gender" />
             <br />
-            <label htmlFor="dob">Expiration</label>
+            <label htmlFor="dob">Date of Birth</label>
             <br />
-            <input type="date" id="date_of_birth" name="dob" />
+            <input type="date" id="date_of_birth" name="dob" defaultValue={customerInfo.DOB}/>
             <br />
             <label htmlFor="email">Email</label>
             <br />
-            <input type="email" id="email" name="email" />
+            <input type="email" id="email" name="email" defaultValue={customerInfo.Email} />
             <br />
             <label htmlFor="title">Title</label>
             <br />
@@ -80,7 +79,7 @@ const EditUser = () => {
             <br />
             <label htmlFor="streetAddress">Street Address</label>
             <br />
-            <input type="text" id="street_address" name="streetAddress" />
+            <input type="text" id="street_address" name="streetAddress" defaultValue={customerInfo.Address_Line1}/>
             <br />
             <label htmlFor="Line2">Apt/Floor</label>
             <br />
@@ -88,15 +87,15 @@ const EditUser = () => {
             <br />
             <label htmlFor="city">City</label>
             <br />
-            <input type="text" id="city" name="city" />
+            <input type="text" id="city" name="city" defaultValue={customerInfo.City} />
             <br />
             <label htmlFor="zipCode">ZIP code</label>
             <br />
-            <input type="text" id="zip_code" name="zipCode" />
+            <input type="text" id="zip_code" name="zipCode" defaultValue={customerInfo.Postal_Code}/>
             <br />
             <label htmlFor="phoneNumber">Phone Number</label>
             <br />
-            <input type="tel" id="phone_number" name="phoneNumber" />
+            <input type="tel" id="phone_number" name="phoneNumber" defaultValue={customerInfo.Phone_Number}/>
             <br />
           </div>
   

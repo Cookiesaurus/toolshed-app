@@ -1,5 +1,7 @@
-import ViewAllUsers from "@/components/admin/ViewAllUsers";
 import db from "@/app/config/db.mjs";
+import dynamic from 'next/dynamic'
+ 
+const ViewAllUsers = dynamic(() => import("@/components/admin/ViewAllUsers"), { ssr: false })
 export default async function Page() {
   let customers = await db.selectFromDB(`SELECT 
     Account_ID,
