@@ -226,6 +226,7 @@ ul li{
     text-align: left;
     padding: 5px;
     cursor: pointer;
+    list-style-type: none;
 }
 
 .side-link:focus{

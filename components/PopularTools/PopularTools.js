@@ -5,72 +5,88 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 
 const PopularTools = ({ tools }) => {
-    // const [imgeUrl, setImageURL] = useState([]);
-    const [imgLink, setImgLink] = useState(null);
+  // const [imgeUrl, setImageURL] = useState([]);
+  const [imgLink, setImgLink] = useState(null);
 
-    // console.log(tools);
-    useEffect(() => {
-        const urls = tools.map((tool) => {
-            const link = tool.Tool_Link;
-            return link;
-        });
-    }, []);
-    // useEffect(() => {
-    //     // Create image URLs from base64-encoded data
-    //     const urls = tools.map((tool) => {
-    //         const base64Data = tool.Tool_Image.data;
-    //         const binData = atob(tool.Tool_Image.data);
-    //         console.log(binData);
-    //         const binaryData = Buffer.from(base64Data, "base64");
-    //         return "data:image/jpg;base64," + binaryData;
-    //     });
-    //     setImageURL(urls);
-    // }, [tools]);
-
-    return (
-        <>
-            <h2> Popular Tools</h2>
-            <div className="popular-container">
-                {tools.map((tool, index) => (
-                    <div className="popular" key={tool.Tool_ID}>
-                        <Link
-                            href={{
-                                pathname: "/inventory/product",
-                                query: { product_id: tool.Tool_ID },
-                            }}
-                        >
-                            <div className="img-cont">
-                                <Image
-                                    src={tool.Tool_Link}
-                                    alt={tool.Tool_Name}
-                                    width={200}
-                                    height={200}
-                                />
-                                {/* <img src={imgeUrl[index]} /> */}
-                            </div>
-                            <div className="product-info">
-                                <p className="product-title">{tool.Tool_Name}</p>
-                                <p className="stock-green">
-                                    {tool.Tool_Status_Details}
-                                </p>
-                                <p className="light-paragraph">
-                                    {tool.Location_Name}
-                                </p>
-                            </div>
-                        </Link>
-                    </div>
-                ))}
-            </div>
-            <div className="button-center">
-                <button type="submit" tabIndex={-1}>
-                    {" "}
-                    <Link href={"/inventory"} className="home-button">
-                        View All Tools
-                    </Link>
-                </button>
-            </div>
-        </>
-    );
+  // console.log(tools);
+  useEffect(() => {
+    const urls = tools.map((tool) => {
+      const link = tool.Tool_Link;
+      return link;
+    });
+  }, []);
+  // useEffect(() => {
+  //     // Create image URLs from base64-encoded data
+  //     const urls = tools.map((tool) => {
+  //         const base64Data = tool.Tool_Image.data;
+  //         const binData = atob(tool.Tool_Image.data);
+  //         console.log(binData);
+  //         const binaryData = Buffer.from(base64Data, "base64");
+  //         return "data:image/jpg;base64," + binaryData;
+  //     });
+  //     setImageURL(urls);
+  // }, [tools]);
+  const ToolLocation = ({ productItem }) => {
+    let location;
+    switch (productItem.Location_Name) {
+      case "Main Location":
+        location = "Main Location";
+        break;
+      case "Mobile Unit - Thomas P. Ryan Center (Monday)":
+        location = "Thomas P. Ryan Center";
+        break;
+      case "Mobile Unit - David F. Gantt Reacreation Center (Thursday)":
+        location = "David F. Gantt Rec Center ";
+        break;
+      case "Mobile Unit - Willie Walker Lightfoot Recreation Center (Wednesday)":
+        location = "Willie Walker Lightfoot RecCenter ";
+        break;
+      case "Mobile Unit - Edgerton Recreation Center (Tuesday)":
+        location = "Edgerton Rec Center";
+    }
+    return <p className="light-paragraph">{location}</p>;
+  };
+  return (
+    <>
+      <h2> Popular Tools</h2>
+      <div className="popular-container">
+        {tools.map((tool, index) => (
+          <div className="popular" key={tool.Tool_ID}>
+            <Link
+              href={{
+                pathname: "/inventory/product",
+                query: { product_id: tool.Tool_ID }
+              }}
+            >
+              <div className="img-cont">
+                <Image
+                  src={tool.Tool_Link}
+                  alt={tool.Tool_Name}
+                  width={200}
+                  height={200}
+                  priority={true}
+                />
+                {/* <img src={imgeUrl[index]} /> */}
+              </div>
+              <div className="product-info">
+                <p className="product-title">{tool.Tool_Name}</p>
+                <p className="stock-green">{tool.Tool_Status_Details}</p>
+                <ToolLocation productItem={tool} />
+              </div>
+            </Link>
+          </div>
+        ))}
+      </div>
+      <div className="button-center">
+        <button type="submit" tabIndex={-1}>
+          {" "}
+          <Link href={"/inventory"} className="home-button">
+            View All Tools
+          </Link>
+        </button>
+      </div>
+    </>
+  );
 };
 
 export default PopularTools;
