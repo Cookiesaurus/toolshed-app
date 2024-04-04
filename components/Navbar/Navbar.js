@@ -141,8 +141,8 @@ const Navbar = () => {
                             />
                             <p>My transactions</p>
                         </Link>
-                        <form action={logout}>
-                            <button>Logout</button>
+                        <form action={logout} className="white logout">
+                            <button id="logout" className="white">Log Out</button>
                         </form>
                     </div>
                 )}
