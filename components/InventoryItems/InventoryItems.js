@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-const InventoryItems = ({tools}) => {
-
+const InventoryItems = ({ tools }) => {
   const ToolStatus = ({ productItem }) => {
     let statusClass;
     switch (productItem.Tool_Status_Details) {
@@ -24,12 +23,33 @@ const InventoryItems = ({tools}) => {
     return <p className={statusClass}>{productItem.Tool_Status_Details}</p>;
   };
 
+  const ToolLocation = ({productItem}) => {
+    let location;
+    switch (productItem.Location_Name) {
+      case "Main Location":
+        location = "Main Location";
+        break;
+      case "Mobile Unit - Thomas P. Ryan Center (Monday)":
+        location = "Thomas P. Ryan Center";
+        break;
+      case "Mobile Unit - David F. Gantt Reacreation Center (Thursday)":
+        location = "David F. Gantt Rec Center ";
+        break;
+      case "Mobile Unit - Willie Walker Lightfoot Recreation Center (Wednesday)":
+        location = "Willie Walker Lightfoot RecCenter ";
+        break;
+      case "Mobile Unit - Edgerton Recreation Center (Tuesday)":
+       location = "Edgerton Rec Center";
+    }
+    return <p className="light-paragraph">{location}</p>;
+  }
+
   return (
     <>
       <div className="inven-cont">
         <div className="inven-items">
-          {tools.map((productItem, index) => {
-            return (
+          {tools.length > 0 ? (
+            tools.map((productItem, index) => (
               <Link
                 key={index}
                 href={{
@@ -41,29 +61,27 @@ const InventoryItems = ({tools}) => {
               >
                 <div className="inventory-item">
                   <div className="inventory-image">
-                    {
-                      <Image
-                        src={productItem.Tool_Link}
-                        alt={"Product Place Holder"}
-                        width={230}
-                        height={280}
-                        className="popular-img"
-                      />
-                    }
+                    <Image
+                      src={productItem.Tool_Link}
+                      alt={"Product Placeholder"}
+                      width={230}
+                      height={280}
+                      className="popular-img"
+                    />
                   </div>
                   <div className="product-info">
                     <p>{productItem.Tool_Name}</p>
                     <div className="item-aval">
-                      <p className="light-paragraph">
-                        {productItem.Location_Name}
-                      </p>
+                      <ToolLocation productItem={productItem}/>
                       <ToolStatus productItem={productItem} />
                     </div>
                   </div>
                 </div>
               </Link>
-            );
-          })}
+            ))
+          ) : (
+            <p>No items found</p>
+          )}
         </div>
       </div>
     </>

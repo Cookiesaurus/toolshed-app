@@ -1,6 +1,6 @@
 import AdminNavBar from "@/components/Navbar/AdminNavBar"
 import AdminSideBar from "@/components/admin/AdminSideBar"
-import Breadcrumb from "@/components/BReadCrumb"
+import Breadcrumb from "@/components/BreadCrumb"
 export default function Layout({
   children, // will be a page or nested layout
 }) {
