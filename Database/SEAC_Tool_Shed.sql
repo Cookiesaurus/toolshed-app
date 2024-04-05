@@ -20,7 +20,7 @@ INSERT INTO Membership_Levels (Membership_Title, Membership_Price, Max_Tool_Chec
 ('MacGyver', 35.00, 10, 0), -- MacGyver Level
 ('Builder', 50.00, 25, 0), -- Builder Level
 ('Contractor', 100.00, 50, 1), -- Contractor Level
-('Expired', 0.00, 0, 0); -- Contractor Level
+('Registration', 0.00, 0, 0); -- Contractor Level
 
 CREATE TABLE Privilege_Levels (
     /* The Privilege_Levels table holds all active privilege levels. These levels will be used to determine privileges with regard to the web application */
