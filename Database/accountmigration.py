@@ -104,6 +104,10 @@ def insertAccounts():
             Membership_Status = 1
             
         Priviledge_Level = 1
+        if(Email == 'mike@seacrochester.org'):
+            Priviledge_Level = 5
+        if(Email == 'toolshed@seacrochester.org'):
+            Priviledge_Level = 2
         Password = 'password'
         
         
