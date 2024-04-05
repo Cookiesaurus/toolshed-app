@@ -100,7 +100,7 @@ const Navbar = () => {
                     <Link
                         href={
                             session && session.isLoggedIn
-                                ? "/account"
+                                ? "/account/profile"
                                 : "/login"
                         }
                         className="navbar-link"
@@ -112,7 +112,7 @@ const Navbar = () => {
                     <div className="dropdown-content">
                         <div className="account">
                             <p className="navbar-link">
-                                <Link href={"/account"} className="navbar-link">
+                                <Link href={"/account/profile"} className="navbar-link">
                                     {session && session.isLoggedIn
                                         ? session.user.First_Name +
                                           " " +
@@ -122,7 +122,7 @@ const Navbar = () => {
                             </p>
                         </div>{" "}
                         {/* This is going to have to be conditional based on if the user is logged in or not and will have to be styled inline */}
-                        <Link href={"/account"}>
+                        <Link href={"/account/profile"}>
                             <FontAwesomeIcon
                                 icon={faUser}
                                 style={{
@@ -134,7 +134,7 @@ const Navbar = () => {
                             />
                             <p>Account Settings</p>
                         </Link>
-                        <Link href={"/account"}>
+                        <Link href={"/account/transaction-history"}>
                             <FontAwesomeIcon
                                 icon={faFileInvoice}
                                 style={{
