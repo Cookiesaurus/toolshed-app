@@ -91,7 +91,7 @@ def insertAccounts():
         #gets the expiration date
         check_exp = j['Current Membership Expiration (M/D/YYYY)'] if not str(j['Current Membership Expiration (M/D/YYYY)']) == "nan" else ''
 
-        #all memberships that have expired are left blank therefore we enter here
+        #all memberships that have are set to registration are left blank therefore we go here
         if(check_exp == ''):
             Membership_Status = 2
             Membership_Expiration_Date = Membership_Creation_Date
@@ -100,11 +100,11 @@ def insertAccounts():
             Membership_Exp_obj = datetime.strptime(check_exp, '%m/%d/%Y') 
             Membership_Expiration_Date = Membership_Exp_obj.strftime('%Y-%m-%d')
             Membership_Status = 1
-            if(Membership_Exp_obj.date() < datetime.now().date()):
+            if(Membership_Exp_obj.date() < datetime.now().date()): #If expired it will set the status
                 Membership_Status = 2
                    
-        Priviledge_Level = 1
-        if(Email == 'mike@seacrochester.org'):
+        Priviledge_Level = 1 
+        if(Email == 'mike@seacrochester.org'): #sets accounts levels
             Priviledge_Level = 5
         if(Email == 'toolshed@seacrochester.org'):
             Priviledge_Level = 2
