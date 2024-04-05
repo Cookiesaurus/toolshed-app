@@ -1,12 +1,13 @@
-import Navbar from "@/components/Navbar/Navbar"
-import Breadcrumb from "@/components/BreadCrumb"
+import Navbar from "@/components/Navbar/Navbar";
+import Breadcrumb from "@/components/BreadCrumb";
+import Accountnav from "@/components/account/accountnav";
 export default function Layout({
-    children, // will be a page or nested layout
-  }) {
-    return (
-      <>
-        <Navbar/>
-        <Breadcrumb
+  children
+}) {
+  return (
+    <>
+      <Navbar />
+      <Breadcrumb
         homeElement={"Home"}
         containerClasses={"bread-crumb"}
         listClasses={"crumb-init"}
@@ -14,8 +15,10 @@ export default function Layout({
         activeClasses={"crumb-extra"}
         capitalizeLinks
       />
-        {children}
-        {/* Have to add in the children param so that the components from the page appear within the layout */}
-      </>
-    )
-  }
+      <div className="account-cont">
+        <Accountnav />
+        <div className="right-account">{children}</div>
+      </div>
+    </>
+  );
+}
