@@ -115,8 +115,8 @@ def insertAccounts():
         query = """INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Account_Creation_Date, Account_Notes, Membership_Level, Membership_Status, Membership_Auto_Renewal, Membership_Creation_Date, Membership_Expiration_Date, Privilege_Level, Password, Secondary_First_Name, Secondary_Last_Name, Secondary_Email, Secondary_Phone_Number)
         VALUES ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%d", "%s", "%s", "%s", "%s","%s","%s","%s","%s")""" % (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Account_Creation_Date, Account_Notes, Membership_Level, Membership_Status, Membership_Auto_Renewal, Membership_Creation_Date, Membership_Expiration_Date, Priviledge_Level, Password, Secondary_First_Name, Secondary_Last_Name, Secondary_Email, Secondary_Phone)
         
-        #curr.execute(query)
-        #conn.commit()
+        curr.execute(query)
+        conn.commit()
         
         print('Added Account: ' + First_Name + ' ' + Last_Name)
         
