@@ -96,7 +96,7 @@ CREATE TABLE Accounts (
     CONSTRAINT FK_Accounts_Current_Membership_Status FOREIGN KEY (Membership_Status) REFERENCES Current_Membership_Status (Membership_Status), -- This statement creates a foreign key on Membership_Status, which is used to connect the Membership_Status table to Accounts
     CONSTRAINT FK_Accounts_Genders FOREIGN KEY (Gender_Code) REFERENCES Genders (Gender_Code) -- This statement creates a foreign key on Gender_Code, which is used to connect the Genders table to Accounts
 );
-
+/*
 -- Accounts Inserts --
 -- Administrator Accounts -- 
 INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
@@ -137,7 +137,7 @@ INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name
 
 INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Account_Notes, Membership_Level, Membership_Status) VALUES -- Disabled Customer
 ("Evan", "Hiltzik", "2000-01-01", 4, "eh8319@g.rit.edu", AES_Encrypt("password",""), "5704143466", "98 Lilac Street", "Gibsonia", "Pennsylvania", 15044, "User account was disabled on 01/10/24 as customer decided to drop membership.", 5, 2);
-
+*/
 CREATE TABLE Payment_Methods (
     /* TBD NEED SQUARE INFO FIRST*/
     Account_ID INT UNSIGNED AUTO_INCREMENT,
@@ -160,12 +160,12 @@ CREATE TABLE Gift_Cards (
     CONSTRAINT FK_Gift_Cards_Membership_Levels FOREIGN KEY (Membership_Level) REFERENCES Membership_Levels (Membership_Level)-- This statement creates a foreign key on Membership_Level, which is used to connect the Gift_Cards table to Membership_Levels 
 );
 
--- Gift_Cards Inserts --
+/*-- Gift_Cards Inserts --
 INSERT INTO Gift_Cards (Account_ID, Membership_Level, Is_Applied) VALUES 
 (7, 2, 0), -- Bryce MacGuyver Unapplied Gift Card
 (12, 4, 0), -- Aryan Constructor Unapplied Gift Card
 (9, 3, 1); -- Andy Builder Applied Gift Card
-
+*/
 CREATE TABLE Waivers (
     /* The Waivers table holds all waivers necessary for the SEAC Tool Shed buisness. Currently, there is the "Tool Waiver and Indemnification" and "Tool Lending Agreement" */
     Waiver_ID INT UNSIGNED, -- Waiver_ID holds the unique identifier for each waiver i.e. Waiver_ID -- 1 = "Tool Waiver and Indemnification" and  -- 2 = "Tool Lending Agreement"
@@ -219,7 +219,7 @@ CREATE TABLE Account_Waivers (
     CONSTRAINT FK_Account_Waivers_Accounts FOREIGN KEY (Account_ID) REFERENCES Accounts (Account_ID), -- This statement creates a foreign key on Account_ID, which is used to connect the Account_Waivers table to Accounts 
     CONSTRAINT FK_Account_Waivers_Waivers FOREIGN KEY (Waiver_ID) REFERENCES Waivers (Waiver_ID) --  This statement creates a foreign key on Waiver_ID, which is used to connect the Account_Waivers table to Waivers 
 );
-
+/*
 -- Account_Waivers Inserts --
 INSERT INTO Account_Waivers (Account_ID, Waiver_ID, Is_Signed) VALUES -- Insert Data into Associative Table
 -- Admin Accounts --
@@ -250,7 +250,7 @@ INSERT INTO Account_Waivers (Account_ID, Waiver_ID, Is_Signed) VALUES -- Insert 
 (12, 2, 1), -- Aryan Tool Lending Agreement Waiver *Signed
 (13, 1, 1), -- Evan Tool Waiver and Indemnification Waiver *Signed
 (13, 2, 1); -- Evan Tool Lending Agreement Waiver *Signed
-
+*/
 CREATE TABLE Transaction_Types (
     /* The Transaction Types table holds all codes related to all system transactions*/
     Transaction_Type TINYINT UNSIGNED, -- Transaction_Type holds the integer value code for each type of transaction i.e. Membership Change -- 1, Tool Check Out -- 2, Tool Return -- 3, Gift Card Purchase -- 4, Gift Card Activation -- 4, Rental Late Fee -- 6, Tool Replacement Fee -- 7
