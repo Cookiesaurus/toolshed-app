@@ -1,6 +1,5 @@
 import pymysql;
 import pandas as pd;
-import requests
 import base64;
 from datetime import datetime;
 import re;
@@ -15,7 +14,7 @@ conn = pymysql.connect(
 )
 curr = conn.cursor();
 
-data = pd.read_excel('Accounts_ToolShed.xls')
+data = pd.read_excel('Accounts_ToolShed.xlsx')
 
 def insertAccounts():
     for i, j in data.iterrows():
