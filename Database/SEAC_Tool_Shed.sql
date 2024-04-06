@@ -65,6 +65,7 @@ INSERT INTO Genders (Gender_Name) VALUES
 CREATE TABLE Accounts (
     /* The Accounts table holds all relevant information for any user account. Here, all user account information shall be stored */
     Account_ID INT UNSIGNED AUTO_INCREMENT, -- Account_ID is a unique identifier for all Tool Shed users
+    Customer_ID VARCHAR(40),
     First_Name VARCHAR(255) NOT NULL, -- First_Name is a string value which holds a persons first name
     Last_Name VARCHAR(255) NOT NULL,  -- Last_Name is a string value which holds a persons first name
     DOB DATE NOT NULL, -- DOB is the date of birth for the account member
@@ -96,12 +97,8 @@ CREATE TABLE Accounts (
     CONSTRAINT FK_Accounts_Current_Membership_Status FOREIGN KEY (Membership_Status) REFERENCES Current_Membership_Status (Membership_Status), -- This statement creates a foreign key on Membership_Status, which is used to connect the Membership_Status table to Accounts
     CONSTRAINT FK_Accounts_Genders FOREIGN KEY (Gender_Code) REFERENCES Genders (Gender_Code) -- This statement creates a foreign key on Gender_Code, which is used to connect the Genders table to Accounts
 );
-/*
--- Accounts Inserts --
--- Administrator Accounts -- 
-INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
-("Mike", "Evans", "2000-01-01", 1, "South East Area Coalition", "mike@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 5); -- Mike Admin Account
 
+-- Accounts Inserts --
 -- Manager Accounts -- 
 INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
 ("Nick", "Wilbur", "2000-01-01", 1, "South East Area Coalition", "nick@SEACrochester.org", AES_Encrypt("password", ""), "5852718665", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 4); -- Nick Manager Account
@@ -112,42 +109,10 @@ INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name
 ("Lori", "Wood", "2000-01-01", 2, "South East Area Coalition", "lori@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3), -- Lori Employee Account
 ("Sara", "Glauser", "2000-01-01", 2, "South East Area Coalition", "sara@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3); -- Sara Employee Account
 
--- Voluteer Accounts -- 
-INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
-("SEAC Tool Shed", "Volunteer", "2000-01-01", 3, "South East Area Coalition", "toolshed@seacrochester.org", AES_Encrypt("password", ""), "0000000000", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 2); -- Volunteer Account
-
 -- Customer Accounts -- 
-INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Secondary_First_Name, Secondary_Last_Name, Secondary_Email, Secondary_Phone_Number, Membership_Level) VALUES -- Normal Customer W/Secondary Account
-("Bryce", "Hofstom", "2000-01-01", 3, "bgh3077@g.rit.edu", AES_Encrypt("password",""), "2164075162", "8439 Sharp Lane", "Chesterland", "Ohio", 44026, "Shea", "Hofstrom", "sjh@g.rit.edu", "2164075702", 1);
-
-INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with tinkerer status
-("Michael", "Pacholarz", "2000-01-01", 3, "mfp7158@g.rit.edu", AES_Encrypt("password",""), "7609223761", "7750 Sleepy Hollow Road", "Folsom", "California", 95630, 1);
-
-INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with tinkerer status plus two address lines
-("Andy", "Erskine", "2000-01-01", 3, "ate9624@g.rit.edu", AES_Encrypt("password",""), "9037539683", "760 Lexington Ave.", "Apt. 4", "Cleburne", "Texas", 76031, 1);
-
-INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal) VALUES -- Normal Customer with MacGyver Status and Auto-renewal membership payment set to true
-("Fei", "Gao", "2000-01-01", 4, "fxg8365@g.rit.edu", AES_Encrypt("password",""), "2184549695", "7908 South Durham St.", "Cottage Grove", "Minnesota", 55016, 3, 2);
-
-INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Account_Notes, Membership_Level) VALUES -- Normal Customer with Builder Status and account notes
-("Ian", "Dinga", "2000-01-01", 4, "iad2750@g.rit.edu", AES_Encrypt("password",""), "6462316017", "8402 Bridgeton Lane", "Corona", "New York", 11368, "Ian has not had any activity with the Tool Shed despite owning a Builder membership. Effort should be had to reach out and ensure he would still like to be a member.", 3);
-
-INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level) VALUES -- Normal Customer with Contractor Status and Organization name
-("Aryan", "Todi", "2000-01-01", 4, "The Handymen LLC.","at1203@g.rit.edu", AES_Encrypt("password",""), "4236953998", "4 Windsor Ave.", "Memphis", "Tennessee", 38106, 4);
-
-INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Account_Notes, Membership_Level, Membership_Status) VALUES -- Disabled Customer
-("Evan", "Hiltzik", "2000-01-01", 4, "eh8319@g.rit.edu", AES_Encrypt("password",""), "5704143466", "98 Lilac Street", "Gibsonia", "Pennsylvania", 15044, "User account was disabled on 01/10/24 as customer decided to drop membership.", 5, 2);
-*/
-CREATE TABLE Payment_Methods (
-    /* TBD NEED SQUARE INFO FIRST*/
-    Account_ID INT UNSIGNED AUTO_INCREMENT,
-    Payment_Method CHAR(16) NOT NULL,
-    Payment_Type VARCHAR(255) NOT NULL,
-    Expiration_Date DATE NOT NULL,
-    Security_Code CHAR(3) NOT NULL,
-    CONSTRAINT PK_Payment_Methods PRIMARY KEY (Account_ID),
-    CONSTRAINT FK_Payment_Methods_Accounts FOREIGN KEY (Account_ID) REFERENCES Accounts (Account_ID)
-);
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Secondary_First_Name, Secondary_Last_Name, Secondary_Email, Secondary_Phone_Number, Membership_Level, Privilege_Level) VALUES -- Normal Customer W/Secondary Account
+("The", "Handymen", "2023-07-16", "1", "thehandymen@rit.edu", AES_Encrypt("password", ""), "5852034445", "8439 Sharp Lane", "Apt. 4", "Chesterland", "Ohio", "44026", "Bryce", "Hofstrom", "bgh3077@g.rit.edu", "2164075162", 1, 1),
+("The", "HandymenAdmin", "2023-07-17", "1", "thehandymenadmin@rit.edu", AES_Encrypt("password", ""), "5852034446", "1111 Sharp Lane", "Apt. 7", "Chesterland", "Ohio", "44026", "Ian", "Dinga", "dinga@g.rit.edu", "1111111111", 4, 5);
 
 CREATE TABLE Gift_Cards (
     /* The Gift_Cards table will hold all gift cards following thier purchase */
@@ -160,12 +125,9 @@ CREATE TABLE Gift_Cards (
     CONSTRAINT FK_Gift_Cards_Membership_Levels FOREIGN KEY (Membership_Level) REFERENCES Membership_Levels (Membership_Level)-- This statement creates a foreign key on Membership_Level, which is used to connect the Gift_Cards table to Membership_Levels 
 );
 
-/*-- Gift_Cards Inserts --
 INSERT INTO Gift_Cards (Account_ID, Membership_Level, Is_Applied) VALUES 
-(7, 2, 0), -- Bryce MacGuyver Unapplied Gift Card
-(12, 4, 0), -- Aryan Constructor Unapplied Gift Card
-(9, 3, 1); -- Andy Builder Applied Gift Card
-*/
+(5, 2, 0); -- The Handymen MacGuyver Unapplied Gift Card
+
 CREATE TABLE Waivers (
     /* The Waivers table holds all waivers necessary for the SEAC Tool Shed buisness. Currently, there is the "Tool Waiver and Indemnification" and "Tool Lending Agreement" */
     Waiver_ID INT UNSIGNED, -- Waiver_ID holds the unique identifier for each waiver i.e. Waiver_ID -- 1 = "Tool Waiver and Indemnification" and  -- 2 = "Tool Lending Agreement"
@@ -210,47 +172,6 @@ I affirm that the information that I have provided on the Membership Application
 
 I further state that I have read and fully understand the rules and regulations of the Tool Shed, and I understand that failure to comply with any of these rules may result in revocation of my borrowing privileges and/or legal action against me. I have read and signed a Waiver and Indemnification form, relinquishing any and all claims against the Tool Shed.");
 
-CREATE TABLE Account_Waivers (
-    /* The Account_Waivers tables is an associative table joining the Accounts table to the Waivers table. This table will be populated upon Account creation */
-    Account_ID INT UNSIGNED, -- Account_ID is a unique identifier for all Tool Shed users
-    Waiver_ID INT UNSIGNED, -- Waiver_ID holds the unique identifier for each waiver i.e. Waiver_ID -- 1, "Tool Lending Agreement" -- 2
-    Is_Signed BOOLEAN NOT NULL DEFAULT "0", -- Is_Signed determines whether each waiver, for each account, is signed
-    CONSTRAINT PK_Account_Waivers PRIMARY KEY (Account_ID, Waiver_ID), -- Account_ID and Waiver_ID make up the primary keys for this table
-    CONSTRAINT FK_Account_Waivers_Accounts FOREIGN KEY (Account_ID) REFERENCES Accounts (Account_ID), -- This statement creates a foreign key on Account_ID, which is used to connect the Account_Waivers table to Accounts 
-    CONSTRAINT FK_Account_Waivers_Waivers FOREIGN KEY (Waiver_ID) REFERENCES Waivers (Waiver_ID) --  This statement creates a foreign key on Waiver_ID, which is used to connect the Account_Waivers table to Waivers 
-);
-/*
--- Account_Waivers Inserts --
-INSERT INTO Account_Waivers (Account_ID, Waiver_ID, Is_Signed) VALUES -- Insert Data into Associative Table
--- Admin Accounts --
-(1, 1, 1), -- Mike Tool Waiver and Indemnification Waiver *Signed
-(1, 2, 1), -- Mike Tool Lending Agreement Waiver *Signed
-(2, 1, 1), -- Nick Tool Waiver and Indemnification Waiver *Signed
-(2, 2, 1), -- Nick Tool Lending Agreement Waiver *Signed
-(3, 1, 1), -- Kiki Tool Waiver and Indemnification Waiver *Signed
-(3, 2, 1), -- Kiki Tool Lending Agreement Waiver *Signed
-(4, 1, 1), -- Lori Tool Waiver and Indemnification Waiver *Signed
-(4, 2, 1), -- Lori Tool Lending Agreement Waiver *Signed
-(5, 1, 1), -- Sara Tool Waiver and Indemnification Waiver *Signed
-(5, 2, 1), -- Sara Tool Lending Agreement Waiver *Signed
-(6, 1, 1), -- Volunteer Tool Waiver and Indemnification Waiver *Signed
-(6, 2, 1), -- Volunteer Tool Lending Agreement Waiver *Signed
--- Customer Accounts --
-(7, 1, 0), -- Bryce Tool Waiver and Indemnification Waiver *Unsigned
-(7, 2, 0), -- Bryce Tool Lending Agreement Waiver *Unsigned
-(8, 1, 0), -- Michael Tool Waiver and Indemnification Waiver *Unsigned
-(8, 2, 0), -- Michael Tool Lending Agreement Waiver *Unsigned
-(9, 1, 0), -- Andy Tool Waiver and Indemnification Waiver *Unsigned
-(9, 2, 0), -- Andy Tool Lending Agreement Waiver *Unsigned
-(10, 1, 0), -- Fei Tool Waiver and Indemnification Waiver *Unsigned
-(10, 2, 1), -- Fei Tool Lending Agreement Waiver *Signed
-(11, 1, 0), -- Ian Tool Waiver and Indemnification Waiver
-(11, 2, 1), -- Ian Tool Lending Agreement Waiver *Signed
-(12, 1, 1), -- Aryan Tool Waiver and Indemnification Waiver *Signed
-(12, 2, 1), -- Aryan Tool Lending Agreement Waiver *Signed
-(13, 1, 1), -- Evan Tool Waiver and Indemnification Waiver *Signed
-(13, 2, 1); -- Evan Tool Lending Agreement Waiver *Signed
-*/
 CREATE TABLE Transaction_Types (
     /* The Transaction Types table holds all codes related to all system transactions*/
     Transaction_Type TINYINT UNSIGNED, -- Transaction_Type holds the integer value code for each type of transaction i.e. Membership Change -- 1, Tool Check Out -- 2, Tool Return -- 3, Gift Card Purchase -- 4, Gift Card Activation -- 4, Rental Late Fee -- 6, Tool Replacement Fee -- 7
