@@ -43,7 +43,14 @@ export const login = async (formData) => {
     session.isLoggedIn = true;
     await session.save().then(() => {
         console.log("User logged in.");
-        redirect("/");
+        let auth = user.Privilege_Level;
+        console.log(auth)
+        if(auth == 4 || auth == 5){
+            redirect('/admin/dashboard')
+        }else{
+            redirect('/')
+        }
+
     });
     // const db_pass = result[0][0] ? result[0][0].pwd : undefined;
 };
@@ -51,7 +58,7 @@ export const logout = async () => {
     const session = await getSession();
     console.log("Logging out.");
     session.destroy();
-    redirect("/");
+    redirect("/login");
 };
 
 export const addSubscriptionAction = async (formData) => {
