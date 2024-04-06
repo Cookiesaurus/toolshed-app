@@ -44,7 +44,6 @@ export const login = async (formData) => {
     await session.save().then(() => {
         console.log("User logged in.");
         let auth = user.Privilege_Level;
-        console.log(auth)
         if(auth == 4 || auth == 5){
             redirect('/admin/dashboard')
         }else{
