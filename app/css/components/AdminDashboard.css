@@ -269,3 +269,21 @@ input {
   display: flex;
   justify-content: center;
 }
+
+.long-section{
+  display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    border-bottom: 1px solid #E4E7EE;
+    margin-bottom: 12px;
+}
+
+.section-status {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
