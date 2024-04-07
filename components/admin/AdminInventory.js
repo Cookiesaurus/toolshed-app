@@ -47,7 +47,8 @@ const AdminInventory = ({ inventory }) => {
 
   const data = inventory.map((item) => {
     const action = (
-      <div>
+      <div className="actions-links" role="list" aria-label="actions">
+        <div className="action" role="listitem">
         <Link
           className="editButton"
           href={{
@@ -62,7 +63,8 @@ const AdminInventory = ({ inventory }) => {
           />
           Edit
         </Link>
-        <br />
+        </div>
+        <div className="action" role="listitem">
         <Link
           className="checkoutButton"
           href={{
@@ -77,6 +79,7 @@ const AdminInventory = ({ inventory }) => {
           />
           Checkout
         </Link>
+        </div>
       </div>
     );
     return {
