@@ -42,103 +42,59 @@ const Navbar = () => {
   );
 
   return (
-    <div className="navbar" role="Navigation" aria-label="Website Navigation">
-      <Link href={"/"} aria-label="Go to home" className="navbar-link">
-        <p className="navbar-logo">SEAC’s Tool Shed</p>
-      </Link>
-      <div className="giftcard-inventory">
-        <Link
-          href={"/giftcard"}
-          aria-label="Go to gift cards"
-          className="navbar-link"
-        >
-          <p>Gift Card</p>
-        </Link>
-        <Link
-          href={"/inventory"}
-          aria-label="Go to inventory"
-          className="navbar-link"
-        >
-          <p>View All Tools</p>
-        </Link>
-      </div>
-      <form className="navbar-search" method="get">
-        <label htmlFor="navbar-search" className="sr-only">
-          Search products
-        </label>
-        <input
-          type="text"
-          name="search"
-          id="navbar-search"
-          aria-label="search products"
-          onChange={(e) => {
-            router.push(
-              `/inventory` + `?` + createQueryString("search", e.target.value)
-            );
-          }}
-        />
-        <button
-          type="submit"
-          className="navbar-searchIcon"
-          aria-hidden={true}
-          tabIndex={-1}
-        >
-          <FontAwesomeIcon
-            icon={faMagnifyingGlass}
-            size="lg"
-            style={{ color: "white", backgroundColor: "black" }}
+    <div className="navbar">
+      <a className="big-header" href="/">SEAC Tool Shed</a>
+      <a className="small-header" href="/giftcard">Buy a Gift Card</a>
+      <a className="small-header" href="/donate">Donate</a>
+      <a className="small-header" href="/about">About</a>
+      <a className="small-header" href="/inventory">View All Tools</a>
+      <div className="navbar-section">
+        <form className="navbar-search" method="get">
+          <label htmlFor="navbar-search" className="sr-only">Search products</label>
+          <input type="text" name="search" id="navbar-search" aria-label="search products" className="navbar-searchInput"
+            onChange={(e) => {
+              router.push(
+                `/inventory` + `?` + createQueryString("search", e.target.value)
+              );
+            }}
           />
-        </button>
-      </form>
-      <div className="account-hover">
-        <p className="navbar-account">
-          <Link
-            href={session && session.isLoggedIn ? "/account/profile" : "/login"}
-            className="navbar-link"
-          >
+          <button type="submit" className="navbar-searchIcon" aria-hidden={true} tabIndex={-1}>
+            <FontAwesomeIcon icon={faMagnifyingGlass} size="lg"
+              style={{ color: "white", backgroundColor: "black" }}/>
+          </button>
+        </form>
+      </div>
+      <div className="navbar-section">
+        <div className="account-hover">
+          <a className="login-button" href={session && session.isLoggedIn ? "/account/profile" : "/login"}>
             {session && session.isLoggedIn ? "Profile" : "Login"}
-          </Link>
-        </p>
-        {session && session.isLoggedIn && (
-          <div className="dropdown-content">
-            <div className="account">
-              <p className="navbar-link">
-                <Link href={"/account/profile"} className="navbar-link">
-                  {session && session.isLoggedIn
-                    ? session.user.First_Name + " " + session.user.Last_Name
-                    : "Profile Name "}
-                </Link>
-              </p>
-            </div>{" "}
-            <Link href={"/account/profile"}>
-              <FontAwesomeIcon
-                icon={faUser}
-                style={{
-                  color: "black",
-                  paddingRight: "10px",
-                  backgroundColor: "white"
-                }}
-                aria-label="Go to  account settings"
-              />
-              <p>Account Settings</p>
-            </Link>
-            <Link href={"/account/transaction-history"}>
-              <FontAwesomeIcon
-                icon={faFileInvoice}
-                style={{
-                  color: "black",
-                  paddingRight: "10px",
-                  backgroundColor: "white"
-                }}
-                aria-label="Go to account transaction"
-              />
-              <p>My transactions</p>
-            </Link>
-            {(session && session.user.Privilege_Level == 4) ||
-            session.user.Privilege_Level == 5 ? (
-              <Link href={"/admin/dashboard"}>
+          </a>
+          {session && session.isLoggedIn && (
+            <div className="dropdown-content">
+              <div className="account">
+                <p className="navbar-link">
+                  <Link href={"/account/profile"} className="navbar-link">
+                    {session && session.isLoggedIn
+                      ? session.user.First_Name + " " + session.user.Last_Name
+                      : "Profile Name "}
+                  </Link>
+                </p>
+              </div>{" "}
+              <Link href={"/account/profile"}>
                 <FontAwesomeIcon
-                  icon={faGaugeHigh}
+                  icon={faUser}
+                  style={{
+                    color: "black",
+                    paddingRight: "10px",
+                    backgroundColor: "white"
+                  }}
+                  aria-label="Go to  account settings"
+                />
+                <p>Account Settings</p>
+              </Link>
+              <Link href={"/account/transaction-history"}>
+                <FontAwesomeIcon
+                  icon={faFileInvoice}
                   style={{
                     color: "black",
                     paddingRight: "10px",
@@ -146,18 +102,33 @@ const Navbar = () => {
                   }}
                   aria-label="Go to account transaction"
                 />
-                <p>Admin Dashbaord</p>
+                <p>My transactions</p>
               </Link>
-            ) : (
-              <></>
-            )}
-            <form action={logout} className="white logout">
-              <button id="logout" className="white">
-                Log Out
-              </button>
-            </form>
-          </div>
-        )}
+              {(session && session.user.Privilege_Level == 4) ||
+              session.user.Privilege_Level == 5 ? (
+                <Link href={"/admin/dashboard"}>
+                  <FontAwesomeIcon
+                    icon={faGaugeHigh}
+                    style={{
+                      color: "black",
+                      paddingRight: "10px",
+                      backgroundColor: "white"
+                    }}
+                    aria-label="Go to account transaction"
+                  />
+                  <p>Admin Dashbaord</p>
+                </Link>
+              ) : (
+                <></>
+              )}
+              <form action={logout} className="white logout">
+                <button id="logout" className="white">
+                  Log Out
+                </button>
+              </form>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

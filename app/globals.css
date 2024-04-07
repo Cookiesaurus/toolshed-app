@@ -38,8 +38,10 @@ footer {
   flex-shrink: 0; /* Prevent footer from shrinking */
 }
 
-.white{
-  background-color: white;
+.main-content {
+  align-content: center;
+  padding-left: 3.5%;
+  padding-right: 3.5%;
 }
 
 h1{
@@ -93,7 +95,6 @@ a{
   font-family: 'Poppins';
   font-size: 16px;
   font-weight: 500;
-  line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
   text-decoration: none;
@@ -310,10 +311,4 @@ input:checked + .slider:before {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
-}
-
-main {
-  align-content: center;
-  padding-left: 5%;
-  padding-right: 5%;
 }
