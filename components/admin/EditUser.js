@@ -95,13 +95,16 @@ return (
           </div>
         </div>
         <div className="new-user-right">
-          <div className="membershipInfo">
-            <h2>Membership</h2>
+        <div className="membershipInfo">
+              <h2>Credentials</h2>
 
-            <label htmlFor="memberType">Membership Type</label>
-            <input id="membership_type" name="memberType" />
+              <label htmlFor="membership_type">Membership Type - This needs to be a dropdown : pull memberships from db</label>
+              <input id="membership_type" name="membership" />
 
-          </div>
+              <label htmlFor="privilege-level">Privilege Level - This needs to be a dropdown : pull privileges from db</label>
+              <input id="privilege-level" name="privilege" />
+
+            </div>
           <div className="secondaryInfo">
             <h2>Secondary Info</h2>
             <label htmlFor="secondary_first_name">First Name</label>

@@ -1,7 +1,8 @@
 import React from "react";
 import Image from "next/image";
 
-const ProductItem = ({ tool }) => {
+const ProductItem = ({ tool, session }) => {
+
   function RoundToTenth(decimal) {
     const roundedDecimal = parseFloat(decimal).toFixed(1);
     const roundedNumber = parseFloat(roundedDecimal);
@@ -33,7 +34,7 @@ const ProductItem = ({ tool }) => {
           {tool && (
             <React.Fragment>
               <h2 className="product-title">{tool.Tool_Name}</h2>
-              <div className="item-avaliability">
+              <div className={session?.isLoggedIn ? "item-avaliability" : "item-avaliability-notLoggedIn"}>
                 <p className="pickup">Pickup</p>
                 <div className="availability">
                   <p>{tool.Tool_Status_Details}</p>
@@ -57,6 +58,11 @@ const ProductItem = ({ tool }) => {
               <div className="product-description">
                 <p>Item Types: {tool.Types}</p>
               </div>
+              {tool?.Tool_Manual && (
+                <div className="produc-manual">
+                  <a href={tool.Tool_Manual} target="_blank">Tool Manual</a>
+                </div>
+              )}
             </React.Fragment>
           )}
         </div>

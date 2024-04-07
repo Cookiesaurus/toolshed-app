@@ -23,38 +23,48 @@ const NewItem = ({ categories, brands, types, locations }) => {
             />
             <p className="section-title-small">Select a tool status</p>
             <div className="section-status">
-              <input
-                className="form-checkbox"
-                type="checkbox"
-                id="available"
-                name="available"
-                value="available"
-              />
-              <label className="form-label" htmlFor="available">
-                Available
-              </label>
-              <br />
-              <input
-                className="form-checkbox"
-                type="checkbox"
-                id="maintenance"
-                name="maintenance"
-                value="maintenance"
-              />
-              <label className="form-label" htmlFor="maintenance">
-                Maintenance
-              </label>
-              <br />
-              <input
-                className="form-checkbox"
-                type="checkbox"
-                id="disabled"
-                name="disabled"
-                value="disabled"
-              />
-              <label className="form-label" htmlFor="disabled">
-                Disabled
-              </label>
+              <label
+                      htmlFor="avaliable-status"
+                      className="checkbox-container"
+                    >
+                      Available
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        id="avaliable-status"
+                        name="category"
+                        value="disabled"
+                      />
+                      <span className="checkmark"></span>
+                    </label>
+              <label
+                      htmlFor="maintenance-status"
+                      className="checkbox-container"
+                    >
+                      Maintenance
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        id="maintenance-status"
+                        name="category"
+                        value="disabled"
+                      />
+                      <span className="checkmark"></span>
+                    </label>
+              <label
+                      htmlFor="disabled-status"
+                      className="checkbox-container"
+                    >
+                      Disabled
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        id="disabled-status"
+                        name="category"
+                        value="disabled"
+                      />
+                      <span className="checkmark"></span>
+                    </label>
             </div>
             <div className="sub-section">
               <p className="section-title-small">Categories</p>

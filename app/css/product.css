@@ -28,6 +28,16 @@
     border: 5px solid #000000;
     padding: 5%;
     margin: 5%;
+    cursor: pointer;
+}
+
+.item-avaliability-notLoggedIn{
+    cursor: no-drop;
+    display: flex;
+    flex-direction: column;
+    border: 5px solid #000000;
+    padding: 5%;
+    margin: 5%;
 }
 
 .pickup{
@@ -38,6 +48,7 @@
     letter-spacing: 0em;
     text-align: left;
 }
+
 
 h2.product.title{
     font-family: 'Poppins';

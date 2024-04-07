@@ -49,13 +49,15 @@ const ViewAllUsers = ({ customerData }) => {
     expirationDate = expirationDate.toDateString();
 
     const actions = (
-      <div>
+      <div className="actions-links" role="list" aria-label="actions">
+        <div className="action" role="listitem">
         <Link
           className="editButton"
           href={{
             pathname: "/admin/customers/edit",
             query: { account_id: user.Account_ID }
           }}
+          
         >
           <FontAwesomeIcon
             icon={faPencil}
@@ -64,7 +66,8 @@ const ViewAllUsers = ({ customerData }) => {
           />
           Edit
         </Link>
-        <br />
+        </div>
+          <div className="action" role="listitem">
         <Link
           className="loansButton"
           href={{
@@ -79,7 +82,8 @@ const ViewAllUsers = ({ customerData }) => {
           />
           Loans
         </Link>
-        <br />
+        </div>
+        <div className="action" role="listitem">
         <Link
           className="checkoutButton"
           href={{
@@ -94,6 +98,7 @@ const ViewAllUsers = ({ customerData }) => {
           />
           Checkout
         </Link>
+        </div>
       </div>
     );
 
@@ -111,7 +116,7 @@ const ViewAllUsers = ({ customerData }) => {
   return (
     <>
       <div className="filterOptionsContainer">
-        <h1>All Customers</h1>
+        <h1>All Users</h1>
       </div>
 
       <div className="mainContent">
