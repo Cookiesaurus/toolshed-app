@@ -45,18 +45,8 @@ const ViewAllUsers = ({ customerData }) => {
     }
   ];
   const data = customerData.map((user) => {
-    let membership;
-    if (user.Membership_Level === 1) {
-      membership = "Tinkerer";
-    } else if (user.Membership_Level === 2) {
-      membership = "MacGyver";
-    } else if (user.Membership_Level === 3 || user.Membership_Level === 4) {
-      membership = "Builder";
-    }
-    let expirationDate = new Date(user.Membership_Expiration_Date);
+    let expirationDate = new Date(user.Expiration_Date);
     expirationDate = expirationDate.toDateString();
-
-    let name = user.First_Name + " " + user.Last_Name;
 
     const actions = (
       <div>
@@ -109,10 +99,10 @@ const ViewAllUsers = ({ customerData }) => {
 
     return {
       id: user.Account_ID,
-      name: name,
+      name: user.Name,
       email: user.Email,
-      organization: user.Organization_Name,
-      membership: membership,
+      organization: user.Organization,
+      membership: user.Membership_Title,
       member_expiration: expirationDate,
       action: actions
     };
