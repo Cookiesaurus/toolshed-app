@@ -91,11 +91,7 @@
     font-family: 'Poppins';
 }
 
-.top_right_side_all_content, .bottom_right_side_all_content {
-    display: flex;
-    flex-direction: row;
-}
-.accountInfo, .membershipInfo, .additionalInfo, .address, .primaryInfo, .secondaryInfo {
+.accountInfo {
     margin: 25px;
 }
 
@@ -246,11 +242,30 @@ input {
 }
 
 .createNewUserButton {
-    height: 60px;
-    width: 120px;
-    margin: 15px;
-    color: white;
+    width: 30%;
     background-color: black;
+    color: white;
     font-family: 'Poppins';
-    font-size: 20px;
+    font-size: 16px;
+    height: 55px;
+    margin: 15px;
+}
+
+.createNewUserButton:hover {
+  background-color: #FBC955;
+  cursor: pointer;
+}
+
+.new-user-cont {
+  display: flex;
+}
+
+.new-user-left, .new-user-right {
+  width: 50%;
+  margin: 25px;
+}
+
+.create-button-cont {
+  display: flex;
+  justify-content: center;
 }
