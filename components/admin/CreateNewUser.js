@@ -81,10 +81,13 @@ const CreateNewUser = () => {
           </div>
           <div className="new-user-right">
             <div className="membershipInfo">
-              <h2>Membership</h2>
+              <h2>Credentials</h2>
 
-              <label htmlFor="memberType">Membership Type</label>
-              <input id="membership_type" name="memberType" />
+              <label htmlFor="membership_type">Membership Type</label>
+              <input id="membership_type" name="membership" />
+
+              <label htmlFor="privilege-level">Privilege Level</label>
+              <input id="privilege-level" name="privilege" />
 
             </div>
             <div className="secondaryInfo">
