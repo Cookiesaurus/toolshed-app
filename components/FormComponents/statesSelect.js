@@ -1,7 +1,7 @@
 const SelectStates = () => {
     return (
-        <select name="state" className="select" id="address-state">
-            <option value="">Select a state...</option>
+        <select name="state" className="input" id="address-state" required>
+            <option value="" disabled selected>State</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
             <option value="AZ">Arizona</option>
