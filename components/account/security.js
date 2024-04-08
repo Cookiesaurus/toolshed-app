@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { formHandler } from "@/lib/actions/formHandler";
+import { changePassword } from '@/lib/actions/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
@@ -10,12 +10,14 @@ const ChangePasswordModal = ({ onClose }) => {
         <>
             <h1><FontAwesomeIcon icon={faArrowLeft} onClick={onClose} style={{cursor : 'pointer'}}/> Change Password</h1>
             <div className='account-name'>
-                <form action={formHandler}>
+                <form action={changePassword}>
                 <div className='form-container white'>
+                    <label className="sr-only" htmlFor="email">Email</label>
+                    <input type="text" name='email' id="email" placeholder=" Email" required className='account-input white'></input>
                     <label className="sr-only" htmlFor="currentPassword">Current Password</label>
-                    <input type="password" id="currentPassword" placeholder="Current Password" required className='account-input white'></input>
+                    <input type="password" name='current-password' id="currentPassword" placeholder=" Current Password" required className='account-input white'></input>
                     <label className="sr-only" htmlFor="newPassword">New Password</label>
-                    <input type="password" id="newPassword" placeholder="New Password" required className='account-input white'></input>
+                    <input type="password" name='new-password' id="newPassword" placeholder=" New Password" required className='account-input white'></input>
                     <button type='submit' id='save-changes'>
                         Save Changes
                     </button>
