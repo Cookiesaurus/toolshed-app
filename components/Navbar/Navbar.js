@@ -45,8 +45,8 @@ const Navbar = () => {
     <div className="navbar">
       <a className="big-header" href="/">SEAC Tool Shed</a>
       <a className="small-header" href="/giftcard">Buy a Gift Card</a>
-      <a className="small-header" href="/donate">Donate</a>
-      <a className="small-header" href="/about">About</a>
+      <a className="small-header" href="https://seactoolshed.org/tool-donations/" target="_blank">Donate</a>
+      <a className="small-header" href="https://seactoolshed.org/about-seac-tool-shed/" target="_blank">About</a>
       <a className="small-header" href="/inventory">View All Tools</a>
       <div className="navbar-section">
         <form className="navbar-search" method="get">
