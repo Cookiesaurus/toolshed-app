@@ -317,3 +317,18 @@ main {
   padding-left: 5%;
   padding-right: 5%;
 }
+
+.error-button{
+    width: 30%;
+    background-color: black;
+    color: white;
+    font-family: 'Poppins';
+    font-size: 16px;
+    height: 55px;
+    margin: 15px;
+}
+
+.error-button:hover{
+    background-color: #FBC955;
+    cursor: pointer;
+}
