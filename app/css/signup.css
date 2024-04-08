@@ -52,3 +52,21 @@ button#create-account:hover{
     cursor: pointer;
     border: none;
 }
+
+.sign-up-cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.waivers {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+ul.lists {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
