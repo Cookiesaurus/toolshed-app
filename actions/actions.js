@@ -63,3 +63,7 @@ export const logout = async () => {
 export const addSubscriptionAction = async (formData) => {
     const result = await addSubscription(formData.get("plan"));
 };
+
+export const changePassword = async (formData) => {
+    console.log(formData)
+}

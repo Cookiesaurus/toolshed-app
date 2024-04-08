@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { changePassword } from '@/lib/actions/actions';
+import { changePassword } from '@/actions/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
