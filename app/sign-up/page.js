@@ -7,6 +7,7 @@ export default async function Page() {
   const waivers = await db.selectFromDB(
     "Select Waiver_Name, Waiver_Details From Waivers"
   );
+  const gender = await db.selectFromDB(`Select Gender_Name from Genders`)
   return (
     <>
       <div className="content">
@@ -20,7 +21,7 @@ export default async function Page() {
           <h1 className="pagetitle">Create an Account</h1>
         </div>
         {/* <SignupForm></SignupForm> */}
-        <Signupform waivers={waivers}></Signupform>
+        <Signupform waivers={waivers} genders={gender}></Signupform>
       </div>
     </>
   );

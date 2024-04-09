@@ -25,12 +25,16 @@
 }
 
 .container {
-    width: 25%;
-    margin-bottom: 25px;
-    margin-left: 50px;
-    margin-right: 50px;
-    background-color: white;
-    display: flex;
+  width: 25%;
+  margin-bottom: 25px;
+  margin-left: 50px;
+  margin-right: 50px;
+  background-color: white;
+  display: flex;
+  box-shadow: 6px 6px 54px 0px #0000000D;
+  border-radius: 5px;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .statsTitle {
@@ -91,11 +95,7 @@
     font-family: 'Poppins';
 }
 
-.top_right_side_all_content, .bottom_right_side_all_content {
-    display: flex;
-    flex-direction: row;
-}
-.accountInfo, .membershipInfo, .additionalInfo, .address, .primaryInfo, .secondaryInfo {
+.accountInfo {
     margin: 25px;
 }
 
@@ -246,11 +246,62 @@ input {
 }
 
 .createNewUserButton {
-    height: 60px;
-    width: 120px;
-    margin: 15px;
-    color: white;
+    width: 30%;
     background-color: black;
+    color: white;
     font-family: 'Poppins';
-    font-size: 20px;
+    font-size: 16px;
+    height: 55px;
+    margin: 15px;
+}
+
+.createNewUserButton:hover {
+  background-color: #FBC955;
+  cursor: pointer;
+}
+
+.new-user-cont {
+  display: flex;
+}
+
+.new-user-left, .new-user-right {
+  width: 50%;
+  margin: 25px;
+}
+
+.create-button-cont {
+  display: flex;
+  justify-content: center;
+}
+
+.long-section{
+  display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    border-bottom: 1px solid #E4E7EE;
+    margin-bottom: 12px;
+}
+
+.section-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+button#delete-item{
+  background-color: red;
+}
+
+.actions-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.action {
+  padding: 2px;
 }

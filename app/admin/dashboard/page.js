@@ -1,5 +1,6 @@
 import db from '@/app/config/db.mjs'
-import Dashboard from '@/components/admin/dashboard'
+import dynamic from 'next/dynamic'
+const Dashboard = dynamic(() => import('@/components/admin/dashboard'), { ssr: false })
 export default async function AdminPage() { 
     
     let customers = await db.selectFromDB(`SELECT 
