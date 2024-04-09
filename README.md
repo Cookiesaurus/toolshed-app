@@ -4,10 +4,10 @@
 <br />
 <div align="center">
   <a href="https://github.com/Cookiesaurus/toolshed-app/">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="/the-tool-shed-logo-transparent-bg.png" alt="Logo" width="300" height="300">
   </a>
 
-<h3 align="center">SEAC Tool Shed</h3>
+<h1 align="center">SEAC Tool Shed</h3>
 
   <p align="center">
     A functional database application and interface for the <a href="https://seacrochester.org/">South East Area Coalition (SEAC)</a> organization's <a href="https://seactoolshed.org/">Tool Shed</a> program.
