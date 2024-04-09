@@ -1,5 +1,32 @@
+<a name="readme-top"></a>
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/Cookiesaurus/toolshed-app/">
+    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  </a>
+
+<h3 align="center">SEAC Tool Shed</h3>
+
+  <p align="center">
+    A functional database application and interface for the <a href="https://seacrochester.org/">South East Area Coalition (SEAC)</a> organization's <a href="https://seactoolshed.org/">Tool Shed</a> program.
+    <br />
+    <br />
+    <a href="https://github.com/Cookiesaurus/toolshed-app/wiki"><strong>Explore the docs »</strong></a>
+  </p>
+</div>
+
+
 # toolshed-app
 A database web application for the Southeast Area Coalition's Toolshed program in the Rochester area.
+
+https://img.shields.io/badge/Contributors-7-red?style=for-the-badge
+
+### Built With
+![Next JS](https://img.shields.io/badge/Next.JS-black?style=for-the-badge&logo=next.js&logoColor=white)
+![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 
 ## Pre-Reqs
 Node.js installation: 
@@ -44,3 +71,8 @@ To learn more about Next.js, take a look at the following resources:
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
+[contributors-url]: https://github.com/Cookiesaurus/toolshed-app/graphs/contributors
