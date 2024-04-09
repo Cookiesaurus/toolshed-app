@@ -4,6 +4,7 @@ import InventoryItems from "@/components/InventoryItems/InventoryItems";
 import db from "../config/db.mjs";
 import { useSearchParams } from "next/navigation";
 import ToolCard from "@/components/ToolCard/ToolCard";
+import { getSession } from "@/actions/actions";
 
 //Helper function - not needed for now
 /*const checkForParams = (searchParams) => {
@@ -41,6 +42,8 @@ export default async function Page({ searchParams }) {
     const locations = await db.selectFromDB(
         "SELECT * FROM SEAC_Tool_Shed.Tool_Locations"
     );
+    const user = await getSession();
+    let admin = user.user?.Privilege_Level
 
     const cat = String(searchParams.category).split(",");
     const typ = String(searchParams.type).split(",");
@@ -139,6 +142,7 @@ export default async function Page({ searchParams }) {
                     types={types}
                     locations={locations}
                     totalTools={tools.length}
+                    admin={admin > 3 ? true : false}
                 />
                 {useInven ? (
                     <InventoryItems tools={tools}/>
