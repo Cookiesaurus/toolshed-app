@@ -51,4 +51,7 @@ INSERT INTO Accounts (
 -- Query for login (Update to get privilege level so auth can be done)
 -- Update transactions when a tool is checked out --
 
+--Membership Levels Query --
+SELECT Membership_Levels.Membership_Title
+FROM Membership_Levels;
 
