@@ -4,7 +4,7 @@ import { getIronSession } from "iron-session";
 import { defaultSession, sessionOptions } from "@/app/lib";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { addSubscription } from "./squareActions";
+import { addSubscription, retrieveCustomer } from "./squareActions";
 
 const pool = mysql.createPool({
   host: process.env.DB_HOSTNAME,
@@ -87,4 +87,35 @@ export const changePassword = async (formData) => {
   } catch (error) {
     return { error: "There was an error when trying to update your password." };
   }
+};
+
+export const updateMembership = async (planName, customerId) => {
+    // Get customer from customer ID
+    const customer = await retrieveCustomer(customerId);
+    const cust_email = customer.customer.emailAddress;
+    // Use email or reference ID (email)
+    const db = await mysql.createConnection({
+        host: process.env.DB_HOSTNAME,
+        database: process.env.DB,
+        port: process.env.DB_PORT,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+    });
+    let query = "UPDATE Accounts SET Membership_Level = ";
+    // Get membership level according to name
+    let amt;
+    if (planName == "tinker") amt = 1;
+    else if (planName == "macgyver") amt = 2;
+    else if (planName == "builder") amt = 3;
+    else if (planName == "contractor") amt = 4;
+
+    query += String(amt) + " WHERE Email = '" + cust_email + "';";
+    // Get account from email
+    // console.log(query);
+    // Update membership
+    const acc = await db.execute(query);
+    // Save and close
+    await db.commit();
+    console.log("Membership added.")
+    await db.end();
 };

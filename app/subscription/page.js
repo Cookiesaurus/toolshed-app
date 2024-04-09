@@ -75,15 +75,16 @@ export default function Page() {
                     locationId={locationId}
                     cardTokenizeResponseReceived={async (token) => {
                         // we’ll come back to this soon
+                        console.log("Token is : ", token);
                         let result = await subscribe(
-                            token.token,
+                            token,
                             selectedPlan,
                             addCard,
                             custId
                         );
                         result = JSON.parse(result);
                         if (result.status == 200) {
-                            console.log("Sign up successful.")
+                            console.log("Sign up successful.");
                             router.push("/");
                         } else {
                             console.log("Card tokenizer result : ", result);
