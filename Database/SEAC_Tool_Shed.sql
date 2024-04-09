@@ -181,14 +181,17 @@ CREATE TABLE Transaction_Types (
 
 -- Tool_Transaction_Types Inserts --
 INSERT INTO Transaction_Types (Transaction_Type, Transaction_Details) VALUES 
-(1, "Membership Change"), -- Membership Change Type
-(2, "Tool Check Out"), -- Tool Check Out Type
-(3, "Tool Return"), -- Tool Return Type
-(4, "Gift Card Purchase"), -- Gift Card Purchase Type
-(5, "Gift Card Activation"), -- Gift Card Activation Type
-(6, "Tool Loan Fee"), -- Tool Loan Fee Type
-(7, "Rental Late Fee"), -- Rental Late Fee Type
-(8, "Tool Replacement Fee"); -- Tool Replacement Fee Type
+(1, "New Membership"), -- Membership Change Type
+(2, "Membership Change"),
+(3, "Membership Renewal"),
+(4, "Cancelled Membership"),
+(5, "Tool Check Out"), -- Tool Check Out Type
+(6, "Tool Return"), -- Tool Return Type
+(7, "Gift Card Purchase"), -- Gift Card Purchase Type
+(8, "Gift Card Activation"), -- Gift Card Activation Type
+(9, "Tool Loan Fee"), -- Tool Loan Fee Type
+(10, "Rental Late Fee"), -- Rental Late Fee Type
+(11, "Tool Replacement Fee"); -- Tool Replacement Fee Type
 
 CREATE TABLE Transactions (
     /* The Transactions table holds all transactions related to each account */
