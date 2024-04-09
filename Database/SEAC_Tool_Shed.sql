@@ -206,7 +206,7 @@ CREATE TABLE Transactions (
     Payment_Amount FLOAT, -- Payment_Amount holds the float integer value describing any money amounts payed to the SEAC Tool Shed for a transaction
     CONSTRAINT PK_Transactions PRIMARY KEY (Transaction_ID), -- Transaction_ID is the primary key for this table
     CONSTRAINT FK_Transaction_Transaction_Types FOREIGN KEY (Transaction_Type) REFERENCES Transaction_Types (Transaction_Type), -- This statement creates a foreign key on Transaction_Type, which is used to connect the to the Transaction_Types table
-    CONSTRAINT FK_Trasactions_Accounts FOREIGN KEY (Account_ID) REFERENCES Accounts (Account_ID) -- This statement creates a foreign key on Account_ID, which is used to connect the to the Accounts table
+    CONSTRAINT FK_Transactions_Accounts FOREIGN KEY (Account_ID) REFERENCES Accounts (Account_ID) -- This statement creates a foreign key on Account_ID, which is used to connect the to the Accounts table
 );
 INSERT INTO Transactions(Account_ID, Transaction_Date, Transaction_Type, Payment_Amount) VALUES
 (5, "2024-03-09", 5, 0.00),
