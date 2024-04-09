@@ -4,7 +4,7 @@ import { getSession } from '@/actions/actions'
 import db from '@/app/config/db.mjs'
 export default async function Page(){
 let user = await getSession()
-user = JSON.parse(JSON.stringify(user))
+user=JSON.parse(JSON.stringify(user))
 
 return (
   <>
