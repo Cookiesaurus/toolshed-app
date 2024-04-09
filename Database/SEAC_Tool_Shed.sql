@@ -20,7 +20,7 @@ INSERT INTO Membership_Levels (Membership_Title, Membership_Price, Max_Tool_Chec
 ('MacGyver', 35.00, 10, 0), -- MacGyver Level
 ('Builder', 50.00, 25, 0), -- Builder Level
 ('Contractor', 100.00, 50, 1), -- Contractor Level
-('Registration', 0.00, 0, 0); -- Contractor Level
+('Registration', 0.00, 0, 0); -- Registration Level
 
 CREATE TABLE Privilege_Levels (
     /* The Privilege_Levels table holds all active privilege levels. These levels will be used to determine privileges with regard to the web application */
@@ -181,16 +181,16 @@ CREATE TABLE Transaction_Types (
 
 -- Tool_Transaction_Types Inserts --
 INSERT INTO Transaction_Types (Transaction_Type, Transaction_Details) VALUES 
-(1, "New Membership"), -- Membership Change Type
-(2, "Membership Change"),
-(3, "Membership Renewal"),
-(4, "Cancelled Membership"),
+(1, "New Membership"), -- New Membership 
+(2, "Membership Change"), -- Membership Change
+(3, "Membership Renewal"), -- Membership Renewal
+(4, "Cancelled Membership"), -- Cencelled Membership
 (5, "Tool Check Out"), -- Tool Check Out Type
 (6, "Tool Return"), -- Tool Return Type
 (7, "Gift Card Purchase"), -- Gift Card Purchase Type
 (8, "Gift Card Activation"), -- Gift Card Activation Type
-(9, "Tool Loan Fee"), -- Tool Loan Fee Type
-(10, "Rental Late Fee"), -- Rental Late Fee Type
+(9, "Tool Late Fee"), -- Tool Loan Fee Type
+(10, "Rental Fee"), -- Rental Late Fee Type
 (11, "Tool Replacement Fee"); -- Tool Replacement Fee Type
 
 CREATE TABLE Transactions (
@@ -208,6 +208,14 @@ CREATE TABLE Transactions (
     CONSTRAINT FK_Transaction_Transaction_Types FOREIGN KEY (Transaction_Type) REFERENCES Transaction_Types (Transaction_Type), -- This statement creates a foreign key on Transaction_Type, which is used to connect the to the Transaction_Types table
     CONSTRAINT FK_Trasactions_Accounts FOREIGN KEY (Account_ID) REFERENCES Accounts (Account_ID) -- This statement creates a foreign key on Account_ID, which is used to connect the to the Accounts table
 );
+INSERT INTO Transactions(Account_ID, Transaction_Date, Transaction_Type, Payment_Amount) VALUES
+(5, "2024-03-09", 5, 0.00),
+(5, "2024-03-09", 6, 0.00),
+(5, "2024-03-12", 9, 3.00),
+(5, "2024-03-13", 1, 35.00),
+(5, "2024-03-13", 2, 25.00),
+(5, "2024-03-13", 1, 25.00);
+
 
 CREATE TABLE Tool_Statuses ( 
     /* Tool_Status table holds all tool status codes for tool availablity */
