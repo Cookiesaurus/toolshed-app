@@ -19,6 +19,77 @@ BigInt.prototype.toJSON = function () {
     return this.toString();
 };
 
+export const addCardToFile = async (sourceId, custId) => {
+    try {
+        // Make temporary payment
+        let uniqueCard = true;
+        let payment = await paymentsApi.createPayment({
+            idempotencyKey: v4(),
+            sourceId,
+            amountMoney: {
+                amount: 100,
+                currency: "USD",
+            },
+            customerId: custId,
+        });
+        let cardFingerprint =
+            payment.result.payment.cardDetails.card.fingerprint;
+        // If payment successful
+        if (payment.result.payment.status == "COMPLETED") {
+            // Refund payment
+            const paymentId = payment.result.payment.id;
+            let refund = await refundsApi.refundPayment({
+                idempotencyKey: v4(),
+                paymentId: paymentId,
+                amountMoney: {
+                    amount: 100,
+                    currency: "USD",
+                },
+            });
+            // console.log("Refund ID : ", refund.result.refund.id);
+            // Add card
+            let presentCards = await getCards(custId);
+            presentCards = JSON.parse(presentCards);
+            presentCards = presentCards.cards;
+            // Check for duplicates
+            if (presentCards) {
+                presentCards.map((card) => {
+                    if (cardFingerprint == card.fingerprint) {
+                        uniqueCard = false;
+                    }
+                });
+            }
+            if (uniqueCard) {
+                const cardId = await addCard(
+                    custId,
+                    paymentId,
+                    payment.result.payment.cardDetails
+                );
+                console.log("Card has been added to file");
+                return JSON.stringify({ status: 201, message: "Card added." });
+            } else {
+                console.log("Card is present on file");
+                return JSON.stringify({
+                    status: 200,
+                    message: "Card present on file.",
+                });
+            }
+            // console.log("Card ID : ", cardId);
+        }
+    } catch (error) {
+        console.log("Error in adding card to file : ", error);
+    }
+};
+
+export const deleteCardFromFile = async (cardId) => {
+    try {
+        await cardsApi.disableCard(cardId);
+        return JSON.stringify({ status: 200 });
+    } catch (error) {
+        console.log("Error in desabling card : ", error);
+    }
+};
+
 // Function to pay using just a credit card.
 // -- Should not be in use as of yet.
 // -- params sourceID - tokenized card to use to create payment.
@@ -305,5 +376,18 @@ export const refundLinkedPayment = async (amt, paymentId, custId) => {
         console.log("Refunded the customer ", custId, " Amount ", amt);
     } catch (error) {
         console.log("Could not refund amount : ", error);
+    }
+};
+
+export const getCards = async (custId) => {
+    try {
+        // Retrieve cards from api
+        let cards = await cardsApi.listCards(undefined, custId);
+        // console.log("Cards for customer are : ", cards.result);
+        cards = cards.result;
+        return JSON.stringify(cards);
+        // Return in JSON format
+    } catch (error) {
+        console.log("Cannot get user cards : ", error);
     }
 };

@@ -77,7 +77,7 @@ export default function Page() {
                         // we’ll come back to this soon
                         console.log("Token is : ", token);
                         let result = await subscribe(
-                            token,
+                            token.token,
                             selectedPlan,
                             addCard,
                             custId
