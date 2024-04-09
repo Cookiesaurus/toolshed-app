@@ -4,7 +4,7 @@ import React from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
-const Filters = ({ categories, brands, types, locations, totalTools }) => {
+const Filters = ({ categories, brands, types, locations, totalTools, admin }) => {
   //Arrays to hold the values of the input from the checkboxes
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
@@ -206,6 +206,80 @@ const Filters = ({ categories, brands, types, locations, totalTools }) => {
             </div>
           </div>
           <div className="filter-toggle white">
+          {admin ? <>
+            <h4 className="filter-headers white">Availability</h4>
+            <div className="filter white">
+            <label
+                    htmlFor="available"
+                    className="checkbox-container white"
+                  >
+                    Available - Admin
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      id="available"
+                      name="available"
+                      value="available"
+                      onChange={(e) => {
+                        handleStockChange(e);
+                      }}
+                    />
+                    <span className="checkmark"></span>
+                  </label>
+                  <label
+                    htmlFor="floating"
+                    className="checkbox-container white"
+                  >
+                    Floating - Admin
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      id="floating"
+                      name="floating"
+                      value="floating"
+                      onChange={(e) => {
+                        handleStockChange(e);
+                      }}
+                    />
+                    <span className="checkmark"></span>
+                  </label>
+                  <label
+                    htmlFor="disabled"
+                    className="checkbox-container white"
+                  >
+                    Disabled - Admin
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      id="disabled"
+                      name="disabled"
+                      value="disabled"
+                      onChange={(e) => {
+                        handleStockChange(e);
+                      }}
+                    />
+                    <span className="checkmark"></span>
+                  </label>
+                  <label
+                    htmlFor="maintenance"
+                    className="checkbox-container white"
+                  >
+                   Maintenance - Admin
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      id="maintenance"
+                      name="maintenance"
+                      value="maintenance"
+                      onChange={(e) => {
+                        handleStockChange(e);
+                      }}
+                    />
+                    <span className="checkmark"></span>
+                  </label>
+                  </div>
+          </> : (
+            <>
             <p className="white">In Stock Only</p>
             <label className="switch white" htmlFor="availability">
               <input
@@ -218,6 +292,8 @@ const Filters = ({ categories, brands, types, locations, totalTools }) => {
               />
               <span className="slider round"></span>
             </label>
+            </>
+          )}
           </div>
 
           <div className="filters-conditions white">
