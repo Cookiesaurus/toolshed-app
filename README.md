@@ -21,12 +21,11 @@
 # toolshed-app
 A database web application for the Southeast Area Coalition's Toolshed program in the Rochester area.
 
-https://img.shields.io/badge/Contributors-7-red?style=for-the-badge
-
 ### Built With
 ![Next JS](https://img.shields.io/badge/Next.JS-black?style=for-the-badge&logo=next.js&logoColor=white)
 ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![Square](https://img.shields.io/badge/Square-black?style=for-the-badge&logo=square&logoColor=white)
 
 ## Pre-Reqs
 Node.js installation: 
