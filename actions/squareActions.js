@@ -3,6 +3,7 @@
 import mysql from "mysql2/promise";
 import { v4 } from "uuid";
 import { client } from "@/components/Square/Client";
+import { updateMembership } from "./actions";
 
 // Different APIs for Square functions
 const {
@@ -12,6 +13,7 @@ const {
     ordersApi,
     subscriptionsApi,
     catalogApi,
+    refundsApi,
 } = client;
 BigInt.prototype.toJSON = function () {
     return this.toString();
@@ -50,8 +52,14 @@ export const subscribe = async (sourceId, planName, addCardBool, custId) => {
     let amount;
     let cardId;
 
+    if (planName == "tinker") amount = 25;
+    else if (planName == "macgyver") amount = 35;
+    else if (planName == "builder") amount = 50;
+    else if (planName == "contractor") amount = 100;
+
     try {
         // Create a payment
+        console.log("Token from payment source : ", sourceId);
         const { result } = await paymentsApi.createPayment({
             idempotencyKey: v4(),
             sourceId,
@@ -60,6 +68,7 @@ export const subscribe = async (sourceId, planName, addCardBool, custId) => {
                 amount: 100 * amount,
             },
         });
+        console.log("Created payment");
 
         // Add card to customer file if addCard is true
         cardId = await addCard(
@@ -81,9 +90,9 @@ export const subscribe = async (sourceId, planName, addCardBool, custId) => {
             custId,
             orderId
         );
-        console.log("Subscription added : ", subscription.id);
-
+        // console.log("Subscription added : ", subscription.id);
         // Update membership in db table
+        updateMembership(planName, custId);
 
         return JSON.stringify({ status: 200, subscription });
     } catch (error) {
@@ -160,7 +169,7 @@ export const createOrder = async (custId, planId) => {
             },
         });
 
-        console.log("created object", result.order.id);
+        console.log("Order has been created. ", result.order.id);
         return result.order.id;
     } catch (error) {
         console.log("Could not create order : ", error);
@@ -185,6 +194,7 @@ export const addSubscription = async (cardId, subPlanId, custId, orderId) => {
         });
 
         // FEEDBACK
+        console.log("Subscription added.");
         return response.result.subscription;
     } catch (error) {
         console.log("Could not add subscription : ", error);
@@ -230,6 +240,7 @@ export const addNewCard = async (sourceId) => {
                 amount: 1,
             },
         });
+        console.log("Card added");
         console.log("Payment card : ", result.payment.cardDetails.card);
         return result;
     } catch (error) {
@@ -267,4 +278,32 @@ export const removeCustomer = async () => {
     // Delete customer from square
     // Delete all orders from customer
     // Delete all subscriptions for user
+};
+
+export const retrieveCustomer = async (custId) => {
+    try {
+        const cust = await customersApi.retrieveCustomer(custId);
+        return cust.result;
+    } catch (error) {
+        console.log("Could not find customer");
+        return -1;
+    }
+};
+
+export const refundLinkedPayment = async (amt, paymentId, custId) => {
+    try {
+        const { result } = await refundsApi.refundPayment({
+            idempotencyKey: v4(),
+            amountMoney: {
+                amount: amt,
+                currency: "USD",
+            },
+            unlinked: false,
+            customerId: custId,
+            paymentId: paymentId,
+        });
+        console.log("Refunded the customer ", custId, " Amount ", amt);
+    } catch (error) {
+        console.log("Could not refund amount : ", error);
+    }
 };
