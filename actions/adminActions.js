@@ -1,5 +1,6 @@
 "use server"
 import mysql from "mysql2/promise";
+import UserSchema from "@/components/FormComponents/newUserSchema";
 const pool = mysql.createPool({
     host: process.env.DB_HOSTNAME,
     database: process.env.DB,
@@ -7,6 +8,111 @@ const pool = mysql.createPool({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD
   });
+
+export const addNewUserFromAdmin = async (formData) =>{
+    //primary info
+    const date = new Date(formData.get("date-of-birth"))
+    const first = formData.get("firstName");
+    const last = formData.get("lastName");
+    const email = formData.get("email");
+    const number = formData.get("phoneNumber");
+    const pass = formData.get("password");
+    const confrimPass = formData.get("re-enter-password");
+    const addressOne = formData.get("street-address");
+    const addressTwo = formData.get("street-address-two");
+    const city = formData.get("city");
+    const state = formData.get("state");
+    const zip = formData.get("zipCode");
+    const gender = formData.get("gender");
+    const membership = formData.get("membership");
+    const organization = formData.get("organization");
+    const privilege = formData.get("privilege");
+
+    //secondary user
+    const secFirst = formData.get("secondary-first-name");
+    const secLast = formData.get("secondary-last-name");
+    const secEmail = formData.get("secondary-email");
+    const secPhone = formData.get("secondary-number");
+
+    let membershipCode;
+    switch(membership){
+        case "Tinkerer":
+            membershipCode = 2
+            break;
+        case "MacGyver":
+            membershipCode = 3
+            break;
+        case "Builder":
+            membershipCode = 4
+            break;
+        case "Contractor":
+            membershipCode = 5
+            break;
+    }
+
+    let genderCode;
+    switch(gender){
+        case "Male":
+            genderCode = 2
+            break;
+        case "Female":
+            genderCode = 3
+            break;
+        case "Other":
+            genderCode = 4
+            break;
+        case "Would Rather Not Specify":
+            genderCode = 5
+            break;
+    }
+
+    let privilegeCode;
+    switch(privilege){
+        case "Customer":
+            privilegeCode = 1
+            break;
+        case "Volunteer":
+            privilegeCode = 2
+            break;
+        case "Employee":
+            privilegeCode = 3
+            break;
+        case "Manager":
+            privilegeCode = 4
+            break;
+        case "Admin":
+            privilegeCode = 5
+            break;
+    }
+
+    let parse = {firstName: first, lastName: last, email: email, phone: number,password: pass, confirmPassword: confrimPass,  
+        addressFirst: addressOne, addressSecond: addressTwo,  city: city, 
+        state: state, zipCode: zip, membership: membership, 
+        gender: gender, DOB: date};
+    parse = UserSchema.safeParse(parse);
+
+    //need a query that also includes inserting secondary info and privilege levels
+    const query = ``;
+
+    if(!parse.error){
+        const data = [first, last, date, genderCode, organization, email, pass, number, 
+            addressOne, addressTwo, city, state, zip, secFirst, secLast, secEmail, 
+            secPhone, membershipCode, privilegeCode]
+        try {
+            const db = await pool.getConnection()
+            const rows = await db.execute(query, data);
+            console.log(rows)
+            console.log('Account inserted successfully!');
+          } catch (error) {
+            console.error('Error inserting account:', error);
+          } finally {
+            db.release();
+          }
+    }else{
+        console.log(parse.error)
+        return {error: "There was an errpr"}
+    }
+}
 
 export const updateUserFromAdmin = async (formData) =>{
     //primary info
