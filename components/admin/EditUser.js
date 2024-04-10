@@ -135,6 +135,9 @@ return (
         <button className="createNewUserButton" type="submit">
           Edit Account
         </button>
+        <button className="createNewUserButton" type="submit" id="delete-item">
+           Delete User
+          </button>
       </div>
     </form>
   </>
