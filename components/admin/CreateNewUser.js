@@ -1,16 +1,93 @@
 "use client";
 import { useState } from "react";
-const CreateNewUser = () => {
+import React from "react";
+import { addNewUserFromAdmin } from "@/actions/adminActions";
+import SelectStates from "../FormComponents/statesSelect";
+import jsPDF from "jspdf";
+const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
   const [showPasswords, setShowPasswords] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPasswords((prevState) => !prevState);
   };
 
+  const [formError, setFormError] = useState(false);
+  function handleFormSubmit(formData) {
+    addNewUserFromAdmin(formData)
+      .then((response) => {
+        if (response.error) {
+          setFormError(true)
+        } else {
+          console.log("success");
+          // alert(response);
+        }
+      })
+      .catch((error) => {
+        // Handle other potential errors, e.g., network error
+      });
+  }
+
+  const downloadPDF = (text, fileName) => {
+    // Set margins
+    const margin = 10;
+    const pageWidth = 210; // A4 page width in mm
+    const pageHeight = 297; // A4 page height in mm
+    const textWidth = pageWidth - 2 * margin; // Text width within margins
+
+    // Create a new jsPDF instance
+    const doc = new jsPDF({
+      unit: "mm",
+      format: "a4",
+      orientation: "portrait",
+      marginLeft: margin,
+      marginRight: margin,
+      marginTop: margin,
+      marginBottom: margin
+    });
+
+    // Set font size and type
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+
+    // Split text into array of lines that fit within the page width
+    const lines = doc.splitTextToSize(text, textWidth);
+
+    // Add text content with specified formatting, taking care of page breaks
+    let y = margin;
+    lines.forEach((line, index) => {
+      if (y + 12 > pageHeight) {
+        // If adding this line would exceed the page height, create a new page
+        doc.addPage();
+        y = margin;
+      }
+      doc.text(line, margin, y);
+      y += 12; // Increase y-coordinate for the next line
+    });
+
+    // Save PDF with specified filename
+    doc.save(`${fileName}.pdf`);
+  };
+
   return (
     <>
-      <form>
-        <h1>Create a new user</h1>
+    <h1>Create a new user</h1>
+    <span style={{ color: "red" }} role="alert">
+            {formError ? (
+              <>
+                First name, last name, and email cannot be empty.
+                <br />
+                Password must be 8 or more characters.
+                <br />
+                Date of birth cannot be empty.
+                <br />
+                Address information cannot be empty and zip code cannot be more
+                than 5 digits long.
+              </>
+            ) : (
+              <></>
+            )}
+          </span>
+      <form action={handleFormSubmit}>
         <div className="new-user-cont">
           <div className="new-user-left">
             <div className="accountInfo">
@@ -37,6 +114,7 @@ const CreateNewUser = () => {
                 name="show-passwords"
                 value="show"
                 onChange={togglePasswordVisibility}
+                aria-label="Toggle password visbility"
               />
               <label htmlFor="show"> Show passwords</label>
               <div className="primaryInfo">
@@ -54,7 +132,21 @@ const CreateNewUser = () => {
                 <input type="tel" id="phone_number" name="phone number" />
 
                 <label htmlFor="gender">Gender</label>
-                <input type="text" id="gender" name="gender" />
+                <select
+                  name="gender"
+                  id="gender"
+                  className="input"
+                  defaultValue="Gender"
+                >
+                  <option value="Gender" hidden>
+                    Gender
+                  </option>
+                  {genders.map((gend, index) => (
+                    <option key={index} value={gend.Gender_Name}>
+                      {gend.Gender_Name}
+                    </option>
+                  ))}
+                </select>
 
                 <label htmlFor="date_of_birth">Date of Bith</label>
                 <input type="date" id="date_of_birth" name="date-of-birth" />
@@ -76,6 +168,8 @@ const CreateNewUser = () => {
 
                 <label htmlFor="zip_code">ZIP code</label>
                 <input type="text" id="zip_code" name="zipCode" />
+                <label htmlFor="address-state">State</label>
+                <SelectStates />
               </div>
             </div>
           </div>
@@ -83,12 +177,51 @@ const CreateNewUser = () => {
             <div className="membershipInfo">
               <h2>Credentials</h2>
 
-              <label htmlFor="membership_type">Membership Type</label>
-              <input id="membership_type" name="membership" />
+              <label htmlFor="membership level">
+                Membership Level
+              </label>
+              <select
+                name="membership-level"
+                id="membership level"
+                className="input"
+                defaultValue="membership"
+              >
+                <option value="membership" hidden>
+                  Select a membership
+                </option>
+                {memberships.map((level, index) => (
+                  <option key={index} value={level.Membership_Title}>
+                    {level.Membership_Title}
+                  </option>
+                ))}
+              </select>
 
               <label htmlFor="privilege-level">Privilege Level</label>
-              <input id="privilege-level" name="privilege" />
-
+              {admin ? (
+                <select
+                  id="privilege-level"
+                  name="privilege"
+                  defaultValue="privilege level"
+                  className="input"
+                >
+                  <option value="privilege level" hidden>
+                    Privilege Level
+                  </option>
+                  {privileges.map((priv, index) => (
+                    <option key={index} value={priv.Privilege_Title}>
+                      {priv.Privilege_Title}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <select
+                  id="privilege-level"
+                  name="privilege"
+                  defaultValue="Customer"
+                >
+                  <option value="Customer">Customer</option>
+                </select>
+              )}
             </div>
             <div className="secondaryInfo">
               <h2>Secondary Info</h2>
@@ -111,6 +244,33 @@ const CreateNewUser = () => {
 
               <label htmlFor="secondary_number">Phone Number</label>
               <input type="tel" id="secondary_number" name="secondary-number" />
+              <div className="waivers">
+                <label htmlFor="waivers" className="checkbox-container">
+                  I have read and accept the following:
+                  <input
+                    type="checkbox"
+                    className="checkbox"
+                    id="waivers"
+                    name="waiver"
+                    required
+                  />
+                  <span className="checkmark"></span>
+                </label>
+                <ul className="lists">
+                  {waivers.map((waiver, index) => (
+                    <React.Fragment key={index}>
+                      <li
+                        key={index}
+                        onClick={() =>
+                          downloadPDF(waiver.Waiver_Details, waiver.Waiver_Name)
+                        }
+                      >
+                        {waiver.Waiver_Name}
+                      </li>
+                    </React.Fragment>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>

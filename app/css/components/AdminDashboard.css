@@ -305,3 +305,15 @@ button#delete-item{
 .action {
   padding: 2px;
 }
+
+.customer-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.membershipInfo, .accountInfo, .secondary-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
