@@ -1,14 +1,52 @@
-.box {
-    width: 200px;
-    height: 200px;
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
-    padding: 20px;
-    margin: 20px;
+.page-content {
+    background-color: white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
-.bigbox {
-    clear: both;
-    margin-top: 100px;
-    margin-bottom: 100px;
+.page-title{
+    font-family: 'Poppins';
+    background-color: white;
+    width: 100%;
+    text-align: center;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+    background-color: white;
+}
+
+.option-container {
+    display: flex;
+    position: relative;
+    width: 50%;
+    background-color: white;
+}
+
+.select-level {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+}
+
+.selection-option {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.selection-label {
+    font-family: 'Poppins';    
+    font-size: 16px;
+    background-color: white;
+    width: 100%;
 }
