@@ -1,6 +1,7 @@
 "use client";
+import { deleteItem, updateItem } from "@/actions/adminActions";
 import React, { useState } from "react";
-const EditItem = ({ categories, brands, types, locations }) => {
+const EditItem = ({ categories, brands, types, locations, toolID }) => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     console.log(file);
@@ -9,7 +10,7 @@ const EditItem = ({ categories, brands, types, locations }) => {
   return (
     <>
       <h1 className="section-title-big">Edit Item</h1>
-      <form>
+      <form method="POST">
         <div className="new-user-cont">
           <div className="new-user-right">
             <label className="form-label" htmlFor="itemName">
@@ -239,10 +240,10 @@ const EditItem = ({ categories, brands, types, locations }) => {
           </div>
         </div>
         <div className="create-button-cont">
-          <button className="createNewUserButton" type="submit" id="create-item">
+          <button className="createNewUserButton" type="submit" id="create-item" formAction={updateItem}>
             Update Item
           </button>
-          <button className="createNewUserButton" type="submit" id="delete-item">
+          <button className="createNewUserButton" type="submit" id="delete-item" onClick={(e) => { e.preventDefault(); deleteItem(toolID);}}>
            Delete Item
           </button>
         </div>

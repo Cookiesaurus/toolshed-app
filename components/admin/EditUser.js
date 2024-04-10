@@ -1,8 +1,9 @@
 'use client'
 import { useState } from "react";
+import SelectStates from "../FormComponents/statesSelect";
+import { updateUserFromAdmin, deleteUser } from "@/actions/adminActions";
 //Using the create new user component, just need to pass in data from the query
 const EditUser = ({ customerInfo }) => {
-  console.log(customerInfo);
   const [showPasswords, setShowPasswords] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -24,14 +25,14 @@ const EditUser = ({ customerInfo }) => {
 
 return (
   <>
-    <form>
+    <form method="POST">
       <h1>Edit User</h1>
       <div className="new-user-cont">
         <div className="new-user-left">
           <div className="accountInfo">
             <h2>Account</h2>
 
-            <label htmlFor="password">Password</label>
+            {/* <label htmlFor="password">Password</label>
             <input
               type={showPasswords ? "text" : "password"}
               name="password"
@@ -41,7 +42,7 @@ return (
             <label htmlFor="re-enter_password">Re-enter password</label>
             <input
               type={showPasswords ? "text" : "password"}
-              name="re-enter password"
+              name="re-enter-password"
               id="re-enter_password"
               required
             />
@@ -53,7 +54,7 @@ return (
               value="show"
               onChange={togglePasswordVisibility}
             />
-            <label htmlFor="show"> Show passwords</label>
+            <label htmlFor="show"> Show passwords</label> */}
             <div className="primaryInfo">
               <h2>Primary Info</h2>
               <label htmlFor="first_Name">First Name</label>
@@ -66,7 +67,7 @@ return (
               <input type="email" id="email" name="email" defaultValue={customerInfo.Email}/>
 
               <label htmlFor="phone_number">Phone Number</label>
-              <input type="tel" id="phone_number" name="phone number" defaultValue={customerInfo.Phone_Number} />
+              <input type="tel" id="phone_number" name="phoneNumber" defaultValue={customerInfo.Phone_Number} />
 
               <label htmlFor="gender">Gender</label>
               <input type="text" id="gender" name="gender" defaultValue={customerInfo.Gender_Name}/>
@@ -88,7 +89,10 @@ return (
 
               <label htmlFor="city">City</label>
               <input type="text" id="city" name="city" defaultValue={customerInfo.City} />
-
+              <label htmlFor="address-state">
+                State
+              </label>
+                <SelectStates />
               <label htmlFor="zip_code">ZIP code</label>
               <input type="text" id="zip_code" name="zipCode" defaultValue={customerInfo.Postal_Code} />
             </div>
@@ -132,10 +136,11 @@ return (
         </div>
       </div>
       <div className="create-button-cont">
-        <button className="createNewUserButton" type="submit">
+        <button className="createNewUserButton" type="submit" formAction={updateUserFromAdmin}>
           Edit Account
         </button>
-        <button className="createNewUserButton" type="submit" id="delete-item">
+        <button className="createNewUserButton" type="submit" id="delete-item" onClick={(e) => { e.preventDefault(); deleteUser(customerInfo.Account_ID);
+        }}>
            Delete User
           </button>
       </div>
