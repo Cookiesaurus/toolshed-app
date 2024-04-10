@@ -124,7 +124,7 @@
 }
 
 button#gift-redeem-button-25, button#gift-redeem-button-35,
-button#gift-redeem-button-50, button#gift-redeem-button-100 {
+button#gift-redeem-button-50, button#gift-redeem-button-100{
     background-color: #2E3192;
     cursor: pointer;
     color: white;
@@ -141,8 +141,24 @@ button#gift-redeem-button-50, button#gift-redeem-button-100 {
     border: none;
 }
 
+button#giftcard-button {
+    color: white;
+    background-color: #2E3192;
+    cursor: pointer;
+    height: 55px;
+    padding: 10px 28px 10px 28px;
+    border-radius: 4px;
+    font-family: 'Poppins';
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 36px;
+    letter-spacing: 0em;
+    text-align: center;
+    border: none;
+}
+
 button#gift-redeem-button-25:hover, button#gift-redeem-button-35:hover,
-button#gift-redeem-button-50:hover, button#gift-redeem-button-100:hover{
+button#gift-redeem-button-50:hover, button#gift-redeem-button-100:hover, button#giftcard-button:hover{
     background-color: #FBC955;
 }
 
