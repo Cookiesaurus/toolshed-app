@@ -1,5 +1,5 @@
 import { z } from "zod";
-const UserSchema = z
+export const UserSchema = z
     .object({
         firstName: z
             .string({ required_error: "First name cannot be empty" })
@@ -22,4 +22,8 @@ const UserSchema = z
         message: "Passwords do not match",
         path: ["confirmPassword"],
     });
-export default UserSchema;
+
+export const giftCardEmails = z.object({
+    toEmail : z.string().email().min(1),
+    fromEmail : z.string().email().min(1)
+})

@@ -3,7 +3,9 @@
 import mysql from "mysql2/promise";
 import { redirect } from "next/navigation";
 import { createSquareCustomer } from "./squareActions";
-import UserSchema from "@/components/FormComponents/newUserSchema";
+import {UserSchema, giftCardEmails } from "@/components/FormComponents/newUserSchema";
+import {transporter, EMAIL} from "@/app/config/nodemailer"
+import { NextResponse } from "next/server";
 const pool = mysql.createPool({
     host: process.env.DB_HOSTNAME,
     database: process.env.DB,
@@ -163,3 +165,49 @@ const addToDB = async (query) => {
         }
     }
 };
+
+const createSignedUpEmail = async (email) =>{
+    try {
+        await transporter.sendMail({
+            from: EMAIL,
+            to: email,
+            subject: "Welcome to the SEAC Tool SHED",
+            text: "This is a text string",
+            html: "<h1>Test title </h1> <p>Some body text</p>"
+        });
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const sendGiftCardEmail = async (formData) =>{
+    const fromEmail = formData.get("sender-email")
+    const fromLast = formData.get("sender-last-name")
+    const fromFirst = formData.get("sender-first-name")
+    const fromMessage = formData.get("message")
+
+    const toEmail = formData.get("recipient-email")
+    const toFirst = formData.get("recipient-last-name")
+    const toLast = formData.get("recipient-last-name")
+
+    let parse = {toEmail: toEmail, fromEmail: fromEmail}
+
+    parse = giftCardEmails.safeParse(parse)
+    if(!parse.error){
+        try {
+            await transporter.sendMail({
+                bcc: EMAIL,
+                from: fromEmail,
+                to: toEmail,
+                subject: "SEAC Tool SHED Gift Card",
+                text: fromMessage,
+                html: `<h1>Test title </h1> <p>${fromMessage}</p>`
+            });
+          } catch (error) {
+            console.log(error)
+          } 
+    }else{
+        console.log(parse.error.errors)
+        return {error: "There was an error"}
+    }
+}
