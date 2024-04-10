@@ -42,7 +42,7 @@ const AdminSideBar = () => {
   };
 
   const customerOptions = [
-    { text: "View All Customers", href: "/admin/customers" },
+    { text: "View All Users", href: "/admin/customers" },
     { text: "Create New User", href: "/admin/customers/createuser" }
   ];
 

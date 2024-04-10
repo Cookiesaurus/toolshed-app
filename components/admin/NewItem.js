@@ -8,10 +8,10 @@ const NewItem = ({ categories, brands, types, locations }) => {
 
   return (
     <>
-      <div className="right-section">
-        <h1 className="section-title-big">Add New Item</h1>
-        <form className="newItem">
-          <div className="section">
+      <h1 className="section-title-big">Add New Item</h1>
+      <form>
+        <div className="new-user-cont">
+          <div className="new-user-right">
             <label className="form-label" htmlFor="itemName">
               Item Name
             </label>
@@ -21,67 +21,79 @@ const NewItem = ({ categories, brands, types, locations }) => {
               id="itemName"
               name="itemName"
             />
-            <div className="sub-section">
-              <p className="section-title-small">Select a tool status</p>
-              <input
-                className="form-checkbox"
-                type="checkbox"
-                id="available"
-                name="available"
-                value="available"
-              />
-              <label className="form-label" htmlFor="available">
-                Available
-              </label>
-              <br />
-              <input
-                className="form-checkbox"
-                type="checkbox"
-                id="maintenance"
-                name="maintenance"
-                value="maintenance"
-              />
-              <label className="form-label" htmlFor="maintenance">
-                Maintenance
-              </label>
-              <br />
-              <input
-                className="form-checkbox"
-                type="checkbox"
-                id="disabled"
-                name="disabled"
-                value="disabled"
-              />
-              <label className="form-label" htmlFor="disabled">
-                Disabled
-              </label>
+            <p className="section-title-small">Select a tool status</p>
+            <div className="section-status">
+              <label
+                      htmlFor="avaliable-status"
+                      className="checkbox-container"
+                    >
+                      Available
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        id="avaliable-status"
+                        name="category"
+                        value="disabled"
+                      />
+                      <span className="checkmark"></span>
+                    </label>
+              <label
+                      htmlFor="maintenance-status"
+                      className="checkbox-container"
+                    >
+                      Maintenance
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        id="maintenance-status"
+                        name="category"
+                        value="disabled"
+                      />
+                      <span className="checkmark"></span>
+                    </label>
+              <label
+                      htmlFor="disabled-status"
+                      className="checkbox-container"
+                    >
+                      Disabled
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        id="disabled-status"
+                        name="category"
+                        value="disabled"
+                      />
+                      <span className="checkmark"></span>
+                    </label>
             </div>
             <div className="sub-section">
               <p className="section-title-small">Categories</p>
-              {categories.map((category) => (
-                <React.Fragment key={category.Category_ID}>
-                  <label
-                    htmlFor={category.Category_Name}
-                    className="checkbox-container"
-                  >
-                    {category.Category_Name}
-                    <input
-                      type="checkbox"
-                      className="checkbox"
-                      id={category.Category_Name}
-                      name="category"
-                      value={category.Category_Name}
-                      onChange={(e) => {
-                        handleCategoryChange(e);
-                      }}
-                    />
-                    <span className="checkmark"></span>
-                  </label>
-                </React.Fragment>
-              ))}
+              <div className="long-section">
+                {categories.map((category) => (
+                  <React.Fragment key={category.Category_ID}>
+                    <label
+                      htmlFor={category.Category_Name}
+                      className="checkbox-container"
+                    >
+                      {category.Category_Name}
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        id={category.Category_Name}
+                        name="category"
+                        value={category.Category_Name}
+                        onChange={(e) => {
+                          handleCategoryChange(e);
+                        }}
+                      />
+                      <span className="checkmark"></span>
+                    </label>
+                  </React.Fragment>
+                ))}
+              </div>
             </div>
-            <div className="sub-section">
-              <p className="section-title-small">Tool type</p>
+            <p className="section-title-small">Tool type</p>
+            <div className="long-section">
               {types.map((type) => (
                 <React.Fragment key={type.Type_Name}>
                   <label
@@ -104,9 +116,12 @@ const NewItem = ({ categories, brands, types, locations }) => {
                 </React.Fragment>
               ))}
             </div>
+          </div>
+          <div className="new-user-left">
             <label className="form-label" htmlFor="brand-name">
               Brand Name
             </label>
+            <br />
             <select className="formInput" id="brand-name" name="brand-name">
               <option value="">Select Brand</option>
               {brands.map((brand) => (
@@ -115,7 +130,8 @@ const NewItem = ({ categories, brands, types, locations }) => {
                 </option>
               ))}
             </select>
-
+            <br />
+            <br />
             <label className="form-label" htmlFor="weight">
               Weight in lbs
             </label>
@@ -129,8 +145,7 @@ const NewItem = ({ categories, brands, types, locations }) => {
               Size in inches
             </label>
             <input className="formInput" type="text" id="size" name="size" />
-          </div>
-          <div className="section">
+
             <label className="form-label" htmlFor="image">
               Upload tool picture
             </label>
@@ -200,6 +215,7 @@ const NewItem = ({ categories, brands, types, locations }) => {
               <option value={"1"}>Yes</option>
               <option value={"0"}>No</option>
             </select>
+            <br />
             <label className="form-label" htmlFor="featured">
               Featured on the home page
             </label>
@@ -207,6 +223,8 @@ const NewItem = ({ categories, brands, types, locations }) => {
               <option value={"1"}>Yes</option>
               <option value={"0"}>No</option>
             </select>
+            <br />
+            <br />
             <label className="form-label" htmlFor="homeLoc">
               Home Location
             </label>
@@ -219,11 +237,13 @@ const NewItem = ({ categories, brands, types, locations }) => {
               ))}
             </select>
           </div>
-        </form>
-        <button className="createNewItemButton" type="submit">
-          Add item
-        </button>
-      </div>
+        </div>
+        <div className="create-button-cont">
+          <button className="createNewUserButton" type="submit">
+            Create Item
+          </button>
+        </div>
+      </form>
     </>
   );
 };

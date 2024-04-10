@@ -18,51 +18,53 @@ export default async function Page() {
   return (
     <>
       <Navbar />
-      <div className="slide-container">
-        <div className="categories">
-          <table className="category-link">
-            <tbody>
-              {categories.map((category) => (
-                <tr key={category.Category_ID} className="side-selection">
-                  <td className="link-container">
-                    <Link
-                      href={{
-                        pathname: "/inventory",
-                        query: {
-                          category: category.Category_Name
-                        }
-                      }}
-                      className="link-hypertext"
-                      key={category.Category_ID}
-                    >
-                      {category.Category_Name}
-                    </Link>
-                  </td>
-                  <td>
-                    <Link
-                      href={{
-                        pathname: "/inventory",
-                        query: {
-                          category: category.Category_Name
-                        }
-                      }}
-                      className="cat-arrow"
-                      tabIndex={-1}
-                    >
-                      &#10095;
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <div className="main-content">
+        <div className="slide-container">
+          <div className="categories">
+            <table className="category-link">
+              <tbody>
+                {categories.map((category) => (
+                  <tr key={category.Category_ID} className="side-selection">
+                    <td className="link-container">
+                      <Link
+                        href={{
+                          pathname: "/inventory",
+                          query: {
+                            category: category.Category_Name
+                          }
+                        }}
+                        className="link-hypertext"
+                        key={category.Category_ID}
+                      >
+                        {category.Category_Name}
+                      </Link>
+                    </td>
+                    <td>
+                      <Link
+                        href={{
+                          pathname: "/inventory",
+                          query: {
+                            category: category.Category_Name
+                          }
+                        }}
+                        className="cat-arrow"
+                        tabIndex={-1}
+                      >
+                        &#10095;
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="slide-show">
+            <SlideShow />
+          </div>
         </div>
-        <div className="slide-show">
-          <SlideShow />
+        <div className="homepage">
+          <PopularTools tools={popular} />
         </div>
-      </div>
-      <div className="homepage">
-        <PopularTools tools={popular} />
       </div>
     </>
   );

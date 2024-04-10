@@ -1,19 +1,6 @@
 a.navbar-link{
     background-color: white;
 }
-.navbar{
-    font-family: 'Poppins', sans-serif;
-    font-size: 18px;
-    height: 90px;
-    background-color: white !important;
-    padding: 0;
-    box-shadow: 0px 4px 12px 0px #0000001F;
-    display: flex;
-    gap: 12px;
-    width: 100%;
-    align-items: center;
-}
-
 p.navbar-logo {
     font-family: 'Poppins', 'sans-serif';
     font-size: 36px;
@@ -55,7 +42,7 @@ button.navbar-searchIcon {
     border-style: none;
 }
 
-form.navbar-search{
+form.admin-navbar-search{
     display: flex;
     margin-right: 25px;
     background-color: white;

@@ -1,14 +1,9 @@
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCartShopping,
-  faUser,
-  faMagnifyingGlass,
-  faFileInvoice
-} from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useState, useEffect } from "react";
 
 const AdminNavBar = () => {
   const router = useRouter();
@@ -25,12 +20,24 @@ const AdminNavBar = () => {
     [searchParams]
   );
 
+  const [session, setSession] = useState(null);
+  useEffect(() => {
+    fetch("/api/me")
+      .then((response) => response.json())
+      .then((data) => {
+        setSession({
+          user: data.user,
+          isLoggedIn: data.isLoggedIn
+        });
+      });
+  }, []);
+
   return (
     <div className="navbar" role="Navigation" aria-label="Website Navigation">
       <Link href={"/"} aria-label="Go to home" className="navbar-link">
-        <p className="navbar-logo">SEAC Tool Shed</p>
+        <p className="navbar-logo">SEAC’s Tool Shed</p>
       </Link>
-      <form className="navbar-search">
+      <form className="admin-navbar-search">
         <label htmlFor="navbar-search" className="sr-only">
           Find User
         </label>
@@ -91,8 +98,10 @@ const AdminNavBar = () => {
         </button>
       </form>
       <p className="navbar-account">
-        <Link href={"/login"} className="navbar-link">
-          Example Admin
+        <Link href={"/admin/dashboard"} className="navbar-link">
+        {session && session.isLoggedIn
+                    ? session.user.First_Name + " " + session.user.Last_Name
+                    : "Profile Name "}
         </Link>
       </p>
     </div>

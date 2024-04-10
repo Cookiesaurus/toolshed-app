@@ -45,27 +45,19 @@ const ViewAllUsers = ({ customerData }) => {
     }
   ];
   const data = customerData.map((user) => {
-    let membership;
-    if (user.Membership_Level === 1) {
-      membership = "Tinkerer";
-    } else if (user.Membership_Level === 2) {
-      membership = "MacGyver";
-    } else if (user.Membership_Level === 3 || user.Membership_Level === 4) {
-      membership = "Builder";
-    }
-    let expirationDate = new Date(user.Membership_Expiration_Date);
+    let expirationDate = new Date(user.Expiration_Date);
     expirationDate = expirationDate.toDateString();
 
-    let name = user.First_Name + " " + user.Last_Name;
-
     const actions = (
-      <div>
+      <div className="actions-links" role="list" aria-label="actions">
+        <div className="action" role="listitem">
         <Link
           className="editButton"
           href={{
             pathname: "/admin/customers/edit",
             query: { account_id: user.Account_ID }
           }}
+          
         >
           <FontAwesomeIcon
             icon={faPencil}
@@ -74,7 +66,8 @@ const ViewAllUsers = ({ customerData }) => {
           />
           Edit
         </Link>
-        <br />
+        </div>
+          <div className="action" role="listitem">
         <Link
           className="loansButton"
           href={{
@@ -89,7 +82,8 @@ const ViewAllUsers = ({ customerData }) => {
           />
           Loans
         </Link>
-        <br />
+        </div>
+        <div className="action" role="listitem">
         <Link
           className="checkoutButton"
           href={{
@@ -104,15 +98,16 @@ const ViewAllUsers = ({ customerData }) => {
           />
           Checkout
         </Link>
+        </div>
       </div>
     );
 
     return {
       id: user.Account_ID,
-      name: name,
+      name: user.Name,
       email: user.Email,
-      organization: user.Organization_Name,
-      membership: membership,
+      organization: user.Organization,
+      membership: user.Membership_Title,
       member_expiration: expirationDate,
       action: actions
     };
@@ -121,7 +116,7 @@ const ViewAllUsers = ({ customerData }) => {
   return (
     <>
       <div className="filterOptionsContainer">
-        <h1>All Customers</h1>
+        <h1>All Users</h1>
       </div>
 
       <div className="mainContent">

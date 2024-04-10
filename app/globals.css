@@ -24,8 +24,28 @@
   background-color: #F5F5F5;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure the body takes up at least the full viewport height */
+}
+
+main {
+  flex-grow: 1; /* Allow main content to grow and fill remaining space */
+}
+
+footer {
+  flex-shrink: 0; /* Prevent footer from shrinking */
+}
+
 .white{
   background-color: white;
+}
+
+.main-content {
+  align-content: center;
+  padding-left: 3.5%;
+  padding-right: 3.5%;
 }
 
 h1{
@@ -79,7 +99,6 @@ a{
   font-family: 'Poppins';
   font-size: 16px;
   font-weight: 500;
-  line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
   text-decoration: none;
@@ -302,4 +321,19 @@ main {
   align-content: center;
   padding-left: 5%;
   padding-right: 5%;
+}
+
+.error-button{
+    width: 30%;
+    background-color: black;
+    color: white;
+    font-family: 'Poppins';
+    font-size: 16px;
+    height: 55px;
+    margin: 15px;
+}
+
+.error-button:hover{
+    background-color: #FBC955;
+    cursor: pointer;
 }
