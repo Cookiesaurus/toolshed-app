@@ -36,12 +36,16 @@ import { getSession } from "@/actions/actions";
 export default async function Page({ searchParams }) {
     // let checkParam = checkForParams(searchParams);
     // This would be all inventory items
-    const categories = await db.selectFromDB("SELECT * FROM Categories");
-    const brands = await db.selectFromDB("SELECT * FROM Brands");
-    const types = await db.selectFromDB("SELECT * FROM Types");
-    const locations = await db.selectFromDB(
-        "SELECT * FROM SEAC_Tool_Shed.Tool_Locations"
-    );
+    let categories = await db.selectFromDB("SELECT * FROM Categories");
+    let brands = await db.selectFromDB("SELECT * FROM Brands");
+    let types = await db.selectFromDB("SELECT * FROM Types");
+    let  locations = await db.selectFromDB("SELECT * FROM SEAC_Tool_Shed.Tool_Locations");
+
+    categories = JSON.parse(JSON.stringify(categories));
+    brands = JSON.parse(JSON.stringify(brands));
+    types = JSON.parse(JSON.stringify(types));
+    locations = JSON.parse(JSON.stringify(locations));
+
     const user = await getSession();
     let admin = user.user?.Privilege_Level
 
@@ -145,9 +149,9 @@ export default async function Page({ searchParams }) {
                     admin={admin > 3 ? true : false}
                 />
                 {useInven ? (
-                    <InventoryItems tools={tools}/>
+                    <InventoryItems tools={tools} admin={admin > 3 ? true : false}/>
                 ) : (
-                    <ToolCard tools={tools} />
+                    <ToolCard tools={tools} admin={admin > 3 ? true : false} />
                 )}
             </div>
         </div>
