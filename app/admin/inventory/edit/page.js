@@ -8,13 +8,15 @@ export default async  function Page({searchParams}){
     let types = await db.selectFromDB("SELECT * FROM Types");
     let  locations = await db.selectFromDB("SELECT * FROM SEAC_Tool_Shed.Tool_Locations");
 
+    let toolID = searchParams.tool_id
+
     categories = JSON.parse(JSON.stringify(categories));
     brands = JSON.parse(JSON.stringify(brands));
     types = JSON.parse(JSON.stringify(types));
     locations = JSON.parse(JSON.stringify(locations));
     return(
         <>  
-            <EditItem categories={categories} brands={brands} types={types} locations={locations}/>
+            <EditItem categories={categories} brands={brands} types={types} locations={locations} toolID={toolID}/>
         </>
     )
 }
