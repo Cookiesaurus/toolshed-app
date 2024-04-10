@@ -1,10 +1,10 @@
 'use client'
 import React from 'react'
 import { useState, useEffect } from 'react'
-
+import { sendGiftCardEmail } from '@/actions/addNewUser'
 const PaymentButton = ({paymentAmount}) =>{
   return (
-    <h2 type='submit' className='white'> {paymentAmount} </h2>
+    <button type='submit' disabled={paymentAmount === '$0.00' ? "payment-not-set" : ""} id='giftcard-button'> {paymentAmount} </button>
   )
 }
 
@@ -13,16 +13,14 @@ const RecipientModal = () =>{
     <>
     <div className='form-section'>
       <h3 className='white'>Recipient Info</h3>
-      <form className="form-section">
-        <label className="giftcard-label" htmlFor='first name'>First Name </label>
-        <input className="giftcard-input" type='text' required name='first name' />
-        <label className="giftcard-label" htmlFor='last name'>Last Name </label>
-        <input className="giftcard-input" type='text' name='last name'/>
-        <label className="giftcard-label" htmlFor='email'>Email </label>
-        <input className="giftcard-input" type='email' name='email' />
-        <label className="giftcard-label" htmlFor='message'>Message </label>
-        <textarea name='message' rows={4} cols={30}></textarea>
-      </form>
+        <label className="giftcard-label" htmlFor='recipient-first-name'>First Name </label>
+        <input className="giftcard-input" type='text' required id='recipient-first-name' name='recipient-first-name' />
+        <label className="giftcard-label" htmlFor='recipient-last-name'>Last Name </label>
+        <input className="giftcard-input" type='text' required id='recipient-last-name' name='recipient-last-name'/>
+        <label className="giftcard-label" htmlFor='recipient-email'>Email </label>
+        <input className="giftcard-input" type='email' required name='recipient-email' />
+        <label className="giftcard-label" htmlFor='message' >Message </label>
+        <textarea name='message' rows={4} cols={30} id='message'></textarea>
     </div>
     
     </>
@@ -34,14 +32,12 @@ const FromModal = () =>{
     <>
     <div className='form-section'>
       <h3 className='white'>Sender Info</h3>
-      <form className="form-section">
-        <label className="giftcard-label" htmlFor='first name'>First Name </label>
-        <input className="giftcard-input" type='text' required name='first name' />
-        <label className="giftcard-label" htmlFor='last name'>Last Name </label>
-        <input className="giftcard-input" type='text' name='last name'/>
-        <label className="giftcard-label" htmlFor='email'>Email </label>
-        <input className="giftcard-input" type='email' name='email' />
-      </form>
+        <label className="giftcard-label" htmlFor='sender-first-name'>First Name </label>
+        <input className="giftcard-input" type='text' required name='sender-first-name' id='sender-first-name'/>
+        <label className="giftcard-label" htmlFor='sender-last-name'>Last Name </label>
+        <input className="giftcard-input" type='text' required name='sender-last-name' id='sender-last-name'/>
+        <label className="giftcard-label" htmlFor='sender-email'>Email </label>
+        <input className="giftcard-input" type='email' name='sender-email' id='sender-email' required/>
     </div>
     </>
   )
@@ -53,7 +49,7 @@ const RedeemGiftCard = () =>{
       <div className="redeem-card">
       <h2 className='section-title white'>Redeem a gift card</h2>
       <form className='giftcard-form'>
-        <label className='giftcard-label' for="code">Enter gift card code</label>
+        <label className='giftcard-label' htmlFor="code">Enter gift card code</label>
         <input className="giftcard-input" type='text' id='code' name='code' ></input>
         <button className="redeem-button" type="submit" id="card-redeem-button">Redeem gift card</button>
       </form>
@@ -64,6 +60,7 @@ const RedeemGiftCard = () =>{
 
 const GiftCardOptions = ()=>{
   const [paymentAmount, setPaymentAmount] = useState('$0.00')
+  const [formError, setFormError] = useState(false);
   const handleButtonClick = (event) =>{
     setPaymentAmount(event.target.textContent)
   }
@@ -80,7 +77,20 @@ const GiftCardOptions = ()=>{
           });
   }, []);
 
-
+  function handleGiftCardSubmit(formData) {
+    sendGiftCardEmail(formData)
+      .then((response) => {
+        if (response.error) {
+          setFormError(true)
+        } else {
+          console.log("success");
+          // alert(response);
+        }
+      })
+      .catch((error) => {
+        // Handle other potential errors, e.g., network error
+      });
+  }
 
   return (<>
     {session && session.isLoggedIn ? <RedeemGiftCard /> : null}
@@ -118,13 +128,23 @@ const GiftCardOptions = ()=>{
         </div>
       </div>
       <div className='giftcard-form-bottom'>
-        <RecipientModal/>
-        <FromModal/>
-        <div className="form-section">
+        <form className="form-section" action={handleGiftCardSubmit}>
+          <RecipientModal/>
+          <FromModal/>
+          <div className="form-section">
           <h3 className='white'>Total Due: </h3>
           <PaymentButton paymentAmount={paymentAmount} />
+          <span style={{ color: "red" }} className='white' role="alert">
+            {formError ? (
+              <>
+                Invalid email.
+              </>
+            ) : (
+              <></>
+            )}
+          </span>
         </div>
-        
+        </form>
       </div>
     </div>
     <div className="discalimer">
