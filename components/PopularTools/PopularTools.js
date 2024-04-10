@@ -1,31 +1,9 @@
-"use client";
 import React from "react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import Image from "next/image";
 
 const PopularTools = ({ tools }) => {
-  // const [imgeUrl, setImageURL] = useState([]);
-  const [imgLink, setImgLink] = useState(null);
 
-  // console.log(tools);
-  useEffect(() => {
-    const urls = tools.map((tool) => {
-      const link = tool.Tool_Link;
-      return link;
-    });
-  }, []);
-  // useEffect(() => {
-  //     // Create image URLs from base64-encoded data
-  //     const urls = tools.map((tool) => {
-  //         const base64Data = tool.Tool_Image.data;
-  //         const binData = atob(tool.Tool_Image.data);
-  //         console.log(binData);
-  //         const binaryData = Buffer.from(base64Data, "base64");
-  //         return "data:image/jpg;base64," + binaryData;
-  //     });
-  //     setImageURL(urls);
-  // }, [tools]);
   const ToolLocation = ({ productItem }) => {
     let location;
     switch (productItem.Location_Name) {
@@ -66,7 +44,6 @@ const PopularTools = ({ tools }) => {
                   height={200}
                   priority={true}
                 />
-                {/* <img src={imgeUrl[index]} /> */}
               </div>
               <div className="product-info">
                 <p className="product-title">{tool.Tool_Name}</p>

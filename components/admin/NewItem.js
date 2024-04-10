@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
-const NewItem = ({ categories, brands, types, locations }) => {
+import { addNewItem } from "@/actions/adminActions";
+const NewItem = ({ categories, brands, types, locations}) => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     console.log(file);
@@ -9,7 +10,7 @@ const NewItem = ({ categories, brands, types, locations }) => {
   return (
     <>
       <h1 className="section-title-big">Add New Item</h1>
-      <form>
+      <form action={addNewItem}>
         <div className="new-user-cont">
           <div className="new-user-right">
             <label className="form-label" htmlFor="itemName">
@@ -32,8 +33,8 @@ const NewItem = ({ categories, brands, types, locations }) => {
                         type="checkbox"
                         className="checkbox"
                         id="avaliable-status"
-                        name="category"
-                        value="disabled"
+                        name="status"
+                        value="avaliable"
                       />
                       <span className="checkmark"></span>
                     </label>
@@ -46,8 +47,8 @@ const NewItem = ({ categories, brands, types, locations }) => {
                         type="checkbox"
                         className="checkbox"
                         id="maintenance-status"
-                        name="category"
-                        value="disabled"
+                        name="status"
+                        value="maintenance"
                       />
                       <span className="checkmark"></span>
                     </label>
@@ -60,7 +61,7 @@ const NewItem = ({ categories, brands, types, locations }) => {
                         type="checkbox"
                         className="checkbox"
                         id="disabled-status"
-                        name="category"
+                        name="status"
                         value="disabled"
                       />
                       <span className="checkmark"></span>
@@ -82,9 +83,6 @@ const NewItem = ({ categories, brands, types, locations }) => {
                         id={category.Category_Name}
                         name="category"
                         value={category.Category_Name}
-                        onChange={(e) => {
-                          handleCategoryChange(e);
-                        }}
                       />
                       <span className="checkmark"></span>
                     </label>
@@ -105,11 +103,8 @@ const NewItem = ({ categories, brands, types, locations }) => {
                       type="checkbox"
                       className="checkbox"
                       id={type.Type_Name}
-                      name="brand"
+                      name="type"
                       value={type.Type_Name}
-                      onChange={(e) => {
-                        handleTypeChange(e);
-                      }}
                     />
                     <span className="checkmark"></span>
                   </label>

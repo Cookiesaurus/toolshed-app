@@ -8,7 +8,7 @@ export default async function Page() {
     INNER JOIN Tool_Statuses ON Tools.Tool_Status=Tool_Statuses.Tool_Status 
     INNER JOIN Tool_Categories ON Tools.Tool_ID=Tool_Categories.Tool_ID 
     GROUP BY Tools.Tool_ID`)
-    
+    inventory=JSON.parse(JSON.stringify(inventory))
     return (
         <>  
             <AdminInventory inventory={inventory}/>

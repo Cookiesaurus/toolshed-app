@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-const InventoryItems = ({ tools }) => {
+const InventoryItems = ({ tools, admin }) => {
   const ToolStatus = ({ productItem }) => {
     let statusClass;
     switch (productItem.Tool_Status_Details) {
@@ -67,6 +67,7 @@ const InventoryItems = ({ tools }) => {
                       width={230}
                       height={280}
                       className="popular-img"
+                      priority={true}
                     />
                   </div>
                   <div className="product-info">

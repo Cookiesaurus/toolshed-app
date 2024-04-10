@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-const ToolCard = ({ tools }) => {
+const ToolCard = ({ tools, admin }) => {
   const ToolStatus = ({ productItem }) => {
     let statusClass;
     switch (productItem.Tool_Status_Details) {
