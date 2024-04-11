@@ -1,11 +1,14 @@
 import Navbar from "@/components/Navbar/Navbar";
-export default function Layout({
-    children, // will be a page or nested layout
+import { getSession } from "@/actions/actions";
+export default async function Layout({
+  children // will be a page or nested layout
 }) {
-    return (
-        <>
-            <Navbar />
-            {children}
-        </>
-    );
+  let session = await getSession();
+  session = JSON.parse(JSON.stringify(session));
+  return (
+    <>
+      <Navbar session={session} />
+      {children}
+    </>
+  );
 }
