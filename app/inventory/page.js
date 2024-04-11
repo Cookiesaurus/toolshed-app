@@ -63,7 +63,7 @@ export default async function Page({ searchParams }) {
     let loc = String(searchParams.location).split(",");
     let searchBar = String(searchParams.search).trim().split(" ");
     let sqlQuery =
-        "SELECT Tools.Tool_ID, Tools.Tool_Name, Tools.Brand_Name, Tool_Locations.Location_Name, Tool_Statuses.Tool_Status_Details, GROUP_CONCAT(DISTINCT Categories.Category_Name SEPARATOR ', ') AS Categories, GROUP_CONCAT(DISTINCT Types.Type_Name SEPARATOR ', ') AS Types, Tools.Tool_Link FROM Tools INNER JOIN Tool_Locations ON Tools.Home_Location = Tool_Locations.Tool_Location INNER JOIN Tool_Statuses ON Tools.Tool_Status=Tool_Statuses.Tool_Status INNER JOIN Tool_Categories ON Tools.Tool_ID=Tool_Categories.Tool_ID INNER JOIN Categories ON Tool_Categories.Category_ID=Categories.Category_ID INNER JOIN Tool_Types ON Tools.Tool_ID=Tool_Types.Tool_ID INNER JOIN Types ON Tool_Types.Type_ID=Types.Type_ID";
+        "SELECT Tools.Tool_ID, Tools.Tool_Name, Tools.Is_Floating, Tools.Brand_Name, Tool_Locations.Location_Name, Tool_Statuses.Tool_Status_Details, GROUP_CONCAT(DISTINCT Categories.Category_Name SEPARATOR ', ') AS Categories, GROUP_CONCAT(DISTINCT Types.Type_Name SEPARATOR ', ') AS Types, Tools.Tool_Link FROM Tools INNER JOIN Tool_Locations ON Tools.Home_Location = Tool_Locations.Tool_Location INNER JOIN Tool_Statuses ON Tools.Tool_Status=Tool_Statuses.Tool_Status INNER JOIN Tool_Categories ON Tools.Tool_ID=Tool_Categories.Tool_ID INNER JOIN Categories ON Tool_Categories.Category_ID=Categories.Category_ID INNER JOIN Tool_Types ON Tools.Tool_ID=Tool_Types.Tool_ID INNER JOIN Types ON Tool_Types.Type_ID=Types.Type_ID";
     let whereClause = " WHERE";
     if (
         searchBar.length > 0 &&
@@ -114,8 +114,12 @@ export default async function Page({ searchParams }) {
     statusCreator(status2);
     if (status == "off") {
         if (admin > 2 && status2 != "undefined" && status2 != "") {
-            let wc = statusCreator(status2);
-            whereClause += wc;
+            if (status2 == "floating")
+                whereClause += ` Tools.Is_Floating=1 AND`;
+            else {
+                let wc = statusCreator(status2);
+                whereClause += wc;
+            }
         } else if (admin > 2) {
             whereClause += ` Tool_Statuses.Tool_Status_Details IN ('Available', 'Checked Out', 'Disabled', 'Maintenance') AND`;
         } else {
@@ -181,6 +185,7 @@ const statusCreator = (status) => {
     let st = status.split(",");
     let wc = ` Tool_Statuses.Tool_Status_Details IN (`;
     let wc_end = ` AND`;
+    let fl = false;
     if (st.includes("disabled")) {
         wc += `'Disabled',`;
     }
@@ -188,6 +193,8 @@ const statusCreator = (status) => {
         wc += `'Maintenance',`;
     }
     if (st.includes("floating")) {
+        // addFloating();
+        fl = true;
     }
     if (st.includes("available")) {
         wc += `'Available',`;
@@ -197,6 +204,11 @@ const statusCreator = (status) => {
     }
     wc += `)`;
     wc += wc_end;
+    if (fl) wc += addFloating();
 
     return wc;
+};
+
+const addFloating = () => {
+    return ` Tools.Is_Floating=1`;
 };
