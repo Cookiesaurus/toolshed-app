@@ -19,10 +19,13 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
 }
 
 .topRowButton svg {
-  margin-right: 8px; /* Adjust as needed to create space between icon and text */
+  margin-right: 8px;
 }
 
 .topRowButton:hover {
@@ -198,7 +201,7 @@ input {
     text-align: left;
     display: flex;
     align-items: center;
-    margin-bottom: 10px; /* Add space between each dropdown */
+    margin-bottom: 10px;
   }
   
   .click-dropdown .admin-sidebar-button:hover {
@@ -216,9 +219,9 @@ input {
   }
   
   .click-dropdown .dropdown-menu a {
-    margin-bottom: 10px; /* Add space between each dropdown option */
+    margin-bottom: 10px;
     text-decoration: none;
-    color: inherit; /* Inherit color from parent */
+    color: inherit;
   }
   
   .click-dropdown .dropdown-menu a:hover {

@@ -143,6 +143,8 @@
 
 button#logout{
     width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
     background-color: rgb(215, 0, 0);
     color: white;
     font-family: 'Poppins';
@@ -151,4 +153,8 @@ button#logout{
     line-height: 24px;
     letter-spacing: 0.01em;
     cursor: pointer;
+}
+
+button#logout:hover {
+    text-decoration: underline;
 }

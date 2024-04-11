@@ -63,7 +63,7 @@ const AdminSideBar = () => {
 
   return (
     <>
-      <h3>Administration</h3>
+      <h3 className="">Administration</h3>
       <div className="side-list">
         <Link href={"/admin/dashboard"} className="side-list_content">
           <FontAwesomeIcon icon={faGaugeHigh} size="xl"/>
