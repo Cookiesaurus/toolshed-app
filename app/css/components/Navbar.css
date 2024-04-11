@@ -72,13 +72,8 @@
 }
 
 .login-button:hover {
-    text-decoration: underline;
-}
-
-/*OLD CSS INCLUDED - NEEDS REVIEW*/
-p.navbar-cart, p.navbar-account {
-    margin-right: 80px;
-    background-color: white;
+    background-color: black;
+    color: white;
 }
 
 .account{
@@ -114,32 +109,29 @@ p.navbar-cart, p.navbar-account {
     }
 }
 
-.dropdown-content{
+.dropdown-content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
     min-width: 275px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     z-index: 1;
-
-    p{
-        height: 40px;
-        font-family: 'Poppins';
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 24px;
-        letter-spacing: 0.01em;
-        text-align: left;
-        background-color: white;
-    }
-
-    a{
-        display: flex;
-        padding-left: 15px;
-        background-color: white;
-    }
+    right: 0; /* Align the dropdown content to the right */
+    white-space: nowrap; /* Prevent line breaks within the dropdown menu */
 }
+
+.dropdown-content a {
+    display: flex;
+    padding-left: 15px;
+    background-color: white;
+    white-space: nowrap; /* Prevent line breaks within the dropdown links */
+}
+
+.dropdown-content a:hover {
+    text-decoration: underline;
+}
+
 
 .category-hover:hover .category-dropdown{
     display: block;
@@ -147,14 +139,15 @@ p.navbar-cart, p.navbar-account {
 
 .logout{
     text-align: center;
-
 }
 
 button#logout{
-    color: red;
+    width: 100%;
+    background-color: rgb(215, 0, 0);
+    color: white;
     font-family: 'Poppins';
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 1000;
     line-height: 24px;
     letter-spacing: 0.01em;
     cursor: pointer;

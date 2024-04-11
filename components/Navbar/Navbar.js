@@ -59,12 +59,10 @@ const Navbar = ({session}) => {
           {session && session.isLoggedIn && (
             <div className="dropdown-content">
               <div className="account">
-                <p className="navbar-link">
-                  <Link href={"/account/profile"} className="navbar-link">
-                    {session && session.isLoggedIn
-                      ? session.user.First_Name + " " + session.user.Last_Name
-                      : "Profile Name "}
-                  </Link>
+                <p className="">
+                  {session && session.isLoggedIn
+                  ? session.user.First_Name + " " + session.user.Last_Name
+                  : "Profile Name "}
                 </p>
               </div>{" "}
               <Link href={"/account/profile"}>

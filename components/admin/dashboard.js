@@ -60,11 +60,7 @@ const Dashboard = ({ users, inventory }) => {
           Check Out
         </Link>
         <Link className="topRowButton" href={""}>
-          <FontAwesomeIcon
-            icon={faArrowRightToBracket}
-            rotation={180}
-            size="xl"
-          />
+          <FontAwesomeIcon icon={faArrowRightToBracket} rotation={180} size="xl"/>
           Check In
         </Link>
       </div>

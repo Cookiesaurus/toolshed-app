@@ -17,6 +17,7 @@
 @import './css/components/Navbar.css';
 @import './css/components/slideshow.css';
 @import './css/components/UserProfile.css';
+@import './css/components/loans.css';
 
 *{
   padding: 0;

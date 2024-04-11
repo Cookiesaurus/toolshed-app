@@ -65,11 +65,11 @@ const AdminSideBar = () => {
     <>
       <h3>Administration</h3>
       <div className="side-list">
-        <Link href={"/admin/dashboard"}>
+        <Link href={"/admin/dashboard"} className="side-list_content">
           <FontAwesomeIcon icon={faGaugeHigh} size="xl"/>
           Dashboard
         </Link>
-        <Link href={"/"}>
+        <Link href={"/"} className="side-list_content">
           <FontAwesomeIcon icon={faWindowRestore} size="xl"/>
           Public Site
         </Link>
