@@ -7,28 +7,15 @@ import {
   faFileInvoice,
   faGaugeHigh
 } from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useCallback } from "react";
 
-const Navbar = () => {
+const Navbar = ({session}) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [session, setSession] = useState(null);
-  useEffect(() => {
-    // fetch("/api/me", { cache: "no-cache" })
-    fetch("/api/me")
-      .then((response) => response.json())
-      .then((data) => {
-        setSession({
-          user: data.user,
-          isLoggedIn: data.isLoggedIn
-        });
-      });
-  }, []);
   // Get a new searchParams string by merging the current
   // searchParams with a provided key/value pair
   const createQueryString = useCallback(

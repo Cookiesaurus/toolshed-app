@@ -1,12 +1,16 @@
 import AdminNavBar from "@/components/Navbar/AdminNavBar"
 import AdminSideBar from "@/components/admin/AdminSideBar"
 import Breadcrumb from "@/components/BreadCrumb"
-export default function Layout({
+import { getSession } from "@/actions/actions"
+export default async function Layout({
   children, // will be a page or nested layout
-}) {
+}) 
+{
+  let session = await getSession()
+  session = JSON.parse(JSON.stringify(session))
   return (
     <>
-      <AdminNavBar/>
+      <AdminNavBar session={session}/>
       <Breadcrumb
         homeElement={"Home"}
         containerClasses={"bread-crumb"}
