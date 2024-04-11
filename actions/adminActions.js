@@ -1,6 +1,7 @@
 "use server"
 import mysql from "mysql2/promise";
 import UserSchema from "@/components/FormComponents/newUserSchema";
+import {S3, PutObjectCommand} from "@aws-sdk/client-s3";
 const pool = mysql.createPool({
     host: process.env.DB_HOSTNAME,
     database: process.env.DB,
@@ -8,6 +9,9 @@ const pool = mysql.createPool({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD
   });
+
+  const ACCESSKEYID = process.env.TOOLSHEDS3_ACCCESS_KEY;
+  const S3SECRETKEY = process.env.TOOLSHEDS3_USER_SECRET_KEY;
 
 export const addNewUserFromAdmin = async (formData) =>{
     //primary info
@@ -260,6 +264,18 @@ export const addNewItem = async (formData) =>{
     const toolImage = formData.get("image")
     const toolManual = formData.get("additionalFile")
 
+
+    imageToS3Bucket(toolImage).then((response)=>{
+        console.log(response.status)
+    })
+
+    //check if the string value for manual is set 
+    if(toolManual){
+        fileToS3Bucket(toolManual).then((response)=>{
+            console.log(response.status)
+        })
+    }
+
     const itemName = formData.get("itemName")
     const loanFee = formData.get("loanFee")
     const lateFee = formData.get("lateFee")
@@ -276,7 +292,7 @@ export const addNewItem = async (formData) =>{
         dropOffLocation, featured, homeLocation, weight, size
     ]
 
-    console.log(data)
+    //console.log(data)
 }
 
 export const deleteItem = async (id) =>{
@@ -359,4 +375,66 @@ export const updateItem = async (formData)=>{
         connection.release();
         console.error('Error updating account:', error);
       }
+}
+
+const fileToS3Bucket = async (file) =>{
+    let fileName = file?.name;
+    let fileType = file?.type;
+
+    const binaryfile= await file.arrayBuffer();
+    const fileBuffer = Buffer.from(binaryfile);
+
+    const s3 = new S3({
+        region: 'us-east-2',
+        credentials: {
+            accessKeyId: ACCESSKEYID,
+            secretAccessKey: S3SECRETKEY
+        }
+    })
+
+    const params = {
+        Bucket: 'seachtoolshedimages',
+        Key: fileName,
+        Body: fileBuffer,
+        ContentType: fileType
+    }
+
+    try{
+        const upload = await s3.send(new PutObjectCommand(params))
+        return {status: 'success'}
+    }catch(error){
+        console.log(error);
+        return {status: 'error', message: error}
+    }
+}
+
+const imageToS3Bucket = async (image)=>{
+    let imageName = image?.name;
+    let imageType = image?.type;
+
+    const binaryImage = await image.arrayBuffer();
+    const imageBuffer = Buffer.from(binaryImage);
+
+    const s3 = new S3({
+        region: 'us-east-2',
+        credentials: {
+            accessKeyId: ACCESSKEYID,
+            secretAccessKey: S3SECRETKEY
+        }
+    })
+
+    const params = {
+        Bucket: 'seachtoolshedimages',
+        Key: imageName,
+        Body: imageBuffer,
+        ContentType: imageType
+    }
+
+    try{
+        const upload = await s3.send(new PutObjectCommand(params))
+        return {status: 'success'}
+    }catch(error){
+        console.log(error);
+        return {status: 'error', message: error}
+    }
 }
