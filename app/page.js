@@ -15,6 +15,14 @@ export default async function Page() {
   //convert to json to send to component
   popular = JSON.parse(JSON.stringify(popular));
 
+  const imageUrls = [
+    "https://seachtoolshedimages.s3.us-east-2.amazonaws.com/Carousel/carousel_img1.png",
+    "https://seachtoolshedimages.s3.us-east-2.amazonaws.com/Carousel/carousel_img2.png",
+    "https://seachtoolshedimages.s3.us-east-2.amazonaws.com/Carousel/carousel_img3.png",
+    "https://seachtoolshedimages.s3.us-east-2.amazonaws.com/Carousel/carousel_img4.png",
+    "https://seachtoolshedimages.s3.us-east-2.amazonaws.com/Carousel/carousel_img5.png"
+  ];
+
   return (
     <>
       <Navbar />
@@ -59,7 +67,7 @@ export default async function Page() {
             </table>
           </div>
           <div className="slide-show">
-            <SlideShow />
+            <SlideShow imageUrls={imageUrls} />
           </div>
         </div>
         <div className="homepage">

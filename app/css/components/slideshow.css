@@ -3,18 +3,22 @@
   justify-content: center;
   align-items: center;
   position: relative;
+  height: auto;
+  width: auto;
 }
 
-.slide{
-  width: 100%;
-  height: 100%;
+.slide {
+  max-height: 500px;
+  max-width: 100%;
+  height: auto;
+  width: auto;
 }
 
-.slide-hidden{
+.slide-hidden {
   display: none;
 }
 
-.arrow{
+.arrow {
   position: absolute;
   width: 2rem;
   height: 2rem;
@@ -22,15 +26,15 @@
   background-color: transparent;
 }
 
-.arrow:hover{
+.arrow:hover {
   cursor: pointer;
 }
 
-.arrow-left{
+.arrow-left {
   left: 1rem;
 }
 
-.arrow-right{
+.arrow-right {
   right: 1rem;
 }
 
@@ -52,6 +56,6 @@
   cursor: pointer;
 }
 
-.indiactor-inactive{
-  background-color: #AEAEAE;
+.indicator-inactive {
+  background-color: #aeaeae;
 }
