@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useCallback, useState, useEffect } from "react";
 
-const AdminNavBar = () => {
+const AdminNavBar = ({session}) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -20,17 +20,6 @@ const AdminNavBar = () => {
     [searchParams]
   );
 
-  const [session, setSession] = useState(null);
-  useEffect(() => {
-    fetch("/api/me")
-      .then((response) => response.json())
-      .then((data) => {
-        setSession({
-          user: data.user,
-          isLoggedIn: data.isLoggedIn
-        });
-      });
-  }, []);
 
   return (
     <div className="navbar" role="Navigation" aria-label="Website Navigation">
