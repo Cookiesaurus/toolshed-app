@@ -113,7 +113,7 @@ export default async function Page({ searchParams }) {
     }
     statusCreator(status2);
     if (status == "off") {
-        if (admin > 2 && status2) {
+        if (admin > 2 && status2 != "undefined" && status2 != "") {
             let wc = statusCreator(status2);
             whereClause += wc;
         } else if (admin > 2) {
