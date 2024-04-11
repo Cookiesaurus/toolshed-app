@@ -1,10 +1,8 @@
 "use client";
 import Link from "next/link";
-import { z } from "zod";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import React from "react";
-import { createNewUser } from "@/actions/addNewUser";
-import UserSchema from "./newUserSchema";
+import { testAddNewUser } from "@/actions/addNewUser";
 import SelectStates from "./statesSelect";
 import jsPDF from "jspdf";
 
@@ -13,39 +11,21 @@ export default function Signupform({ waivers, genders, membershiplevel }) {
   const togglePasswordVisibility = () => {
     setShowPasswords((prevState) => !prevState);
   };
-  const [formError, setFormError] = useState(null);
-  const createUser = async (formData) => {
-    const user = {
-      firstName: formData.get("first-name"),
-      lastName: formData.get("last-name"),
-      email: formData.get("email"),
-      phone: formData.get("phone-number"),
-      password: formData.get("password"),
-      confirmPassword: formData.get("re-password"),
-      addressFirst: formData.get("address-first"),
-      addressSecond: formData.get("address-second"),
-      city: formData.get("address-city"),
-      state: formData.get("state"),
-      zipCode: formData.get("address-zipcode")
-    };
-
-    const result = UserSchema.safeParse(user);
-    if (!result.success) {
-      let errorMessage = "";
-      result.error.issues.forEach((issue) => {
-        errorMessage += issue.path[0] + ":" + issue.message + ".\n";
+  const [formError, setFormError] = useState(false);
+  function handleFormSubmit(formData) {
+    testAddNewUser(formData)
+      .then((response) => {
+        if (response.error) {
+          setFormError(true)
+        } else {
+          console.log("success");
+          // alert(response);
+        }
+      })
+      .catch((error) => {
+        // Handle other potential errors, e.g., network error
       });
-      const issue = result.error.issues[0];
-      setFormError({
-        message: issue.message,
-        path: issue.path[0]
-      });
-      return;
-    }
-    const response = await createNewUser(result.data);
-    console.log(response);
-  };
-
+  }
   const downloadPDF = (text, fileName) => {
     // Set margins
     const margin = 10;
@@ -90,10 +70,23 @@ export default function Signupform({ waivers, genders, membershiplevel }) {
   return (
     <>
       <p className="form-header">Please enter your personal info below:</p>
-      <form action={createUser} className="signup">
+      <form action={handleFormSubmit} className="signup">
         <div className="sign-up-cont">
-          <span style={{ color: "red" }}>
-            {formError ? formError.path + " : " + formError.message : ""}
+          <span style={{ color: "red" }} role="alert">
+            {formError ? (
+              <>
+                First name, last name, and email cannot be empty.
+                <br />
+                Password must be 8 or more characters.
+                <br />
+                Date of birth cannot be empty.
+                <br />
+                Address information cannot be empty and zip code cannot be more
+                than 5 digits long.
+              </>
+            ) : (
+              <></>
+            )}
           </span>
           <label htmlFor="first-name" className="sr-only">
             First Name
@@ -120,8 +113,8 @@ export default function Signupform({ waivers, genders, membershiplevel }) {
           <label htmlFor="gender" className="sr-only">
             Gender
           </label>
-          <select name="gender" id="gender" className="input">
-            <option value="" disabled selected>
+          <select name="gender" id="gender" className="input" defaultValue="Gender">
+            <option value="Gender" hidden>
               Gender
             </option>
             {genders.map((gend, index) => (
@@ -183,7 +176,7 @@ export default function Signupform({ waivers, genders, membershiplevel }) {
           </label>
           <input
             type={showPasswords ? "text" : "password"}
-            name="re-enter password"
+            name="re-password"
             id="re-enter_password"
             placeholder=" Re-Enter Password"
             className="input"
@@ -268,6 +261,24 @@ export default function Signupform({ waivers, genders, membershiplevel }) {
             State
           </label>
           <SelectStates />
+          <label htmlFor="membership level" className="sr-only">
+            Membership Level
+          </label>
+          <select
+            name="membership-level"
+            id="membership level"
+            className="input"
+            defaultValue="membership"
+          >
+            <option value="membership" hidden>
+              Select a membership
+            </option>
+            {membershiplevel.map((level, index) => (
+              <option key={index} value={level.Membership_Title}>
+                {level.Membership_Title}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="waivers">
           <label htmlFor="waivers" className="checkbox-container">

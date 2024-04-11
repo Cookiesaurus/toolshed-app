@@ -42,7 +42,7 @@ const SlideShow = ({ data }) => {
 
     // Cleanup the interval when the component is unmounted
     return () => clearInterval(intervalId);
-  }, [slide]);
+  });
 
 
 

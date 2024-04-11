@@ -52,7 +52,7 @@ const AddCardModal = ({ onClose, custId }) => {
     );
 };
 
-export const Card = ({ user }) => {
+export const SavedCards = ({ user }) => {
     const custId = user.user.Customer_ID;
     const [showCards, setShowCards] = useState(true);
     const [cards, setCards] = useState([]);

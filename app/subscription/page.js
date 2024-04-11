@@ -25,74 +25,71 @@ export default function Page() {
 
     return (
         <>
-            <div>
-                <form action={addSubscriptionAction}>
-                    <div className="bigbox">
-                        <input
-                            name="plan"
-                            type="radio"
-                            value="tinker"
-                            id="tinker"
+            <div className="page-content">
+                <h1 className="page-title">Select a Membership Level</h1>
+                <div className="section">
+                    <form className="select-level" action={addSubscriptionAction}>
+                        <div className="option-container">
+                            <input className="selection-option" name="plan" type="radio" value="tinker" id="tinker"
                             onClick={selectionChanged}
-                        />
-                        <label className="box">Tinker level</label>
-                        <input
-                            name="plan"
-                            type="radio"
-                            id="macgyver"
-                            value="macgyver"
-                            onClick={selectionChanged}
-                        />
-                        <label className="box">MacGyver level</label>
-                        <input
-                            name="plan"
-                            type="radio"
-                            id="builder"
-                            value="builder"
-                            onClick={selectionChanged}
-                        />
-                        <label className="box">Builder level</label>
-                        <input
-                            name="plan"
-                            type="radio"
-                            id="contractor"
-                            value="contractor"
-                            onClick={selectionChanged}
-                        />
-                        <label className="box">Contractor level</label>
-                    </div>
-                    <div>
-                        <input
-                            name="save"
-                            type="checkbox"
-                            onClick={setSaveOption}
-                        />
-                        <label>Save card on file</label>
-                    </div>
-                </form>
-                <PaymentForm
-                    applicationId={appId}
-                    locationId={locationId}
-                    cardTokenizeResponseReceived={async (token) => {
-                        // we’ll come back to this soon
-                        console.log("Token is : ", token);
-                        let result = await subscribe(
-                            token.token,
-                            selectedPlan,
-                            addCard,
-                            custId
-                        );
-                        result = JSON.parse(result);
-                        if (result.status == 200) {
-                            console.log("Sign up successful.");
-                            router.push("/");
-                        } else {
-                            console.log("Card tokenizer result : ", result);
-                        }
-                    }}
-                >
-                    <CreditCard />
-                </PaymentForm>
+                            />
+                            <label className="selection-label" for='tinker'>$25 Tinker level</label>
+                        </div>
+                        
+                        <div className="option-container">
+                            <input className="selection-option" name="plan" type="radio" id="macgyver" value="macgyver"
+                                onClick={selectionChanged}
+                            />
+                            <label className="selection-label" for='mcgyver'>$35 MacGyver level</label>
+                        </div>
+                        
+                        <div className="option-container">
+                            <input className="selection-option" name="plan" type="radio" id="builder" value="builder"
+                                onClick={selectionChanged}
+                            />
+                            <label className="selection-label" for='builder'>$50 Builder level</label>
+                        </div>
+                        
+                        <div className="option-container">
+                            <input className="selection-option" name="plan" type="radio" id="contractor" value="contractor"
+                                onClick={selectionChanged}
+                            />
+                            <label className="selection-label" for='contractor'>$100 Contractor level</label>
+                        </div>
+
+                        <div className="option-container">
+                            <input className="selection-option" name="save" type="checkbox" id="save"
+                                onClick={setSaveOption}
+                            />
+                            <label className="selection-label" for='save'>Do you want to save card on file?</label>
+                        </div>
+                    </form>
+                </div>
+                <div className="section">
+                    <PaymentForm
+                        applicationId={appId}
+                        locationId={locationId}
+                        cardTokenizeResponseReceived={async (token) => {
+                            // we’ll come back to this soon
+                            console.log("Token is : ", token);
+                            let result = await subscribe(
+                                token,
+                                selectedPlan,
+                                addCard,
+                                custId
+                            );
+                            result = JSON.parse(result);
+                            if (result.status == 200) {
+                                console.log("Sign up successful.");
+                                router.push("/");
+                            } else {
+                                console.log("Card tokenizer result : ", result);
+                            }
+                        }}
+                    >
+                        <CreditCard />
+                    </PaymentForm>
+                </div>
             </div>
         </>
     );
