@@ -191,8 +191,8 @@ INSERT INTO Transaction_Types (Transaction_Type, Transaction_Details) VALUES
 (8, "Gift Card Activation"), -- Gift Card Activation Type
 (9, "Tool Late Fee"), -- Tool Loan Fee Type
 (10, "Rental Fee"), -- Rental Late Fee Type
-(11, "Tool Replacement Fee") -- Tool Replacement Fee Type
-(12, "Cleaning Fee"); --Tool Cleaning Fee
+(11, "Tool Replacement Fee"), -- Tool Replacement Fee Type
+(12, "Cleaning Fee"); -- Tool Cleaning Fee
 
 CREATE TABLE Transactions (
     /* The Transactions table holds all transactions related to each account */
