@@ -39,7 +39,9 @@ export default async function Page({ searchParams }) {
     let categories = await db.selectFromDB("SELECT * FROM Categories");
     let brands = await db.selectFromDB("SELECT * FROM Brands");
     let types = await db.selectFromDB("SELECT * FROM Types");
-    let  locations = await db.selectFromDB("SELECT * FROM SEAC_Tool_Shed.Tool_Locations");
+    let locations = await db.selectFromDB(
+        "SELECT * FROM SEAC_Tool_Shed.Tool_Locations"
+    );
 
     categories = JSON.parse(JSON.stringify(categories));
     brands = JSON.parse(JSON.stringify(brands));
@@ -47,12 +49,13 @@ export default async function Page({ searchParams }) {
     locations = JSON.parse(JSON.stringify(locations));
 
     const user = await getSession();
-    let admin = user.user?.Privilege_Level
+    let admin = user.user?.Privilege_Level;
 
     const cat = String(searchParams.category).split(",");
     const typ = String(searchParams.type).split(",");
     const bra = String(searchParams.brand).split(",");
     let status = String(searchParams.in_stock);
+    let status2 = status;
     if (status != "on") {
         status = "off";
     }
@@ -108,12 +111,21 @@ export default async function Page({ searchParams }) {
             .join(", ")}) AND`;
         useInven = false;
     }
+    statusCreator(status2);
     if (status == "off") {
-        whereClause += ` Tool_Statuses.Tool_Status_Details IN ('Available', 'Checked Out') AND`;
+        if (admin > 2 && status2) {
+            let wc = statusCreator(status2);
+            whereClause += wc;
+        } else if (admin > 2) {
+            whereClause += ` Tool_Statuses.Tool_Status_Details IN ('Available', 'Checked Out', 'Disabled', 'Maintenance') AND`;
+        } else {
+            whereClause += ` Tool_Statuses.Tool_Status_Details IN ('Available', 'Checked Out') AND`;
+        }
     } else if (status == "on") {
         whereClause += ` Tool_Statuses.Tool_Status_Details IN ('Available') AND`;
         useInven = false;
     }
+
     whereClause = whereClause.replace(/AND\s*$/, "");
     if (whereClause != " WHERE") sqlQuery += whereClause;
     sqlQuery += " GROUP BY Tools.Tool_ID;";
@@ -124,37 +136,67 @@ export default async function Page({ searchParams }) {
     const urlSelectedCat = searchParams.category;
     return (
         <>
-        <div className="inventory-page">
-            <div className="conditions-cont">
-                <div className="conditions">
-                    <h1>{urlSelectedCat} </h1>
+            <div className="inventory-page">
+                <div className="conditions-cont">
+                    <div className="conditions">
+                        <h1>{urlSelectedCat} </h1>
+                    </div>
+                    <div className="sort">
+                        <select id="filter-sort">
+                            <option value="0">Sort By:</option>
+                            <option value="1">Featured</option>
+                            <option value="1">Popular</option>
+                            <option value="1">Price: Low to High</option>
+                            <option value="1">Price: High to Low</option>
+                        </select>
+                    </div>
                 </div>
-                <div className="sort">
-                    <select id="filter-sort">
-                        <option value="0">Sort By:</option>
-                        <option value="1">Featured</option>
-                        <option value="1">Popular</option>
-                        <option value="1">Price: Low to High</option>
-                        <option value="1">Price: High to Low</option>
-                    </select>
+                <div className="inventory-cont">
+                    <Filters
+                        categories={categories}
+                        brands={brands}
+                        types={types}
+                        locations={locations}
+                        totalTools={tools.length}
+                        admin={admin > 3 ? true : false}
+                    />
+                    {useInven ? (
+                        <InventoryItems
+                            tools={tools}
+                            admin={admin > 3 ? true : false}
+                        />
+                    ) : (
+                        <ToolCard
+                            tools={tools}
+                            admin={admin > 3 ? true : false}
+                        />
+                    )}
                 </div>
             </div>
-            <div className="inventory-cont">
-                <Filters
-                    categories={categories}
-                    brands={brands}
-                    types={types}
-                    locations={locations}
-                    totalTools={tools.length}
-                    admin={admin > 3 ? true : false}
-                />
-                {useInven ? (
-                    <InventoryItems tools={tools} admin={admin > 3 ? true : false}/>
-                ) : (
-                    <ToolCard tools={tools} admin={admin > 3 ? true : false} />
-                )}
-            </div>
-        </div>
         </>
     );
 }
+
+const statusCreator = (status) => {
+    let st = status.split(",");
+    let wc = ` Tool_Statuses.Tool_Status_Details IN (`;
+    let wc_end = ` AND`;
+    if (st.includes("disabled")) {
+        wc += `'Disabled',`;
+    }
+    if (st.includes("maintenance")) {
+        wc += `'Maintenance',`;
+    }
+    if (st.includes("floating")) {
+    }
+    if (st.includes("available")) {
+        wc += `'Available',`;
+    }
+    if (wc[wc.length - 1] == ",") {
+        wc = wc.slice(0, wc.length - 1);
+    }
+    wc += `)`;
+    wc += wc_end;
+
+    return wc;
+};
