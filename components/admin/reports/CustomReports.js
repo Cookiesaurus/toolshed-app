@@ -1,7 +1,7 @@
 const Reports = () =>{
     return(
         <>
-            <h1>Reports</h1>
+            <h1>Generate A Custom Report</h1>
         </>
     )
 }

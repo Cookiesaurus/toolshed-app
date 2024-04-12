@@ -1,7 +1,7 @@
-const SelectStates = () => {
+const SelectStates = ({ selected, defaultState}) => {
     return (
-        <select name="state" className="input" id="address-state" required defaultValue="State">
-            <option value="State" hidden>State</option> 
+        <select name="state" className="input" id="address-state" required defaultValue={selected ? defaultState : "State" }>
+            <option value="State" hidden>{defaultState}</option> 
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
             <option value="AZ">Arizona</option>

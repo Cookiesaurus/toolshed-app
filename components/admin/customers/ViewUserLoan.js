@@ -91,7 +91,7 @@ const ViewUserLoan = ({ customerData }) => {
     <div className="buttonsContainer">
       <Link
         href={{
-          pathname: "/admin/customers/edit",
+          pathname: "/admin/customers/transactions",
           query: { account_id: user.Account_ID }
         }}
       >

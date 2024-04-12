@@ -2,7 +2,7 @@
 import { useState } from "react";
 import React from "react";
 import { addNewUserFromAdmin } from "@/actions/adminActions";
-import SelectStates from "../FormComponents/statesSelect";
+import SelectStates from "../../FormComponents/statesSelect";
 import jsPDF from "jspdf";
 const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
   const [showPasswords, setShowPasswords] = useState(false);

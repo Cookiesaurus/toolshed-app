@@ -1,6 +1,5 @@
-
 import db from "@/app/config/db.mjs";
-import ViewLoanDetails from "@/components/admin/ViewLoanDetails";
+import ViewLoanDetails from "@/components/admin/customers/ViewLoanDetails";
 export default async function Page({ searchParams }) {
     const accountID = searchParams.account_id
     //Change this to get transaction history

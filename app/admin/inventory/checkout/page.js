@@ -1,6 +1,6 @@
 import React from 'react';
 import CheckOut from '@/components/admin/CheckOut';
-import CheckOutTool from '@/components/admin/CheckOutTool';
+import CheckOutTool from '@/components/admin/tools/CheckOutTool';
 import db from '@/app/config/db.mjs';
 
 export default async function Page({ searchParams }) {
