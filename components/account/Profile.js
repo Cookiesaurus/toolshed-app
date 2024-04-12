@@ -28,13 +28,13 @@ const Profile = ({user}) =>{
                     <div className='account-name'>
                         <div className='account-info'>
                             <label className='profile-label' for="name">Name: </label>
-                            <input className='profile-input' id='name' name='name' value={``} />
+                            <input className='profile-input' id='name' name='name' value={`${user.user.Secondary_First_Name} ${user.user.Secondary_Last_Name}`} />
                         </div>
                         <div className='account-email'>
                             <label className='profile-label' for="email">Email: </label>
-                            <input className='profile-input' id='email' name='email' value={``} />
+                            <input className='profile-input' id='email' name='email' value={`${user.user.Secondary_Email}`} />
                             <label className='profile-label' for='phone'>Phone: </label>
-                            <input className='profile-input' id='phone' name='phone' value={``} />
+                            <input className='profile-input' id='phone' name='phone' value={`${user.user.Secondary_Phone_Number}`} />
                         </div>
                     </div>
                 </div>
