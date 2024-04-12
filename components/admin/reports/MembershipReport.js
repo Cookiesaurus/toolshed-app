@@ -70,6 +70,43 @@ const MembershipReport = ({loanData}) => {
     <>
       <div className="reports-header">
         <h1>Membership Report</h1>
+        <form>
+          <label htmlFor="start-date">Membership Since</label>
+          <input type="date" id="start-date" name="start"></input>
+          <label htmlFor="end-date">Expires Before</label>
+          <input type="date" id="end-date" name="end"></input>
+          <label htmlFor="location">Location</label>
+          <select defaultValue="location" id="location">
+            <option id="location">Membership Type</option>
+            <option>Location 2</option>
+          </select>
+          <label
+            htmlFor="enabled"
+            className="checkbox-container"
+          >
+            Enabled
+            <input
+              type="checkbox"
+              className="checkbox"
+              id="enabled"
+              name="enabled"
+            />
+            <span className="checkmark"></span>
+          </label>
+          <label
+            htmlFor="disabled"
+            className="checkbox-container"
+          >
+            Disabled
+            <input
+              type="checkbox"
+              className="checkbox"
+              id="disabled"
+              name="disabled"
+            />
+            <span className="checkmark"></span>
+          </label>
+        </form>
         <div className="download-buttons">
           <button className="downloads" onClick={downloadExcel}>
             <FontAwesomeIcon icon={faArrowUpFromBracket} size="xs" /> Excel
