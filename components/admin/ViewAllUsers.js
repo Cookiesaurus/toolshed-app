@@ -83,38 +83,6 @@ const ViewAllUsers = ({ customerData }) => {
           User Loans
         </Link>
         </div>
-        <div className="action" role="listitem">
-        <Link
-          className="checkinButton"
-          href={{
-            pathname: "/admin/customers/checkin",
-            query: { account_id: user.Account_ID }
-          }}
-        >
-          <FontAwesomeIcon
-            icon={faCartShopping}
-            color="white"
-            style={{ backgroundColor: "transparent" }}
-          />
-          Check In
-        </Link>
-        </div>
-        <div className="action" role="listitem">
-        <Link
-          className="checkoutButton"
-          href={{
-            pathname: "/admin/customers/checkout",
-            query: { account_id: user.Account_ID }
-          }}
-        >
-          <FontAwesomeIcon
-            icon={faCartShopping}
-            color="white"
-            style={{ backgroundColor: "transparent" }}
-          />
-          Check Out
-        </Link>
-        </div>
       </div>
     );
 

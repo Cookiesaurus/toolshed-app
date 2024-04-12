@@ -45,6 +45,7 @@ const CheckIn = ({customers}) => {
 
   return (
     <>
+    <h1>Check In</h1>
     <div className="checkout-container white">
         <div className="white">
         <label htmlFor="find user" className="sr-only">Find User</label>
@@ -71,6 +72,11 @@ const CheckIn = ({customers}) => {
             />
         </button>
         </div>
+        <button
+            type="submit"
+        >
+            Create New User
+        </button>
     </div>
     <div>
         <DataTable
