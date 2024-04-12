@@ -2,10 +2,6 @@
 import { deleteItem, updateItem } from "@/actions/adminActions";
 import React, { useState } from "react";
 const EditItem = ({ categories, brands, types, locations, toolID }) => {
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    console.log(file);
-  };
 
   return (
     <>
