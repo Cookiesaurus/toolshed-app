@@ -89,8 +89,7 @@ const Navbar = ({session}) => {
                 />
                 <p>My transactions</p>
               </Link>
-              {(session && session.user.Privilege_Level == 4) ||
-              session.user.Privilege_Level == 5 ? (
+              {(session && session.user.Privilege_Level >= 2) ? (
                 <Link href={"/admin/dashboard"}>
                   <FontAwesomeIcon
                     icon={faGaugeHigh}
