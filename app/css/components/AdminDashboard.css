@@ -142,9 +142,17 @@ a.loansButton {
 }
 
 a.checkoutButton {
+    margin-bottom: 5px;
     border-radius: 8px;
     background-color: #8B1AA7;
     color: white;
+}
+
+a.checkinButton {
+  margin-bottom: 5px;
+  border-radius: 8px;
+  background-color: #069612;
+  color: white;
 }
 
 label {
@@ -292,6 +300,20 @@ input {
   }
 
   a.checkoutButton svg {
+    margin-right: 5px;
+  }
+
+  a.checkinButton {
+    border-radius: 8px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: #069612;
+    color: white;
+  }
+
+  a.checkinButton svg {
     margin-right: 5px;
   }
   

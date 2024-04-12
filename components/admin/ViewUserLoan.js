@@ -3,8 +3,7 @@ import DataTable from "react-data-table-component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleInfo,
-  faEye,
-  faShoppingCart
+  faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 const ViewUserLoan = ({ customerData }) => {
@@ -96,26 +95,8 @@ const ViewUserLoan = ({ customerData }) => {
           query: { account_id: user.Account_ID }
         }}
       >
-        <FontAwesomeIcon icon={faEye}></FontAwesomeIcon>
-        View/Edit
-      </Link>
-      <Link
-        href={{
-          pathname: "/admin/customers/checkin",
-          query: { account_id: user.Account_ID }
-        }}
-      >
-        <FontAwesomeIcon icon={faShoppingCart}></FontAwesomeIcon>
-        Check In
-      </Link>
-      <Link
-        href={{
-          pathname: "/admin/customers/checkout",
-          query: { account_id: user.Account_ID }
-        }}
-      >
-        <FontAwesomeIcon icon={faShoppingCart}></FontAwesomeIcon>
-        Check Out
+        <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
+        Add a transaction
       </Link>
     </div>
   </>

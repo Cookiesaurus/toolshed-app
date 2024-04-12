@@ -64,7 +64,7 @@ const ViewAllUsers = ({ customerData }) => {
             color="white"
             style={{ backgroundColor: "transparent" }}
           />
-          Edit
+          Edit User
         </Link>
         </div>
           <div className="action" role="listitem">
@@ -80,7 +80,23 @@ const ViewAllUsers = ({ customerData }) => {
             color="white"
             style={{ backgroundColor: "transparent" }}
           />
-          Loans
+          User Loans
+        </Link>
+        </div>
+        <div className="action" role="listitem">
+        <Link
+          className="checkinButton"
+          href={{
+            pathname: "/admin/customers/checkin",
+            query: { account_id: user.Account_ID }
+          }}
+        >
+          <FontAwesomeIcon
+            icon={faCartShopping}
+            color="white"
+            style={{ backgroundColor: "transparent" }}
+          />
+          Check In
         </Link>
         </div>
         <div className="action" role="listitem">
@@ -96,7 +112,7 @@ const ViewAllUsers = ({ customerData }) => {
             color="white"
             style={{ backgroundColor: "transparent" }}
           />
-          Checkout
+          Check Out
         </Link>
         </div>
       </div>
