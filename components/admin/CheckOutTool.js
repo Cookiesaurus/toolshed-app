@@ -8,15 +8,22 @@ const CheckOutTool = () => {
             <h1>Check Out</h1>
             <p>for</p>
             <div className='customer-info'>
-                <p>Customer Name</p>
-                <p>Membership Level</p>
+                <label>This will act as a search for the table below</label>
+                <input type='text' placeholder='Find User'></input>
+                <label>This will act as a filter for the table below</label>
+                <select>
+                    <option>Memebership Level</option>
+                    <option>Memebership Level</option>
+                    <option>Memebership Level</option>
+                    <option>Memebership Level</option>
+                </select>
             </div>
         </div>
     </div>
 
     <div className='checkout-item-container'>
         <div>
-            <label htmlFor='item id'>Item ID</label>
+            <label htmlFor='item id'>Item ID: This will be auto populated based on the info that comes from inventory </label>
             <input type='text' id='item id'/>
 
             <label htmlFor='due date'>Due Date</label>
