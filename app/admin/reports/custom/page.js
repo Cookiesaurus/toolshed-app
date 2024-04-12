@@ -1,8 +1,8 @@
 import dynamic from "next/dynamic";
-const ItemsReport = dynamic(() => import("@/components/admin/reports/ItemsReport"), { ssr: false })
+const CustomReports = dynamic(() => import("@/components/admin/reports/CustomReports"), { ssr: false })
 import db from "@/app/config/db.mjs";
 export default function Page(){
     return (<>
-        <ItemsReport/>
+        <CustomReports/>
     </>)
 }
