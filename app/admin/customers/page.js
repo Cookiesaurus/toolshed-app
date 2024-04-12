@@ -2,7 +2,7 @@ import { getSession } from "@/actions/actions";
 import db from "@/app/config/db.mjs";
 import dynamic from 'next/dynamic'
  
-const ViewAllUsers = dynamic(() => import("@/components/admin/ViewAllUsers"), { ssr: false })
+const ViewAllUsers = dynamic(() => import("@/components/admin/customers/ViewAllUsers"), { ssr: false })
 export default async function Page() {
   const admin = await getSession();
   let customers;

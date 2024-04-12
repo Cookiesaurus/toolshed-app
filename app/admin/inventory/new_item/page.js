@@ -1,4 +1,4 @@
-import NewItem from "@/components/admin/NewItem";
+import NewItem from "@/components/admin/tools/NewItem";
 import db from "@/app/config/db.mjs";
 export default async function Page(){
     let categories = await db.selectFromDB("SELECT * FROM Categories");

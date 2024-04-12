@@ -1,4 +1,4 @@
-import EditUser from "@/components/admin/EditUser"
+import EditUser from "@/components/admin/customers/EditUser"
 import db from "@/app/config/db.mjs"
 
 export default async function Page({searchParams}) { 

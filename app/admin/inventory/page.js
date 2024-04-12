@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic"
 import db from "@/app/config/db.mjs"
-const AdminInventory = dynamic(() => import("@/components/admin/AdminInventory"), { ssr: false })
+const AdminInventory = dynamic(() => import("@/components/admin/tools/AdminInventory"), { ssr: false })
 
 export default async function Page() { 
     let inventory = await db.selectFromDB(`SELECT Tools.Tool_ID, Tools.Tool_Name, Tool_Locations.Location_Name, Tool_Statuses.Tool_Status_Details, Tools.Tool_Link FROM Tools 
