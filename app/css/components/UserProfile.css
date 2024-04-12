@@ -1,18 +1,72 @@
+.edit-button:hover {
+    text-decoration: underline;
+}
 
+.profile_info {
+    display: flex;
+    flex-direction: column;
+}
+
+.primary_info, .secondary_info {
+    background-color: white;
+}
+
+.save-changes {
+    background-color: white;
+    text-align: center;
+}
+
+.save-changes-button {
+    background-color: black;
+    color: white;
+    font-family: 'Poppins';
+    font-size: 22px;
+    font-weight: 600;
+    height: 50px;
+    width: 200px;
+    white-space: nowrap;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.save-changes-button:hover {
+    background-color: #FBC955;
+}
+
+.info-title {
+    font-family: 'Poppins';
+    font-size: 22px;
+    font-weight: 600;
+    width: 100%;
+    background-color: white;
+}
+
+.profile-label {
+    font-family: 'Poppins';
+    font-size: 16px;
+    font-weight: 400;
+    background-color: white;
+}
+
+.profile-input {
+    font-family: 'Poppins';
+    font-size: 16px;
+    font-weight: 400;
+    width: 200px;
+    background-color: white;
+}
 
 .account-cont {
     display: flex;
-    height: 1300px;
+    flex-direction: row;
 }
 
 .left-account {
-    flex: 30%;
-    margin: 25px;
+    flex: 20%;
 }
 
 .right-account {
-    flex: 70%;
-    margin: 25px;
+    flex: 80%;
 }
 
 .account-name {
@@ -27,13 +81,8 @@
 
 .account-info{
     display: flex;
-    gap: 12px;
+    flex-direction: column;
     background-color: white;
-    align-items: center;
-
-    p, a{
-        background-color: white;
-    }
 }
 
 .account-email {
@@ -105,9 +154,6 @@ button.profile-button{
     border: none;
 }
 
-h2.customer-name {
-    background-color: white;
-}
 .switch-container{
     display: flex;
     flex-direction: row-reverse;
@@ -229,8 +275,8 @@ ul li{
     list-style-type: none;
 }
 
-.side-link:focus{
-    background-color: white;
+.side-link:hover {
+    text-decoration: underline;
 }
 .form-container {
     display: flex;
