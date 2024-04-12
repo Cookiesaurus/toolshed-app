@@ -4,7 +4,9 @@ import DataTable from "react-data-table-component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpFromBracket,  } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import { read, utils, writeFile } from 'xlsx';
+import * as XLSX from 'xlsx'
+import jsPDF from "jspdf";
+import autoTable from 'jspdf-autotable'
 const LoanReport = ({loanData}) => {
   const columns = [
     {
@@ -38,51 +40,31 @@ const LoanReport = ({loanData}) => {
   ];
 
 
-  const downloadExcel = (data, fileName) => {
-    const ws = utils.json_to_sheet(data);
-    const wb = utils.book_new();
-    utils.book_append_sheet(wb, ws, "Sheet1");
-    writeFile(wb, `${fileName}.xlsx`);
+  const downloadExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(customerData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
+    XLSX.writeFile(workbook, "Presidents.xlsx", { compression: true });
   };
 
-
-  function convertJSONtoCSV(jsonData) {
-    const separator = ',';
-    const keys = Object.keys(jsonData[0]);
+  const downlaodPDF = () => {
+    const doc = new jsPDF({ orientation: "landscape"})
+    doc.text('Report Header', 10, 10)
+    
+    //itereate through the data to make an array 
+    const data = customerData.map(obj => [obj.Account_ID, obj.Name, obj.Email, obj.Organization, obj.Membership_Title]);
+    
+    //create the columns
+    const columns = ['ID', 'Name', 'Email', 'Organization', 'Membership'];
   
-    // Header row
-    let csvContent = keys.join(separator) + '\n';
-  
-    // Data rows
-    jsonData.forEach((row) => {
-      const values = keys.map((key) => {
-        let cell = row[key];
-        if (typeof cell === 'string') {
-          // If cell contains comma, escape it with double quotes
-          if (cell.includes(',')) {
-            cell = `"${cell}"`;
-          }
-        }
-        return cell;
-      });
-      csvContent += values.join(separator) + '\n';
-    });
-  
-    return csvContent;
+    autoTable(doc, {
+      head: [columns],
+      body: data,
+    })
+    //name of file
+    doc.save('test.pdf')
   }
 
-  const downloadCSV = () => {
-    const csvData = convertJSONtoCSV(jsonData);
-    const blob = new Blob([csvData], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename || 'data.csv';
-    document.body.appendChild(a);
-    a.click();
-    window.URL.revokeObjectURL(url);
-    document.body.removeChild(a);
-  };
 
 
   return (
@@ -90,13 +72,10 @@ const LoanReport = ({loanData}) => {
       <div className="reports-header">
         <h1>Loan Reports</h1>
         <div className="download-buttons">
-          <button className="downloads" onClick={() => downloadCSV}>
-            <FontAwesomeIcon icon={faArrowUpFromBracket} size="xs" /> CSV
-          </button>
-          <button className="downloads" onClick={() => downloadExcel()}>
+          <button className="downloads" onClick={downloadExcel}>
             <FontAwesomeIcon icon={faArrowUpFromBracket} size="xs" /> Excel
           </button>
-          <button className="downloads">
+          <button className="downloads" onClick={downlaodPDF}>
             <FontAwesomeIcon icon={faArrowUpFromBracket} size="xs" /> PDF
           </button>
         </div>
