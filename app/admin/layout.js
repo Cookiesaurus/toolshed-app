@@ -8,6 +8,7 @@ export default async function Layout({
 {
   let session = await getSession()
   session = JSON.parse(JSON.stringify(session))
+  let admin = session.user?.Privilege_Level;
   return (
     <>
       <AdminNavBar session={session}/>
@@ -21,7 +22,7 @@ export default async function Layout({
       />
        <div className="admin-container">
         <div className="left-admin">
-          <AdminSideBar/>
+          <AdminSideBar admin={admin >= 3 ? true : false}/>
         </div>
        <div className="right-admin">
           {children}
