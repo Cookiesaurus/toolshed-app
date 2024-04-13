@@ -104,9 +104,9 @@ const Profile = ({user}) =>{
                         </div>
                     </div>
                 </div>
-                <div className='save-changes' style={{width: '100%'}}>
+                <div className='save-changes'>
                     <button className="save-changes-button" type='submit'>Save Changes</button>
-                    <button type="button" onClick={onClose} id="cancel-changes">Cancel</button>
+                    <button className="cancel-button" type="button" onClick={onClose} id="cancel-changes">Cancel</button>
                 </div>
             </form>
           </>
