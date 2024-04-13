@@ -20,7 +20,12 @@ const AdminInventory = ({ inventory }) => {
       sortable: true
     },
     {
-      name: "Location",
+      name: "Home Location",
+      selector: (row) => row.location,
+      sortable: true
+    },
+    {
+      name: "Current Location",
       selector: (row) => row.location,
       sortable: true
     },
