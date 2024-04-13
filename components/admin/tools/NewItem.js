@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { addNewItem } from "@/actions/adminActions";
+import { addNewItem } from "@/actions/toolActions";
 const NewItem = ({ categories, brands, types, locations}) => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -22,50 +22,28 @@ const NewItem = ({ categories, brands, types, locations}) => {
               id="itemName"
               name="itemName"
             />
-            <p className="section-title-small">Select a tool status</p>
+            <label className="form-label" htmlFor="itemDesc">
+              Item Description
+            </label>
+            <input
+              className="formInput"
+              type="text"
+              id="itemDesc"
+              name="itemDesc"
+            />
             <div className="section-status">
-              <label
-                      htmlFor="avaliable-status"
-                      className="checkbox-container"
-                    >
-                      Available
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        id="avaliable-status"
-                        name="status"
-                        value="avaliable"
-                      />
-                      <span className="checkmark"></span>
-                    </label>
-              <label
-                      htmlFor="maintenance-status"
-                      className="checkbox-container"
-                    >
-                      Maintenance
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        id="maintenance-status"
-                        name="status"
-                        value="maintenance"
-                      />
-                      <span className="checkmark"></span>
-                    </label>
-              <label
-                      htmlFor="disabled-status"
-                      className="checkbox-container"
-                    >
-                      Disabled
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        id="disabled-status"
-                        name="status"
-                        value="disabled"
-                      />
-                      <span className="checkmark"></span>
-                    </label>
+            <label htmlFor="status" className="label">
+            Select a tool status
+            </label>
+            <select
+              id="status"
+              name="status"
+              className="input"
+            >
+              <option value="available">Available</option>
+              <option value="maintenance">Maintenance</option>
+              <option value="disabled">Disabled</option>
+            </select>
             </div>
             <div className="sub-section">
               <p className="section-title-small">Categories</p>
@@ -82,7 +60,7 @@ const NewItem = ({ categories, brands, types, locations}) => {
                         className="checkbox"
                         id={category.Category_Name}
                         name="category"
-                        value={category.Category_Name}
+                        value={category.Category_ID}
                       />
                       <span className="checkmark"></span>
                     </label>
@@ -104,7 +82,7 @@ const NewItem = ({ categories, brands, types, locations}) => {
                       className="checkbox"
                       id={type.Type_Name}
                       name="type"
-                      value={type.Type_Name}
+                      value={type.Type_ID}
                     />
                     <span className="checkmark"></span>
                   </label>
@@ -220,6 +198,17 @@ const NewItem = ({ categories, brands, types, locations}) => {
             </select>
             <br />
             <br />
+            <label className="form-label" htmlFor="curLoc">
+              Current Location
+            </label>
+            <select className="formInput" name="curLoc" id="curLoc">
+              <option value="">Select Location</option>
+              {locations.map((place) => (
+                <option key={place.Tool_Location} value={place.Location_Name}>
+                  {place.Location_Name}
+                </option>
+              ))}
+            </select>
             <label className="form-label" htmlFor="homeLoc">
               Home Location
             </label>
@@ -231,6 +220,15 @@ const NewItem = ({ categories, brands, types, locations}) => {
                 </option>
               ))}
             </select>
+            <label className="form-label" htmlFor="locDesc">
+              Location Description
+            </label>
+            <input
+              className="form-input"
+              type="text"
+              id="locDesc"
+              name="locDesc"
+            ></input>
           </div>
         </div>
         <div className="create-button-cont">
