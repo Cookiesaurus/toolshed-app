@@ -461,17 +461,21 @@ CREATE TABLE Transactions (
     Transaction_Status VARCHAR(255),
     Transaction_Date DATE NOT NULL, -- Transaction_Date holds the date value for the transaction
     Transaction_Type TINYINT UNSIGNED NOT NULL, -- Transaction_Type holds the integer value describing each transaction
-    Start_Date DATE, -- Start_Date holds the start date value for a transaction
     End_Date DATE, -- End_Date holds the end date value for a transaction. Tools must be returned by this date or result in a Rental Late Fee
-    Check_Out_Date DATE, -- Check_Out_Date holds the date value describing when tools are picked up by renter
     Check_In_Date DATE, -- Check_Out_Date holds the date value describing when tools are returned up by renter
-    Payment_Amount FLOAT, -- Payment_Amount holds the float integer value describing any money amounts payed to the SEAC Tool Shed for a transaction
+    Payment_Amount FLOAT DEFAULT 0.00, -- Payment_Amount holds the float integer value describing any money amounts payed to the SEAC Tool Shed for a transaction
     CONSTRAINT PK_Transactions PRIMARY KEY (Transaction_ID), -- Transaction_ID is the primary key for this table
     CONSTRAINT FK_Transaction_Transaction_Types FOREIGN KEY (Transaction_Type) REFERENCES Transaction_Types (Transaction_Type), -- This statement creates a foreign key on Transaction_Type, which is used to connect the to the Transaction_Types table
     CONSTRAINT FK_Transactions_Accounts FOREIGN KEY (Account_ID) REFERENCES Accounts (Account_ID), -- This statement creates a foreign key on Account_ID, which is used to connect the to the Accounts table
-    CONSTRAINT FK_Transactions_Tools FOREIGN KEY (Tool_ID) REFERENCES Tools (Tool_ID) -- This statement creates a foreign key on Account_ID, which is used to connect the to the Accounts table
+    CONSTRAINT FK_Transactions_Tools FOREIGN KEY (Tool_ID) REFERENCES Tools (Tool_ID) 
 );
 
+CREATE TABLE Transaction_Payments (
+    Transaction_ID INT UNSIGNED,
+    Payment_ID INT UNSIGNED NOT NULL,
+    CONSTRAINT PK_Transaction_Payments PRIMARY KEY (Transaction_ID),
+    CONSTRAINT FK_Transaction_Payments_Transactions FOREIGN KEY (Transaction_ID) REFERENCES Transactions (Transaction_ID)
+);
 
 
 CREATE TABLE Categories (
