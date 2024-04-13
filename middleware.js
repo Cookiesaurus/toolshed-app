@@ -1,6 +1,18 @@
 import { NextResponse } from "next/server";
-import { getSession } from "@/actions/actions";
+import { getIronSession } from "iron-session";
+import { cookies } from "next/headers";
+import { defaultSession, sessionOptions } from "@/app/lib";
 export async function middleware(request) {
+
+ const getSession = async () => {
+    const session = await getIronSession(cookies(), sessionOptions);
+  
+    if (!session.isLoggedIn) {
+      session.isLoggedIn = false;
+    }
+  
+    return session;
+  };
   const user = await getSession();
   //user is trying to access admin pages but isn't logged in
   if(request.nextUrl.pathname.includes('admin') && !user?.isLoggedIn){
