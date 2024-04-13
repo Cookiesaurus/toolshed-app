@@ -147,7 +147,7 @@ export default async function Page({ searchParams }) {
             <div className="inventory-page">
                 <div className="conditions-cont">
                     <div className="conditions">
-                        <h1>{addEllipsis(urlSelectedCat, 30)} </h1>
+                        <h1> </h1>
                     </div>
                     <div className="sort">
                         <select id="filter-sort">
@@ -220,10 +220,5 @@ const addFloating = () => {
     return ` Tools.Is_Floating=1`;
 };
 
-function addEllipsis(str, maxLength) {
-    if (str.length > maxLength) {
-        return str.substring(0, maxLength - 3) + '...';
-    }
-    return str;
-}
+
 
