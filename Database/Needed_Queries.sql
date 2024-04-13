@@ -20,12 +20,35 @@ WHERE Accounts.Account_ID = 1; -- Set to whatever user ID is selected
 -- WHERE Accounts.Account_ID = whatever user ID is selected
 
 -- Adding New Tools into the DB --
+INSERT INTO Tools (Tool_Name, Brand_Name, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, 
+				   Tool_Link, Tool_Manual, Tool_Loan_Fee, Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost, Is_Floating, 
+                   Is_Featured)
+		    VALUES ("Test Insert Tool", "Husky", 13, "55", 1, 2, "Can be found in the Test Tool Section", "This is a tester tool to be tested for inserting tools",
+            1, "https://seachtoolshedimages.s3.us-east-2.amazonaws.com/20230329_164430-5FC70911-E23D-FE6E-819F-26950F09F1DD.jpg", "https://seachtoolshedimages.s3.us-east-2.amazonaws.com/20230329_164430-5FC70911-E23D-FE6E-819F-26950F09F1DD.jpg", 0, 7, 7, 1, 225, 1, 1);
+INSERT INTO Tool_Categories VALUES (1, 1), (1, 2), (1, 5), (1, 9);
+INSERT INTO Tool_Types VALUES (1, 1);
+
+-- Updating Tool Information --
+UPDATE Tools
+SET Tool_Name = "Test Tool Insert 2", Brand_Name = "Ace Hardware", Tool_Weight = 15, Tool_Size = "77", Home_Location = 2, Current_Location = 2, Location_Code = "Near new Tester Tools", Tool_Description = "Tester Update Tool 2", Tool_Status = 1,
+Tool_Link = "https://seachtoolshedimages.s3.us-east-2.amazonaws.com/20230329_164430-5FC70911-E23D-FE6E-819F-26950F09F1DD.jpg", Tool_Manual = "https://seachtoolshedimages.s3.us-east-2.amazonaws.com/20230329_164430-5FC70911-E23D-FE6E-819F-26950F09F1DD.jpg", Tool_Loan_Fee = 5, Default_Late_Fee = 2, Default_Loan_Length = 10, Renewal_Amount = 2, Tool_Replacement_Cost = 300, Is_Floating = 1, 
+Is_Featured = 1
+WHERE Tool_ID = 1;
+
+DELETE FROM Tool_Categories WHERE Tool_ID = 1;
+INSERT INTO Tool_Categories VALUES (1, 1), (1, 2), (1,3);
+
+DELETE FROM Tool_Types WHERE Tool_ID = 1;
+INSERT INTO Tool_Types VALUES (1, 2);
+
+-- Deleting Tool Information --
+DELETE FROM Tools WHERE Tool_ID = 1;
 
 -- Adding New Customers into the DB --
-INSERT INTO Accounts (
+-- INSERT INTO Tools (Customer_ID, First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, ) VALUES
 -- Get Customers based on names --
 
-
+-- Filters Query -- 
 -- Revenue/Expense Reports --
 -- Get data based on revenue earned from membership fees
 -- Get data based on revenue earned from late fees
@@ -51,7 +74,6 @@ INSERT INTO Accounts (
 -- Query for login (Update to get privilege level so auth can be done)
 -- Update transactions when a tool is checked out --
 
---Membership Levels Query --
-SELECT Membership_Levels.Membership_Title
-FROM Membership_Levels;
+-- Membership Levels Query --
+
 
