@@ -55,17 +55,13 @@ const Dashboard = ({ users, inventory }) => {
           <FontAwesomeIcon icon={faSquarePlus} size="xl" />
           Add Item
         </Link>
-        <Link className="topRowButton" href={"/admin/inventory/checkout"}>
-          <FontAwesomeIcon icon={faArrowRightToBracket} size="xl" />
-          Check Out
-        </Link>
-        <Link className="topRowButton" href={""}>
-          <FontAwesomeIcon
-            icon={faArrowRightToBracket}
-            rotation={180}
-            size="xl"
-          />
+        <Link className="topRowButton" href={"/admin/inventory/checkin"}>
+          <FontAwesomeIcon icon={faArrowRightToBracket} size="xl"/>
           Check In
+        </Link>
+        <Link className="topRowButton" href={"/admin/inventory/checkout"}>
+          <FontAwesomeIcon icon={faArrowRightToBracket} rotation={180} size="xl" />
+          Check Out
         </Link>
       </div>
 

@@ -2,7 +2,6 @@ import Link from "next/link";
 import Filters from "@/components/Filters/filters";
 import InventoryItems from "@/components/InventoryItems/InventoryItems";
 import db from "../config/db.mjs";
-import { useSearchParams } from "next/navigation";
 import ToolCard from "@/components/ToolCard/ToolCard";
 import { getSession } from "@/actions/actions";
 
@@ -39,9 +38,7 @@ export default async function Page({ searchParams }) {
     let categories = await db.selectFromDB("SELECT * FROM Categories");
     let brands = await db.selectFromDB("SELECT * FROM Brands");
     let types = await db.selectFromDB("SELECT * FROM Types");
-    let locations = await db.selectFromDB(
-        "SELECT * FROM SEAC_Tool_Shed.Tool_Locations"
-    );
+    let locations = await db.selectFromDB("SELECT * FROM SEAC_Tool_Shed.Tool_Locations");
 
     categories = JSON.parse(JSON.stringify(categories));
     brands = JSON.parse(JSON.stringify(brands));
@@ -62,8 +59,15 @@ export default async function Page({ searchParams }) {
     let useInven = true;
     let loc = String(searchParams.location).split(",");
     let searchBar = String(searchParams.search).trim().split(" ");
-    let sqlQuery =
-        "SELECT Tools.Tool_ID, Tools.Tool_Name, Tools.Is_Floating, Tools.Brand_Name, Tool_Locations.Location_Name, Tool_Statuses.Tool_Status_Details, GROUP_CONCAT(DISTINCT Categories.Category_Name SEPARATOR ', ') AS Categories, GROUP_CONCAT(DISTINCT Types.Type_Name SEPARATOR ', ') AS Types, Tools.Tool_Link FROM Tools INNER JOIN Tool_Locations ON Tools.Home_Location = Tool_Locations.Tool_Location INNER JOIN Tool_Statuses ON Tools.Tool_Status=Tool_Statuses.Tool_Status INNER JOIN Tool_Categories ON Tools.Tool_ID=Tool_Categories.Tool_ID INNER JOIN Categories ON Tool_Categories.Category_ID=Categories.Category_ID INNER JOIN Tool_Types ON Tools.Tool_ID=Tool_Types.Tool_ID INNER JOIN Types ON Tool_Types.Type_ID=Types.Type_ID";
+    let sqlQuery = `SELECT Tools.Tool_ID, Tools.Tool_Name, Tools.Is_Floating, Tools.Brand_Name, Tool_Locations.Location_Name, 
+                    Tool_Statuses.Tool_Status_Details, GROUP_CONCAT(DISTINCT Categories.Category_Name SEPARATOR ', ') 
+                    AS Categories, GROUP_CONCAT(DISTINCT Types.Type_Name SEPARATOR ', ') 
+                    AS Types, Tools.Tool_Link FROM Tools INNER JOIN Tool_Locations ON 
+                    Tools.Home_Location = Tool_Locations.Tool_Location INNER JOIN Tool_Statuses ON
+                    Tools.Tool_Status=Tool_Statuses.Tool_Status INNER JOIN Tool_Categories ON Tools.Tool_ID=Tool_Categories.Tool_ID 
+                    INNER JOIN Categories ON Tool_Categories.Category_ID=Categories.Category_ID INNER JOIN Tool_Types ON 
+                    Tools.Tool_ID=Tool_Types.Tool_ID INNER JOIN Types ON Tool_Types.Type_ID=Types.Type_ID`;
+
     let whereClause = " WHERE";
     if (
         searchBar.length > 0 &&
@@ -143,7 +147,7 @@ export default async function Page({ searchParams }) {
             <div className="inventory-page">
                 <div className="conditions-cont">
                     <div className="conditions">
-                        <h1>{urlSelectedCat} </h1>
+                        <h1> </h1>
                     </div>
                     <div className="sort">
                         <select id="filter-sort">
@@ -199,6 +203,9 @@ const statusCreator = (status) => {
     if (st.includes("available")) {
         wc += `'Available',`;
     }
+    if(st.includes("checked out")){
+        wc += `'Checked Out'`;
+    }
     if (wc[wc.length - 1] == ",") {
         wc = wc.slice(0, wc.length - 1);
     }
@@ -212,3 +219,6 @@ const statusCreator = (status) => {
 const addFloating = () => {
     return ` Tools.Is_Floating=1`;
 };
+
+
+

@@ -9,7 +9,7 @@ import {
   faClipboardList
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-const AdminSideBar = () => {
+const AdminSideBar = ({admin}) => {
   const ClickDropdown = ({ options, icon, optionText }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
@@ -53,23 +53,29 @@ const AdminSideBar = () => {
     { text: "Check In", href: "/admin/inventory/checkin" }
   ];
 
+  const volunteerInventoryOptions = [
+    { text: "Check Out", href: "/admin/inventory/checkout" },
+    { text: "Check In", href: "/admin/inventory/checkin" }
+  ]
+
   const reportOptions = [
     { text: "Loan Report", href: "/admin/reports/loans" },
     { text: "Revenue Report", href: "/admin/reports/revenue" },
     { text: "Checked Items Report", href: "/admin/reports/items" },
     { text: "Maintenance Report", href: "/admin/reports/maintenance" },
-    { text: "Membership Report", href: "/admin/reports/membership" }
+    { text: "Membership Report", href: "/admin/reports/membership" },
+    { text: "Custom Reports", href: "/admin/reports/custom" }
   ];
 
   return (
     <>
-      <h3>Administration</h3>
+      <h3 className="">Administration</h3>
       <div className="side-list">
-        <Link href={"/admin/dashboard"}>
+        <Link href={"/admin/dashboard"} className="side-list_content">
           <FontAwesomeIcon icon={faGaugeHigh} size="xl"/>
           Dashboard
         </Link>
-        <Link href={"/"}>
+        <Link href={"/"} className="side-list_content">
           <FontAwesomeIcon icon={faWindowRestore} size="xl"/>
           Public Site
         </Link>
@@ -78,16 +84,27 @@ const AdminSideBar = () => {
           icon={faUserGroup}
           optionText={"Customers"}
         />
+        {admin ? 
         <ClickDropdown
           options={inventoryOptions}
           icon={faListUl}
           optionText={"Inventory"}
-        />
+        /> : 
         <ClickDropdown
-          options={reportOptions}
-          icon={faClipboardList}
-          optionText={"Reports"}
+          options={volunteerInventoryOptions}
+          icon={faListUl}
+          optionText={"Inventory"}
         />
+        }
+        
+        { admin ? 
+          <ClickDropdown
+            options={reportOptions}
+            icon={faClipboardList}
+            optionText={"Reports"}
+          />  
+          : 
+        <></>}
       </div>
     </>
   );

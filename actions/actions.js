@@ -5,6 +5,7 @@ import { defaultSession, sessionOptions } from "@/app/lib";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { addSubscription, retrieveCustomer } from "./squareActions";
+import { updateUserProfileSchema } from "@/components/FormComponents/newUserSchema";
 
 const pool = mysql.createPool({
   host: process.env.DB_HOSTNAME,
@@ -119,3 +120,52 @@ export const updateMembership = async (planName, customerId) => {
     console.log("Membership added.")
     await db.end();
 };
+
+export const updateUserProfile = async  (accountID, formData) =>{
+  const primaryFirstName = formData.get("first-name")
+  const primaryLastName = formData.get("last-name")
+  const primaryEmail = formData.get("email")
+  const primaryPhone = formData.get("phone")
+  const organization = formData.get("organization")
+
+  const secFirstName = formData.get("secondary-first-name")
+  const secLastName = formData.get("secondary-last-name")
+  const secPhone = formData.get("secondary-phone")
+  const secEmail = formData.get("secondary-email")
+
+  const addressOne = formData.get("address_line1")
+  const addressTwo = formData.get("address_line2")
+  const city = formData.get("city")
+  const zip = formData.get("postal_code")
+  const state = formData.get("state")
+
+  let parse = {firstName: primaryFirstName, lastName: primaryLastName, email: primaryEmail,
+              phone: primaryPhone, addressFirst: addressOne, addressSecond: addressTwo,
+              city: city, state: state, zipCode: zip};
+  parse = updateUserProfileSchema.safeParse(parse);
+
+  const query = ` UPDATE Accounts SET First_Name = ?,Last_Name = ?,Organization_Name = ?,
+                Email = ?, Phone_Number = ?,Address_Line1 = ?,Address_Line2 = ?,City = ?, State = ?,
+                Postal_Code = ?, Secondary_First_Name = ?, Secondary_Last_Name = ?, Secondary_Email = ?,
+                Secondary_Phone_Number = ? WHERE Account_ID = ${accountID}`
+
+  console.log(query)
+if(!parse.error){
+  const data = [primaryFirstName, primaryLastName, organization,  primaryEmail, primaryPhone, addressOne, addressTwo,
+                city, state, zip, secFirstName, secLastName, secEmail, secPhone];
+  const db = await pool.getConnection();
+  try {
+      const rows = await db.execute(query, data);
+      console.log(rows)
+      console.log('Account updated successfully!');
+    } catch (error) {
+      console.error('Error inserting account:', error);
+    } finally {
+      db.release();
+    }
+}else{
+  console.log(parse.error)
+  return {error: "There was an errpr"}
+}
+
+}

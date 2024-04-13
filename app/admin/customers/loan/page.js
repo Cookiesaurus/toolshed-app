@@ -1,4 +1,4 @@
-import ViewUserLoan from "@/components/admin/ViewUserLoan";
+import ViewUserLoan from "@/components/admin/customers/ViewUserLoan";
 import db from "@/app/config/db.mjs";
 export default async function Page({ searchParams }) {
     const accountID = searchParams.account_id

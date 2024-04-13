@@ -1,4 +1,4 @@
-import CreateNewUser from "@/components/admin/CreateNewUser"
+import CreateNewUser from "@/components/admin/customers/CreateNewUser"
 import db from "@/app/config/db.mjs";
 import { getSession } from "@/actions/actions";
 export default async function Page() { 

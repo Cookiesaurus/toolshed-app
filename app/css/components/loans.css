@@ -1,0 +1,18 @@
+.reports-header {
+    display: flex;
+    flex-direction: column;
+}
+
+.download-buttons {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 10px;
+}
+
+.downloads {
+    margin-right: 10px;
+}
+
+.downloads:hover {
+    text-decoration: underline;
+}

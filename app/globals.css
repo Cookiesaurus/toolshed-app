@@ -17,6 +17,7 @@
 @import './css/components/Navbar.css';
 @import './css/components/slideshow.css';
 @import './css/components/UserProfile.css';
+@import './css/components/loans.css';
 
 *{
   padding: 0;
@@ -336,4 +337,13 @@ main {
 .error-button:hover{
     background-color: #FBC955;
     cursor: pointer;
+}
+
+.error{
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 27px;
+  letter-spacing: 0em;
+  text-align: left;
 }

@@ -59,12 +59,10 @@ const Navbar = ({session}) => {
           {session && session.isLoggedIn && (
             <div className="dropdown-content">
               <div className="account">
-                <p className="navbar-link">
-                  <Link href={"/account/profile"} className="navbar-link">
-                    {session && session.isLoggedIn
-                      ? session.user.First_Name + " " + session.user.Last_Name
-                      : "Profile Name "}
-                  </Link>
+                <p className="">
+                  {session && session.isLoggedIn
+                  ? session.user.First_Name + " " + session.user.Last_Name
+                  : "Profile Name "}
                 </p>
               </div>{" "}
               <Link href={"/account/profile"}>
@@ -91,8 +89,7 @@ const Navbar = ({session}) => {
                 />
                 <p>My transactions</p>
               </Link>
-              {(session && session.user.Privilege_Level == 4) ||
-              session.user.Privilege_Level == 5 ? (
+              {(session && session.user.Privilege_Level >= 2) ? (
                 <Link href={"/admin/dashboard"}>
                   <FontAwesomeIcon
                     icon={faGaugeHigh}

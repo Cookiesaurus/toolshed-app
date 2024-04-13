@@ -8,7 +8,7 @@ export async function middleware(request) {
   } 
 
   //user is trying to access admin pages but doesn't have manager or admin privileges
-  if(request.nextUrl.pathname.includes('admin') && user.user?.Privilege_Level < 4){
+  if(request.nextUrl.pathname.includes('admin') && user.user?.Privilege_Level < 2){
     return NextResponse.redirect(new URL('/', request.url))
   }
 

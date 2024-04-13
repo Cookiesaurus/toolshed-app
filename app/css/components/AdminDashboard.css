@@ -14,10 +14,22 @@
     font-family: 'Poppins';
     font-size: 20px;
     font-weight: bold;
+    white-space: nowrap;
     border: none;
     display: flex;
     align-items: center;
     justify-content: space-around;
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.topRowButton svg {
+  margin-right: 8px;
+}
+
+.topRowButton:hover {
+  text-decoration: underline;
 }
 
 .topRowStats {
@@ -35,12 +47,15 @@
   border-radius: 5px;
   justify-content: space-evenly;
   align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .statsTitle {
     margin: 10px;
     font-family: 'Poppins';
     font-size: 16px;
+    white-space: nowrap;
     background-color: white;
 }
 
@@ -51,6 +66,7 @@
     font-family: 'Poppins';
     font-size: 24px;
     font-weight: bold;
+    white-space: nowrap;
     background-color: white;
 }
 
@@ -126,9 +142,17 @@ a.loansButton {
 }
 
 a.checkoutButton {
+    margin-bottom: 5px;
     border-radius: 8px;
     background-color: #8B1AA7;
     color: white;
+}
+
+a.checkinButton {
+  margin-bottom: 5px;
+  border-radius: 8px;
+  background-color: #069612;
+  color: white;
 }
 
 label {
@@ -152,6 +176,66 @@ input {
     display: flex;
     flex-direction: column;
   }
+
+  .side-list_content {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .side-list_content svg {
+    margin-right: 8px;
+  }  
+
+  .side-list_content:hover {
+    text-decoration: underline;
+  }
+
+  .click-dropdown {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .click-dropdown svg {
+    margin-right: 8px;
+  }
+  
+  .click-dropdown .admin-sidebar-button {
+    border: none;
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .click-dropdown .admin-sidebar-button:hover {
+    text-decoration: underline;
+  }
+  
+  .click-dropdown .dropdown-menu {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+  }
+
+  .dropdown-menu {
+    margin-left: 10px;
+  }
+  
+  .click-dropdown .dropdown-menu a {
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .click-dropdown .dropdown-menu a:hover {
+    text-decoration: underline;
+  }
+  
   
   .admin-container{
     display: flex;
@@ -177,23 +261,60 @@ input {
   
   a.editButton {
     margin-bottom: 5px;
-    border-radius: 8px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 10px;
     background-color: #77B8E4;
     color: white;
   }
-  
+
+  a.editButton svg {
+    margin-right: 5px;
+  }
   
   a.loansButton {
     margin-bottom: 5px;
     border-radius: 8px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
     background-color: #0028B6;
     color: white;
   }
   
+  a.loansButton svg {
+    margin-right: 5px;
+  }
+
   a.checkoutButton {
     border-radius: 8px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
     background-color: #8B1AA7;
     color: white;
+  }
+
+  a.checkoutButton svg {
+    margin-right: 5px;
+  }
+
+  a.checkinButton {
+    border-radius: 8px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: #069612;
+    color: white;
+  }
+
+  a.checkinButton svg {
+    margin-right: 5px;
   }
   
   .checkout-container {
