@@ -120,10 +120,10 @@ const Profile = ({user}) =>{
              <div className='account-name white'>
                         <div className='account-info white'>
                         <div className="edit-container white">
-                                <p className='light-paragraph white p-click' onClick={handleOpenProfileModal}>Edit Personal Information</p>
-                                <button onClick={handleOpenProfileModal} className="white p-click"><FontAwesomeIcon icon={faPencil} style={{backgroundColor: 'white'}}/></button>
+                                <p className='light-paragraph white p-click' onClick={handleOpenProfileModal} aria-label="Edit Personal Information">Edit Personal Information</p>
+                                <button aria-label="Edit Personal Information" onClick={handleOpenProfileModal} className="white p-click"><FontAwesomeIcon icon={faPencil} style={{backgroundColor: 'white'}}/></button>
                             </div> 
-                            <p className="white">{user.user.First_Name} {user.user.Last_Name}</p>                       
+                            <p className="white" aria-labelledby="profile-heading">{user.user.First_Name} {user.user.Last_Name}</p>                       
                         </div>
                         <div className='account-email'>
                             <p className='light-paragraph'>Email</p>
@@ -134,8 +134,8 @@ const Profile = ({user}) =>{
                     <div className='account-info'>
                         <p className="white">Address</p>
                             <div className="edit-container white">
-                                <p className='light-paragraph white p-click' onClick={handleOpenProfileModal}>Edit Address</p>
-                                <button onClick={handleOpenProfileModal} className="white p-click"><FontAwesomeIcon icon={faPencil} style={{backgroundColor: 'white'}}/></button>
+                                <p className='light-paragraph white p-click' onClick={handleOpenProfileModal} aria-label="Edit Address">Edit Address</p>
+                                <button aria-label="Edit Address" onClick={handleOpenProfileModal} className="white p-click"><FontAwesomeIcon icon={faPencil} style={{backgroundColor: 'white'}}/></button>
                             </div>
                         </div>
                         <div className='address-info'>

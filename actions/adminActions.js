@@ -118,7 +118,7 @@ export const addNewUserFromAdmin = async (formData) =>{
     }
 }
 
-export const updateUserFromAdmin = async (formData) =>{
+export const updateUserFromAdmin = async (accountID, formData) =>{
     //primary info
     const date = new Date(formData.get("date-of-birth"))
     const first = formData.get("firstName");
@@ -199,16 +199,22 @@ export const updateUserFromAdmin = async (formData) =>{
                 secPhone, membershipCode, privilegeCode]
     console.log(data)
 
+    const query = ` UPDATE Accounts SET  First_Name = ?, Last_Name = ?, DOB = ?, Gender_Code = ?, 
+                    Organization_Name = ?, Email = ?, Password = ?, Phone_Number = ?, Address_Line1 = ?, 
+                    Address_Line2 = ?, City = ?, State = ?, Postal_Code = ?, Secondary_First_Name = ?, 
+                    Secondary_Last_Name = ?, Secondary_Email = ?, Secondary_Phone_Number = ?, Account_Notes = ?, 
+                    Membership_Level = ?, Membership_Status = ?, Membership_Auto_Renewal = ?, 
+                    Membership_Creation_Date = ?, Membership_Expiration_Date = ?, Privilege_Level = ?
+    WHERE Account_ID = ${accountID}
+  `;
+
     try {
         // Start a new transaction
         const connection = await pool.getConnection();
         await connection.beginTransaction();
     
-        // Prepare the update statement
-        const updateQuery = ``;
-    
         // Execute the prepared statement
-        await connection.query(updateQuery, data);
+        await connection.query(query, data);
     
         // Commit the transaction
         await connection.commit();
