@@ -32,7 +32,8 @@ body {
 }
 
 main {
-  flex-grow: 1; /* Allow main content to grow and fill remaining space */
+  flex-grow: 1;
+  margin-top: 100px;
 }
 
 footer {
