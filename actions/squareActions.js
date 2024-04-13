@@ -130,7 +130,7 @@ export const subscribe = async (sourceId, planName, addCardBool, custId) => {
 
     try {
         // Create a payment
-        console.log("Token from payment source : ", sourceId);
+        // console.log("Token from payment source : ", sourceId);
         const { result } = await paymentsApi.createPayment({
             idempotencyKey: v4(),
             sourceId,
@@ -312,7 +312,7 @@ export const addNewCard = async (sourceId) => {
             },
         });
         console.log("Card added");
-        console.log("Payment card : ", result.payment.cardDetails.card);
+        // console.log("Payment card : ", result.payment.cardDetails.card);
         return result;
     } catch (error) {
         console.log(error);
@@ -373,7 +373,7 @@ export const refundLinkedPayment = async (amt, paymentId, custId) => {
             customerId: custId,
             paymentId: paymentId,
         });
-        console.log("Refunded the customer ", custId, " Amount ", amt);
+        // console.log("Refunded the customer ", custId, " Amount ", amt);
     } catch (error) {
         console.log("Could not refund amount : ", error);
     }
@@ -390,4 +390,92 @@ export const getCards = async (custId) => {
     } catch (error) {
         console.log("Cannot get user cards : ", error);
     }
+};
+
+const getSubscription = async (custId) => {
+    const cus = custId;
+    try {
+        let subscription = await subscriptionsApi.searchSubscriptions({
+            query: {
+                filter: {
+                    customerIds: [cus],
+                },
+            },
+        });
+        subscription = subscription.result.subscriptions[0];
+        return JSON.stringify(subscription);
+    } catch (error) {
+        console.log("Error in getting subscription: ", error);
+        // return JSON.stringify({ error });
+    }
+};
+
+export const updateSubscription = async (custId, plan) => {
+    // console.log("Plan is : ", plan);
+    // console.log("Customer ID : ", custId);
+    if (!plan) return;
+    try {
+        // Get subscription ID
+        let sub = await getSubscription(custId);
+        sub = JSON.parse(sub);
+        console.log("420sa -> Subscription ID : ", sub.id);
+        const sub_id = sub.id;
+        // Get plan variation ID
+        let fullplan = await getItemVariation(plan);
+        const plan_id = fullplan.id;
+        let orderId = await createOrder(custId, plan_id);
+        // Create Order from plan ID and customer ID
+        // Swap plan
+
+        // Change subscription
+        // const result = await subscriptionsApi.updateSubscription(sub_id, {
+        //     newPlanVariationId: process.env.SUBSCRIPTION_PLAN_ID, // Put plan variation ID,
+        //     phases: [
+        //         {
+        //             ordinal: 0,
+        //             orderTemplateId: orderId, // Put Order Template ID
+        //         },
+        //     ],
+        // });
+        // update membership level in database
+        console.log("Updated membership: ", result);
+        return result;
+        // Change in database
+    } catch (error) {
+        console.log("Could not update membership : ", error);
+        return JSON.stringify({ error });
+    }
+};
+
+const changeDBMembership = async (custId, plan) => {
+    const db = await mysql.createConnection({
+        host: process.env.DB_HOSTNAME,
+        database: process.env.DB,
+        port: process.env.DB_PORT,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+    });
+    const level = getLevel(plan);
+    try {
+        const query =
+            "UPDATE Accounts SET Membership_Level=" +
+            level +
+            " WHERE Customer_ID='" +
+            custId +
+            "';";
+        const result = await db.execute(query);
+        console.log("Membership updated in DB", result);
+        db.commit();
+        db.end();
+        // return result[0].serverStatus == 2 ? userIdDb : -1;
+    } catch (error) {
+        console.log("Could not add user to databse : ", error);
+    }
+};
+
+const getLevel = (plan) => {
+    if (plan == "tinker") return 1;
+    if (plan == "macgyver") return 2;
+    if (plan == "builder") return 3;
+    if (plan == "contractor") return 4;
 };

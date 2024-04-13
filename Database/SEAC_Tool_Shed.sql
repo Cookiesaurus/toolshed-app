@@ -100,19 +100,19 @@ CREATE TABLE Accounts (
 
 -- Accounts Inserts --
 -- Manager Accounts -- 
-INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
-("Nick", "Wilbur", "2000-01-01", 1, "South East Area Coalition", "nick@SEACrochester.org", AES_Encrypt("password", ""), "5852718665", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 4); -- Nick Manager Account
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level, Customer_ID) VALUES
+("Nick", "Wilbur", "2000-01-01", 1, "South East Area Coalition", "nick@SEACrochester.org", AES_Encrypt("password", ""), "5852718665", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 4, "XB18BCSMW9P2BAE2RPGY6HTEPR"); -- Nick Manager Account
 
 -- Employee Accounts -- 
-INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
-("Kiki", "Smith", "2000-01-01", 2, "South East Area Coalition", "kirstyn@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3), -- Kiki Employee Account
-("Lori", "Wood", "2000-01-01", 2, "South East Area Coalition", "lori@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3), -- Lori Employee Account
-("Sara", "Glauser", "2000-01-01", 2, "South East Area Coalition", "sara@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3); -- Sara Employee Account
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level, Customer_ID) VALUES
+("Kiki", "Smith", "2000-01-01", 2, "South East Area Coalition", "kirstyn@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3, "6YQB5EXJDCS7C13Z51YGA8YHXR"), -- Kiki Employee Account
+("Lori", "Wood", "2000-01-01", 2, "South East Area Coalition", "lori@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3, "N3XWDD97DWW3R4VZQRKRQCKKH4"), -- Lori Employee Account
+("Sara", "Glauser", "2000-01-01", 2, "South East Area Coalition", "sara@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3, "5PC4ZWXC49KPBNSZ4SVZJQGY7G"); -- Sara Employee Account
 
 -- Customer Accounts -- 
-INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Secondary_First_Name, Secondary_Last_Name, Secondary_Email, Secondary_Phone_Number, Membership_Level, Privilege_Level) VALUES -- Normal Customer W/Secondary Account
-("The", "Handymen", "2023-07-16", "1", "thehandymen@rit.edu", AES_Encrypt("password", ""), "5852034445", "8439 Sharp Lane", "Apt. 4", "Chesterland", "Ohio", "44026", "Bryce", "Hofstrom", "bgh3077@g.rit.edu", "2164075162", 1, 1),
-("The", "HandymenAdmin", "2023-07-17", "1", "thehandymenadmin@rit.edu", AES_Encrypt("password", ""), "5852034446", "1111 Sharp Lane", "Apt. 7", "Chesterland", "Ohio", "44026", "Ian", "Dinga", "dinga@g.rit.edu", "1111111111", 4, 5);
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Secondary_First_Name, Secondary_Last_Name, Secondary_Email, Secondary_Phone_Number, Membership_Level, Privilege_Level, Customer_ID) VALUES -- Normal Customer W/Secondary Account
+("The", "Handymen", "2023-07-16", "1", "thehandymen@rit.edu", AES_Encrypt("password", ""), "5852034445", "8439 Sharp Lane", "Apt. 4", "Chesterland", "Ohio", "44026", "Bryce", "Hofstrom", "bgh3077@g.rit.edu", "2164075162", 1, 1, "X4EMHE468TT9WHMZAPRRBVXQPC"),
+("The", "HandymenAdmin", "2023-07-17", "1", "thehandymenadmin@rit.edu", AES_Encrypt("password", ""), "5852034446", "1111 Sharp Lane", "Apt. 7", "Chesterland", "Ohio", "44026", "Ian", "Dinga", "dinga@g.rit.edu", "1111111111", 4, 5, "EMKNY9JCDEV0T0DTNC4Y26CXFR");
 
 CREATE TABLE Gift_Cards (
     /* The Gift_Cards table will hold all gift cards following thier purchase */
