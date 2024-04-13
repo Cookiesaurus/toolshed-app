@@ -3,7 +3,7 @@
 import mysql from "mysql2/promise";
 import { v4 } from "uuid";
 import { client } from "@/components/Square/Client";
-import { updateMembership } from "./actions";
+import { getLateTools, updateMembership } from "./actions";
 
 // Different APIs for Square functions
 const {
@@ -478,4 +478,35 @@ const getLevel = (plan) => {
     if (plan == "macgyver") return 2;
     if (plan == "builder") return 3;
     if (plan == "contractor") return 4;
+};
+
+// Make a cron job that runs makeLateFeePayment(cust) for all customers
+export const cronJobLateFee = async () => {};
+
+// Function to charge user's card for the number of late days
+export const makeLateFeePayment = async (custId) => {
+    // Get a list of the tools checked out by customer
+    let lateTools = await getLateTools(custId);
+    lateTools = JSON.parse(lateTools);
+
+    let card = await getCards(custId);
+
+    lateTools.map((tool) => {
+        let toolid = tool.Tool_ID;
+        if (tool.status == "LATE") {
+            // Make payment
+        }
+    });
+    // getLateTools(); -> returns toolId, status
+    //      for each tool, if status is late
+    //          check if there is a late transaction for the user on that tool
+    //              If its there,
+    //                  Get transaction using custId, type, tool
+    //              If not there,
+    //                  Create transaction, with type late fee, inc. cust, tool, amount(from Tool)
+    //          Get first user card
+    //          make a late fee payment for that tool
+    //          NEED SQL QUERY
+    //          add payment amount in the transaction (UPDATE transaction)
+    //          add payment Id in the list of payment IDs for the transaction (UPDATE transaction_payments)
 };
