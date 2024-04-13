@@ -27,6 +27,7 @@
     white-space: nowrap;
     margin-bottom: 20px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .save-changes-button:hover {
@@ -305,4 +306,11 @@ button#cancel-changes {
     border-radius: 10px;
     height: 60px;
     width: 50%;
+}
+.edit-container {
+    display: flex;
+    justify-content: flex-start;
+}
+.p-click{
+    cursor: pointer;
 }

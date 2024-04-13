@@ -26,4 +26,16 @@ export const UserSchema = z
 export const giftCardEmails = z.object({
     toEmail : z.string().email().min(1),
     fromEmail : z.string().email().min(1)
-})
+});
+
+export const updateUserProfileSchema = z.object({
+    firstName: z.string().min(1),
+    lastName: z.string().min(1),
+    email: z.string().email().min(1),
+    phone: z.string().min(10, {message : 'Invalid phone number '}).max(10),
+    addressFirst: z.string({ required_error: " Address cannot be empty" }).min(1),
+    addressSecond: z.string(),
+    city: z.string({ required_error: " City cannot be empty" }).min(1),
+    state: z.string().min(1),
+    zipCode: z.string({ required_error: " Zip code cannot be empty" }).min(5)
+});
