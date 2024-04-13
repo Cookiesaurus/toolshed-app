@@ -194,30 +194,6 @@ INSERT INTO Transaction_Types (Transaction_Type, Transaction_Details) VALUES
 (11, "Tool Replacement Fee"), -- Tool Replacement Fee Type
 (12, "Cleaning Fee"); -- Tool Cleaning Fee
 
-CREATE TABLE Transactions (
-    /* The Transactions table holds all transactions related to each account */
-    Transaction_ID INT UNSIGNED AUTO_INCREMENT, -- Transaction_ID holds a unique integer value to describe each transaction
-    Account_ID INT UNSIGNED NOT NULL, -- Account_ID is a unique identifier for all Tool Shed users
-    Transaction_Date DATE NOT NULL, -- Transaction_Date holds the date value for the transaction
-    Transaction_Type TINYINT UNSIGNED NOT NULL, -- Transaction_Type holds the integer value describing each transaction
-    Start_Date DATE, -- Start_Date holds the start date value for a transaction
-    End_Date DATE, -- End_Date holds the end date value for a transaction. Tools must be returned by this date or result in a Rental Late Fee
-    Check_Out_Date DATE, -- Check_Out_Date holds the date value describing when tools are picked up by renter
-    Check_In_Date DATE, -- Check_Out_Date holds the date value describing when tools are returned up by renter
-    Payment_Amount FLOAT, -- Payment_Amount holds the float integer value describing any money amounts payed to the SEAC Tool Shed for a transaction
-    CONSTRAINT PK_Transactions PRIMARY KEY (Transaction_ID), -- Transaction_ID is the primary key for this table
-    CONSTRAINT FK_Transaction_Transaction_Types FOREIGN KEY (Transaction_Type) REFERENCES Transaction_Types (Transaction_Type), -- This statement creates a foreign key on Transaction_Type, which is used to connect the to the Transaction_Types table
-    CONSTRAINT FK_Transactions_Accounts FOREIGN KEY (Account_ID) REFERENCES Accounts (Account_ID) -- This statement creates a foreign key on Account_ID, which is used to connect the to the Accounts table
-);
-INSERT INTO Transactions(Account_ID, Transaction_Date, Transaction_Type, Payment_Amount) VALUES
-(5, "2024-03-09", 5, 0.00),
-(5, "2024-03-09", 6, 0.00),
-(5, "2024-03-12", 9, 3.00),
-(5, "2024-03-13", 1, 35.00),
-(5, "2024-03-13", 2, 25.00),
-(5, "2024-03-13", 1, 25.00);
-
-
 CREATE TABLE Tool_Statuses ( 
     /* Tool_Status table holds all tool status codes for tool availablity */
     Tool_Status TINYINT UNSIGNED, -- Tool_Status holds the number code which identifies that status of a tool i.e. Available -- 1, Checked Out -- 2, Maintenance -- 3, Disabled -- 4
@@ -477,14 +453,26 @@ CREATE TABLE Tools (
     CONSTRAINT FK_Tools_Brands FOREIGN KEY (Brand_Name) REFERENCES Brands (Brand_Name)
 );
 
-CREATE TABLE Tool_Transactions (
-    /* The Tool_Transactions tables is an associative table joining the Tools table to the Transactions table. This table will be populated upon Transaction creation */
-    Tool_ID INT UNSIGNED, -- Tool_ID holds an integer value for the tool involved in a transaction. Only applies to transactions related to tools
-    Transaction_ID INT UNSIGNED, -- Transaction_ID holds a unique integer value to describe each transaction
-    CONSTRAINT PK_Tool_Transaction PRIMARY KEY (Tool_ID, Transaction_ID), -- Tool_ID and Transaction_ID are the primary keys
-    CONSTRAINT FK_Tool_Transactions_Tools FOREIGN KEY (Tool_ID) REFERENCES Tools (Tool_ID), -- This statement creates a foreign key on Tool_ID, which is used to connect the to the Tools table
-    CONSTRAINT FK_Tool_Transactions_Transactions FOREIGN KEY (Transaction_ID) REFERENCES Transactions (Transaction_ID) -- This statement creates a foreign key on Transaction_ID, which is used to connect the to the Transactions table
+CREATE TABLE Transactions (
+    /* The Transactions table holds all transactions related to each account */
+    Transaction_ID INT UNSIGNED AUTO_INCREMENT, -- Transaction_ID holds a unique integer value to describe each transaction
+    Account_ID INT UNSIGNED NOT NULL, -- Account_ID is a unique identifier for all Tool Shed users
+    Tool_ID INT UNSIGNED,
+    Transaction_Status VARCHAR(255),
+    Transaction_Date DATE NOT NULL, -- Transaction_Date holds the date value for the transaction
+    Transaction_Type TINYINT UNSIGNED NOT NULL, -- Transaction_Type holds the integer value describing each transaction
+    Start_Date DATE, -- Start_Date holds the start date value for a transaction
+    End_Date DATE, -- End_Date holds the end date value for a transaction. Tools must be returned by this date or result in a Rental Late Fee
+    Check_Out_Date DATE, -- Check_Out_Date holds the date value describing when tools are picked up by renter
+    Check_In_Date DATE, -- Check_Out_Date holds the date value describing when tools are returned up by renter
+    Payment_Amount FLOAT, -- Payment_Amount holds the float integer value describing any money amounts payed to the SEAC Tool Shed for a transaction
+    CONSTRAINT PK_Transactions PRIMARY KEY (Transaction_ID), -- Transaction_ID is the primary key for this table
+    CONSTRAINT FK_Transaction_Transaction_Types FOREIGN KEY (Transaction_Type) REFERENCES Transaction_Types (Transaction_Type), -- This statement creates a foreign key on Transaction_Type, which is used to connect the to the Transaction_Types table
+    CONSTRAINT FK_Transactions_Accounts FOREIGN KEY (Account_ID) REFERENCES Accounts (Account_ID), -- This statement creates a foreign key on Account_ID, which is used to connect the to the Accounts table
+    CONSTRAINT FK_Transactions_Tools FOREIGN KEY (Tool_ID) REFERENCES Tools (Tool_ID) -- This statement creates a foreign key on Account_ID, which is used to connect the to the Accounts table
 );
+
+
 
 CREATE TABLE Categories (
     /* The Categories table contains all of the avaialble tool categories for the SEAC Tool Shed */
