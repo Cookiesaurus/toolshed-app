@@ -1,6 +1,6 @@
-const SelectStates = ({ selected, defaultState}) => {
+const SelectStates = ({ selected, defaultState, classNameOverride}) => {
     return (
-        <select name="state" className="input" id="address-state" required defaultValue={selected ? defaultState : "State" }>
+        <select name="state" className={classNameOverride ? "input white" : "input"} id="address-state" required defaultValue={selected ? defaultState : "State" }>
             <option value="State" hidden>{defaultState}</option> 
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
