@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 
 const Navbar = ({session}) => {
   const router = useRouter();
@@ -28,8 +28,21 @@ const Navbar = ({session}) => {
     [searchParams]
   );
 
+useEffect(()=>{
+  if(document){
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 0) {
+        navbar.classList.add('fixed');
+      } else {
+        navbar.classList.remove('fixed');
+      }
+    });
+  }
+})
+
   return (
-    <div className="navbar">
+    <div className="navbar" id="navbar">
       <a className="big-header" href="/">SEAC Tool Shed</a>
       <a className="small-header" href="/giftcard">Buy a Gift Card</a>
       <a className="small-header" href="https://seactoolshed.org/tool-donations/" target="_blank">Donate</a>

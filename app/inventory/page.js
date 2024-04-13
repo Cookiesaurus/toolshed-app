@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Filters from "@/components/Filters/filters";
+import Sort from "@/components/Filters/sort";
 import InventoryItems from "@/components/InventoryItems/InventoryItems";
 import db from "../config/db.mjs";
 import ToolCard from "@/components/ToolCard/ToolCard";
@@ -149,15 +150,7 @@ export default async function Page({ searchParams }) {
                     <div className="conditions">
                         <h1> </h1>
                     </div>
-                    <div className="sort">
-                        <select id="filter-sort">
-                            <option value="0">Sort By:</option>
-                            <option value="1">Featured</option>
-                            <option value="1">Popular</option>
-                            <option value="1">Price: Low to High</option>
-                            <option value="1">Price: High to Low</option>
-                        </select>
-                    </div>
+                    <Sort/>
                 </div>
                 <div className="inventory-cont">
                     <Filters
