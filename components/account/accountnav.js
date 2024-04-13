@@ -8,7 +8,7 @@ const Accountnav = () => {
   const tabTopText = ["Profile", "Security", "Membership"];
   const tabTopURL = ["profile", "security", "membership"];
 
-  const tabBottomText = ["Saved Cards", "Transaction Histroy", "Gift Cards"];
+  const tabBottomText = ["Saved Cards", "Transaction History", "Gift Cards"];
   const tabBotURL = ["saved-cards", "transaction-history", "giftcard"];
 
   const [selectedTab, setSelectedTab] = useState("");
