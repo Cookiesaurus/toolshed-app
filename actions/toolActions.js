@@ -265,9 +265,9 @@ export const updateItem = async (id, formData)=>{
     let useImage = false;
     let imageLink
     if(toolImage?.size > 0){
-    //     imageToS3Bucket(toolImage).then((response)=>{
-    //     console.log(response.status)
-    // })
+        imageToS3Bucket(toolImage).then((response)=>{
+        console.log(response.status)
+    })
         imageLink = `https://seachtoolshedimages.s3.us-east-2.amazonaws.com/` + toolImage?.name;
     }else{
         useImage = true
@@ -276,9 +276,9 @@ export const updateItem = async (id, formData)=>{
     let useManual = false;
     let manualLink = '';
     if(toolManual?.size > 0){
-        // fileToS3Bucket(toolManual).then((response)=>{
-        //     console.log(response.status)
-        // })
+        fileToS3Bucket(toolManual).then((response)=>{
+            console.log(response.status)
+        })
         manualLink = `https://seachtoolshedimages.s3.us-east-2.amazonaws.com/` + toolManual?.name;
     }else{
         useManual = true
