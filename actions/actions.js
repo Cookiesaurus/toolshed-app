@@ -197,6 +197,7 @@ export const updateUserProfile = async (accountID, formData) => {
 
 // Function to get tools for user
 export const getLateTools = async (userId) => {
+    console.log(userId);
     // NEED SQL QUERY
     // Select all transactions with type tool checkout and status OPEN
     const query =
