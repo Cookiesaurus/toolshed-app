@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 
 const ProductItem = ({ tool, session }) => {
-
   function RoundToTenth(decimal) {
     const roundedDecimal = parseFloat(decimal).toFixed(1);
     const roundedNumber = parseFloat(roundedDecimal);
@@ -47,6 +46,7 @@ const ProductItem = ({ tool, session }) => {
               </div>
               <div className="product-info">
                 <div className="info-left">
+                  <p className="product-info">Description: {tool.Tool_Description}</p>
                   <p className="product-info">Brand: {tool.Brand_Name}</p>
                   <p className="product-info">Weight: {RoundToTenth(tool.Tool_Weight)} lbs</p>
                   <p className="product-info">Location: {tool.Location_Name}</p>
