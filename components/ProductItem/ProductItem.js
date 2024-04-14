@@ -90,6 +90,9 @@ const ProductItem = ({ tool, session }) => {
               </div>
               <div className="product-description">
                 <p>Item Types: {tool.Types}</p>
+                {tool?.Tool_Description && (
+                  <p>Description: {tool.Tool_Description}</p>
+                )}
               </div>
               {tool?.Tool_Manual && (
                 <div className="produc-manual">
@@ -98,6 +101,7 @@ const ProductItem = ({ tool, session }) => {
                   </a>
                 </div>
               )}
+
             </React.Fragment>
           )}
         </div>
