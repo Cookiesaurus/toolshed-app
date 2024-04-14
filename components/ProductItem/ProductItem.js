@@ -7,10 +7,37 @@ const ProductItem = ({ tool, session }) => {
     const roundedNumber = parseFloat(roundedDecimal);
     return roundedNumber;
   }
-  function RoundToHun(decimal){
+  function RoundToHun(decimal) {
     const roundedDecimal = parseFloat(decimal).toFixed(2);
     const roundedNum = parseFloat(roundedDecimal);
     return roundedNum;
+  }
+  let toolStatus = session?.isLoggedIn
+    ? "item-avaliability"
+    : "item-avaliability-notLoggedIn";
+  let displayText;
+  let divClass;
+  let pickupText;
+  if (tool.Tool_Status_Details === "Available") {
+    toolStatus = toolStatus;
+    displayText = "Pick up Today";
+    divClass = "availability-green";
+    pickupText = "Pick Up";
+  } else if (tool.Tool_Status_Details === "Maintenance") {
+    toolStatus = toolStatus + " maintenance";
+    displayText = "In Maintenance";
+    divClass = "availability-orange";
+    pickupText = "";
+  } else if (tool.Tool_Status_Details === "Disabled") {
+    toolStatus = toolStatus + " disabled";
+    displayText = "Currently Disabled";
+    divClass = "availability-grey";
+    pickupText = "";
+  } else if (tool.Tool_Status_Details === "Checked Out") {
+    toolStatus = toolStatus + " checked-out";
+    displayText = "Checked Out";
+    divClass = "availability-red";
+    pickupText = "";
   }
   return (
     <>
@@ -33,22 +60,28 @@ const ProductItem = ({ tool, session }) => {
           {tool && (
             <React.Fragment>
               <h2 className="product-title">{tool.Tool_Name}</h2>
-              <div className={session?.isLoggedIn ? "item-avaliability" : "item-avaliability-notLoggedIn"}>
-                <p className="pickup">Pickup</p>
+              <div className={toolStatus}>
+                <p className="pickup">{pickupText}</p>
                 <div className="availability">
                   <p>{tool.Tool_Status_Details}</p>
-                  <p className="stock-green">Today</p>
+                  <p className={divClass}>{displayText}</p>
                 </div>
               </div>
               <div className="replace-cont">
                 <p className="replacement">Replacement Cost:</p>
-                <p className="cost">${RoundToHun(tool.Tool_Replacement_Cost)}</p>
+                <p className="cost">
+                  ${RoundToHun(tool.Tool_Replacement_Cost)}
+                </p>
               </div>
               <div className="product-info">
                 <div className="info-left">
-                  <p className="product-info">Description: {tool.Tool_Description}</p>
+                  <p className="product-info">
+                    Description: {tool.Tool_Description}
+                  </p>
                   <p className="product-info">Brand: {tool.Brand_Name}</p>
-                  <p className="product-info">Weight: {RoundToTenth(tool.Tool_Weight)} lbs</p>
+                  <p className="product-info">
+                    Weight: {RoundToTenth(tool.Tool_Weight)} lbs
+                  </p>
                   <p className="product-info">Location: {tool.Location_Name}</p>
                 </div>
               </div>
@@ -60,7 +93,9 @@ const ProductItem = ({ tool, session }) => {
               </div>
               {tool?.Tool_Manual && (
                 <div className="produc-manual">
-                  <a href={tool.Tool_Manual} target="_blank">Tool Manual</a>
+                  <a href={tool.Tool_Manual} target="_blank">
+                    Tool Manual
+                  </a>
                 </div>
               )}
             </React.Fragment>
