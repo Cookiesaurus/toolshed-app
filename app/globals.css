@@ -338,3 +338,21 @@ main {
     background-color: #FBC955;
     cursor: pointer;
 }
+
+.toast {
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.toast-content {
+  font-size: 16px;
+  background-color: black;
+  color: #84ed84;
+}
