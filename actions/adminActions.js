@@ -16,7 +16,7 @@ export const addNewUserFromAdmin = async (formData) =>{
     const first = formData.get("firstName");
     const last = formData.get("lastName");
     const email = formData.get("email");
-    const number = formData.get("phoneNumber");
+    const number = formData.get("phone-number");
     const pass = formData.get("password");
     const confrimPass = formData.get("re-enter-password");
     const addressOne = formData.get("street-address");
@@ -25,9 +25,10 @@ export const addNewUserFromAdmin = async (formData) =>{
     const state = formData.get("state");
     const zip = formData.get("zipCode");
     const gender = formData.get("gender");
-    const membership = formData.get("membership");
+    const membership = formData.get("membership-level");
     const organization = formData.get("organization");
     const privilege = formData.get("privilege");
+    const accountNotes = formData.get('account-notes')
 
     //secondary user
     const secFirst = formData.get("secondary-first-name");
@@ -86,32 +87,42 @@ export const addNewUserFromAdmin = async (formData) =>{
             break;
     }
 
+    const membershipStatus = '1'
+    const data = [first, last, date, genderCode, organization, email, pass, number, 
+        addressOne, addressTwo, city, state, zip, secFirst, secLast, secEmail, 
+        secPhone, accountNotes, membershipCode, membershipStatus, privilegeCode]
+    console.log(data)
     let parse = {firstName: first, lastName: last, email: email, phone: number,password: pass, confirmPassword: confrimPass,  
         addressFirst: addressOne, addressSecond: addressTwo,  city: city, 
         state: state, zipCode: zip, membership: membership, 
         gender: gender, DOB: date};
     parse = UserSchema.safeParse(parse);
-
+ 
     //need a query that also includes inserting secondary info and privilege levels
-    const query = ``;
+    const query = `INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, 
+        Email, Password, Phone_Number, Address_Line1,
+        Address_Line2, City, State, Postal_Code, Secondary_First_Name, Secondary_Last_Name,
+        Secondary_Email, Secondary_Phone_Number, Account_Notes, Membership_Level, Membership_Status,
+        Privilege_Level) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? ,? ,? ,? ,?, ? );`;
 
     if(!parse.error){
         const data = [first, last, date, genderCode, organization, email, pass, number, 
             addressOne, addressTwo, city, state, zip, secFirst, secLast, secEmail, 
-            secPhone, membershipCode, privilegeCode]
+            secPhone, accountNotes, membershipCode, membershipStatus, privilegeCode]
         try {
             const db = await pool.getConnection()
             const rows = await db.execute(query, data);
             console.log(rows)
             console.log('Account inserted successfully!');
+            return {status: 'success'}
           } catch (error) {
             console.error('Error inserting account:', error);
-          } finally {
-            db.release();
+            return {status: 'success'}
           }
     }else{
         console.log(parse.error)
-        return {error: "There was an errpr"}
+        return {status: "error"}
     }
 }
 
