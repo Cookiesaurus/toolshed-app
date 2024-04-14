@@ -182,12 +182,15 @@ export const deleteItem = async (id) =>{
 } 
 
 
-export const updateItem = async (formData)=>{
+export const updateItem = async (id, formData)=>{
     //these are array values : use toString() method to convert to strings if needed 
-    const status = formData.getAll("status")
+    const status = formData.get("status")
     const categories = formData.getAll("category")
     const brand = formData.getAll("brand-name")
-    const type = formData.getAll("type")
+    const types = formData.getAll("type")
+
+    let selectedCat = categories;
+    let selectedType = types
 
     //these are File objects
     const toolImage = formData.get("image")
@@ -204,35 +207,178 @@ export const updateItem = async (formData)=>{
     const homeLocation = formData.get("homeLoc")
     const weight = formData.get("weight")
     const size = formData.get("size")
+    const locationCode = formData.get("locDesc")
+    const itemDesc = formData.get("itemDesc")
+    const currentLocation = formData.get("curLoc")
 
-    const data = [itemName, status, categories, brand, type, toolImage, toolManual, loanFee, lateFee, loanLength, renewal, replacementCost,
-        dropOffLocation, featured, homeLocation, weight, size
-    ]
+    let homeLocationCode;
+    switch(homeLocation){
+        case "Main Location":
+            homeLocationCode = 1
+            break;
+        case "Mobile Unit - Thomas P. Ryan Center (Monday)":
+            homeLocationCode = 2
+            break;
+        case "Mobile Unit - Edgerton Recreation Center (Tuesday)":
+            homeLocationCode = 3
+            break;
+        case "Mobile Unit - Willie Walker Lightfoot Recreation Center (Wednesday)":
+            homeLocationCode = 4
+            break;
+        case "Mobile Unit - David F. Gantt Reacreation Center (Thursday)":
+            homeLocationCode = 5
+            break;
+    }
 
-    console.log(data)
+    let curLocationCode;
+    switch(currentLocation){
+        case "Main Location":
+            curLocationCode = 1
+            break;
+        case "Mobile Unit - Thomas P. Ryan Center (Monday)":
+            curLocationCode = 2
+            break;
+        case "Mobile Unit - Edgerton Recreation Center (Tuesday)":
+            curLocationCode = 3
+            break;
+        case "Mobile Unit - Willie Walker Lightfoot Recreation Center (Wednesday)":
+            curLocationCode = 4
+            break;
+        case "Mobile Unit - David F. Gantt Reacreation Center (Thursday)":
+            curLocationCode = 5
+            break;
+    }
 
+    let statusCode;
+    switch(status){
+        case "Available":
+            statusCode = 1
+            break;
+        case "Maintenance":
+            statusCode = 3
+            break;
+        case "Disabled":
+            statusCode = 4
+            break;
+    }
 
+    let useImage = false;
+    let imageLink
+    if(toolImage?.size > 0){
+    //     imageToS3Bucket(toolImage).then((response)=>{
+    //     console.log(response.status)
+    // })
+        imageLink = `https://seachtoolshedimages.s3.us-east-2.amazonaws.com/` + toolImage?.name;
+    }else{
+        useImage = true
+    }
+
+    let useManual = false;
+    let manualLink = '';
+    if(toolManual?.size > 0){
+        // fileToS3Bucket(toolManual).then((response)=>{
+        //     console.log(response.status)
+        // })
+        manualLink = `https://seachtoolshedimages.s3.us-east-2.amazonaws.com/` + toolManual?.name;
+    }else{
+        useManual = true
+    }
+
+    console.log('button')
+    let toolData = []
+    let updateQuery = ``;
+    if(!useImage && !useManual){
+        toolData = [itemName, brand.toString(), weight, size, homeLocationCode, curLocationCode, 
+            locationCode, itemDesc, statusCode, imageLink, manualLink, loanFee,
+            lateFee, loanLength, renewal, replacementCost, dropOffLocation, 
+            featured ];
+            updateQuery = `UPDATE Tools SET Tool_Name = ? , Brand_Name = ?, Tool_Weight = ?, Tool_Size = ?,
+            Home_Location = ?, Current_Location = ?, Location_Code = ?, 
+            Tool_Description = ?, Tool_Status = ?, Tool_Link = ?, Tool_Manual = ?, 
+            Tool_Loan_Fee = ?, Default_Late_Fee = ?, Default_Loan_Length = ?, 
+            Renewal_Amount = ?, Tool_Replacement_Cost = ?, Is_Floating =?, 
+            Is_Featured = ? WHERE Tool_ID = ${id};`;
+    }else if(!useImage && useManual){
+        toolData = [itemName, brand.toString(), weight, size, homeLocationCode, curLocationCode, 
+            locationCode, itemDesc, statusCode, imageLink, loanFee,
+            lateFee, loanLength, renewal, replacementCost, dropOffLocation, 
+            featured ];
+            updateQuery = `UPDATE Tools SET Tool_Name = ?, Brand_Name = ?, Tool_Weight = ?, Tool_Size =?,
+            Home_Location = ?, Current_Location = ?, Location_Code = ?, 
+            Tool_Description = ?, Tool_Status = ?, Tool_Link = ?, 
+            Tool_Loan_Fee = ?, Default_Late_Fee = ?, Default_Loan_Length = ?, 
+            Renewal_Amount = ?, Tool_Replacement_Cost = ? , Is_Floating = ?, 
+            Is_Featured = ? WHERE Tool_ID = ${id};`;
+    }else if(!useManual && useImage){
+        toolData = [itemName, brand.toString(), weight, size, homeLocationCode, curLocationCode, 
+            locationCode, itemDesc, statusCode, manualLink, loanFee,
+            lateFee, loanLength, renewal, replacementCost, dropOffLocation, 
+            featured ];
+            updateQuery = `UPDATE Tools SET Tool_Name = ?, Brand_Name = ?, Tool_Weight = ?, Tool_Size = ?,
+            Home_Location = ?, Current_Location = ?, Location_Code = ?, 
+            Tool_Description = ?, Tool_Status = ?, Tool_Manual = ?, 
+            Tool_Loan_Fee = ?, Default_Late_Fee = ?, Default_Loan_Length = ?, 
+            Renewal_Amount = ?, Tool_Replacement_Cost = ?, Is_Floating = ?, 
+            Is_Featured = ? WHERE Tool_ID = ${id};`;
+    }else{
+        toolData = [itemName, brand.toString(), weight, size, homeLocationCode, curLocationCode, 
+            locationCode, itemDesc, statusCode, loanFee,
+            lateFee, loanLength, renewal, replacementCost, dropOffLocation, 
+            featured ];
+        
+            updateQuery = `UPDATE Tools SET Tool_Name=?, Brand_Name=?, Tool_Weight=?, Tool_Size=?,
+            Home_Location = ?, Current_Location = ?, Location_Code = ?, 
+            Tool_Description = ?, Tool_Status = ?, Tool_Loan_Fee = ?, Default_Late_Fee = ?, Default_Loan_Length = ?, 
+            Renewal_Amount = ?, Tool_Replacement_Cost = ?, Is_Floating = ?, 
+            Is_Featured = ? WHERE Tool_ID = ${id};`;
+    }
+    
     try {
         // Start a new transaction
         const connection = await pool.getConnection();
         await connection.beginTransaction();
     
-        // Prepare the update statement
-        const updateQuery = ``;
-    
-        // Execute the prepared statement
-        await connection.query(updateQuery, data);
-    
+        //Execute the prepared statement
+        await connection.query(updateQuery, toolData);
+
+        const deleteCategory = `DELETE FROM Tool_Categories WHERE Tool_ID = ${id};`
+        console.log(deleteCategory)
+        const catRows = await connection.query(deleteCategory)
+        console.log(catRows)
+        console.log(categories)
+
+        const deleteType = `DELETE FROM Tool_Types WHERE Tool_ID = ${id};`
+        console.log(deleteType)
+        const typeRows = await connection.query(deleteType)
+        console.log(typeRows)
+        console.log(types)
+
+        console.log(selectedCat.toString())
+        console.log(selectedType.toString())
+
+        selectedCat?.forEach( async (cat) =>{
+            console.log(cat)
+            const catQuery = `INSERT INTO Tool_Categories (Tool_ID, Category_ID) 
+                VALUES (${id}, ${cat});`;
+            await connection.execute(catQuery)
+        });
+
+        selectedType?.forEach(async (tp)=>{
+            console.log(tp)
+            const typeQuery = `INSERT INTO Tool_Types (Tool_ID, Type_ID) VALUES (${id}, ${tp});`
+            await connection.execute(typeQuery)
+        });
+
         // Commit the transaction
         await connection.commit();
         connection.release();
     
-        console.log('Account updated successfully');
+        console.log('Tool updated successfully');
+        return {status: 'success'}
       } catch (error) {
         // Rollback the transaction in case of an error
-        await connection.rollback();
-        connection.release();
         console.error('Error updating account:', error);
+        return {status: 'error', message: error}
       }
 }
 
