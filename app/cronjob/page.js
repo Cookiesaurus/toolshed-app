@@ -1,5 +1,5 @@
 "use client";
-import { getLateTools, getSession } from "@/actions/actions";
+import { lateToolPayment, getSession } from "@/actions/actions";
 import { useEffect, useState } from "react";
 
 export default function Page() {
@@ -18,7 +18,7 @@ export default function Page() {
     useEffect(() => {
         const fn = async () => {
             if (user && pay) {
-                const res = await getLateTools(user.Customer_ID);
+                const res = await lateToolPayment(user.Customer_ID);
                 setPay(false);
             }
         };

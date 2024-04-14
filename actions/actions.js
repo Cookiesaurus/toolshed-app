@@ -4,7 +4,13 @@ import { getIronSession } from "iron-session";
 import { defaultSession, sessionOptions } from "@/app/lib";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { addSubscription, retrieveCustomer } from "./squareActions";
+import {
+    addSubscription,
+    retrieveCustomer,
+    getCards,
+    createTransOrder,
+    makeLateFeePayment,
+} from "./squareActions";
 import { updateUserProfileSchema } from "@/components/FormComponents/newUserSchema";
 
 const pool = mysql.createPool({
@@ -196,25 +202,52 @@ export const updateUserProfile = async (accountID, formData) => {
 };
 
 // Function to get tools for user
-export const getLateTools = async (userId) => {
-    console.log(userId);
+export const lateToolPayment = async (custId) => {
     // NEED SQL QUERY
     // Select all transactions with type tool checkout and status OPEN
-    const query =
-        `SELECT Transactions.Transaction_ID, Accounts.Account_ID, CONCAT(Accounts.First_Name, " " ,Accounts.Last_Name) AS Name, Tools.Tool_ID, Tools.Tool_Name, Transactions.Transaction_Status, Transactions.Transaction_Date,
+    //     const query =
+    //         `SELECT Transactions.Transaction_ID, Accounts.Account_ID, CONCAT(Accounts.First_Name, " " ,Accounts.Last_Name) AS Name, Tools.Tool_ID, Tools.Tool_Name, Transactions.Transaction_Status, Transactions.Transaction_Date,
+    // Transaction_Types.Transaction_Details, Transactions.End_Date, Transactions.Check_In_Date, Transactions.Payment_Amount FROM Transactions
+    // INNER JOIN Accounts ON Transactions.Account_ID = Accounts.Account_ID
+    // INNER JOIN Tools ON Transactions.Tool_ID = Tools.Tool_ID
+    // INNER JOIN Transaction_Types ON Transactions.Transaction_Type = Transaction_Types.Transaction_Type
+    // WHERE Transaction_Types.Transaction_Details = "Tool Check Out" AND Transactions.Transaction_Status = "Open" AND Accounts.Customer_ID = "` +
+    //         userId +
+    //         `"`;
+    const query2 =
+        `SELECT Transactions.Transaction_ID, Accounts.Account_ID, CONCAT(Accounts.First_Name, " " ,Accounts.Last_Name) AS Name, Tools.Tool_ID, Tools.Tool_Name, Tools.Default_Late_Fee, Tools.Tool_Loan_Fee, Tools.Tool_Replacement_Cost, Transactions.Transaction_Status, Transactions.Transaction_Date,
 Transaction_Types.Transaction_Details, Transactions.End_Date, Transactions.Check_In_Date, Transactions.Payment_Amount FROM Transactions
 INNER JOIN Accounts ON Transactions.Account_ID = Accounts.Account_ID
 INNER JOIN Tools ON Transactions.Tool_ID = Tools.Tool_ID
 INNER JOIN Transaction_Types ON Transactions.Transaction_Type = Transaction_Types.Transaction_Type
 WHERE Transaction_Types.Transaction_Details = "Tool Check Out" AND Transactions.Transaction_Status = "Open" AND Accounts.Customer_ID = "` +
-        userId +
+        custId +
         `"`;
     const db = await pool.getConnection();
     try {
-        const rows = await db.execute(query);
-        console.log(rows);
+        const result = await db.execute(query2);
+        const transactions = result[0]; // All the transactions - this should be a list of transactions
+        // console.log(transactions);
+        // let card = await getCards(custId);
+        // card = JSON.parse(card).cards[0];
+        transactions.map((transaction) => {
+            let endDate = transaction.End_Date;
+            let date = new Date();
+            let late = endDate - date < 0;
+            let lateFee = transaction.Default_Late_Fee;
+            // Calculate date, and if it is overdue, take payment
+            if (late) {
+                // Make late fee payment for customer
+                makeLateFeePayment(custId, lateFee, transaction.Transaction_ID);
+            }
+            // makeLateFeePayment(custId, lateFee);
+            // Create an invoice
+            // Publish invoice (charge customer)
+            // Send customer email that the card got charged
+            // console.log("Late fee : ", transaction.Default_Late_Fee);
+        });
     } catch (error) {
-        console.error("Error getting late tools.");
+        console.error("Error getting late tools.", error);
     } finally {
         db.release();
     }

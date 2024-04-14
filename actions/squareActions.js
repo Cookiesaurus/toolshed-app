@@ -3,7 +3,7 @@
 import mysql from "mysql2/promise";
 import { v4 } from "uuid";
 import { client } from "@/components/Square/Client";
-import { getLateTools, updateMembership } from "./actions";
+import { lateToolPayment, updateMembership } from "./actions";
 
 // Different APIs for Square functions
 const {
@@ -18,6 +18,14 @@ const {
 BigInt.prototype.toJSON = function () {
     return this.toString();
 };
+
+const pool = mysql.createPool({
+    host: process.env.DB_HOSTNAME,
+    database: process.env.DB,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+});
 
 export const addCardToFile = async (sourceId, custId) => {
     try {
@@ -483,30 +491,125 @@ const getLevel = (plan) => {
 // Make a cron job that runs makeLateFeePayment(cust) for all customers
 export const cronJobLateFee = async () => {};
 
-// Function to charge user's card for the number of late days
-export const makeLateFeePayment = async (custId) => {
-    // Get a list of the tools checked out by customer
-    let lateTools = await getLateTools(custId);
-    lateTools = JSON.parse(lateTools);
-
-    let card = await getCards(custId);
-
-    lateTools.map((tool) => {
-        let toolid = tool.Tool_ID;
-        if (tool.status == "LATE") {
-            // Make payment
-        }
-    });
-    // getLateTools(); -> returns toolId, status
-    //      for each tool, if status is late
-    //          check if there is a late transaction for the user on that tool
-    //              If its there,
-    //                  Get transaction using custId, type, tool
-    //              If not there,
-    //                  Create transaction, with type late fee, inc. cust, tool, amount(from Tool)
+// Function to charge user's card for the an amount
+export const makeLateFeePayment = async (custId, amt, transId) => {
     //          Get first user card
-    //          make a late fee payment for that tool
-    //          NEED SQL QUERY
-    //          add payment amount in the transaction (UPDATE transaction)
-    //          add payment Id in the list of payment IDs for the transaction (UPDATE transaction_payments)
+    let card = await getCards(custId);
+    let cardId = JSON.parse(card).cards[0].id;
+    let date = new Date();
+    const order = await createTransOrder(custId, amt);
+    let invoice = await createInvoice(order.id, custId, cardId, new Date());
+    // make a late fee payment for that tool
+    invoice = await publishInvoice(invoice.id, invoice.version);
+    let invoiceNumber = invoice.invoiceNumber;
+    // return invoice;
+    // NEED SQL QUERY
+    let query =
+        `UPDATE Transactions INNER JOIN Accounts ON Transactions.Account_ID = Accounts.Account_ID INNER JOIN Tools ON Transactions.Tool_ID = Tools.Tool_ID INNER JOIN Transaction_Types ON Transactions.Transaction_Type = Transaction_Types.Transaction_Type SET Payment_Amount = Payment_Amount + ` +
+        amt +
+        ` WHERE Transactions.Transaction_ID = ` +
+        transId;
+    let query2 =
+        `INSERT INTO Transaction_Payments VALUES (` +
+        transId +
+        `, ` +
+        invoiceNumber +
+        ` "` +
+        invoice.publicUrl +
+        `");`;
+
+    const db = await pool.getConnection();
+    try {
+        // add payment amount in the transaction (UPDATE transaction)
+        const rows = await db.execute(query);
+        // add payment Id in the list of payment IDs for the transaction (UPDATE transaction_payments)
+        const rows1 = await db.execute(query2);
+        console.log("Successful");
+    } catch (error) {
+        // console.error("Error making late fee payment db changes: ", error);
+        console.error(error);
+    } finally {
+        db.release();
+    }
+};
+
+export const createTransOrder = async (custId, amt) => {
+    try {
+        const { result } = await client.ordersApi.createOrder({
+            order: {
+                locationId: process.env.LOCATION_ID,
+                customerId: custId,
+                lineItems: [
+                    {
+                        quantity: "1",
+                        itemType: "CUSTOM_AMOUNT",
+                        basePriceMoney: {
+                            amount: amt * 100,
+                            currency: "USD",
+                        },
+                    },
+                ],
+                state: "OPEN",
+            },
+            idempotencyKey: v4(),
+        });
+        return result.order;
+    } catch (error) {
+        console.log("Could not create order : ", error);
+    }
+};
+
+export const createInvoice = async (orderId, custId, cardId, date) => {
+    let varnow = date;
+
+    let month = varnow.getMonth() + 1;
+    let day = varnow.getDate();
+    if (month < 10) {
+        month = "0" + String(month);
+    }
+    var date = varnow.getFullYear() + "-" + month + "-" + day;
+    try {
+        const response = await client.invoicesApi.createInvoice({
+            invoice: {
+                locationId: process.env.LOCATION_ID,
+                orderId: orderId,
+                primaryRecipient: {
+                    customerId: custId,
+                },
+                paymentRequests: [
+                    {
+                        requestType: "BALANCE",
+                        dueDate: date,
+                        automaticPaymentSource: "CARD_ON_FILE",
+                        cardId: cardId,
+                    },
+                ],
+                deliveryMethod: "EMAIL",
+                acceptedPaymentMethods: {
+                    card: true,
+                },
+            },
+            idempotencyKey: v4(),
+        });
+
+        // console.log(response.result);
+        return response.result.invoice;
+    } catch (error) {
+        console.log(error);
+    }
+};
+export const publishInvoice = async (invoiceId, version) => {
+    try {
+        const response = await client.invoicesApi.publishInvoice(invoiceId, {
+            version: version,
+            idempotencyKey: v4(),
+        });
+        const invoice = response.result.invoice;
+        if (invoice.status == "PAID") {
+            console.log("Amount has been paid ");
+        }
+        return invoice;
+    } catch (error) {
+        console.log(error);
+    }
 };
