@@ -3,15 +3,15 @@ import { deleteItem, updateItem } from "@/actions/toolActions";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 const EditItem = ({ categories, brands, types, locations, toolID, tool }) => {
-  console.log(tool?.Category_Name)
-  console.log(categories)
   const [formError, setFormError] = useState(false);
   function handleFormSubmit(formData) {
     updateItem(toolID, formData)
       .then((response) => {
-        if (response.status == 'error') {
+        if (response.status === 'error') {
+          console.log(response)
           setFormError(true)
         } else {
+          console.log(response)
           console.log("success");
           // alert(response);
         }
@@ -21,16 +21,6 @@ const EditItem = ({ categories, brands, types, locations, toolID, tool }) => {
       });
   }
 
-  // Define state for selected categories
-  const [catChecked, setCatChecked] = useState(false)
-
-  useEffect(()=>{
-    categories.map((cat)=>{
-      if(cat.Category_Name === tool?.Category_Name){
-        console.log(tool?.Category_Name)
-      }
-    })
-  })
 
   return (
     <>
@@ -38,14 +28,8 @@ const EditItem = ({ categories, brands, types, locations, toolID, tool }) => {
       <span style={{ color: "red" }} role="alert">
             {formError ? (
               <>
-                First name, last name, and email cannot be empty.
+                Categories and types cannot be empty, they must be reselected upon updating an item.
                 <br />
-                Password must be 8 or more characters.
-                <br />
-                Date of birth cannot be empty.
-                <br />
-                Address information cannot be empty and zip code cannot be more
-                than 5 digits long.
               </>
             ) : (
               <></>
