@@ -166,10 +166,10 @@ export const deleteItem = async (id) =>{
         await connection.beginTransaction();
     
         // Prepare the delete statement
-        const deleteQuery = ``;
+        const deleteQuery = `DELETE FROM Tools WHERE Tool_ID = ${id};`;
     
         // Execute the prepared statement
-        await connection.query(deleteQuery, [accountId]);
+        await connection.query(deleteQuery);
     
         // Commit the transaction
         await connection.commit();
@@ -177,9 +177,6 @@ export const deleteItem = async (id) =>{
     
         console.log('Item deleted successfully');
       } catch (error) {
-        // Rollback the transaction in case of an error
-        await connection.rollback();
-        connection.release();
         console.error('Error deleting item:', error);
       }
 } 
