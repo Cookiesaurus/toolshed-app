@@ -2,16 +2,18 @@
 import { deleteItem, updateItem } from "@/actions/toolActions";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Toast from "@/components/Toast";
 const EditItem = ({ categories, brands, types, locations, toolID, tool }) => {
   const [formError, setFormError] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+
   function handleFormSubmit(formData) {
     updateItem(toolID, formData)
       .then((response) => {
         if (response.status === 'error') {
-          console.log(response)
           setFormError(true)
-        } else {
-          console.log(response)
+        } else if(response.status === 'success') {
+          setShowToast(true);
           console.log("success");
           // alert(response);
         }
@@ -25,6 +27,7 @@ const EditItem = ({ categories, brands, types, locations, toolID, tool }) => {
   return (
     <>
       <h1 className="section-title-big">Edit Item</h1>
+      {showToast && <Toast message="Tool updated successfully!" />}
       <span style={{ color: "red" }} role="alert">
             {formError ? (
               <>
