@@ -48,7 +48,34 @@ INSERT INTO Transactions (Account_ID, Tool_ID, Transaction_Status, Transaction_D
 INSERT INTO Transactions (Account_ID, Tool_ID, Transaction_Status, Transaction_Date, Transaction_Type, End_Date) VALUES -- Check Out Open (Late)
 (5, 2, "Open", "2024-04-05", 5, "2024-04-12");
 
--- Adding New Customers into the DB --
+-- Adding New Users into the DB --
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1,
+					 Address_Line2, City, State, Postal_Code, Secondary_First_Name, Secondary_Last_Name,
+                     Secondary_Email, Secondary_Phone_Number, Account_Notes, Membership_Level, Membership_Status, Membership_Auto_Renewal,
+                     Privilege_Level) 
+VALUES ("Test Add", "User", "2002-04-13", 1, "The Handymen", "thehandymentester@gmail.com", AES_Encrypt("password", ""), "5867771234", 
+       "1234 Kilmour Road", "Unit 7", "Rochester", "New York", "14623", "Test Add 2", "User 2", "thehandymentester2@gmail.com",
+       "5857775678", "This is a newly added Test User via the create new user option!", 1, 1, 0, 1);
+       
+-- Still need Logic to insert Square Customer ID and Charge User per Membership_Level
+	
+-- Updating Users --
+UPDATE Accounts 
+SET First_Name = "Test Update", Last_Name = "User", DOB = "2002-04-13", Gender_Code = 2, Organization_Name = "The Handymen", Email = "thehandymenupdatetester@gmail.com", Password = AES_Encrypt("test", ""), Phone_Number = "5867771234", Address_Line1 = "1234 Kilmour Road",
+					 Address_Line2 = "Unit 7", City = "Rochester", State = "New York", Postal_Code = "14623", Secondary_First_Name = "Test Update 3", Secondary_Last_Name = "User",
+                     Secondary_Email = "thehandymentester3@gmail.com", Secondary_Phone_Number = "5857775678", Account_Notes = "This is a newly added Test User via the update new user option!", Membership_Level = 1, Membership_Status = 1, Membership_Auto_Renewal = 1,
+                     Privilege_Level = 1
+WHERE Account_ID = 7;
+
+-- This Query takes into account no membership changes. If a change were to take place, more logic would be needed!
+
+-- Delete (Archive) Users
+UPDATE Accounts
+SET Membership_Level = 5, Membership_Status = 2, Membership_Auto_Renewal = 0, Membership_Creation_Date = CURDATE(), 
+Membership_Expiration_Date = CURDATE()
+WHERE Account_ID = 7;
+
+-- Sets User to Inactive Status, and moved all membership information to registration status. Should we make a page to deal with expired users? --
 
 -- Get Customers based on names --
 
