@@ -11,7 +11,7 @@ export default async  function Page({searchParams}){
     let toolID = searchParams.tool_id;
     let tool = await db.selectFromDB(`SELECT Tools.Tool_ID, Tools.Tool_Name, Tools.Brand_Name, Tools.Tool_Manual, Home.Location_Name AS Home_Location, Current.Location_Name AS Current_Location, 
     Tool_Statuses.Tool_Status_Details, GROUP_CONCAT(DISTINCT Categories.Category_Name SEPARATOR ', ') AS Category_Name, GROUP_CONCAT(DISTINCT Types.Type_Name SEPARATOR ', ') 
-    AS Types, Tools.Tool_Weight, Tools.Tool_Size, Tools.Tool_Replacement_Cost, Tools.Tool_Link, Tools.Is_Floating FROM Tools 
+    AS Types, Tools.Tool_Weight, Tools.Tool_Size, Tools.Tool_Replacement_Cost, Tools.Tool_Link, Tools.Is_Floating, Tools.Tool_Description, Tools.Location_Code FROM Tools 
     INNER JOIN Tool_Locations AS Home ON Tools.Home_Location = Home.Tool_Location
     INNER JOIN Tool_Locations AS Current ON Tools.Current_Location = Current.Tool_Location
     INNER JOIN Tool_Statuses ON Tools.Tool_Status=Tool_Statuses.Tool_Status
