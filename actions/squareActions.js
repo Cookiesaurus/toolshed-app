@@ -524,8 +524,7 @@ export const makeLateFeePayment = async (custId, amt, transId) => {
         const rows = await db.execute(query);
         // add payment Id in the list of payment IDs for the transaction (UPDATE transaction_payments)
         const rows1 = await db.execute(query2);
-        console.log("Successful");
-        return JSON.parse({ message: "Success" });
+        return { message: "Success" };
     } catch (error) {
         // console.error("Error making late fee payment db changes: ", error);
         console.error(error);

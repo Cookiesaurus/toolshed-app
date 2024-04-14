@@ -230,7 +230,7 @@ WHERE Transaction_Types.Transaction_Details = "Tool Check Out" AND Transactions.
         // console.log(transactions);
         // let card = await getCards(custId);
         // card = JSON.parse(card).cards[0];
-        transactions.map((transaction) => {
+        transactions.map(async (transaction) => {
             let endDate = transaction.End_Date;
             let date = new Date();
             let late = endDate - date < 0;
@@ -238,15 +238,15 @@ WHERE Transaction_Types.Transaction_Details = "Tool Check Out" AND Transactions.
             // Calculate date, and if it is overdue, take payment
             if (late) {
                 // Make late fee payment for customer
-                const result = makeLateFeePayment(
+                const result = await makeLateFeePayment(
                     custId,
                     lateFee,
                     transaction.Transaction_ID
                 );
-                return result;
             }
             // Send customer email that the card got charged
         });
+        return {message: "success"}
     } catch (error) {
         console.error("Error getting late tools.", error);
     } finally {
