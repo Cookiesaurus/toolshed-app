@@ -472,9 +472,9 @@ CREATE TABLE Transactions (
 
 CREATE TABLE Transaction_Payments (
     Transaction_ID INT UNSIGNED,
-    Invoice_Number VARCHAR(255) NOT NULL,
+    Invoice_Number VARCHAR(255),
     Payment_ID VARCHAR(2000) NOT NULL,
-    CONSTRAINT PK_Transaction_Payments PRIMARY KEY (Transaction_ID),
+    CONSTRAINT PK_Transaction_Payments PRIMARY KEY (Transaction_ID, Invoice_Number),
     CONSTRAINT FK_Transaction_Payments_Transactions FOREIGN KEY (Transaction_ID) REFERENCES Transactions (Transaction_ID)
 );
 
