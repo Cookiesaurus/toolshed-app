@@ -43,7 +43,7 @@ export const updateUserProfileSchema = z.object({
 export const newToolSchema = z.object({
     category: z.string().min(1),
     type: z.string().min(1),
-})
+});
 
 export const newToolDigitsSchema = z.object({
     weight: z.number().min(0),
@@ -52,4 +52,4 @@ export const newToolDigitsSchema = z.object({
     loanLength: z.number().min(0),
     renewal: z.number().min(0),
     replacementCost: z.number().multipleOf(0.01).min(0)
-})
+});
