@@ -23,6 +23,14 @@ INSERT INTO Tools (Tool_Name, Brand_Name, Tool_Weight, Tool_Size, Home_Location,
 INSERT INTO Tool_Categories VALUES (1, 1), (1, 2), (1, 5), (1, 9);
 INSERT INTO Tool_Types VALUES (1, 1);
 
+INSERT INTO Tools (Tool_Name, Brand_Name, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, 
+				   Tool_Link, Tool_Manual, Tool_Loan_Fee, Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost, Is_Floating, 
+                   Is_Featured)
+		    VALUES ("Test Insert Tool", "Husky", 13, "55", 1, 2, "Can be found in the Test Tool Section", "This is a tester tool to be tested for inserting tools",
+            1, "https://seachtoolshedimages.s3.us-east-2.amazonaws.com/20230329_164430-5FC70911-E23D-FE6E-819F-26950F09F1DD.jpg", "https://seachtoolshedimages.s3.us-east-2.amazonaws.com/20230329_164430-5FC70911-E23D-FE6E-819F-26950F09F1DD.jpg", 0, 7, 7, 1, 225, 1, 1);
+INSERT INTO Tool_Categories VALUES (2, 1), (2, 2), (2, 5), (2, 9);
+INSERT INTO Tool_Types VALUES (2, 1);
+
 -- Updating Tool Information --
 UPDATE Tools
 SET Tool_Name = "Test Tool Insert 2", Brand_Name = "Ace Hardware", Tool_Weight = 15, Tool_Size = "77", Home_Location = 2, Current_Location = 2, Location_Code = "Near new Tester Tools", Tool_Description = "Tester Update Tool 2", Tool_Status = 1,
