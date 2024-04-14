@@ -180,6 +180,7 @@ const NewItem = ({ categories, brands, types, locations}) => {
               type="text"
               id="replaceCost"
               name="replaceCost"
+              defaultValue={"0"}
             ></input>
             <label className="form-label" htmlFor="dropOffLoc">
               Can be dropped off at any location
