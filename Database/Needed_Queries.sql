@@ -14,11 +14,6 @@ INNER JOIN Membership_Levels ON Accounts.Membership_Level = Membership_Levels.Me
 INNER JOIN Current_Membership_Status ON Accounts.Membership_Status = Current_Membership_Status.Membership_Status
 WHERE Accounts.Account_ID = 1; -- Set to whatever user ID is selected
 
--- Updating Customer Info -- -> Very Dependent On what is changed
--- UPDATE Accounts
--- SET column_name = new_value, column_name = new_value, ... Column Names Found on Line 10
--- WHERE Accounts.Account_ID = whatever user ID is selected
-
 -- Adding New Tools into the DB --
 INSERT INTO Tools (Tool_Name, Brand_Name, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, 
 				   Tool_Link, Tool_Manual, Tool_Loan_Fee, Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost, Is_Floating, 
@@ -44,8 +39,17 @@ INSERT INTO Tool_Types VALUES (1, 2);
 -- Deleting Tool Information --
 DELETE FROM Tools WHERE Tool_ID = 1;
 
+-- Transaction Queries --
+-- Add Some Transaction Types --
+INSERT INTO Transactions (Account_ID, Tool_ID, Transaction_Status, Transaction_Date, Transaction_Type, End_Date) VALUES -- Check Out Closed
+(5, 1, "Closed", "2024-04-02", 5, "2024-04-09");
+INSERT INTO Transactions (Account_ID, Tool_ID, Transaction_Status, Transaction_Date, Transaction_Type, End_Date, Check_In_Date, Payment_Amount) VALUES -- Check In Closed
+(5, 1, "Closed", "2024-04-09", 6, "2024-04-09", "2024-04-09", 0);
+INSERT INTO Transactions (Account_ID, Tool_ID, Transaction_Status, Transaction_Date, Transaction_Type, End_Date) VALUES -- Check Out Open (Late)
+(5, 2, "Open", "2024-04-05", 5, "2024-04-12");
+
 -- Adding New Customers into the DB --
--- INSERT INTO Tools (Customer_ID, First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, ) VALUES
+
 -- Get Customers based on names --
 
 -- Filters Query -- 
