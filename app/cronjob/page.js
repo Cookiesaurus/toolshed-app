@@ -19,6 +19,7 @@ export default function Page() {
         const fn = async () => {
             if (user && pay) {
                 const res = await lateToolPayment(user.Customer_ID);
+                console.log(res);
                 setPay(false);
             }
         };

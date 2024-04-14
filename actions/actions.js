@@ -238,13 +238,14 @@ WHERE Transaction_Types.Transaction_Details = "Tool Check Out" AND Transactions.
             // Calculate date, and if it is overdue, take payment
             if (late) {
                 // Make late fee payment for customer
-                makeLateFeePayment(custId, lateFee, transaction.Transaction_ID);
+                const result = makeLateFeePayment(
+                    custId,
+                    lateFee,
+                    transaction.Transaction_ID
+                );
+                return result;
             }
-            // makeLateFeePayment(custId, lateFee);
-            // Create an invoice
-            // Publish invoice (charge customer)
             // Send customer email that the card got charged
-            // console.log("Late fee : ", transaction.Default_Late_Fee);
         });
     } catch (error) {
         console.error("Error getting late tools.", error);
