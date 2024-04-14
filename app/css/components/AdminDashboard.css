@@ -438,3 +438,15 @@ button#delete-item{
   flex-direction: column;
   align-items: flex-start;
 }
+
+p.section-title-small {
+  text-align: center;
+}
+
+.edit-columns {
+  display: flex;
+}
+
+.current {
+  padding: 12px;
+}
