@@ -281,7 +281,7 @@ input {
     padding-bottom: 2px;
     padding-left: 5px;
     padding-right: 5px;
-    background-color: #0028B6;
+    background-color: #8B1AA7;
     color: white;
   }
   
@@ -421,6 +421,8 @@ button#delete-item{
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .action {

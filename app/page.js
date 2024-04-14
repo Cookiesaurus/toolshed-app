@@ -29,7 +29,6 @@ export default async function Page() {
 
   return (
     <>
-      <Navbar session={session} />
       <div className="main-content">
         <div className="slide-container">
           <div className="categories">
