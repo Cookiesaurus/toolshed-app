@@ -1,12 +1,56 @@
 "use client";
 import { deleteItem, updateItem } from "@/actions/toolActions";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 const EditItem = ({ categories, brands, types, locations, toolID, tool }) => {
-  console.log(tool)
+  console.log(tool?.Category_Name)
+  console.log(categories)
+  const [formError, setFormError] = useState(false);
+  function handleFormSubmit(formData) {
+    updateItem(toolID, formData)
+      .then((response) => {
+        if (response.status == 'error') {
+          setFormError(true)
+        } else {
+          console.log("success");
+          // alert(response);
+        }
+      })
+      .catch((error) => {
+        // Handle other potential errors, e.g., network error
+      });
+  }
+
+  // Define state for selected categories
+  const [catChecked, setCatChecked] = useState(false)
+
+  useEffect(()=>{
+    categories.map((cat)=>{
+      if(cat.Category_Name === tool?.Category_Name){
+        console.log(tool?.Category_Name)
+      }
+    })
+  })
+
   return (
     <>
       <h1 className="section-title-big">Edit Item</h1>
+      <span style={{ color: "red" }} role="alert">
+            {formError ? (
+              <>
+                First name, last name, and email cannot be empty.
+                <br />
+                Password must be 8 or more characters.
+                <br />
+                Date of birth cannot be empty.
+                <br />
+                Address information cannot be empty and zip code cannot be more
+                than 5 digits long.
+              </>
+            ) : (
+              <></>
+            )}
+          </span>
       <form method="POST">
         <div className="new-user-cont">
           <div className="new-user-right">
@@ -19,6 +63,16 @@ const EditItem = ({ categories, brands, types, locations, toolID, tool }) => {
               id="itemName"
               name="itemName"
               defaultValue={tool?.Tool_Name}
+            />
+            <label className="form-label" htmlFor="itemDesc">
+              Item Description
+            </label>
+            <input
+              className="formInput"
+              type="text"
+              id="itemDesc"
+              name="itemDesc"
+              defaultValue={tool?.Tool_Description}
             />
             <div className="section-status">
             <label htmlFor="status" className="form-input">
@@ -55,10 +109,7 @@ const EditItem = ({ categories, brands, types, locations, toolID, tool }) => {
                         className="checkbox"
                         id={category.Category_Name}
                         name="category"
-                        value={category.Category_Name}
-                        onChange={(e) => {
-                          handleCategoryChange(e);
-                        }}
+                        value={category.Category_ID}
                       />
                       <span className="checkmark"></span>
                     </label>
@@ -85,11 +136,8 @@ const EditItem = ({ categories, brands, types, locations, toolID, tool }) => {
                       type="checkbox"
                       className="checkbox"
                       id={type.Type_Name}
-                      name="brand"
-                      value={type.Type_Name}
-                      onChange={(e) => {
-                        handleTypeChange(e);
-                      }}
+                      name="type"
+                      value={type.Type_ID}
                     />
                     <span className="checkmark"></span>
                   </label>
@@ -128,6 +176,7 @@ const EditItem = ({ categories, brands, types, locations, toolID, tool }) => {
             </label>
             <input className="formInput" type="text" id="size" name="size" defaultValue={tool?.Tool_Size}/>
                 <div className="edit-column">
+                  <p>Current Image: </p>
                   <Image src={tool?.Tool_Link} alt="Tool Image" width={200} height={200}/>
                   <br/>
                   <label className="form-label" htmlFor="image">
@@ -251,11 +300,12 @@ const EditItem = ({ categories, brands, types, locations, toolID, tool }) => {
               type="text"
               id="locDesc"
               name="locDesc"
+              defaultValue={tool?.Location_Code}
             ></input>
           </div>
         </div>
         <div className="create-button-cont">
-          <button className="createNewUserButton" type="submit" id="create-item" formAction={updateItem}>
+          <button className="createNewUserButton" type="submit" id="create-item" formAction={handleFormSubmit}>
             Update Item
           </button>
           <button className="createNewUserButton" type="submit" id="delete-item" onClick={(e) => { e.preventDefault(); deleteItem(toolID);}}>
