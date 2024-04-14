@@ -284,7 +284,6 @@ export const updateItem = async (id, formData)=>{
         useManual = true
     }
 
-    console.log('button')
     let toolData = []
     let updateQuery = ``;
     if(!useImage && !useManual){
@@ -332,54 +331,54 @@ export const updateItem = async (id, formData)=>{
             Renewal_Amount = ?, Tool_Replacement_Cost = ?, Is_Floating = ?, 
             Is_Featured = ? WHERE Tool_ID = ${id};`;
     }
-    
-    try {
-        // Start a new transaction
-        const connection = await pool.getConnection();
-        await connection.beginTransaction();
-    
-        //Execute the prepared statement
-        await connection.query(updateQuery, toolData);
 
-        const deleteCategory = `DELETE FROM Tool_Categories WHERE Tool_ID = ${id};`
-        console.log(deleteCategory)
-        const catRows = await connection.query(deleteCategory)
-        console.log(catRows)
-        console.log(categories)
+    let catTypeParse = {category: categories.toString(), type: types.toString()}
+    catTypeParse = newToolSchema.safeParse(catTypeParse);
 
-        const deleteType = `DELETE FROM Tool_Types WHERE Tool_ID = ${id};`
-        console.log(deleteType)
-        const typeRows = await connection.query(deleteType)
-        console.log(typeRows)
-        console.log(types)
+    if(!catTypeParse.error){
+        try {
+            console.log(id)
+            // Start a new transaction
+            const connection = await pool.getConnection();
+            await connection.beginTransaction();
+        
+            //Execute the prepared statement
+            await connection.query(updateQuery, toolData);
 
-        console.log(selectedCat.toString())
-        console.log(selectedType.toString())
+            const deleteCategory = `DELETE FROM Tool_Categories WHERE Tool_ID = ${id};`
+            const catRows = await connection.query(deleteCategory)
 
-        selectedCat?.forEach( async (cat) =>{
-            console.log(cat)
-            const catQuery = `INSERT INTO Tool_Categories (Tool_ID, Category_ID) 
-                VALUES (${id}, ${cat});`;
-            await connection.execute(catQuery)
-        });
+            const deleteType = `DELETE FROM Tool_Types WHERE Tool_ID = ${id};`
+            const typeRows = await connection.query(deleteType)
 
-        selectedType?.forEach(async (tp)=>{
-            console.log(tp)
-            const typeQuery = `INSERT INTO Tool_Types (Tool_ID, Type_ID) VALUES (${id}, ${tp});`
-            await connection.execute(typeQuery)
-        });
 
-        // Commit the transaction
-        await connection.commit();
-        connection.release();
-    
-        console.log('Tool updated successfully');
-        return {status: 'success'}
-      } catch (error) {
-        // Rollback the transaction in case of an error
-        console.error('Error updating account:', error);
-        return {status: 'error', message: error}
-      }
+            selectedCat?.forEach( async (cat) =>{
+                console.log(cat)
+                const catQuery = `INSERT INTO Tool_Categories (Tool_ID, Category_ID) 
+                    VALUES (${id}, ${cat});`;
+                await connection.execute(catQuery)
+            });
+
+            selectedType?.forEach(async (tp)=>{
+                console.log(tp)
+                const typeQuery = `INSERT INTO Tool_Types (Tool_ID, Type_ID) VALUES (${id}, ${tp});`
+                await connection.execute(typeQuery)
+            });
+
+            // Commit the transaction
+            await connection.commit();
+            connection.release();
+        
+            console.log('Tool updated successfully');
+            return {status: 'success'}
+        } catch (error) {
+            // Rollback the transaction in case of an error
+            console.error('Error updating account:', error);
+            return {status: 'error', message: error.toString()}
+        }
+    }else{
+        return {status : 'error',  message: catTypeParse.error.toString()}
+    }
 }
 
 const fileToS3Bucket = async (file) =>{
