@@ -4,9 +4,10 @@ import React from "react";
 import { addNewUserFromAdmin } from "@/actions/adminActions";
 import SelectStates from "../../FormComponents/statesSelect";
 import jsPDF from "jspdf";
+import Toast from "@/components/Toast";
 const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
   const [showPasswords, setShowPasswords] = useState(false);
-
+  const [showToast, setShowToast] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPasswords((prevState) => !prevState);
   };
@@ -15,11 +16,11 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
   function handleFormSubmit(formData) {
     addNewUserFromAdmin(formData)
       .then((response) => {
-        if (response.error) {
+        if (response.status === 'error') {
           setFormError(true)
-        } else {
+        } else if(response.status === 'success') {
+          setShowToast(true);
           console.log("success");
-          // alert(response);
         }
       })
       .catch((error) => {
@@ -71,6 +72,7 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
   return (
     <>
     <h1>Create a new user</h1>
+    {showToast && <Toast message="Account created successfully!" />}
     <span style={{ color: "red" }} role="alert">
             {formError ? (
               <>
@@ -82,6 +84,8 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
                 <br />
                 Address information cannot be empty and zip code cannot be more
                 than 5 digits long.
+                <br />
+               Phone number must not include dashes.
               </>
             ) : (
               <></>
@@ -103,7 +107,7 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
               <label htmlFor="re-enter_password">Re-enter password</label>
               <input
                 type={showPasswords ? "text" : "password"}
-                name="re-enter password"
+                name="re-enter-password"
                 id="re-enter_password"
                 required
               />
@@ -129,9 +133,10 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
                 <input type="email" id="email" name="email" />
 
                 <label htmlFor="phone_number">Phone Number</label>
-                <input type="tel" id="phone_number" name="phone number" />
+                <input type="tel" id="phone_number" name="phone-number" />
 
                 <label htmlFor="gender">Gender</label>
+                <br/>
                 <select
                   name="gender"
                   id="gender"
@@ -148,6 +153,7 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
                   ))}
                 </select>
 
+                    <br/>
                 <label htmlFor="date_of_birth">Date of Bith</label>
                 <input type="date" id="date_of_birth" name="date-of-birth" />
 
@@ -169,7 +175,12 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
                 <label htmlFor="zip_code">ZIP code</label>
                 <input type="text" id="zip_code" name="zipCode" />
                 <label htmlFor="address-state">State</label>
+                <br/>
                 <SelectStates />
+                  
+                  <br/>
+                <label htmlFor="account-notes">Account Notes</label>
+                <input type="text" id="account-notes" name="account-notes" />
               </div>
             </div>
           </div>
