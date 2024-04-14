@@ -231,10 +231,13 @@ export const deleteUser = async (id) =>{
         await connection.beginTransaction();
     
         // Prepare the delete statement
-        const deleteQuery = ``;
+        const deleteQuery = `UPDATE Accounts
+        SET Membership_Level = 5, Membership_Status = 2, Membership_Auto_Renewal = 0, Membership_Creation_Date = CURDATE(), 
+        Membership_Expiration_Date = CURDATE()
+        WHERE Account_ID = ${id}`;
     
         // Execute the prepared statement
-        await connection.query(deleteQuery, [accountId]);
+        await connection.query(deleteQuery);
     
         // Commit the transaction
         await connection.commit();
@@ -242,9 +245,6 @@ export const deleteUser = async (id) =>{
     
         console.log('Account deleted successfully');
       } catch (error) {
-        // Rollback the transaction in case of an error
-        await connection.rollback();
-        connection.release();
         console.error('Error deleting account:', error);
       }
 }
