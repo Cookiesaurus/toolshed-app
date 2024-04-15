@@ -16,7 +16,7 @@ curr = conn.cursor()
 
 
 #Fetch data from CSV file
-dataframe1 = pd.read_excel('Gate_Review_2_Tools.xlsx');
+dataframe1 = pd.read_excel('SEAC_Tool_Shed_Inventory.xls')
 
 
 #Function to insert tools into database
@@ -152,3 +152,4 @@ def addTypes( string, tool_id ):
         conn.commit()
     
 insertTools()
+print("Tool import complete")
