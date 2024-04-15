@@ -4,9 +4,10 @@ import React from "react";
 import { addNewUserFromAdmin } from "@/actions/adminActions";
 import SelectStates from "../../FormComponents/statesSelect";
 import jsPDF from "jspdf";
+import Toast from "@/components/Toast";
 const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
   const [showPasswords, setShowPasswords] = useState(false);
-
+  const [showToast, setShowToast] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPasswords((prevState) => !prevState);
   };
@@ -15,11 +16,11 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
   function handleFormSubmit(formData) {
     addNewUserFromAdmin(formData)
       .then((response) => {
-        if (response.error) {
+        if (response.status === 'error') {
           setFormError(true)
-        } else {
+        } else if(response.status === 'success') {
+          setShowToast(true);
           console.log("success");
-          // alert(response);
         }
       })
       .catch((error) => {
@@ -71,6 +72,7 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
   return (
     <div className="new-user-cont">
     <h1>Create a new user</h1>
+    {showToast && <Toast message="Account created successfully!" />}
     <span style={{ color: "red" }} role="alert">
             {formError ? (
               <>
@@ -82,6 +84,8 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
                 <br />
                 Address information cannot be empty and zip code cannot be more
                 than 5 digits long.
+                <br />
+               Phone number must not include dashes.
               </>
             ) : (
               <></>
@@ -92,40 +96,34 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
           <div className="new-user-section">
             <h2 className="new-user-subsection-title">Account</h2>
 
-            <label htmlFor="password">Password</label>
-            <input
-              type={showPasswords ? "text" : "password"}
-              name="password"
-              id="password"
-              required
-            />
-            <label htmlFor="re-enter_password">Re-enter password</label>
-            <input
-              type={showPasswords ? "text" : "password"}
-              name="re-enter password"
-              id="re-enter_password"
-              required
-            />
-            <div className="create-new-user-checkbox">
-              <label htmlFor="show-passwords" className="checkbox-container">
-              Show passwords
-                <input
-                  className="checkbox"
-                  type="checkbox"
-                  id="show-passwords"
-                  name="show-passwords"
-                  value="show"
-                  onChange={togglePasswordVisibility}
-                  aria-label="Toggle password visbility"
-                />
-                <span className="checkmark"></span>
-              </label>
-            </div>
-          </div>
-          <div className="new-user-section">
-              <h2 className="new-user-subsection-title">Primary Info</h2>
-              <label htmlFor="first_Name">First Name</label>
-              <input type="text" id="first_Name" name="firstName" />
+              <label htmlFor="password">Password</label>
+              <input
+                type={showPasswords ? "text" : "password"}
+                name="password"
+                id="password"
+                required
+              />
+              <label htmlFor="re-enter_password">Re-enter password</label>
+              <input
+                type={showPasswords ? "text" : "password"}
+                name="re-enter-password"
+                id="re-enter_password"
+                required
+              />
+              <input
+                className="checkbox"
+                type="checkbox"
+                id="show-passwords"
+                name="show-passwords"
+                value="show"
+                onChange={togglePasswordVisibility}
+                aria-label="Toggle password visbility"
+              />
+              <label htmlFor="show"> Show passwords</label>
+              <div className="primaryInfo">
+                <h2>Primary Info</h2>
+                <label htmlFor="first_Name">First Name</label>
+                <input type="text" id="first_Name" name="firstName" />
 
               <label htmlFor="last_Name">Last Name</label>
               <input type="text" id="last_Name" name="lastName" />
@@ -133,28 +131,33 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
               <label htmlFor="email">Email</label>
               <input type="email" id="email" name="email" />
 
-              <label htmlFor="phone_number">Phone Number</label>
-              <input type="tel" id="phone_number" name="phone number" />
+                <label htmlFor="phone_number">Phone Number</label>
+                <input type="tel" id="phone_number" name="phone-number" />
 
-              <label htmlFor="gender">Gender</label>
-              <select
-                name="gender"
-                id="gender"
-                className="input"
-                defaultValue="Gender"
-              >
-                <option value="Gender" hidden>
-                  Gender
-                </option>
-                {genders.map((gend, index) => (
-                  <option key={index} value={gend.Gender_Name}>
-                    {gend.Gender_Name}
+                <label htmlFor="gender">Gender</label>
+                <br/>
+                <select
+                  name="gender"
+                  id="gender"
+                  className="input"
+                  defaultValue="Gender"
+                >
+                  <option value="Gender" hidden>
+                    Gender
                   </option>
-                ))}
-              </select>
+                  {genders.map((gend, index) => (
+                    <option key={index} value={gend.Gender_Name}>
+                      {gend.Gender_Name}
+                    </option>
+                  ))}
+                </select>
 
-              <label htmlFor="date_of_birth">Date of Birth</label>
-              <input type="date" id="date_of_birth" name="date-of-birth" />
+                    <br/>
+                <label htmlFor="date_of_birth">Date of Bith</label>
+                <input type="date" id="date_of_birth" name="date-of-birth" />
+
+                <label htmlFor="title">Title</label>
+                <input type="text" id="title" name="title" />
 
               <label htmlFor="organization">Organization</label>
               <input type="text" id="organization" name="organization" />
@@ -168,35 +171,21 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
               <label htmlFor="city">City</label>
               <input type="text" id="city" name="city" />
 
-              <label htmlFor="zip_code">ZIP code</label>
-              <input type="text" id="zip_code" name="zipCode" />
-              <label htmlFor="address-state">State</label>
-              <SelectStates />
+                <label htmlFor="zip_code">ZIP code</label>
+                <input type="text" id="zip_code" name="zipCode" />
+                <label htmlFor="address-state">State</label>
+                <br/>
+                <SelectStates />
+                  
+                  <br/>
+                <label htmlFor="account-notes">Account Notes</label>
+                <input type="text" id="account-notes" name="account-notes" />
+              </div>
+            </div>
           </div>
-          <div className="new-user-section">
-            <h2 className="new-user-subsection-title">Secondary Info</h2>
-            <label htmlFor="secondary_first_name">First Name</label>
-            <input
-              type="text"
-              id="secondary_first_name"
-              name="secondary-first-name"
-            />
-
-            <label htmlFor="secondary_last_name">Last Name</label>
-            <input
-              type="text"
-              id="secondary_last_name"
-              name="secondary-last-name"
-            />
-
-            <label htmlFor="secondary_email">Email</label>
-            <input type="email" id="secondary_email" name="secondary-email" />
-
-            <label htmlFor="secondary_number">Phone Number</label>
-            <input type="tel" id="secondary_number" name="secondary-number" />
-            
-            <div className="new-user-section">
-            <h2 className="new-user-subsection-title">Credentials</h2>
+          <div className="new-user-right">
+            <div className="membershipInfo">
+              <h2>Credentials</h2>
 
             <label htmlFor="membership level">
               Membership Level

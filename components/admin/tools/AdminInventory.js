@@ -9,6 +9,7 @@ import {
 import DataTable from "react-data-table-component";
 
 const AdminInventory = ({ inventory }) => {
+  console.log(inventory)
   const columns = [
     {
       name: "ID",
@@ -20,8 +21,13 @@ const AdminInventory = ({ inventory }) => {
       sortable: true
     },
     {
-      name: "Location",
-      selector: (row) => row.location,
+      name: "Home Location",
+      selector: (row) => row.homeLoc,
+      sortable: true
+    },
+    {
+      name: "Current Location",
+      selector: (row) => row.curLoc,
       sortable: true
     },
     {
@@ -85,9 +91,10 @@ const AdminInventory = ({ inventory }) => {
     return {
       id: item.Tool_ID,
       name: item.Tool_Name,
-      location: item.Location_Name,
-      type: "",
-      brand: "",
+      homeLoc: item.Home_Location,
+      curLoc: item.Current_Location,
+      type: item.Types,
+      brand: item.Brand_Name,
       status: item.Tool_Status_Details,
       action: action
     };
@@ -97,7 +104,7 @@ const AdminInventory = ({ inventory }) => {
       <div className="filterOptionsContainer">
         <h1>All Tools</h1>
       </div>
-      <div className="mainContent">
+      <div className="mainContent datatable">
         <DataTable columns={columns} data={data} pagination />
       </div>
     </>

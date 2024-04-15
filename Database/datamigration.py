@@ -1,5 +1,8 @@
 import pymysql;
 import pandas as pd;
+import requests
+import base64;
+import numbers;
 
 #Connect to the database
 conn = pymysql.connect(
@@ -9,11 +12,11 @@ conn = pymysql.connect(
     password='password',
     port=3306
 )
-curr = conn.cursor();
+curr = conn.cursor()
 
 
 #Fetch data from CSV file
-dataframe1 = pd.read_excel('Gate_Review_2_Tools.xlsx');
+dataframe1 = pd.read_excel('SEAC_Tool_Shed_Inventory.xls')
 
 
 #Function to insert tools into database
@@ -69,11 +72,33 @@ def insertTools():
         Is_Floating = 1 if str(j['Floating']) == "Y" else 0
         Is_Featured = 1 if str(j['Featured']) == "Y" else 0
 
-        #Query using the tool IDs from excel
         query = """INSERT INTO Tools (Old_Tool_ID, Tool_Name, Brand_Name, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Tool_Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost, Is_Floating, Is_Featured, Tool_Link) 
-        VALUES ('%s', '%s', '%s',  %f, '%s', %d, %d, '%s', '%s',  %d, "%s", %.2f, %d, %d, %.2f, %d, %d, '%s')""" % (Tool_ID, Tool_Name, Tool_Brand,Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount,  Tool_Replacement_Cost, Is_Floating, Is_Featured, Image)
-        curr.execute(query)
+        VALUES ("""
+
+        values = [v for v in (Tool_ID, Tool_Name, Tool_Brand,Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount,  Tool_Replacement_Cost, Is_Floating, Is_Featured, Image)]
+        for idx, x in enumerate(values):
+            if(idx ==3):
+                query += "%f,"
+            elif idx in [5, 6, 9, 12, 13, 15, 16]:
+                query += "%d,"
+            elif idx in [11, 14]:
+                query += "%.2f,"   
+            elif(x == ""):
+                values[idx] = 'NULL'
+                query += "%s," 
+            else:
+                x = str(x)
+                query += "'%s',"
+        query = query[:-1] + ")"
+        curr.execute(query % tuple(values))
         conn.commit()
+        
+        #Query using the tool IDs from excel
+        #query = """INSERT INTO Tools (Old_Tool_ID, Tool_Name, Brand_Name, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Tool_Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost, Is_Floating, Is_Featured, Tool_Link) 
+        #VALUES ('%s', '%s', '%s',  %f, '%s', %d, %d, '%s', '%s',  %d, "%s", %.2f, %d, %d, %.2f, %d, %d, '%s')"""
+        #curr.execute(query)
+        #conn.commit()
+       
         # except:
         #     print(Tool_ID, Tool_Name, Tool_Brand,Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Default_Late_Fee, Default_Loan_Length, Renewal_Amount,  Tool_Replacement_Cost)
         # Committing insertion
@@ -127,3 +152,4 @@ def addTypes( string, tool_id ):
         conn.commit()
     
 insertTools()
+print("Tool import complete")
