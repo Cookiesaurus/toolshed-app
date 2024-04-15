@@ -56,7 +56,7 @@ const CheckOutTool = ({ currentData, memberships }) => {
             className="editButton"
             href={{
               pathname: "/admin/inventory/checkout/product",
-              query: { tool_id: tData.Tool_ID, account_id: tData.Account_ID }
+              query: { tool_id: tData.Tool_ID, account_id: tData.Account_ID, transaction_id: tData.Transaction_ID }
             }}
           >
             Check Out
