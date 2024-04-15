@@ -10,8 +10,11 @@ const pool = mysql.createPool({
     password: process.env.DB_PASSWORD
   });
 
-export async function pickUpTool(toolID, accountID, email){
-    //check the users membership and get the max number of tools they can check out
+export async function pickUpTool(toolID, accountID, email, status){
+    if(status === 'Disabled' || status === 'Maintence' || status === 'Checked Out'){
+        return {status: 'This tool is not able to be reserved at this time'}
+    }else{
+        //check the users membership and get the max number of tools they can check out
     const maxToolsQuery = `SELECT Accounts.Account_ID, Membership_Levels.Max_Tool_Checkout FROM Accounts
     INNER JOIN Membership_Levels ON Accounts.Membership_Level = Membership_Levels.Membership_Level
     WHERE Accounts.Membership_Status = 1 AND Accounts.Account_ID = ${accountID};`;
@@ -56,6 +59,7 @@ export async function pickUpTool(toolID, accountID, email){
     } catch (error) {
         console.log(error)
         return {status: 'error'}
+    }
     }
 }
 

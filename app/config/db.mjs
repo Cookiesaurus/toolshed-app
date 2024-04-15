@@ -12,6 +12,7 @@ const helperFunctions= {
 
     async selectFromDB(query){
         const [data] = await db.execute(query);
+        db.release();
         return data;
     }
 }
