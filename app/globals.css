@@ -352,6 +352,12 @@ main {
   z-index: 1000;
 }
 
+.toast-error {
+  font-size: 16px;
+  background-color: black;
+  color: #f71629;
+}
+
 .toast-content {
   font-size: 16px;
   background-color: black;
