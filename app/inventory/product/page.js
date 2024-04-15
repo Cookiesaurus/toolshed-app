@@ -19,6 +19,7 @@ WHERE Tools.Tool_ID = ${productid}`)
 
 let  user = await getSession();
 tool = JSON.parse(JSON.stringify(tool[0]))
+user = JSON.parse(JSON.stringify(user))
 
   // Build a page for what the tool should look like instead of the return here
   return (
