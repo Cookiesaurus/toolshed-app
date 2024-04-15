@@ -103,7 +103,7 @@ const ViewAllUsers = ({ customerData }) => {
         <h1>All Users</h1>
       </div>
 
-      <div className="mainContent">
+      <div className="mainContent datatable">
         <DataTable columns={columns} data={data} pagination/>
       </div>
     </>
