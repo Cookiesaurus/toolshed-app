@@ -69,7 +69,7 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
   };
 
   return (
-    <>
+    <div className="new-user-cont">
     <h1>Create a new user</h1>
     <span style={{ color: "red" }} role="alert">
             {formError ? (
@@ -87,200 +87,203 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
               <></>
             )}
           </span>
-      <form action={handleFormSubmit}>
-        <div className="new-user-cont">
-          <div className="new-user-left">
-            <div className="accountInfo">
-              <h2>Account</h2>
+      <form className="new-user-cont" action={handleFormSubmit}>
+        
+          <div className="new-user-section">
+            <h2 className="new-user-subsection-title">Account</h2>
 
-              <label htmlFor="password">Password</label>
-              <input
-                type={showPasswords ? "text" : "password"}
-                name="password"
-                id="password"
-                required
-              />
-              <label htmlFor="re-enter_password">Re-enter password</label>
-              <input
-                type={showPasswords ? "text" : "password"}
-                name="re-enter password"
-                id="re-enter_password"
-                required
-              />
-              <input
-                className="checkbox"
-                type="checkbox"
-                id="show-passwords"
-                name="show-passwords"
-                value="show"
-                onChange={togglePasswordVisibility}
-                aria-label="Toggle password visbility"
-              />
-              <label htmlFor="show"> Show passwords</label>
-              <div className="primaryInfo">
-                <h2>Primary Info</h2>
-                <label htmlFor="first_Name">First Name</label>
-                <input type="text" id="first_Name" name="firstName" />
-
-                <label htmlFor="last_Name">Last Name</label>
-                <input type="text" id="last_Name" name="lastName" />
-
-                <label htmlFor="email">Email</label>
-                <input type="email" id="email" name="email" />
-
-                <label htmlFor="phone_number">Phone Number</label>
-                <input type="tel" id="phone_number" name="phone number" />
-
-                <label htmlFor="gender">Gender</label>
-                <select
-                  name="gender"
-                  id="gender"
-                  className="input"
-                  defaultValue="Gender"
-                >
-                  <option value="Gender" hidden>
-                    Gender
-                  </option>
-                  {genders.map((gend, index) => (
-                    <option key={index} value={gend.Gender_Name}>
-                      {gend.Gender_Name}
-                    </option>
-                  ))}
-                </select>
-
-                <label htmlFor="date_of_birth">Date of Bith</label>
-                <input type="date" id="date_of_birth" name="date-of-birth" />
-
-                <label htmlFor="title">Title</label>
-                <input type="text" id="title" name="title" />
-
-                <label htmlFor="organization">Organization</label>
-                <input type="text" id="organization" name="organization" />
-
-                <label htmlFor="street_address">Street Address</label>
-                <input type="text" id="street_address" name="street-address" />
-
-                <label htmlFor="2nd_Line">Apt/Floor</label>
-                <input type="text" id="2nd_Line" name="street-address-two" />
-
-                <label htmlFor="city">City</label>
-                <input type="text" id="city" name="city" />
-
-                <label htmlFor="zip_code">ZIP code</label>
-                <input type="text" id="zip_code" name="zipCode" />
-                <label htmlFor="address-state">State</label>
-                <SelectStates />
-              </div>
+            <label htmlFor="password">Password</label>
+            <input
+              type={showPasswords ? "text" : "password"}
+              name="password"
+              id="password"
+              required
+            />
+            <label htmlFor="re-enter_password">Re-enter password</label>
+            <input
+              type={showPasswords ? "text" : "password"}
+              name="re-enter password"
+              id="re-enter_password"
+              required
+            />
+            <div className="create-new-user-checkbox">
+              <label htmlFor="show-passwords" className="checkbox-container">
+              Show passwords
+                <input
+                  className="checkbox"
+                  type="checkbox"
+                  id="show-passwords"
+                  name="show-passwords"
+                  value="show"
+                  onChange={togglePasswordVisibility}
+                  aria-label="Toggle password visbility"
+                />
+                <span className="checkmark"></span>
+              </label>
             </div>
           </div>
-          <div className="new-user-right">
-            <div className="membershipInfo">
-              <h2>Credentials</h2>
+          <div className="new-user-section">
+              <h2 className="new-user-subsection-title">Primary Info</h2>
+              <label htmlFor="first_Name">First Name</label>
+              <input type="text" id="first_Name" name="firstName" />
 
-              <label htmlFor="membership level">
-                Membership Level
-              </label>
+              <label htmlFor="last_Name">Last Name</label>
+              <input type="text" id="last_Name" name="lastName" />
+
+              <label htmlFor="email">Email</label>
+              <input type="email" id="email" name="email" />
+
+              <label htmlFor="phone_number">Phone Number</label>
+              <input type="tel" id="phone_number" name="phone number" />
+
+              <label htmlFor="gender">Gender</label>
               <select
-                name="membership-level"
-                id="membership level"
+                name="gender"
+                id="gender"
                 className="input"
-                defaultValue="membership"
+                defaultValue="Gender"
               >
-                <option value="membership" hidden>
-                  Select a membership
+                <option value="Gender" hidden>
+                  Gender
                 </option>
-                {memberships.map((level, index) => (
-                  <option key={index} value={level.Membership_Title}>
-                    {level.Membership_Title}
+                {genders.map((gend, index) => (
+                  <option key={index} value={gend.Gender_Name}>
+                    {gend.Gender_Name}
                   </option>
                 ))}
               </select>
 
-              <label htmlFor="privilege-level">Privilege Level</label>
-              {admin ? (
-                <select
-                  id="privilege-level"
-                  name="privilege"
-                  defaultValue="privilege level"
-                  className="input"
-                >
-                  <option value="privilege level" hidden>
-                    Privilege Level
+              <label htmlFor="date_of_birth">Date of Birth</label>
+              <input type="date" id="date_of_birth" name="date-of-birth" />
+
+              <label htmlFor="organization">Organization</label>
+              <input type="text" id="organization" name="organization" />
+
+              <label htmlFor="street_address">Street Address</label>
+              <input type="text" id="street_address" name="street-address" />
+
+              <label htmlFor="2nd_Line">Apt/Floor</label>
+              <input type="text" id="2nd_Line" name="street-address-two" />
+
+              <label htmlFor="city">City</label>
+              <input type="text" id="city" name="city" />
+
+              <label htmlFor="zip_code">ZIP code</label>
+              <input type="text" id="zip_code" name="zipCode" />
+              <label htmlFor="address-state">State</label>
+              <SelectStates />
+          </div>
+          <div className="new-user-section">
+            <h2 className="new-user-subsection-title">Secondary Info</h2>
+            <label htmlFor="secondary_first_name">First Name</label>
+            <input
+              type="text"
+              id="secondary_first_name"
+              name="secondary-first-name"
+            />
+
+            <label htmlFor="secondary_last_name">Last Name</label>
+            <input
+              type="text"
+              id="secondary_last_name"
+              name="secondary-last-name"
+            />
+
+            <label htmlFor="secondary_email">Email</label>
+            <input type="email" id="secondary_email" name="secondary-email" />
+
+            <label htmlFor="secondary_number">Phone Number</label>
+            <input type="tel" id="secondary_number" name="secondary-number" />
+            
+            <div className="new-user-section">
+            <h2 className="new-user-subsection-title">Credentials</h2>
+
+            <label htmlFor="membership level">
+              Membership Level
+            </label>
+            <select
+              name="membership-level"
+              id="membership level"
+              className="input"
+              defaultValue="membership"
+            >
+              <option value="membership" hidden>
+                Select a membership
+              </option>
+              {memberships.map((level, index) => (
+                <option key={index} value={level.Membership_Title}>
+                  {level.Membership_Title}
+                </option>
+              ))}
+            </select>
+
+            <label htmlFor="privilege-level">Privilege Level</label>
+            {admin ? (
+              <select
+                id="privilege-level"
+                name="privilege"
+                defaultValue="privilege level"
+                className="input"
+              >
+                <option value="privilege level" hidden>
+                  Privilege Level
+                </option>
+                {privileges.map((priv, index) => (
+                  <option key={index} value={priv.Privilege_Title}>
+                    {priv.Privilege_Title}
                   </option>
-                  {privileges.map((priv, index) => (
-                    <option key={index} value={priv.Privilege_Title}>
-                      {priv.Privilege_Title}
-                    </option>
-                  ))}
-                </select>
-              ) : (
-                <select
-                  id="privilege-level"
-                  name="privilege"
-                  defaultValue="Customer"
-                >
-                  <option value="Customer">Customer</option>
-                </select>
-              )}
+                ))}
+              </select>
+            ) : (
+              <select
+                id="privilege-level"
+                name="privilege"
+                defaultValue="Customer"
+              >
+                <option value="Customer">Customer</option>
+              </select>
+            )}
+          </div>
+            
+            <div className="create-new-user-waivers">
+              <div className="create-new-user-checkbox">
+              <label htmlFor="waivers" className="checkbox-container" style={{ alignContent: "center", marginLeft: "5px" }}>
+                I have read and accept the following:
+                <input
+                  type="checkbox"
+                  className="checkbox"
+                  id="waivers"
+                  name="waiver"
+                  required
+                />
+                <span className="checkmark"></span>
+              </label>
+
+
+              <ul className="lists">
+                {waivers.map((waiver, index) => (
+                  <React.Fragment key={index}>
+                    <li
+                      key={index}
+                      onClick={() =>
+                        downloadPDF(waiver.Waiver_Details, waiver.Waiver_Name)
+                      }
+                    >
+                      {waiver.Waiver_Name}
+                    </li>
+                  </React.Fragment>
+                ))}
+              </ul>
             </div>
-            <div className="secondaryInfo">
-              <h2>Secondary Info</h2>
-              <label htmlFor="secondary_first_name">First Name</label>
-              <input
-                type="text"
-                id="secondary_first_name"
-                name="secondary-first-name"
-              />
-
-              <label htmlFor="secondary_last_name">Last Name</label>
-              <input
-                type="text"
-                id="secondary_last_name"
-                name="secondary-last-name"
-              />
-
-              <label htmlFor="secondary_email">Email</label>
-              <input type="email" id="secondary_email" name="secondary-email" />
-
-              <label htmlFor="secondary_number">Phone Number</label>
-              <input type="tel" id="secondary_number" name="secondary-number" />
-              <div className="waivers">
-                <label htmlFor="waivers" className="checkbox-container">
-                  I have read and accept the following:
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    id="waivers"
-                    name="waiver"
-                    required
-                  />
-                  <span className="checkmark"></span>
-                </label>
-                <ul className="lists">
-                  {waivers.map((waiver, index) => (
-                    <React.Fragment key={index}>
-                      <li
-                        key={index}
-                        onClick={() =>
-                          downloadPDF(waiver.Waiver_Details, waiver.Waiver_Name)
-                        }
-                      >
-                        {waiver.Waiver_Name}
-                      </li>
-                    </React.Fragment>
-                  ))}
-                </ul>
-              </div>
             </div>
           </div>
-        </div>
         <div className="create-button-cont">
           <button className="createNewUserButton" type="submit">
             Create Account
           </button>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 

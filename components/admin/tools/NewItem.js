@@ -11,8 +11,8 @@ const NewItem = ({ categories, brands, types, locations}) => {
     <>
       <h1 className="section-title-big">Add New Item</h1>
       <form action={addNewItem}>
-        <div className="new-user-cont">
-          <div className="new-user-right">
+        <div className="new-tool-cont">
+          <div className="new-tool-section">
             <label className="form-label" htmlFor="itemName">
               Item Name
             </label>
@@ -112,7 +112,7 @@ const NewItem = ({ categories, brands, types, locations}) => {
               ))}
             </div>
           </div>
-          <div className="new-user-left">
+          <div className="new-tool-section">
             <label className="form-label" htmlFor="brand-name">
               Brand Name
             </label>
@@ -165,7 +165,7 @@ const NewItem = ({ categories, brands, types, locations}) => {
               defaultValue={"0"}
             ></input>
             <label className="form-label" htmlFor="lateFee">
-              Late fee for tool per dayin $
+              Late fee for tool per day in $
             </label>
             <input
               className="form-input"
