@@ -16,7 +16,7 @@ curr = conn.cursor()
 
 
 #Fetch data from CSV file
-dataframe1 = pd.read_excel('SEAC_Tool_Shed_Inventory.xls')
+dataframe1 = pd.read_excel('SEAC_Tool_Shed_Inventory.xlsx')
 
 
 #Function to insert tools into database
