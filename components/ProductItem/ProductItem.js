@@ -3,9 +3,11 @@ import React from "react";
 import Image from "next/image";
 import { pickUpTool } from "@/actions/customerActions";
 import Toast from "@/components/Toast";
+import ErrorToast from "../ErrorToast";
 import { useState } from "react";
 const ProductItem = ({ tool, session }) => {
   const [showToast, setShowToast] = useState(false);
+  const [showErrorToast, setShowErrorToast] = useState(false);
   const loggedIn = session?.isLoggedIn;
 
   function RoundToTenth(decimal) {
@@ -47,7 +49,8 @@ const ProductItem = ({ tool, session }) => {
   }
 
   let toolID = tool?.Tool_ID
-  let email
+  let status = tool?.Tool_Status_Details;
+  let email;
   let accountID;
 
   if(session?.isLoggedIn){
@@ -58,14 +61,18 @@ const ProductItem = ({ tool, session }) => {
   }
 
   function handleButtonClick(){
-    pickUpTool(toolID, accountID, email)
+    pickUpTool(toolID, accountID, email, status)
       .then((response) => {
        if(response.status === 'too many'){
-        alert('You have too many tools checked out at this time')
+        setShowErrorToast(true)
        }else if(response.status === 'error'){
-        alert("there was an error")
+        setShowErrorToast(true)
        }else if(response.status === 'success'){
         setShowToast(true);
+       }else if(response.status === 'not able to be reserved at this time'){
+        setShowErrorToast(true)
+       }else{
+        console.log(response.status)
        }
       })
       .catch((error) => {
@@ -77,6 +84,7 @@ const ProductItem = ({ tool, session }) => {
   return (
     <>
       <div className="product-cont">
+      {showErrorToast && <ErrorToast message="Tool cannot be reserved at this time!" />}
       {showToast && <Toast message="Tool has been reserved!" />}
         <div className="product-left">
           {tool && (
@@ -96,7 +104,7 @@ const ProductItem = ({ tool, session }) => {
           {tool && (
             <React.Fragment>
               <h2 className="product-title">{tool.Tool_Name}</h2>
-              <div className={toolStatus} onClick={loggedIn ? handleButtonClick : undefined}>
+              <div className={toolStatus} onClick={loggedIn && (tool?.Tool_Status_Details !== 'Disabled' || 'Maintenance' || 'Checked Out' )  ? handleButtonClick : undefined}>
                 <p className="pickup">{pickupText}</p>
                 <div className="availability">
                   <p>{tool.Tool_Status_Details}</p>
