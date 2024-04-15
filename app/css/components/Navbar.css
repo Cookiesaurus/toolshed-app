@@ -1,11 +1,20 @@
 .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    left: 0;
     display: flex;
     flex-direction: row;
-    justify-content:space-around;
+    justify-content: space-around;
     white-space: nowrap;
     background-color: #ebebeb;
-    
+    z-index: 100;
+    transition: top 0.3s ease;
 }
+
+.fixed {
+    position: absolute;
+  }
 
 .navbar-section{
     padding-top: 20px;

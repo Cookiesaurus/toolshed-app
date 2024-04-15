@@ -227,6 +227,23 @@ const Filters = ({ categories, brands, types, locations, totalTools, admin }) =>
                     <span className="checkmark"></span>
                   </label>
                   <label
+                    htmlFor="checkedout"
+                    className="checkbox-container white"
+                  >
+                    Checked Out - Admin
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      id="checkedout"
+                      name="checkedout"
+                      value="checked out"
+                      onChange={(e) => {
+                        handleStockChange(e);
+                      }}
+                    />
+                    <span className="checkmark"></span>
+                  </label>
+                  <label
                     htmlFor="floating"
                     className="checkbox-container white"
                   >

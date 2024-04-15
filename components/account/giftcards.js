@@ -100,14 +100,14 @@ const GiftCardOptions = ()=>{
       <div className="gift-card-ranks">
         <div className="rank">
           <h3>Tinker Level <br/> Gift Certificate</h3>
-          <p>This is a gift certificate for one McGuyver Level Membership (normally $35 per year).
+          <p>This is a gift certificate for one Tinker Level Membership (normally $25 per year).
           <br/>
           With this membership, the member can rent up to five tools at a time*</p>
           <button className="redeem-button" id="gift-redeem-button-25" onClick={handleButtonClick}>$25.00</button>
         </div>
         <div className="rank">
           <h3>MacGyver Level<br/> Gift Certificate</h3>
-          <p>This is a gift certificate for one Tinkerer Level Membership (normally $25 per year).
+          <p>This is a gift certificate for one MacGyver Level Membership (normally $35 per year).
           <br/>
           With this membership, the member can rent up to 10 tools at a time*</p>
           <button className="redeem-button" id="gift-redeem-button-35" onClick={handleButtonClick} >$35.00</button>

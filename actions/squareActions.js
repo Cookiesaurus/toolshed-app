@@ -3,7 +3,7 @@
 import mysql from "mysql2/promise";
 import { v4 } from "uuid";
 import { client } from "@/components/Square/Client";
-import { updateMembership } from "./actions";
+import { lateToolPayment, updateMembership } from "./actions";
 
 // Different APIs for Square functions
 const {
@@ -18,6 +18,14 @@ const {
 BigInt.prototype.toJSON = function () {
     return this.toString();
 };
+
+const pool = mysql.createPool({
+    host: process.env.DB_HOSTNAME,
+    database: process.env.DB,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+});
 
 export const addCardToFile = async (sourceId, custId) => {
     try {
@@ -130,7 +138,7 @@ export const subscribe = async (sourceId, planName, addCardBool, custId) => {
 
     try {
         // Create a payment
-        console.log("Token from payment source : ", sourceId);
+        // console.log("Token from payment source : ", sourceId);
         const { result } = await paymentsApi.createPayment({
             idempotencyKey: v4(),
             sourceId,
@@ -312,7 +320,7 @@ export const addNewCard = async (sourceId) => {
             },
         });
         console.log("Card added");
-        console.log("Payment card : ", result.payment.cardDetails.card);
+        // console.log("Payment card : ", result.payment.cardDetails.card);
         return result;
     } catch (error) {
         console.log(error);
@@ -373,7 +381,7 @@ export const refundLinkedPayment = async (amt, paymentId, custId) => {
             customerId: custId,
             paymentId: paymentId,
         });
-        console.log("Refunded the customer ", custId, " Amount ", amt);
+        // console.log("Refunded the customer ", custId, " Amount ", amt);
     } catch (error) {
         console.log("Could not refund amount : ", error);
     }
@@ -389,5 +397,219 @@ export const getCards = async (custId) => {
         // Return in JSON format
     } catch (error) {
         console.log("Cannot get user cards : ", error);
+    }
+};
+
+const getSubscription = async (custId) => {
+    const cus = custId;
+    try {
+        let subscription = await subscriptionsApi.searchSubscriptions({
+            query: {
+                filter: {
+                    customerIds: [cus],
+                },
+            },
+        });
+        subscription = subscription.result.subscriptions[0];
+        return JSON.stringify(subscription);
+    } catch (error) {
+        console.log("Error in getting subscription: ", error);
+        // return JSON.stringify({ error });
+    }
+};
+
+export const updateSubscription = async (custId, plan) => {
+    // console.log("Plan is : ", plan);
+    // console.log("Customer ID : ", custId);
+    if (!plan) return;
+    try {
+        // Get subscription ID
+        let sub = await getSubscription(custId);
+        sub = JSON.parse(sub);
+        console.log("420sa -> Subscription ID : ", sub.id);
+        const sub_id = sub.id;
+        // Get plan variation ID
+        let fullplan = await getItemVariation(plan);
+        const plan_id = fullplan.id;
+        let orderId = await createOrder(custId, plan_id);
+        // Create Order from plan ID and customer ID
+        // Swap plan
+
+        // Change subscription
+        // const result = await subscriptionsApi.updateSubscription(sub_id, {
+        //     newPlanVariationId: process.env.SUBSCRIPTION_PLAN_ID, // Put plan variation ID,
+        //     phases: [
+        //         {
+        //             ordinal: 0,
+        //             orderTemplateId: orderId, // Put Order Template ID
+        //         },
+        //     ],
+        // });
+        // update membership level in database
+        console.log("Updated membership: ", result);
+        return result;
+        // Change in database
+    } catch (error) {
+        console.log("Could not update membership : ", error);
+        return JSON.stringify({ error });
+    }
+};
+
+const changeDBMembership = async (custId, plan) => {
+    const db = await mysql.createConnection({
+        host: process.env.DB_HOSTNAME,
+        database: process.env.DB,
+        port: process.env.DB_PORT,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+    });
+    const level = getLevel(plan);
+    try {
+        const query =
+            "UPDATE Accounts SET Membership_Level=" +
+            level +
+            " WHERE Customer_ID='" +
+            custId +
+            "';";
+        const result = await db.execute(query);
+        console.log("Membership updated in DB", result);
+        db.commit();
+        db.end();
+        // return result[0].serverStatus == 2 ? userIdDb : -1;
+    } catch (error) {
+        console.log("Could not add user to databse : ", error);
+    }
+};
+
+const getLevel = (plan) => {
+    if (plan == "tinker") return 1;
+    if (plan == "macgyver") return 2;
+    if (plan == "builder") return 3;
+    if (plan == "contractor") return 4;
+};
+
+// Make a cron job that runs makeLateFeePayment(cust) for all customers
+export const cronJobLateFee = async () => {};
+
+// Function to charge user's card for the an amount
+export const makeLateFeePayment = async (custId, amt, transId) => {
+    //          Get first user card
+    let card = await getCards(custId);
+    let cardId = JSON.parse(card).cards[0].id;
+    let date = new Date();
+    const order = await createTransOrder(custId, amt);
+    let invoice = await createInvoice(order.id, custId, cardId, new Date());
+    // make a late fee payment for that tool
+    invoice = await publishInvoice(invoice.id, invoice.version);
+    let invoiceNumber = invoice.invoiceNumber;
+    // return invoice;
+    // NEED SQL QUERY
+    let query =
+        `UPDATE Transactions INNER JOIN Accounts ON Transactions.Account_ID = Accounts.Account_ID INNER JOIN Tools ON Transactions.Tool_ID = Tools.Tool_ID INNER JOIN Transaction_Types ON Transactions.Transaction_Type = Transaction_Types.Transaction_Type SET Payment_Amount = Payment_Amount + ` +
+        amt +
+        ` WHERE Transactions.Transaction_ID = ` +
+        transId;
+    let query2 =
+        `INSERT INTO Transaction_Payments VALUES (` +
+        transId +
+        `, ` +
+        invoiceNumber +
+        `, "` +
+        invoice.publicUrl +
+        `");`;
+
+    const db = await pool.getConnection();
+    try {
+        // add payment amount in the transaction (UPDATE transaction)
+        const rows = await db.execute(query);
+        // add payment Id in the list of payment IDs for the transaction (UPDATE transaction_payments)
+        const rows1 = await db.execute(query2);
+        return { message: "Success" };
+    } catch (error) {
+        // console.error("Error making late fee payment db changes: ", error);
+        console.error(error);
+    } finally {
+        db.release();
+    }
+};
+
+export const createTransOrder = async (custId, amt) => {
+    try {
+        const { result } = await client.ordersApi.createOrder({
+            order: {
+                locationId: process.env.LOCATION_ID,
+                customerId: custId,
+                lineItems: [
+                    {
+                        quantity: "1",
+                        itemType: "CUSTOM_AMOUNT",
+                        basePriceMoney: {
+                            amount: amt * 100,
+                            currency: "USD",
+                        },
+                    },
+                ],
+                state: "OPEN",
+            },
+            idempotencyKey: v4(),
+        });
+        return result.order;
+    } catch (error) {
+        console.log("Could not create order : ", error);
+    }
+};
+
+export const createInvoice = async (orderId, custId, cardId, date) => {
+    let varnow = date;
+
+    let month = varnow.getMonth() + 1;
+    let day = varnow.getDate();
+    if (month < 10) {
+        month = "0" + String(month);
+    }
+    var date = varnow.getFullYear() + "-" + month + "-" + day;
+    try {
+        const response = await client.invoicesApi.createInvoice({
+            invoice: {
+                locationId: process.env.LOCATION_ID,
+                orderId: orderId,
+                primaryRecipient: {
+                    customerId: custId,
+                },
+                paymentRequests: [
+                    {
+                        requestType: "BALANCE",
+                        dueDate: date,
+                        automaticPaymentSource: "CARD_ON_FILE",
+                        cardId: cardId,
+                    },
+                ],
+                deliveryMethod: "EMAIL",
+                acceptedPaymentMethods: {
+                    card: true,
+                },
+            },
+            idempotencyKey: v4(),
+        });
+
+        // console.log(response.result);
+        return response.result.invoice;
+    } catch (error) {
+        console.log(error);
+    }
+};
+export const publishInvoice = async (invoiceId, version) => {
+    try {
+        const response = await client.invoicesApi.publishInvoice(invoiceId, {
+            version: version,
+            idempotencyKey: v4(),
+        });
+        const invoice = response.result.invoice;
+        if (invoice.status == "PAID") {
+            console.log("Amount has been paid ");
+        }
+        return invoice;
+    } catch (error) {
+        console.log(error);
     }
 };

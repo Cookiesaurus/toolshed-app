@@ -27,10 +27,25 @@
     white-space: nowrap;
     margin-bottom: 20px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .save-changes-button:hover {
     background-color: #FBC955;
+}
+
+.cancel-button {
+    background-color: white;
+    font-family: 'Poppins';
+    font-size: 16px;
+    font-weight: 400;
+    white-space: nowrap;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.cancel-button:hover {
+    text-decoration: underline;
 }
 
 .info-title {
@@ -140,18 +155,23 @@ a.light-paragraph {
 
 button.profile-button{
     width: 235px;
-    height: 35px;
-    background-color: #FBC955;
-    color: black;
+    height: 40px;
+    background-color: black;
+    color: white;
     border-radius: 4px;
     text-align: center;
     font-family: 'Poppins';
-    font-size: 12px;
+    font-size: 18px;
     font-weight: 400;
     line-height: 18px;
     letter-spacing: 0em;
     cursor: pointer;
     border: none;
+}
+
+button.profile-button:hover {
+    background-color: #FBC955;
+    color: white;
 }
 
 .switch-container{
@@ -285,24 +305,25 @@ ul li{
     gap: 12px;
 }
 
-button#save-changes {
-    padding: 15px 25px 15px 25px;
-    border: none;
-    border-radius: 50px;
-    background-color: #2E3192;
-    color: white;
-    cursor: pointer;
-}
-
-button#cancel-changes {
-    border: none;
-    background-color: white;
-    padding: 15px 25px 15px 25px;
-    font-weight: bold;
-    cursor: pointer;
+.save-changes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
  .account-input {
     border-radius: 10px;
     height: 60px;
     width: 50%;
+}
+.edit-container {
+    display: flex;
+    justify-content: flex-start;
+}
+.p-click{
+    cursor: pointer;
+}
+
+.customer-name {
+    background-color: white;
 }

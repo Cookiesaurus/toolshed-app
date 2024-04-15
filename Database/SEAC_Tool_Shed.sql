@@ -100,19 +100,19 @@ CREATE TABLE Accounts (
 
 -- Accounts Inserts --
 -- Manager Accounts -- 
-INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
-("Nick", "Wilbur", "2000-01-01", 1, "South East Area Coalition", "nick@SEACrochester.org", AES_Encrypt("password", ""), "5852718665", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 4); -- Nick Manager Account
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level, Customer_ID) VALUES
+("Nick", "Wilbur", "2000-01-01", 1, "South East Area Coalition", "nick@SEACrochester.org", AES_Encrypt("password", ""), "5852718665", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 4, "XB18BCSMW9P2BAE2RPGY6HTEPR"); -- Nick Manager Account
 
 -- Employee Accounts -- 
-INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level) VALUES
-("Kiki", "Smith", "2000-01-01", 2, "South East Area Coalition", "kirstyn@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3), -- Kiki Employee Account
-("Lori", "Wood", "2000-01-01", 2, "South East Area Coalition", "lori@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3), -- Lori Employee Account
-("Sara", "Glauser", "2000-01-01", 2, "South East Area Coalition", "sara@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3); -- Sara Employee Account
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Organization_Name, Email, Password, Phone_Number, Address_Line1, City, State, Postal_Code, Membership_Level, Membership_Auto_Renewal, Membership_Expiration_Date, Privilege_Level, Customer_ID) VALUES
+("Kiki", "Smith", "2000-01-01", 2, "South East Area Coalition", "kirstyn@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3, "6YQB5EXJDCS7C13Z51YGA8YHXR"), -- Kiki Employee Account
+("Lori", "Wood", "2000-01-01", 2, "South East Area Coalition", "lori@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3, "N3XWDD97DWW3R4VZQRKRQCKKH4"), -- Lori Employee Account
+("Sara", "Glauser", "2000-01-01", 2, "South East Area Coalition", "sara@SEACrochester.org", AES_Encrypt("password", ""), "5852109140", "1255 University Ave", "Rochester", "New York", "14607", 4, 1, "9999-12-31", 3, "5PC4ZWXC49KPBNSZ4SVZJQGY7G"); -- Sara Employee Account
 
 -- Customer Accounts -- 
-INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Secondary_First_Name, Secondary_Last_Name, Secondary_Email, Secondary_Phone_Number, Membership_Level, Privilege_Level) VALUES -- Normal Customer W/Secondary Account
-("The", "Handymen", "2023-07-16", "1", "thehandymen@rit.edu", AES_Encrypt("password", ""), "5852034445", "8439 Sharp Lane", "Apt. 4", "Chesterland", "Ohio", "44026", "Bryce", "Hofstrom", "bgh3077@g.rit.edu", "2164075162", 1, 1),
-("The", "HandymenAdmin", "2023-07-17", "1", "thehandymenadmin@rit.edu", AES_Encrypt("password", ""), "5852034446", "1111 Sharp Lane", "Apt. 7", "Chesterland", "Ohio", "44026", "Ian", "Dinga", "dinga@g.rit.edu", "1111111111", 4, 5);
+INSERT INTO Accounts (First_Name, Last_Name, DOB, Gender_Code, Email, Password, Phone_Number, Address_Line1, Address_Line2, City, State, Postal_Code, Secondary_First_Name, Secondary_Last_Name, Secondary_Email, Secondary_Phone_Number, Membership_Level, Privilege_Level, Customer_ID) VALUES -- Normal Customer W/Secondary Account
+("The", "Handymen", "2023-07-16", "1", "thehandymen@rit.edu", AES_Encrypt("password", ""), "5852034445", "8439 Sharp Lane", "Apt. 4", "Chesterland", "Ohio", "44026", "Bryce", "Hofstrom", "bgh3077@g.rit.edu", "2164075162", 1, 1, "X4EMHE468TT9WHMZAPRRBVXQPC"),
+("The", "HandymenAdmin", "2023-07-17", "1", "thehandymenadmin@rit.edu", AES_Encrypt("password", ""), "5852034446", "1111 Sharp Lane", "Apt. 7", "Chesterland", "Ohio", "44026", "Ian", "Dinga", "dinga@g.rit.edu", "1111111111", 4, 5, "EMKNY9JCDEV0T0DTNC4Y26CXFR");
 
 CREATE TABLE Gift_Cards (
     /* The Gift_Cards table will hold all gift cards following thier purchase */
@@ -193,30 +193,6 @@ INSERT INTO Transaction_Types (Transaction_Type, Transaction_Details) VALUES
 (10, "Rental Fee"), -- Rental Late Fee Type
 (11, "Tool Replacement Fee"), -- Tool Replacement Fee Type
 (12, "Cleaning Fee"); -- Tool Cleaning Fee
-
-CREATE TABLE Transactions (
-    /* The Transactions table holds all transactions related to each account */
-    Transaction_ID INT UNSIGNED AUTO_INCREMENT, -- Transaction_ID holds a unique integer value to describe each transaction
-    Account_ID INT UNSIGNED NOT NULL, -- Account_ID is a unique identifier for all Tool Shed users
-    Transaction_Date DATE NOT NULL, -- Transaction_Date holds the date value for the transaction
-    Transaction_Type TINYINT UNSIGNED NOT NULL, -- Transaction_Type holds the integer value describing each transaction
-    Start_Date DATE, -- Start_Date holds the start date value for a transaction
-    End_Date DATE, -- End_Date holds the end date value for a transaction. Tools must be returned by this date or result in a Rental Late Fee
-    Check_Out_Date DATE, -- Check_Out_Date holds the date value describing when tools are picked up by renter
-    Check_In_Date DATE, -- Check_Out_Date holds the date value describing when tools are returned up by renter
-    Payment_Amount FLOAT, -- Payment_Amount holds the float integer value describing any money amounts payed to the SEAC Tool Shed for a transaction
-    CONSTRAINT PK_Transactions PRIMARY KEY (Transaction_ID), -- Transaction_ID is the primary key for this table
-    CONSTRAINT FK_Transaction_Transaction_Types FOREIGN KEY (Transaction_Type) REFERENCES Transaction_Types (Transaction_Type), -- This statement creates a foreign key on Transaction_Type, which is used to connect the to the Transaction_Types table
-    CONSTRAINT FK_Transactions_Accounts FOREIGN KEY (Account_ID) REFERENCES Accounts (Account_ID) -- This statement creates a foreign key on Account_ID, which is used to connect the to the Accounts table
-);
-INSERT INTO Transactions(Account_ID, Transaction_Date, Transaction_Type, Payment_Amount) VALUES
-(5, "2024-03-09", 5, 0.00),
-(5, "2024-03-09", 6, 0.00),
-(5, "2024-03-12", 9, 3.00),
-(5, "2024-03-13", 1, 35.00),
-(5, "2024-03-13", 2, 25.00),
-(5, "2024-03-13", 1, 25.00);
-
 
 CREATE TABLE Tool_Statuses ( 
     /* Tool_Status table holds all tool status codes for tool availablity */
@@ -453,7 +429,7 @@ CREATE TABLE Tools (
     Tool_ID INT UNSIGNED AUTO_INCREMENT, -- Tool_ID holds an integer value for each individual tool
     Old_Tool_ID VARCHAR(255), -- Tool_ID holds an integer value for each individual tool
     Tool_Name VARCHAR(255) NOT NULL, -- Tool_Name holds the name associated to each tool
-    Brand_Name VARCHAR(255), -- Tool_Brand holds the code of each tool brand manufacturer
+    Brand_Name VARCHAR(255) NULL, -- Tool_Brand holds the code of each tool brand manufacturer
     Tool_Weight FLOAT, -- Tool_Weight holds the weight of the tool 
     Tool_Size VARCHAR(255), -- Tool_Size holds the size of the tool
     Home_Location INT UNSIGNED NOT NULL, -- Home_Location is the location where the tool is supposed to be returned to. 
@@ -477,14 +453,31 @@ CREATE TABLE Tools (
     CONSTRAINT FK_Tools_Brands FOREIGN KEY (Brand_Name) REFERENCES Brands (Brand_Name)
 );
 
-CREATE TABLE Tool_Transactions (
-    /* The Tool_Transactions tables is an associative table joining the Tools table to the Transactions table. This table will be populated upon Transaction creation */
-    Tool_ID INT UNSIGNED, -- Tool_ID holds an integer value for the tool involved in a transaction. Only applies to transactions related to tools
-    Transaction_ID INT UNSIGNED, -- Transaction_ID holds a unique integer value to describe each transaction
-    CONSTRAINT PK_Tool_Transaction PRIMARY KEY (Tool_ID, Transaction_ID), -- Tool_ID and Transaction_ID are the primary keys
-    CONSTRAINT FK_Tool_Transactions_Tools FOREIGN KEY (Tool_ID) REFERENCES Tools (Tool_ID), -- This statement creates a foreign key on Tool_ID, which is used to connect the to the Tools table
-    CONSTRAINT FK_Tool_Transactions_Transactions FOREIGN KEY (Transaction_ID) REFERENCES Transactions (Transaction_ID) -- This statement creates a foreign key on Transaction_ID, which is used to connect the to the Transactions table
+CREATE TABLE Transactions (
+    /* The Transactions table holds all transactions related to each account */
+    Transaction_ID INT UNSIGNED AUTO_INCREMENT, -- Transaction_ID holds a unique integer value to describe each transaction
+    Account_ID INT UNSIGNED NOT NULL, -- Account_ID is a unique identifier for all Tool Shed users
+    Tool_ID INT UNSIGNED,
+    Transaction_Status VARCHAR(255),
+    Transaction_Date DATE NOT NULL, -- Transaction_Date holds the date value for the transaction
+    Transaction_Type TINYINT UNSIGNED NOT NULL, -- Transaction_Type holds the integer value describing each transaction
+    End_Date DATE, -- End_Date holds the end date value for a transaction. Tools must be returned by this date or result in a Rental Late Fee
+    Check_In_Date DATE, -- Check_Out_Date holds the date value describing when tools are returned up by renter
+    Payment_Amount FLOAT DEFAULT 0.00, -- Payment_Amount holds the float integer value describing any money amounts payed to the SEAC Tool Shed for a transaction
+    CONSTRAINT PK_Transactions PRIMARY KEY (Transaction_ID), -- Transaction_ID is the primary key for this table
+    CONSTRAINT FK_Transaction_Transaction_Types FOREIGN KEY (Transaction_Type) REFERENCES Transaction_Types (Transaction_Type), -- This statement creates a foreign key on Transaction_Type, which is used to connect the to the Transaction_Types table
+    CONSTRAINT FK_Transactions_Accounts FOREIGN KEY (Account_ID) REFERENCES Accounts (Account_ID), -- This statement creates a foreign key on Account_ID, which is used to connect the to the Accounts table
+    CONSTRAINT FK_Transactions_Tools FOREIGN KEY (Tool_ID) REFERENCES Tools (Tool_ID) 
 );
+
+CREATE TABLE Transaction_Payments (
+    Transaction_ID INT UNSIGNED,
+    Invoice_Number VARCHAR(255),
+    Payment_ID VARCHAR(2000) NOT NULL,
+    CONSTRAINT PK_Transaction_Payments PRIMARY KEY (Transaction_ID, Invoice_Number),
+    CONSTRAINT FK_Transaction_Payments_Transactions FOREIGN KEY (Transaction_ID) REFERENCES Transactions (Transaction_ID)
+);
+
 
 CREATE TABLE Categories (
     /* The Categories table contains all of the avaialble tool categories for the SEAC Tool Shed */
@@ -521,8 +514,8 @@ CREATE TABLE Tool_Categories (
     Tool_ID INT UNSIGNED, -- Tool_ID holds an integer value for each individual tool
     Category_ID INT UNSIGNED, -- Category_ID holds an integer value for each individual category
     CONSTRAINT PK_Tool_Categories PRIMARY KEY (Tool_ID, Category_ID), -- Tool_ID and Category_ID make up the primary keys
-    CONSTRAINT FK_Tool_Categories_Tools FOREIGN KEY (Tool_ID) REFERENCES Tools (Tool_ID), -- This statement creates a foreign key on Tool_ID, which is used to connect the to the Tools table
-    CONSTRAINT FK_Tool_Categories_Categories FOREIGN KEY (Category_ID) REFERENCES Categories (Category_ID) -- This statement creates a foreign key on Category_ID, which is used to connect the to the Categories table
+    CONSTRAINT FK_Tool_Categories_Tools FOREIGN KEY (Tool_ID) REFERENCES Tools (Tool_ID) ON DELETE CASCADE, -- This statement creates a foreign key on Tool_ID, which is used to connect the to the Tools table
+    CONSTRAINT FK_Tool_Categories_Categories FOREIGN KEY (Category_ID) REFERENCES Categories (Category_ID) ON DELETE CASCADE -- This statement creates a foreign key on Category_ID, which is used to connect the to the Categories table
 );
 
 CREATE TABLE Types (
@@ -808,6 +801,6 @@ CREATE TABLE Tool_Types (
     Tool_ID INT UNSIGNED, -- Tool_ID holds an integer value for each individual tool
     Type_ID INT UNSIGNED, -- Type_ID holds an integer value for each individual type
     CONSTRAINT PK_Tool_Categories PRIMARY KEY (Tool_ID, Type_ID), -- Tool_ID and Type_ID make up the primary keys
-    CONSTRAINT FK_Tool_Types_Tools FOREIGN KEY (Tool_ID) REFERENCES Tools (Tool_ID), -- This statement creates a foreign key on Tool_ID, which is used to connect the to the Tools table
-    CONSTRAINT FK_Tool_Types_Types FOREIGN KEY (Type_ID) REFERENCES Types (Type_ID) -- This statement creates a foreign key on Type_ID, which is used to connect the to the Types table
+    CONSTRAINT FK_Tool_Types_Tools FOREIGN KEY (Tool_ID) REFERENCES Tools (Tool_ID) ON DELETE CASCADE, -- This statement creates a foreign key on Tool_ID, which is used to connect the to the Tools table
+    CONSTRAINT FK_Tool_Types_Types FOREIGN KEY (Type_ID) REFERENCES Types (Type_ID) ON DELETE CASCADE -- This statement creates a foreign key on Type_ID, which is used to connect the to the Types table
 );

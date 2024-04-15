@@ -129,9 +129,7 @@ const ProductItem = ({ tool, session }) => {
               </div>
               {tool?.Tool_Manual && (
                 <div className="produc-manual">
-                  <a href={tool.Tool_Manual} target="_blank">
-                    Tool Manual
-                  </a>
+                  <a className="tool-manual" href={tool.Tool_Manual} target="_blank">Tool Manual</a>
                 </div>
               )}
 
