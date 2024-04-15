@@ -16,6 +16,7 @@ import {
     deleteCardFromFile,
 } from "@/actions/squareActions";
 import { PaymentForm, CreditCard } from "react-square-web-payments-sdk";
+import { GiftCardDisp } from "./giftcard";
 const appId = "sandbox-sq0idb-b3GBVpDWCRZfpKe13OsWQQ";
 const locationId = "LFETGS2GE8TGC";
 
@@ -107,6 +108,7 @@ export const SavedCards = ({ user }) => {
                         Add New Payment Method
                     </button>
                 </div>
+                {<GiftCardDisp custId={custId} />}
                 {showCards &&
                     cards &&
                     cards.map((card, index) => {

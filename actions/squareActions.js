@@ -15,6 +15,7 @@ const {
     subscriptionsApi,
     catalogApi,
     refundsApi,
+    giftCardsApi,
 } = client;
 BigInt.prototype.toJSON = function () {
     return this.toString();
@@ -629,7 +630,7 @@ export const buyGiftCard = async (source, custToGift, amt) => {
 
 export const createGiftCard = async () => {
     try {
-        const response = await client.giftCardsApi.createGiftCard({
+        const response = await giftCardsApi.createGiftCard({
             idempotencyKey: v4(),
             locationId: process.env.LOCATION_ID,
             giftCard: {
@@ -667,6 +668,7 @@ export const activateGiftCard = async (gcId, gcGan, amt, source) => {
             });
 
         // console.log(response.result);
+        console.log("Gift card activated.");
         return response.result.giftCardActivity;
     } catch (error) {
         console.log(error);
@@ -701,12 +703,28 @@ export const getCustomerByEmail = async (email) => {
 
 export const linkCustomerToGiftCard = async (gid, custId) => {
     try {
-        const response = await client.giftCardsApi.linkCustomerToGiftCard(gid, {
+        const response = await giftCardsApi.linkCustomerToGiftCard(gid, {
             customerId: custId,
         });
 
         // console.log(response.result);
         return response.result.giftCard;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getGiftCards = async (type, state, limit, cursor, custId) => {
+    try {
+        const response = await giftCardsApi.listGiftCards(
+            type,
+            state,
+            limit,
+            cursor,
+            custId
+        );
+        // console.log(response.result)
+        return response.result.giftCards;
     } catch (error) {
         console.log(error);
     }

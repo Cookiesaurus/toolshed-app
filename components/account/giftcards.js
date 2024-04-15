@@ -38,7 +38,10 @@ const PaymentButton = ({ paymentAmount }) => {
     );
 };
 
-const AddCardModal = ({ onClose, custId, amt }) => {
+const AddCardModal = ({ onClose, custId, amt, recId }) => {
+    console.log("CustID", custId);
+    console.log("Amt", amt);
+    console.log("recId", recId);
     // State to check when to make payment
     const [pay, setPay] = useState(false);
     const [source, setSource] = useState(null);
@@ -49,6 +52,8 @@ const AddCardModal = ({ onClose, custId, amt }) => {
             let cards;
             let card;
             let gc = await createGiftCard();
+            // console.log(custId);
+            // console.log(source);
             if (!source) {
                 cards = await getCards(custId);
                 cards = JSON.parse(cards).cards;
@@ -58,8 +63,8 @@ const AddCardModal = ({ onClose, custId, amt }) => {
             }
             await activateGiftCard(gc.id, gc.gan, amt, source);
             // Link Customer to card
-            if (custId) {
-                gc = await linkCustomerToGiftCard(gc.id, custId);
+            if (recId) {
+                gc = await linkCustomerToGiftCard(gc.id, recId);
                 console.log("GC after activation : ", gc);
             }
             // Figure out how customer will use card
@@ -81,7 +86,6 @@ const AddCardModal = ({ onClose, custId, amt }) => {
     // };
     const payUsingCard = () => {
         setPay(true);
-        console.log(pay);
         // Get card from file
         // Make order, invoice, payment
     };
@@ -93,11 +97,9 @@ const AddCardModal = ({ onClose, custId, amt }) => {
                     onClick={onClose}
                     style={{ cursor: "pointer" }}
                 />
-                {custId ? "Using saved card on file" : "Add a payment method"}
+                {custId ? "Pay using card on file" : "Add card"}
             </h1>
-            {custId ? (
-                <button onClick={payUsingCard}>Pay {amt}</button>
-            ) : (
+            {!custId ? (
                 <PaymentForm
                     applicationId={appId}
                     locationId={locationId}
@@ -109,8 +111,16 @@ const AddCardModal = ({ onClose, custId, amt }) => {
                 >
                     <CreditCard>Pay {amt}</CreditCard>
                 </PaymentForm>
+            ) : (
+                <button
+                    onClick={() => {
+                        setSource(null);
+                        setPay(true);
+                    }}
+                >
+                    Pay using card
+                </button>
             )}
-            ;
         </>
     );
 };
@@ -245,7 +255,7 @@ const GiftCardOptions = () => {
 
     const [session, setSession] = useState(null);
     const [paymentMethod, setPaymentMethod] = useState("card");
-    const [cust, setCust] = useState(null);
+    const [rec, setRec] = useState(null);
     const [email, setEmail] = useState(null);
     useEffect(() => {
         fetch("/api/me", { cache: "no-cache" })
@@ -261,11 +271,14 @@ const GiftCardOptions = () => {
     useEffect(() => {
         const fn = async () => {
             try {
-                const cust = await getCustomerByEmail(email);
-                if (cust.error) {
-                    console.log(cust);
+                // console.log("Rec email : ", email);
+                let cu = await getCustomerByEmail(email);
+                console.log(cu);
+                if (cu.error) {
+                    console.log(cu);
                 }
-                setCust(cust);
+
+                setRec(cu);
                 // console.log("Customer : ", cust);
             } catch (error) {
                 console.error(error);
@@ -415,13 +428,10 @@ const GiftCardOptions = () => {
                             setShowCardModal(false);
                         }}
                         custId={
-                            session.isLoggedIn
-                                ? session.user.Customer_Id
-                                : cust
-                                ? cust.id
-                                : null
+                            session.isLoggedIn ? session.user.Customer_ID : null
                         }
                         amt={amount}
+                        recId={rec ? rec.id : null}
                     />
                 ) : null}
             </div>
