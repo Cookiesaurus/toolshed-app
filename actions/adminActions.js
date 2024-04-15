@@ -126,24 +126,23 @@ export const addNewUserFromAdmin = async (formData) =>{
     }
 }
 
-export const updateUserFromAdmin = async (formData) =>{
+export const updateUserFromAdmin = async (accountID, formData) =>{
     //primary info
     const date = new Date(formData.get("date-of-birth"))
     const first = formData.get("firstName");
     const last = formData.get("lastName");
     const email = formData.get("email");
     const number = formData.get("phoneNumber");
-    const pass = formData.get("password");
-    const confrimPass = formData.get("re-enter-password");
     const addressOne = formData.get("street-address");
     const addressTwo = formData.get("street-address-two");
     const city = formData.get("city");
     const state = formData.get("state");
     const zip = formData.get("zipCode");
     const gender = formData.get("gender");
-    const membership = formData.get("membership");
+    const membership = formData.get("membership-level");
     const organization = formData.get("organization");
     const privilege = formData.get("privilege");
+    const accountNotes = formData.get('account-notes')
 
     //secondary user
     const secFirst = formData.get("secondary-first-name");
@@ -202,9 +201,9 @@ export const updateUserFromAdmin = async (formData) =>{
             break;
     }
 
-    const data = [first, last, date, genderCode, organization, email, pass, number, 
+    const data = [first, last, date, genderCode, organization, email, number, 
                 addressOne, addressTwo, city, state, zip, secFirst, secLast, secEmail, 
-                secPhone, membershipCode, privilegeCode]
+                secPhone, accountNotes, membershipCode, privilegeCode]
     console.log(data)
 
     try {
@@ -213,7 +212,14 @@ export const updateUserFromAdmin = async (formData) =>{
         await connection.beginTransaction();
     
         // Prepare the update statement
-        const updateQuery = ``;
+        const updateQuery = `UPDATE Accounts SET  First_Name = ?, Last_Name = ?, DOB = ?, 
+                            Gender_Code = ?, Organization_Name = ?, Email = ?, 
+                            Phone_Number = ?, Address_Line1 = ?, 
+                            Address_Line2 = ?, City = ?, State = ?, Postal_Code = ?, 
+                            Secondary_First_Name = ?, Secondary_Last_Name = ?, 
+                            Secondary_Email = ?, Secondary_Phone_Number = ?, 
+                            Account_Notes = ?, Membership_Level = ?, Privilege_Level 
+                            = ?  WHERE Account_ID = ${accountID};`;
     
         // Execute the prepared statement
         await connection.query(updateQuery, data);
@@ -221,13 +227,13 @@ export const updateUserFromAdmin = async (formData) =>{
         // Commit the transaction
         await connection.commit();
         connection.release();
-    
+        
         console.log('Account updated successfully');
-      } catch (error) {
+        return {status: 'success'}
+    } catch (error) {
         // Rollback the transaction in case of an error
-        await connection.rollback();
-        connection.release();
         console.error('Error updating account:', error);
+        return {status: 'error'}
       }
 }
 
