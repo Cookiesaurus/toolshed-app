@@ -2,10 +2,11 @@
 import { useState } from "react";
 import SelectStates from "../../FormComponents/statesSelect";
 import { updateUserFromAdmin, deleteUser } from "@/actions/adminActions";
+import Toast from "@/components/Toast";
 //Using the create new user component, just need to pass in data from the query
 const EditUser = ({ customerInfo, genders, memberships, privilegeLevels, admin }) => {
   const [showPasswords, setShowPasswords] = useState(false);
-
+  const [showToast, setShowToast] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPasswords((prevState) => !prevState);
   };
@@ -22,9 +23,26 @@ const EditUser = ({ customerInfo, genders, memberships, privilegeLevels, admin }
     return formattedDate;
 }
 
+const [formError, setFormError] = useState(false);
+function handleFormSubmit(formData) {
+  updateUserFromAdmin(customerInfo?.Account_ID, formData)
+    .then((response) => {
+      if (response.status === 'error') {
+        setFormError(true)
+      } else if(response.status === 'success') {
+        setShowToast(true);
+        console.log("success");
+      }
+    })
+    .catch((error) => {
+      // Handle other potential errors, e.g., network error
+    });
+}
+
 
 return (
   <>
+   {showToast && <Toast message="Account updated successfully!" />}
     <form method="POST">
       <h1>Edit User</h1>
       <div className="new-user-cont">
@@ -69,9 +87,9 @@ return (
                 name="gender"
                 id="gender"
                 className="input"
-                defaultValue="default"
+                defaultValue={customerInfo.Gender_Name}
               >
-                <option value="default" hidden>
+                <option value={customerInfo.Gender_Name} hidden>
                   {customerInfo.Gender_Name}
                 </option>
                 {genders.map((gend, index) => (
@@ -137,6 +155,8 @@ return (
                 name="zipCode"
                 defaultValue={customerInfo.Postal_Code}
               />
+              <label htmlFor="account-notes">Account Notes</label>
+                <input type="text" id="account-notes" name="account-notes" />
             </div>
           </div>
         </div>
@@ -148,9 +168,9 @@ return (
               name="membership-level"
               id="membership level"
               className="input"
-              defaultValue="membership"
+              defaultValue={customerInfo.Membership_Title}
             >
-              <option value="membership" hidden>
+              <option value={customerInfo.Membership_Title} hidden>
                 {customerInfo.Membership_Title}
               </option>
               {memberships.map((level, index) => (
@@ -165,10 +185,10 @@ return (
               <select
                 id="privilege-level"
                 name="privilege"
-                defaultValue="privilege level"
+                defaultValue={customerInfo.Privilege_Title}
                 className="input"
               >
-                <option value="privilege level" hidden>
+                <option value={customerInfo.Privilege_Title} hidden>
                   {customerInfo.Privilege_Title}
                 </option>
                 {privilegeLevels.map((priv, index) => (
@@ -228,7 +248,7 @@ return (
         <button
           className="createNewUserButton"
           type="submit"
-          formAction={updateUserFromAdmin}
+          formAction={handleFormSubmit}
         >
           Edit Account
         </button>
@@ -239,7 +259,7 @@ return (
             id="delete-item"
             onClick={(e) => {
               e.preventDefault();
-              deleteUser(customerInfo.Account_ID);
+              deleteUser(customerInfo?.Account_ID);
             }}
           >
             Delete User
