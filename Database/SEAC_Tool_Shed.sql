@@ -231,7 +231,6 @@ CREATE TABLE Brands (
 );
 
 INSERT INTO Brands (Brand_Name) VALUES
-("noBrand"),
 ("Ace Hardware"),
 ("ADIRpro"),
 ("AdTech"),
