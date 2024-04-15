@@ -84,10 +84,9 @@ const pool = mysql.createPool({
             const rows = await db.execute(query, data);
             console.log(rows)
             console.log('Account inserted successfully!');
+            db.release();
           } catch (error) {
             console.error('Error inserting account:', error);
-          } finally {
-            db.release();
           }
     }else{
         console.log(parse.error)
