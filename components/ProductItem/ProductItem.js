@@ -1,7 +1,13 @@
+"use client"
 import React from "react";
 import Image from "next/image";
-
+import { pickUpTool } from "@/actions/customerActions";
+import Toast from "@/components/Toast";
+import { useState } from "react";
 const ProductItem = ({ tool, session }) => {
+  const [showToast, setShowToast] = useState(false);
+  const loggedIn = session?.isLoggedIn;
+
   function RoundToTenth(decimal) {
     const roundedDecimal = parseFloat(decimal).toFixed(1);
     const roundedNumber = parseFloat(roundedDecimal);
@@ -39,9 +45,39 @@ const ProductItem = ({ tool, session }) => {
     divClass = "availability-red";
     pickupText = "";
   }
+
+  let toolID = tool?.Tool_ID
+  let email
+  let accountID;
+
+  if(session?.isLoggedIn){
+    accountID = session?.user?.Account_ID
+    email =  session?.user?.Email
+    accountID = JSON.parse(JSON.stringify(accountID))
+    email = JSON.parse(JSON.stringify(email))
+  }
+
+  function handleButtonClick(){
+    pickUpTool(toolID, accountID, email)
+      .then((response) => {
+       if(response.status === 'too many'){
+        alert('You have too many tools checked out at this time')
+       }else if(response.status === 'error'){
+        alert("there was an error")
+       }else if(response.status === 'success'){
+        setShowToast(true);
+       }
+      })
+      .catch((error) => {
+        // Handle other potential errors, e.g., network error
+      });
+  }
+
+
   return (
     <>
       <div className="product-cont">
+      {showToast && <Toast message="Tool has been reserved!" />}
         <div className="product-left">
           {tool && (
             <div className="product-img" key={1}>
@@ -60,7 +96,7 @@ const ProductItem = ({ tool, session }) => {
           {tool && (
             <React.Fragment>
               <h2 className="product-title">{tool.Tool_Name}</h2>
-              <div className={toolStatus}>
+              <div className={toolStatus} onClick={loggedIn ? handleButtonClick : undefined}>
                 <p className="pickup">{pickupText}</p>
                 <div className="availability">
                   <p>{tool.Tool_Status_Details}</p>
@@ -75,9 +111,9 @@ const ProductItem = ({ tool, session }) => {
               </div>
               <div className="product-info">
                 <div className="info-left">
-                  <p className="product-info">
-                    Description: {tool.Tool_Description}
-                  </p>
+                  {tool?.Tool_Description && (
+                  <p className="product-info">Description: {tool.Tool_Description}</p>
+                )}
                   <p className="product-info">Brand: {tool.Brand_Name}</p>
                   <p className="product-info">
                     Weight: {RoundToTenth(tool.Tool_Weight)} lbs
@@ -90,9 +126,6 @@ const ProductItem = ({ tool, session }) => {
               </div>
               <div className="product-description">
                 <p>Item Types: {tool.Types}</p>
-                {tool?.Tool_Description && (
-                  <p>Description: {tool.Tool_Description}</p>
-                )}
               </div>
               {tool?.Tool_Manual && (
                 <div className="produc-manual">
