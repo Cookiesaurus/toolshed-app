@@ -186,30 +186,17 @@ export default function Signupform({ waivers, genders, membershiplevel }) {
             className="input"
             required
           />
-          <div className="passowrd">
-            <label htmlFor="show-passwords" className="checkbox-container">
-              Show passwords
-              <input
-                className="checkbox"
-                type="checkbox"
-                id="show-passwords"
-                name="show-passwords"
-                value="show"
-                onChange={togglePasswordVisibility}
-              />
-              <span className="checkmark"></span>
-            </label>
+          <div className="login-section">
+            <input
+              className="login-checkbox"
+              type="checkbox"
+              id="show-passwords"
+              name="show-passwords"
+              value="show"
+              onChange={togglePasswordVisibility}
+            />
+            <label htmlFor="show-passwords">Show passwords</label>
           </div>
-          <label htmlFor="name-title" className="sr-only">
-            Title
-          </label>
-          <input
-            type="text"
-            className="input"
-            placeholder="Title"
-            name="name-title"
-            id="name-title"
-          />
           <label htmlFor="organization" className="sr-only">
             Organization
           </label>
@@ -300,6 +287,7 @@ export default function Signupform({ waivers, genders, membershiplevel }) {
             {waivers.map((waiver, index) => (
               <React.Fragment key={index}>
                 <li
+                  className="waiver-links"
                   key={index}
                   onClick={() =>
                     downloadPDF(waiver.Waiver_Details, waiver.Waiver_Name)

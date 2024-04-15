@@ -8,6 +8,7 @@
     width: 60%;
     margin-left: auto;
     margin-right: auto;
+    background-color: white;
 }
 
 .basetext{
@@ -57,16 +58,28 @@ button#create-account:hover{
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: white;
 }
 
 .waivers {
     display: flex;
     align-items: center;
     flex-direction: column;
+    background-color: white;
 }
 
 ul.lists {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: white;
+}
+
+.waiver-links {
+    background-color: white;
+    text-decoration: underline;
+}
+
+.waiver-links:hover {
+    color: #FBC955;
 }

@@ -64,8 +64,8 @@ const InventoryItems = ({ tools, admin }) => {
                     <Image
                       src={productItem.Tool_Link}
                       alt={"Product Placeholder"}
-                      width={230}
-                      height={280}
+                      width={200}
+                      height={200}
                       className="popular-img"
                       priority={true}
                     />
@@ -73,8 +73,8 @@ const InventoryItems = ({ tools, admin }) => {
                   <div className="product-info">
                     <p>{productItem.Tool_Name}</p>
                     <div className="item-aval">
-                      <ToolLocation productItem={productItem}/>
                       <ToolStatus productItem={productItem} />
+                      <ToolLocation productItem={productItem}/>
                     </div>
                   </div>
                 </div>
