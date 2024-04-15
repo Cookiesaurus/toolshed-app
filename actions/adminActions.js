@@ -115,6 +115,7 @@ export const addNewUserFromAdmin = async (formData) =>{
             const rows = await db.execute(query, data);
             console.log(rows)
             console.log('Account inserted successfully!');
+            db.release();
             return {status: 'success'}
           } catch (error) {
             console.error('Error inserting account:', error);
@@ -238,8 +239,6 @@ export const updateUserFromAdmin = async (accountID, formData) =>{
 
 
 export const deleteUser = async (id) =>{
-     
-     console.log(id)
 
      try {
         // Start a new transaction
@@ -263,4 +262,46 @@ export const deleteUser = async (id) =>{
       } catch (error) {
         console.error('Error deleting account:', error);
       }
+}
+
+export const processCheckOut = async (transactionID, formData) =>{
+    const returnDate = new Date(formData.get('returnDate'));
+    console.log(isNaN(returnDate.getTime()))
+    const loanFee = formData.get('loanFee');
+    const loanLength = formData.get('loanLength');
+
+    if(isNaN(returnDate.getTime())){
+        return {status: 'date error'}
+    }else{
+        const updateTransaction = `UPDATE Transactions SET End_Date = ? WHERE Transaction_ID = ${transactionID};`
+        const transactionData = [returnDate]
+        try {
+            const db = await pool.getConnection();
+            await db.query(updateTransaction, transactionData);
+
+            if(loanFee > 0){
+                //process a payment 
+            }
+            return {status: 'success'}
+        } catch (error) {
+            console.error(error)
+            return {status: 'error'}
+        }
+    }
+}
+
+export const cancelReservation = async (toolID, transaction) =>{
+
+    const deleteFromTransactionsTable = `DELETE FROM Transactions WHERE Transactions.Transaction_ID = ${transaction} ;`
+    const updateToolsTable = `UPDATE Tools SET Tools.Tool_Status = 1 WHERE Tools.Tool_ID = ${toolID};`
+    try {
+        const db = await pool.getConnection();
+        await db.execute(deleteFromTransactionsTable)
+        await db.execute(updateToolsTable)
+        return {status: 'success'}
+    } catch (error) {
+        console.error(error)
+        return {status: 'error'}
+    }
+
 }
