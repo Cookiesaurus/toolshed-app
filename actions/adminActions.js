@@ -104,7 +104,7 @@ export const addNewUserFromAdmin = async (formData) =>{
         Address_Line2, City, State, Postal_Code, Secondary_First_Name, Secondary_Last_Name,
         Secondary_Email, Secondary_Phone_Number, Account_Notes, Membership_Level, Membership_Status,
         Privilege_Level) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? ,? ,? ,? ,?, ? );`;
+        VALUES (?, ?, ?, ?, ?, ?, AES_ENCRYPT(?, ""), ?, ?, ?, ?, ?, ?, ?, ? , ? ,? ,? ,? ,?, ? );`;
 
     if(!parse.error){
         const data = [first, last, date, genderCode, organization, email, pass, number, 

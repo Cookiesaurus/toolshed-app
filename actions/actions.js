@@ -40,9 +40,14 @@ export const login = async (formData) => {
         "SELECT *, AES_Decrypt(Password ,'') as pwd FROM Accounts WHERE Email='" +
         formData.get("email") +
         "'";
+    console.log(query);
     const result = await db.execute(query).then((res) => {
+        console.log(res);
         user = res[0][0];
-        dbPass = res[0][0] ? res[0][0].pwd.toString() : null;
+        console.log(user);
+        dbPass = user ? (user.pwd ? user.pwd.toString() : null) : null;
+        console.log(dbPass);
+
     });
     if (!dbPass || formData.get("password") != dbPass) {
         console.log("Wrong credentials!");
