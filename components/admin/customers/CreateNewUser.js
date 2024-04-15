@@ -93,8 +93,8 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
           </span>
       <form className="new-user-cont" action={handleFormSubmit}>
         
-          <div className="new-user-section">
-            <h2 className="new-user-subsection-title">Account</h2>
+            <div className="new-user-section">
+              <h2 className="new-user-subsection-title">Account</h2>
 
               <label htmlFor="password">Password</label>
               <input
@@ -110,26 +110,30 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
                 id="re-enter_password"
                 required
               />
-              <input
-                className="checkbox"
-                type="checkbox"
-                id="show-passwords"
-                name="show-passwords"
-                value="show"
-                onChange={togglePasswordVisibility}
-                aria-label="Toggle password visbility"
-              />
-              <label htmlFor="show"> Show passwords</label>
-              <div className="primaryInfo">
-                <h2>Primary Info</h2>
+              <div className="create-new-user-checkbox">
+                <input
+                  className="checkbox"
+                  type="checkbox"
+                  id="show-passwords"
+                  name="show-passwords"
+                  value="show"
+                  onChange={togglePasswordVisibility}
+                  aria-label="Toggle password visbility"
+                />
+                <label htmlFor="show"> Show passwords</label>
+              </div>
+              
+            </div>
+            <div className="new-user-section">
+                <h2 className="new-user-subsection-title">Primary Info</h2>
                 <label htmlFor="first_Name">First Name</label>
                 <input type="text" id="first_Name" name="firstName" />
 
-              <label htmlFor="last_Name">Last Name</label>
-              <input type="text" id="last_Name" name="lastName" />
+                <label htmlFor="last_Name">Last Name</label>
+                <input type="text" id="last_Name" name="lastName" />
 
-              <label htmlFor="email">Email</label>
-              <input type="email" id="email" name="email" />
+                <label htmlFor="email">Email</label>
+                <input type="email" id="email" name="email" />
 
                 <label htmlFor="phone_number">Phone Number</label>
                 <input type="tel" id="phone_number" name="phone-number" />
@@ -156,20 +160,17 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
                 <label htmlFor="date_of_birth">Date of Bith</label>
                 <input type="date" id="date_of_birth" name="date-of-birth" />
 
-                <label htmlFor="title">Title</label>
-                <input type="text" id="title" name="title" />
+                <label htmlFor="organization">Organization</label>
+                <input type="text" id="organization" name="organization" />
 
-              <label htmlFor="organization">Organization</label>
-              <input type="text" id="organization" name="organization" />
+                <label htmlFor="street_address">Street Address</label>
+                <input type="text" id="street_address" name="street-address" />
 
-              <label htmlFor="street_address">Street Address</label>
-              <input type="text" id="street_address" name="street-address" />
+                <label htmlFor="2nd_Line">Apt/Floor</label>
+                <input type="text" id="2nd_Line" name="street-address-two" />
 
-              <label htmlFor="2nd_Line">Apt/Floor</label>
-              <input type="text" id="2nd_Line" name="street-address-two" />
-
-              <label htmlFor="city">City</label>
-              <input type="text" id="city" name="city" />
+                <label htmlFor="city">City</label>
+                <input type="text" id="city" name="city" />
 
                 <label htmlFor="zip_code">ZIP code</label>
                 <input type="text" id="zip_code" name="zipCode" />
@@ -181,91 +182,108 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
                 <label htmlFor="account-notes">Account Notes</label>
                 <input type="text" id="account-notes" name="account-notes" />
               </div>
+              <div className="new-user-section">
+              <h2 className="new-user-subsection-title">Secondary Info</h2>
+              <label htmlFor="secondary_first_name">First Name</label>
+              <input
+                type="text"
+                id="secondary_first_name"
+                name="secondary-first-name"
+              />
+
+              <label htmlFor="secondary_last_name">Last Name</label>
+              <input
+                type="text"
+                id="secondary_last_name"
+                name="secondary-last-name"
+              />
+
+              <label htmlFor="secondary_email">Email</label>
+              <input type="email" id="secondary_email" name="secondary-email" />
+
+              <label htmlFor="secondary_number">Phone Number</label>
+              <input type="tel" id="secondary_number" name="secondary-number" />
             </div>
-          </div>
-          <div className="new-user-right">
-            <div className="membershipInfo">
-              <h2>Credentials</h2>
+            <div className="new-user-section">
+              <h2 className="new-user-subsection-title">Credentials</h2>
 
-            <label htmlFor="membership level">
-              Membership Level
-            </label>
-            <select
-              name="membership-level"
-              id="membership level"
-              className="input"
-              defaultValue="membership"
-            >
-              <option value="membership" hidden>
-                Select a membership
-              </option>
-              {memberships.map((level, index) => (
-                <option key={index} value={level.Membership_Title}>
-                  {level.Membership_Title}
-                </option>
-              ))}
-            </select>
-
-            <label htmlFor="privilege-level">Privilege Level</label>
-            {admin ? (
+              <label htmlFor="membership level">
+                Membership Level
+              </label>
               <select
-                id="privilege-level"
-                name="privilege"
-                defaultValue="privilege level"
+                name="membership-level"
+                id="membership level"
                 className="input"
+                defaultValue="membership"
               >
-                <option value="privilege level" hidden>
-                  Privilege Level
+                <option value="membership" hidden>
+                  Select a membership
                 </option>
-                {privileges.map((priv, index) => (
-                  <option key={index} value={priv.Privilege_Title}>
-                    {priv.Privilege_Title}
+                {memberships.map((level, index) => (
+                  <option key={index} value={level.Membership_Title}>
+                    {level.Membership_Title}
                   </option>
                 ))}
               </select>
-            ) : (
-              <select
-                id="privilege-level"
-                name="privilege"
-                defaultValue="Customer"
-              >
-                <option value="Customer">Customer</option>
-              </select>
-            )}
-          </div>
-            
+
+              <label htmlFor="privilege-level">Privilege Level</label>
+              {admin ? (
+                <select
+                  id="privilege-level"
+                  name="privilege"
+                  defaultValue="privilege level"
+                  className="input"
+                >
+                  <option value="privilege level" hidden>
+                    Privilege Level
+                  </option>
+                  {privileges.map((priv, index) => (
+                    <option key={index} value={priv.Privilege_Title}>
+                      {priv.Privilege_Title}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <select
+                  id="privilege-level"
+                  name="privilege"
+                  defaultValue="Customer"
+                >
+                  <option value="Customer">Customer</option>
+                </select>
+              )}
+            </div>
             <div className="create-new-user-waivers">
-              <div className="create-new-user-checkbox">
-              <label htmlFor="waivers" className="checkbox-container" style={{ alignContent: "center", marginLeft: "5px" }}>
-                I have read and accept the following:
-                <input
-                  type="checkbox"
-                  className="checkbox"
-                  id="waivers"
-                  name="waiver"
-                  required
-                />
-                <span className="checkmark"></span>
-              </label>
+                <label htmlFor="waivers" className="checkbox-container">
+                  I have read and accept the following:
+                  <input
+                    type="checkbox"
+                    className="checkbox"
+                    id="waivers"
+                    name="waiver"
+                    required
+                  />
+                  <span className="checkmark"></span>
+                </label>
+                <ul className="lists">
+                  {waivers.map((waiver, index) => (
+                    <React.Fragment key={index}>
+                      <li
+                        key={index}
+                        onClick={() =>
+                          downloadPDF(waiver.Waiver_Details, waiver.Waiver_Name)
+                        }
+                        style={{ textDecoration: 'none' }} // Initially, no underline
+                        onMouseOver={(e) => e.target.style.textDecoration = 'underline'}
+                        onMouseOut={(e) => e.target.style.textDecoration = 'none'}
+                      >
+                        {waiver.Waiver_Name}
+                      </li>
+                    </React.Fragment>
+                  ))}
+                </ul>
 
-
-              <ul className="lists">
-                {waivers.map((waiver, index) => (
-                  <React.Fragment key={index}>
-                    <li
-                      key={index}
-                      onClick={() =>
-                        downloadPDF(waiver.Waiver_Details, waiver.Waiver_Name)
-                      }
-                    >
-                      {waiver.Waiver_Name}
-                    </li>
-                  </React.Fragment>
-                ))}
-              </ul>
-            </div>
-            </div>
-          </div>
+              </div>
         <div className="create-button-cont">
           <button className="createNewUserButton" type="submit">
             Create Account

@@ -430,8 +430,15 @@ input {
   }
 }
 
+.checkbox-container {
+  background-color: white;
+}
+
 .create-new-user-waivers {
   background-color: white;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
 
   ul, li {
     background-color: white;
