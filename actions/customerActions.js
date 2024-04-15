@@ -41,7 +41,7 @@ export async function pickUpTool(toolID, accountID, email){
         let currentToolsOnAccount = currentTools[0][0][0]
          //if the number of tools checked out equals the amount alloted then they cant check out
         //else they can check out
-        if(currentTools === numToolsForAccount){
+        if(currentToolsOnAccount === numToolsForAccount){
             return {status: 'too many'}
         }
 
