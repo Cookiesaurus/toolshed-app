@@ -3,6 +3,7 @@ import React from "react";
 import DataTable from "react-data-table-component";
 import Link from "next/link";
 const CheckOutTool = ({ currentData, memberships }) => {
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
   const columns = [
     {
       name: "Customer Name",
@@ -34,7 +35,7 @@ const CheckOutTool = ({ currentData, memberships }) => {
     },
     {
       name: "Payment Amount",
-      selector: (row) => row.Payment_Amount,
+      selector: (row) => row.payment,
       sortable: true
     },
     {
@@ -47,7 +48,6 @@ const CheckOutTool = ({ currentData, memberships }) => {
         selector: (row) => row.action,
     }
   ];
-  console.log(currentData);
   const data = currentData.map((tData) => {
     const action = (
         <div className="actions-links" role="list" aria-label="actions">
@@ -64,7 +64,7 @@ const CheckOutTool = ({ currentData, memberships }) => {
           </div>
         </div>
       );
-    const date = new Date(tData.Transaction_Date).toString();
+    const date = new Date(tData.Transaction_Date).toLocaleDateString('en-US', options);
     return {
       name: tData.Name,
       id: tData.Account_ID,
