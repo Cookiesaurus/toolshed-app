@@ -48,7 +48,7 @@ export default function Page() {
               placeholder={" myemail@example.com"}
             />
           </div>
-          <div>
+          <div className="login-center">
             <label htmlFor="login-password" className="sr-only">
               Submit
             </label>
@@ -59,9 +59,7 @@ export default function Page() {
               placeholder={" Password"}
               id="login-password"
             />
-            
-          </div>
-          <label htmlFor="show-passwords" className="checkbox-container">
+            <label htmlFor="show-passwords" className="checkbox-container">
               Show passwords
               <input
                 className="checkbox"
@@ -73,6 +71,7 @@ export default function Page() {
               />
               <span className="checkmark"></span>
             </label>
+          </div>
           <div>
             <button value={"Submit"} id="login-submit">
               Login
@@ -88,7 +87,7 @@ export default function Page() {
           </p>
           <p className="redirect-links">
             Forgot password?{" "}
-            <Link className="link" href="" aria-label="Go to forgot password">
+            <Link className="link" href={"/login/forgotpass"} aria-label="Go to forgot password">
               Click here
             </Link>
           </p>
