@@ -4,6 +4,7 @@ import mysql from "mysql2/promise";
 import { v4 } from "uuid";
 import { client } from "@/components/Square/Client";
 import { lateToolPayment, updateMembership } from "./actions";
+// import { getCustomerByEmail } from "@/components/Square/Customer";
 
 // Different APIs for Square functions
 const {
@@ -99,20 +100,18 @@ export const deleteCardFromFile = async (cardId) => {
 };
 
 // Function to pay using just a credit card.
-// -- Should not be in use as of yet.
 // -- params sourceID - tokenized card to use to create payment.
 // -- returns the payment if successful, nothing if unsuccessful (as of yet).
-export const submitPayment = async (sourceId) => {
+export const submitPayment = async (sourceId, amt) => {
     try {
         const { result } = await paymentsApi.createPayment({
             idempotencyKey: v4(),
             sourceId,
             amountMoney: {
                 currency: "USD",
-                amount: 100,
+                amount: 100 * amt,
             },
         });
-
         return result;
     } catch (error) {
         console.log("Error in submitting payment : ", error);
@@ -609,6 +608,105 @@ export const publishInvoice = async (invoiceId, version) => {
             console.log("Amount has been paid ");
         }
         return invoice;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const buyGiftCard = async (source, custToGift, amt) => {
+    // If card on file,
+    // Create gift card
+    const gc = await createGiftCard();
+    // Create order with custom amount
+    const order = await createOrder(custId);
+    // Load gift card
+    // Create invoice
+    // Publish invoice
+    // If credit card
+    // This should not be called
+    // Make payment
+};
+
+export const createGiftCard = async () => {
+    try {
+        const response = await client.giftCardsApi.createGiftCard({
+            idempotencyKey: v4(),
+            locationId: process.env.LOCATION_ID,
+            giftCard: {
+                type: "DIGITAL",
+                ganSource: "SQUARE",
+            },
+        });
+        return response.result.giftCard;
+        // console.log(response.result.giftCard);
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+// Activate gift card
+// Source can be card token, or Card ID
+export const activateGiftCard = async (gcId, gcGan, amt, source) => {
+    try {
+        const response =
+            await client.giftCardActivitiesApi.createGiftCardActivity({
+                idempotencyKey: v4(),
+                giftCardActivity: {
+                    type: "ACTIVATE",
+                    locationId: process.env.LOCATION_ID,
+                    giftCardId: gcId,
+                    giftCardGan: gcGan,
+                    activateActivityDetails: {
+                        amountMoney: {
+                            amount: amt * 100,
+                            currency: "USD",
+                        },
+                        buyerPaymentInstrumentIds: [source],
+                    },
+                },
+            });
+
+        // console.log(response.result);
+        return response.result.giftCardActivity;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getCustomerByEmail = async (email) => {
+    let customer;
+    try {
+        const response = await customersApi.searchCustomers({
+            query: {
+                filter: {
+                    emailAddress: {
+                        exact: email,
+                    },
+                },
+            },
+        });
+        if (response.result == {}) console.log("HERE", response.result);
+        // console.log("Customer is : ", response.result.customers[0]);
+        if (response.result.customers) {
+            return response.result.customers[0];
+        } else {
+            return { error: "No account found" };
+        }
+    } catch (error) {
+        console.log("Error : ", error);
+        if (error.statusCode) console.log(error.statusCode);
+        return { error: "No account found" };
+    }
+};
+
+export const linkCustomerToGiftCard = async (gid, custId) => {
+    try {
+        const response = await client.giftCardsApi.linkCustomerToGiftCard(gid, {
+            customerId: custId,
+        });
+
+        // console.log(response.result);
+        return response.result.giftCard;
     } catch (error) {
         console.log(error);
     }
