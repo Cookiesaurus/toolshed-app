@@ -101,3 +101,11 @@ form.inventory-filters.white {
     display: flex;
     flex-direction: column;
 }
+
+.tool-manual {
+    text-decoration: underline;
+}
+
+.tool-manual:hover {
+    color: #FBC955;
+}

@@ -103,6 +103,7 @@
     flex-direction: column;
     align-items: center;
     margin: 15px;
+    padding: 10px;
     border: 1px solid black;
     background-color: white;
     p{
