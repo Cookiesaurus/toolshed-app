@@ -39,3 +39,17 @@ export const updateUserProfileSchema = z.object({
     state: z.string().min(1),
     zipCode: z.string({ required_error: " Zip code cannot be empty" }).min(5)
 });
+
+export const newToolSchema = z.object({
+    category: z.string().min(1),
+    type: z.string().min(1),
+});
+
+export const newToolDigitsSchema = z.object({
+    weight: z.number().min(0),
+    size: z.number().min(0),
+    loanFee: z.number().multipleOf(0.01).min(0),
+    loanLength: z.number().min(0),
+    renewal: z.number().min(0),
+    replacementCost: z.number().multipleOf(0.01).min(0)
+});
