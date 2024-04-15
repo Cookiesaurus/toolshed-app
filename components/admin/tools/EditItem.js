@@ -74,6 +74,7 @@ const EditItem = ({ categories, brands, types, locations, toolID, tool }) => {
               <option value="Available">Available</option>
               <option value="Maintenance">Maintenance</option>
               <option value="Disabled">Disabled</option>
+              <option value="Checked Out">Checked Out</option>
             </select>
             </div>
             <div className="sub-section">
