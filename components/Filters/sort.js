@@ -34,10 +34,9 @@ const Sort = () => {
                       handleSortChange(e);
                     }}>
           <option value="sort-by" hidden>Sort By:</option>
-          <option value="popular">Popular</option>
           <option value="featured">Featured</option>
-          <option value="low-to-high">Price: Low to High</option>
-          <option value="high-to-low">Price: High to Low</option>
+          <option value="low-to-high">Popular: Low to High</option>
+          <option value="high-to-low">Popular: High to Low</option>
         </select>
       </div>
     </>

@@ -125,7 +125,7 @@ const Membership = ({ user }) => {
             <h1>Membership</h1>
             <div className="account-name">
                 <div className="account-email">
-                    <p className="light-paragraph">Current Membership Type</p>
+                    <p className="light-paragraph">Current Membership Level</p>
                     <h2 className="customer-name">{membership}</h2>
                 </div>
                 {showPlans ? (
@@ -142,7 +142,7 @@ const Membership = ({ user }) => {
                             >
                                 Upgrade Membership
                             </button>
-                            <Link href={""} className="light-paragraph">
+                            <Link href={""} className="cancel-button">
                                 Cancel Subscription
                             </Link>
                         </div>

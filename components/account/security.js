@@ -45,15 +45,8 @@ const ChangePasswordModal = ({ onClose }) => {
         />
         <form action={handlePasswordChange}>
           <div className="form-container white">
-            <label className="sr-only" htmlFor="email">
-              Email
-            </label>
-            <input
-              type="text"
-              name="email"
-              id="email"
-              placeholder=" Email"
-              required
+            <label className="sr-only" htmlFor="email">Email</label>
+            <input type="text" name="email" id="email" placeholder=" Email" required
               className="account-input white"
             ></input>
             <label className="sr-only" htmlFor="newPassword">
@@ -67,10 +60,10 @@ const ChangePasswordModal = ({ onClose }) => {
               required
               className="account-input white"
             ></input>
-            <button type="submit" id="save-changes">
+            <button className="save-changes-button" type="submit" id="save-changes">
               Save Changes
             </button>
-            <button type="button" onClick={onClose} id="cancel-changes">
+            <button className="cancel-button" type="button" onClick={onClose} id="cancel-changes">
               Cancel
             </button>
           </div>
