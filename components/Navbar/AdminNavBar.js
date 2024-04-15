@@ -26,6 +26,18 @@ const AdminNavBar = ({session}) => {
     [searchParams]
   );
 
+  useEffect(()=>{
+    if(document){
+      window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 0) {
+          navbar.classList.add('fixed');
+        } else {
+          navbar.classList.remove('fixed');
+        }
+      });
+    }
+  })
 
   return (
     <div className="navbar">

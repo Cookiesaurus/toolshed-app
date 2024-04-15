@@ -31,7 +31,7 @@ const MembershipForm = ({ custId }) => {
         console.log(subscribe);
     };
     return (
-        <form className="select-level">
+        <form className="select-level" style={{ background: 'white', textAlign: 'center' }}>
             <div className="option-container">
                 <input
                     className="selection-option"
@@ -41,10 +41,7 @@ const MembershipForm = ({ custId }) => {
                     id="tinker"
                     onClick={selectionChanged}
                 />
-                <label className="selection-label">
-                    {/* for="tinker" */}
-                    $25 Tinker level
-                </label>
+                <label htmlFor="tinker" className="selection-label">$25 Tinker level</label>
             </div>
 
             <div className="option-container">
@@ -85,7 +82,7 @@ const MembershipForm = ({ custId }) => {
                 {/* <label className="selection-label" for="contractor"> */}
                 <label className="selection-label">$100 Contractor level</label>
             </div>
-            <button className="option-container" onClick={upgradeMembership}>
+            <button className="profile-button" onClick={upgradeMembership}>
                 Update Membership
             </button>
         </form>
@@ -125,13 +122,13 @@ const Membership = ({ user }) => {
             <h1>Membership</h1>
             <div className="account-name">
                 <div className="account-email">
-                    <p className="light-paragraph">Current Membership Type</p>
+                    <p className="light-paragraph">Current Membership Level</p>
                     <h2 className="customer-name">{membership}</h2>
                 </div>
                 {showPlans ? (
                     <>
                         <MembershipForm custId={custId} />
-                        <button onClick={showNormal}>Back</button>
+                        <button className="cancel-button" onClick={showNormal}>Cancel</button>
                     </>
                 ) : (
                     <>
@@ -142,7 +139,7 @@ const Membership = ({ user }) => {
                             >
                                 Upgrade Membership
                             </button>
-                            <Link href={""} className="light-paragraph">
+                            <Link href={""} className="cancel-button">
                                 Cancel Subscription
                             </Link>
                         </div>

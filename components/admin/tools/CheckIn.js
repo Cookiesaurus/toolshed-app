@@ -50,15 +50,18 @@ const CheckIn = ({customers}) => {
         <div className="white">
         <label htmlFor="find user" className="sr-only">Find User</label>
         <input
-            type="text"
-            name="find user"
-            id="navbar-search"
-            aria-label="search products"
-            onChange={(e) => {
+          className="navbar-searchInput"
+          type="text"
+          name="find user"
+          id="navbar-search"
+          aria-label="search products"
+          onChange={(e) => {
             router.push(`?` + createQueryString("name", e.target.value));
-            }}
-            placeholder="Find User"
+          }}
+          placeholder="Find User"
+          style={{ background: "white" }}
         />
+
         <button
             type="submit"
             className="navbar-searchIcon white"
@@ -72,11 +75,7 @@ const CheckIn = ({customers}) => {
             />
         </button>
         </div>
-        <button
-            type="submit"
-        >
-            Create New User
-        </button>
+        <button className="createNewUserButton" type="submit">Create New User</button>
     </div>
     <div>
         <DataTable

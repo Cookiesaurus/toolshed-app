@@ -104,7 +104,7 @@ const Dashboard = ({ users, inventory }) => {
         </div>
       </div>
 
-      <div className="mainContent">
+      <div className="mainContent datatable">
         <h2 className="white">Recent Activities</h2>
         <DataTable columns={columns} className="white" />
       </div>

@@ -171,3 +171,38 @@ input#quantity {
     border-style: solid;
     border-color: #00000080;
 }
+
+.item-avaliability.disabled, .item-avaliability.maintenance, .item-avaliability.checked-out {
+    cursor: not-allowed;
+}
+
+p.stock-gray {
+    color: gray;
+    font-size: 16px;
+}
+
+p.stock-red{
+    color: red;
+    font-size: 16px;
+}
+
+p.stock-orange{
+    color: orange;
+    font-size: 16px;
+}
+
+p.availability-grey {
+    color: gray;
+}
+
+p.availability-green {
+    color: green;
+}
+
+p.availability-red {
+    color: red;
+}
+
+p.availability-orange {
+    color: orange;
+}

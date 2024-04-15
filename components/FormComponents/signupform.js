@@ -5,9 +5,11 @@ import React from "react";
 import { testAddNewUser } from "@/actions/addNewUser";
 import SelectStates from "./statesSelect";
 import jsPDF from "jspdf";
+import Toast from "../Toast";
 
 export default function Signupform({ waivers, genders, membershiplevel }) {
   const [showPasswords, setShowPasswords] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPasswords((prevState) => !prevState);
   };
@@ -18,6 +20,7 @@ export default function Signupform({ waivers, genders, membershiplevel }) {
         if (response.error) {
           setFormError(true)
         } else {
+          setShowToast(true);
           console.log("success");
           // alert(response);
         }
@@ -69,6 +72,7 @@ export default function Signupform({ waivers, genders, membershiplevel }) {
 
   return (
     <>
+    {showToast && <Toast message="Account created successfully!" />}
       <p className="form-header">Please enter your personal info below:</p>
       <form action={handleFormSubmit} className="signup">
         <div className="sign-up-cont">

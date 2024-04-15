@@ -3,7 +3,12 @@ import Image from "next/image";
 import logo from "../public/images/toolshed_logo.png";
 import Link from "next/link";
 import { login } from "@/actions/actions";
+import { useState } from "react";
 export default function Page() {
+  const [showPasswords, setShowPasswords] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPasswords((prevState) => !prevState);
+  };
   function handleLogin(formData) {
     login(formData)
         .then(response => {
@@ -50,11 +55,24 @@ export default function Page() {
             <input
               name="password"
               className="input"
-              type="password"
+              type={showPasswords ? "text" : "password"}
               placeholder={" Password"}
               id="login-password"
             />
+            
           </div>
+          <label htmlFor="show-passwords" className="checkbox-container">
+              Show passwords
+              <input
+                className="checkbox"
+                type="checkbox"
+                id="show-passwords"
+                name="show-passwords"
+                value="show"
+                onChange={togglePasswordVisibility}
+              />
+              <span className="checkmark"></span>
+            </label>
           <div>
             <button value={"Submit"} id="login-submit">
               Login

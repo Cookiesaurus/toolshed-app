@@ -429,7 +429,7 @@ CREATE TABLE Tools (
     Tool_ID INT UNSIGNED AUTO_INCREMENT, -- Tool_ID holds an integer value for each individual tool
     Old_Tool_ID VARCHAR(255), -- Tool_ID holds an integer value for each individual tool
     Tool_Name VARCHAR(255) NOT NULL, -- Tool_Name holds the name associated to each tool
-    Brand_Name VARCHAR(255), -- Tool_Brand holds the code of each tool brand manufacturer
+    Brand_Name VARCHAR(255) NULL, -- Tool_Brand holds the code of each tool brand manufacturer
     Tool_Weight FLOAT, -- Tool_Weight holds the weight of the tool 
     Tool_Size VARCHAR(255), -- Tool_Size holds the size of the tool
     Home_Location INT UNSIGNED NOT NULL, -- Home_Location is the location where the tool is supposed to be returned to. 

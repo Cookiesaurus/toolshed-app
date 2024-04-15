@@ -1,11 +1,43 @@
 "use client";
-import { deleteItem, updateItem } from "@/actions/adminActions";
-import React, { useState } from "react";
-const EditItem = ({ categories, brands, types, locations, toolID }) => {
+import { deleteItem, updateItem } from "@/actions/toolActions";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import Toast from "@/components/Toast";
+const EditItem = ({ categories, brands, types, locations, toolID, tool }) => {
+  const [formError, setFormError] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+
+  function handleFormSubmit(formData) {
+    updateItem(toolID, formData)
+      .then((response) => {
+        if (response.status === 'error') {
+          setFormError(true)
+        } else if(response.status === 'success') {
+          setShowToast(true);
+          console.log("success");
+          // alert(response);
+        }
+      })
+      .catch((error) => {
+        // Handle other potential errors, e.g., network error
+      });
+  }
+
 
   return (
     <>
       <h1 className="section-title-big">Edit Item</h1>
+      {showToast && <Toast message="Tool updated successfully!" />}
+      <span style={{ color: "red" }} role="alert">
+            {formError ? (
+              <>
+                Categories and types cannot be empty, they must be reselected upon updating an item.
+                <br />
+              </>
+            ) : (
+              <></>
+            )}
+          </span>
       <form method="POST">
         <div className="new-user-cont">
           <div className="new-user-right">
@@ -17,54 +49,41 @@ const EditItem = ({ categories, brands, types, locations, toolID }) => {
               type="text"
               id="itemName"
               name="itemName"
+              defaultValue={tool?.Tool_Name}
             />
-            <p className="section-title-small">Select a tool status</p>
+            <label className="form-label" htmlFor="itemDesc">
+              Item Description
+            </label>
+            <input
+              className="formInput"
+              type="text"
+              id="itemDesc"
+              name="itemDesc"
+              defaultValue={tool?.Tool_Description}
+            />
             <div className="section-status">
-              <label
-                      htmlFor="avaliable-status"
-                      className="checkbox-container"
-                    >
-                      Available
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        id="avaliable-status"
-                        name="category"
-                        value="disabled"
-                      />
-                      <span className="checkmark"></span>
-                    </label>
-              <label
-                      htmlFor="maintenance-status"
-                      className="checkbox-container"
-                    >
-                      Maintenance
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        id="maintenance-status"
-                        name="category"
-                        value="disabled"
-                      />
-                      <span className="checkmark"></span>
-                    </label>
-              <label
-                      htmlFor="disabled-status"
-                      className="checkbox-container"
-                    >
-                      Disabled
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        id="disabled-status"
-                        name="category"
-                        value="disabled"
-                      />
-                      <span className="checkmark"></span>
-                    </label>
+            <label htmlFor="status" className="form-input">
+            Select a tool status
+            </label>
+            <select
+              id="status"
+              name="status"
+              className="input"
+              defaultValue={tool?.Tool_Status_Details}
+            >
+              <option value="Available">Available</option>
+              <option value="Maintenance">Maintenance</option>
+              <option value="Disabled">Disabled</option>
+              <option value="Checked Out">Checked Out</option>
+            </select>
             </div>
             <div className="sub-section">
               <p className="section-title-small">Categories</p>
+              <div className="edit-columns">
+                <div className="current">
+                <p>Current Categories:</p>
+                   {tool?.Category_Name}
+                </div>
               <div className="long-section">
                 {categories.map((category) => (
                   <React.Fragment key={category.Category_ID}>
@@ -78,18 +97,21 @@ const EditItem = ({ categories, brands, types, locations, toolID }) => {
                         className="checkbox"
                         id={category.Category_Name}
                         name="category"
-                        value={category.Category_Name}
-                        onChange={(e) => {
-                          handleCategoryChange(e);
-                        }}
+                        value={category.Category_ID}
                       />
                       <span className="checkmark"></span>
                     </label>
                   </React.Fragment>
                 ))}
               </div>
+              </div>
             </div>
-            <p className="section-title-small">Tool type</p>
+            <p className="section-title-small">Tool types</p>
+            <div className="edit-columns">
+            <div className="current">
+            <p>Current Types: </p>
+              {tool?.Types}
+            </div>
             <div className="long-section">
               {types.map((type) => (
                 <React.Fragment key={type.Type_Name}>
@@ -102,16 +124,14 @@ const EditItem = ({ categories, brands, types, locations, toolID }) => {
                       type="checkbox"
                       className="checkbox"
                       id={type.Type_Name}
-                      name="brand"
-                      value={type.Type_Name}
-                      onChange={(e) => {
-                        handleTypeChange(e);
-                      }}
+                      name="type"
+                      value={type.Type_ID}
                     />
                     <span className="checkmark"></span>
                   </label>
                 </React.Fragment>
               ))}
+            </div>
             </div>
           </div>
           <div className="new-user-left">
@@ -119,8 +139,8 @@ const EditItem = ({ categories, brands, types, locations, toolID }) => {
               Brand Name
             </label>
             <br />
-            <select className="formInput" id="brand-name" name="brand-name">
-              <option value="">Select Brand</option>
+            <select className="formInput" id="brand-name" name="brand-name" defaultValue={tool?.Brand_Name}>
+              <option value={tool?.Brand_Name}>{tool?.Brand_Name}</option>
               {brands.map((brand) => (
                 <option key={brand.Brand_Name} value={brand.Brand_Name}>
                   {brand.Brand_Name}
@@ -137,25 +157,38 @@ const EditItem = ({ categories, brands, types, locations, toolID }) => {
               type="text"
               id="weight"
               name="weight"
+              defaultValue={tool?.Tool_Weight}
             />
             <label className="form-label" htmlFor="size">
               Size in inches
             </label>
-            <input className="formInput" type="text" id="size" name="size" />
-
-            <label className="form-label" htmlFor="image">
-              Upload tool picture
-            </label>
-            <input className="form-input" type="file" id="image" name="image" />
-            <label className="form-label" htmlFor="additionalFile">
-              Upload tool manual/other docs
-            </label>
-            <input
-              className="form-input"
-              type="file"
-              id="additionalFile"
-              name="additionalFile"
-            />
+            <input className="formInput" type="text" id="size" name="size" defaultValue={tool?.Tool_Size}/>
+                <div className="edit-column">
+                  <p>Current Image: </p>
+                  <Image src={tool?.Tool_Link} alt="Tool Image" width={200} height={200}/>
+                  <br/>
+                  <label className="form-label" htmlFor="image">
+                    Upload new tool picture
+                  </label>
+                  <input className="input" type="file" id="image" name="image" />
+                </div>
+                <div className="edit-column">
+                    {tool?.Tool_Manual && (
+                    <div className="produc-manual">
+                      <a href={tool.Tool_Manual} target="_blank">Tool Manual</a>
+                    </div>
+                  )}
+                  <br/>
+                  <label className="form-label" htmlFor="additionalFile">
+                    Upload new tool manual/other docs
+                  </label>
+                  <input
+                    className="form-input"
+                    type="file"
+                    id="additionalFile"
+                    name="additionalFile"
+                  />
+                </div>
             <label className="form-label" htmlFor="loanFee">
               Additional Loan fee for tool in $
             </label>
@@ -204,11 +237,12 @@ const EditItem = ({ categories, brands, types, locations, toolID }) => {
               type="text"
               id="replaceCost"
               name="replaceCost"
+              defaultValue={tool?.Tool_Replacement_Cost}
             ></input>
             <label className="form-label" htmlFor="dropOffLoc">
               Can be dropped off at any location
             </label>
-            <select className="formInput" name="dropOffLoc" id="dropOffLoc">
+            <select className="formInput" name="dropOffLoc" id="dropOffLoc" defaultValue={tool?.Is_Floating}>
               <option value={"1"}>Yes</option>
               <option value={"0"}>No</option>
             </select>
@@ -225,18 +259,41 @@ const EditItem = ({ categories, brands, types, locations, toolID }) => {
             <label className="form-label" htmlFor="homeLoc">
               Home Location
             </label>
-            <select className="formInput" name="homeLoc" id="homeLoc">
-              <option value="">Select Location</option>
+            <select className="formInput" name="homeLoc" id="homeLoc" defaultValue={tool?.Home_Location}>
+              <option value={tool?.Home_Location}>{tool?.Home_Location}</option>
               {locations.map((place) => (
                 <option key={place.Tool_Location} value={place.Location_Name}>
                   {place.Location_Name}
                 </option>
               ))}
             </select>
+            <br/>
+            <label className="form-label" htmlFor="curLoc">
+              Current Location
+            </label>
+            <select className="formInput" name="curLoc" id="curLoc" defaultValue={tool?.Current_Location}>
+              <option value={tool?.Current_Location}>{tool?.Current_Location}</option>
+              {locations.map((place) => (
+                <option key={place.Tool_Location} value={place.Location_Name}>
+                  {place.Location_Name}
+                </option>
+              ))}
+            </select>
+            <br/>
+            <label className="form-label" htmlFor="locDesc">
+              Location Description
+            </label>
+            <input
+              className="form-input"
+              type="text"
+              id="locDesc"
+              name="locDesc"
+              defaultValue={tool?.Location_Code}
+            ></input>
           </div>
         </div>
         <div className="create-button-cont">
-          <button className="createNewUserButton" type="submit" id="create-item" formAction={updateItem}>
+          <button className="createNewUserButton" type="submit" id="create-item" formAction={handleFormSubmit}>
             Update Item
           </button>
           <button className="createNewUserButton" type="submit" id="delete-item" onClick={(e) => { e.preventDefault(); deleteItem(toolID);}}>
