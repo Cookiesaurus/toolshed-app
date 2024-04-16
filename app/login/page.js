@@ -48,7 +48,7 @@ export default function Page() {
               placeholder={" myemail@example.com"}
             />
           </div>
-          <div className="login-section">
+          <div className="login-center" className="login-section">
             <label htmlFor="login-password" className="sr-only">
               Submit
             </label>
@@ -87,7 +87,7 @@ export default function Page() {
           </p>
           <p className="redirect-links">
             Forgot password?{" "}
-            <Link className="link" href="" aria-label="Go to forgot password">
+            <Link className="link" href={"/login/forgotpass"} aria-label="Go to forgot password">
               Click here
             </Link>
           </p>
