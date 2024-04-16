@@ -22,6 +22,8 @@ curr = conn.cursor()
 #Fetch data from CSV file
 dataframe1 = pd.read_excel('SEAC_Tool_Shed_Inventory.xlsx')
 
+#Run this in your terminal
+#export SQUARE_ACCESS_TOKEN="EAAAl2jsMOMh4IG_KPRzliYZ4o8k8UVICkdDL8CY6Y0A1ECAua0p4NdUd51Z1LhZ"
 client = Client(access_token=os.environ['SQUARE_ACCESS_TOKEN'],environment='sandbox')
 
 #Function to insert tools into database
