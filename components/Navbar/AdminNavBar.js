@@ -48,9 +48,9 @@ const AdminNavBar = ({session}) => {
             placeholder=" Find user"
             onChange={(e) => {
               router.push(
-                `/admin/customers/edit` +
+                `/admin/customers/search` +
                   `?` +
-                  createQueryString("search", e.target.value)
+                  createQueryString("searchTerm", e.target.value)
               );
             }}
           />
@@ -68,9 +68,9 @@ const AdminNavBar = ({session}) => {
             placeholder=" Search inventory"
             onChange={(e) => {
               router.push(
-                `/admin/inventory/edit` +
+                `/admin/inventory/search` +
                   `?` +
-                  createQueryString("search", e.target.value)
+                  createQueryString("searchTerm", e.target.value)
               );
             }}
           />
