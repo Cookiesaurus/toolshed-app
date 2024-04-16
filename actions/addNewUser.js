@@ -3,20 +3,22 @@
 import mysql from "mysql2/promise";
 import { redirect } from "next/navigation";
 import { createSquareCustomer } from "./squareActions";
-import {UserSchema, giftCardEmails } from "@/components/FormComponents/newUserSchema";
-import {transporter, EMAIL} from "@/app/config/nodemailer"
+import {
+    UserSchema,
+    giftCardEmails,
+} from "@/components/FormComponents/newUserSchema";
+import { transporter, EMAIL } from "@/app/config/nodemailer";
 import { NextResponse } from "next/server";
 const pool = mysql.createPool({
     host: process.env.DB_HOSTNAME,
     database: process.env.DB,
     port: process.env.DB_PORT,
     user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD
-  });
+    password: process.env.DB_PASSWORD,
+});
 
-
-  export const testAddNewUser = async (formData) =>{
-    const date = new Date(formData.get("date-of-birth"))
+export const testAddNewUser = async (formData) => {
+    const date = new Date(formData.get("date-of-birth"));
     const first = formData.get("first-name");
     const last = formData.get("last-name");
     const email = formData.get("email");
@@ -26,41 +28,41 @@ const pool = mysql.createPool({
     const addressOne = formData.get("address-first");
     const addressTwo = formData.get("address-second");
     const city = formData.get("address-city");
-    const state = formData.get("state")
-    const zip = formData.get("address-zipcode")
-    const gender = formData.get("gender")
-    const membership = formData.get("membership-level")
-    const organization = formData.get("organization")
+    const state = formData.get("state");
+    const zip = formData.get("address-zipcode");
+    const gender = formData.get("gender");
+    const membership = formData.get("membership-level");
+    const organization = formData.get("organization");
 
     let membershipCode;
-    switch(membership){
+    switch (membership) {
         case "Tinkerer":
-            membershipCode = 2
+            membershipCode = 1;
             break;
         case "MacGyver":
-            membershipCode = 3
+            membershipCode = 2;
             break;
         case "Builder":
-            membershipCode = 4
+            membershipCode = 3;
             break;
         case "Contractor":
-            membershipCode = 5
+            membershipCode = 4;
             break;
     }
 
     let genderCode;
-    switch(gender){
+    switch (gender) {
         case "Male":
-            genderCode = 2
+            genderCode = 1;
             break;
         case "Female":
-            genderCode = 3
+            genderCode = 2;
             break;
         case "Other":
-            genderCode = 4
+            genderCode = 3;
             break;
         case "Would Rather Not Specify":
-            genderCode = 5
+            genderCode = 4;
             break;
     }
 
@@ -68,32 +70,65 @@ const pool = mysql.createPool({
         Password, Address_Line1, Address_Line2, City, State, 
         Postal_Code, Membership_Level, Gender_Code, DOB, Organization_Name) 
              VALUES (?, ?, ?, ?, AES_ENCRYPT(?, ''), ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    
-    //parse specific values
-    let parse = {firstName: first, lastName: last, email: email, phone: number,password: pass, confirmPassword: confrimPass,  
-        addressFirst: addressOne, addressSecond: addressTwo,  city: city, 
-        state: state, zipCode: zip, membership: membership, 
-        gender: gender, DOB: date};
-    parse = UserSchema.safeParse(parse);
-    
 
-    if(!parse.error){
-        const data = [first, last, email, number, pass, addressOne, addressTwo, city, state, zip, membershipCode, genderCode, date, organization]
+    //parse specific values
+    let parse = {
+        firstName: first,
+        lastName: last,
+        email: email,
+        phone: number,
+        password: pass,
+        confirmPassword: confrimPass,
+        addressFirst: addressOne,
+        addressSecond: addressTwo,
+        city: city,
+        state: state,
+        zipCode: zip,
+        membership: membership,
+        gender: gender,
+        DOB: date,
+    };
+    parse = UserSchema.safeParse(parse);
+
+    if (!parse.error) {
+        const data = [
+            first,
+            last,
+            email,
+            number,
+            pass,
+            addressOne,
+            addressTwo,
+            city,
+            state,
+            zip,
+            membershipCode,
+            genderCode,
+            date,
+            organization,
+        ];
         const db = await pool.getConnection();
+        console.log(data);
+        let cust_id;
         try {
             const rows = await db.execute(query, data);
-            console.log(rows)
-            console.log('Account inserted successfully!');
+            const acc_id = rows[0].insertId;
+            console.log("ID Created", acc_id)
+            console.log(rows);
+            console.log("Account inserted successfully!");
+            let squareInfo = { firstName: first, lastName: last, email: email };
+            cust_id = await createSquareCustomer(squareInfo, acc_id);
+            return cust_id;
+        } catch (error) {
+            console.error("Error inserting account:", error);
+        } finally {
             db.release();
-          } catch (error) {
-            console.error('Error inserting account:', error);
-          }
-    }else{
-        console.log(parse.error)
-        return {error: "There was an errpr"}
+        }
+    } else {
+        console.log(parse.error);
+        return { error: "There was an errpr" };
     }
-
-  }
+};
 
 export const createNewUser = async (formData) => {
     const neededKeys = [
@@ -109,7 +144,7 @@ export const createNewUser = async (formData) => {
         "state",
         "zipCode",
         "membership",
-        "gender"
+        "gender",
     ];
 
     // Prepare account addition query
@@ -165,34 +200,34 @@ const addToDB = async (query) => {
     }
 };
 
-const createSignedUpEmail = async (email) =>{
+const createSignedUpEmail = async (email) => {
     try {
         await transporter.sendMail({
             from: EMAIL,
             to: email,
             subject: "Welcome to the SEAC Tool SHED",
             text: "This is a text string",
-            html: "<h1>Test title </h1> <p>Some body text</p>"
+            html: "<h1>Test title </h1> <p>Some body text</p>",
         });
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
-}
+};
 
-export const sendGiftCardEmail = async (formData) =>{
-    const fromEmail = formData.get("sender-email")
-    const fromLast = formData.get("sender-last-name")
-    const fromFirst = formData.get("sender-first-name")
-    const fromMessage = formData.get("message")
+export const sendGiftCardEmail = async (formData) => {
+    const fromEmail = formData.get("sender-email");
+    const fromLast = formData.get("sender-last-name");
+    const fromFirst = formData.get("sender-first-name");
+    const fromMessage = formData.get("message");
 
-    const toEmail = formData.get("recipient-email")
-    const toFirst = formData.get("recipient-last-name")
-    const toLast = formData.get("recipient-last-name")
+    const toEmail = formData.get("recipient-email");
+    const toFirst = formData.get("recipient-last-name");
+    const toLast = formData.get("recipient-last-name");
 
-    let parse = {toEmail: toEmail, fromEmail: fromEmail}
+    let parse = { toEmail: toEmail, fromEmail: fromEmail };
 
-    parse = giftCardEmails.safeParse(parse)
-    if(!parse.error){
+    parse = giftCardEmails.safeParse(parse);
+    if (!parse.error) {
         try {
             await transporter.sendMail({
                 bcc: EMAIL,
@@ -200,13 +235,13 @@ export const sendGiftCardEmail = async (formData) =>{
                 to: toEmail,
                 subject: "SEAC Tool SHED Gift Card",
                 text: fromMessage,
-                html: `<h1>Test title </h1> <p>${fromMessage}</p>`
+                html: `<h1>Test title </h1> <p>${fromMessage}</p>`,
             });
-          } catch (error) {
-            console.log(error)
-          } 
-    }else{
-        console.log(parse.error.errors)
-        return {error: "There was an error"}
+        } catch (error) {
+            console.log(error);
+        }
+    } else {
+        console.log(parse.error.errors);
+        return { error: "There was an error" };
     }
-}
+};

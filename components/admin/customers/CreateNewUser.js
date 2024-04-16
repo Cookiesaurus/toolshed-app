@@ -70,7 +70,7 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
   };
 
   return (
-    <>
+    <div className="new-user-cont">
     <h1>Create a new user</h1>
     {showToast && <Toast message="Account created successfully!" />}
     <span style={{ color: "red" }} role="alert">
@@ -91,11 +91,10 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
               <></>
             )}
           </span>
-      <form action={handleFormSubmit}>
-        <div className="new-user-cont">
-          <div className="new-user-left">
-            <div className="accountInfo">
-              <h2>Account</h2>
+      <form className="new-user-cont" action={handleFormSubmit}>
+        
+            <div className="new-user-section">
+              <h2 className="new-user-subsection-title">Account</h2>
 
               <label htmlFor="password">Password</label>
               <input
@@ -111,18 +110,22 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
                 id="re-enter_password"
                 required
               />
-              <input
-                className="checkbox"
-                type="checkbox"
-                id="show-passwords"
-                name="show-passwords"
-                value="show"
-                onChange={togglePasswordVisibility}
-                aria-label="Toggle password visbility"
-              />
-              <label htmlFor="show"> Show passwords</label>
-              <div className="primaryInfo">
-                <h2>Primary Info</h2>
+              <div className="create-new-user-checkbox">
+                <input
+                  className="checkbox"
+                  type="checkbox"
+                  id="show-passwords"
+                  name="show-passwords"
+                  value="show"
+                  onChange={togglePasswordVisibility}
+                  aria-label="Toggle password visbility"
+                />
+                <label htmlFor="show"> Show passwords</label>
+              </div>
+              
+            </div>
+            <div className="new-user-section">
+                <h2 className="new-user-subsection-title">Primary Info</h2>
                 <label htmlFor="first_Name">First Name</label>
                 <input type="text" id="first_Name" name="firstName" />
 
@@ -157,9 +160,6 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
                 <label htmlFor="date_of_birth">Date of Bith</label>
                 <input type="date" id="date_of_birth" name="date-of-birth" />
 
-                <label htmlFor="title">Title</label>
-                <input type="text" id="title" name="title" />
-
                 <label htmlFor="organization">Organization</label>
                 <input type="text" id="organization" name="organization" />
 
@@ -182,11 +182,30 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
                 <label htmlFor="account-notes">Account Notes</label>
                 <input type="text" id="account-notes" name="account-notes" />
               </div>
+              <div className="new-user-section">
+              <h2 className="new-user-subsection-title">Secondary Info</h2>
+              <label htmlFor="secondary_first_name">First Name</label>
+              <input
+                type="text"
+                id="secondary_first_name"
+                name="secondary-first-name"
+              />
+
+              <label htmlFor="secondary_last_name">Last Name</label>
+              <input
+                type="text"
+                id="secondary_last_name"
+                name="secondary-last-name"
+              />
+
+              <label htmlFor="secondary_email">Email</label>
+              <input type="email" id="secondary_email" name="secondary-email" />
+
+              <label htmlFor="secondary_number">Phone Number</label>
+              <input type="tel" id="secondary_number" name="secondary-number" />
             </div>
-          </div>
-          <div className="new-user-right">
-            <div className="membershipInfo">
-              <h2>Credentials</h2>
+            <div className="new-user-section">
+              <h2 className="new-user-subsection-title">Credentials</h2>
 
               <label htmlFor="membership level">
                 Membership Level
@@ -234,28 +253,7 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
                 </select>
               )}
             </div>
-            <div className="secondaryInfo">
-              <h2>Secondary Info</h2>
-              <label htmlFor="secondary_first_name">First Name</label>
-              <input
-                type="text"
-                id="secondary_first_name"
-                name="secondary-first-name"
-              />
-
-              <label htmlFor="secondary_last_name">Last Name</label>
-              <input
-                type="text"
-                id="secondary_last_name"
-                name="secondary-last-name"
-              />
-
-              <label htmlFor="secondary_email">Email</label>
-              <input type="email" id="secondary_email" name="secondary-email" />
-
-              <label htmlFor="secondary_number">Phone Number</label>
-              <input type="tel" id="secondary_number" name="secondary-number" />
-              <div className="waivers">
+            <div className="create-new-user-waivers">
                 <label htmlFor="waivers" className="checkbox-container">
                   I have read and accept the following:
                   <input
@@ -275,23 +273,24 @@ const CreateNewUser = ({waivers, genders, memberships, privileges, admin}) => {
                         onClick={() =>
                           downloadPDF(waiver.Waiver_Details, waiver.Waiver_Name)
                         }
+                        style={{ textDecoration: 'none' }} // Initially, no underline
+                        onMouseOver={(e) => e.target.style.textDecoration = 'underline'}
+                        onMouseOut={(e) => e.target.style.textDecoration = 'none'}
                       >
                         {waiver.Waiver_Name}
                       </li>
                     </React.Fragment>
                   ))}
                 </ul>
+
               </div>
-            </div>
-          </div>
-        </div>
         <div className="create-button-cont">
           <button className="createNewUserButton" type="submit">
             Create Account
           </button>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 

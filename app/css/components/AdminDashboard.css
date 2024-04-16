@@ -21,7 +21,7 @@
     justify-content: space-around;
     border-color: black;
     border-style: solid;
-    border-width: 1px;
+    border-width: 3px;
 }
 
 .topRowButton svg {
@@ -133,12 +133,20 @@ a.editButton {
     color: white;
 }
 
+a.editButton:hover {
+  text-decoration: underline;
+}
+
 
 a.loansButton {
     margin-bottom: 5px;
     border-radius: 8px;
     background-color: #0028B6;
     color: white;
+}
+
+a.loansButton:hover {
+  text-decoration: underline;
 }
 
 a.checkoutButton {
@@ -148,11 +156,8 @@ a.checkoutButton {
     color: white;
 }
 
-a.checkinButton {
-  margin-bottom: 5px;
-  border-radius: 8px;
-  background-color: #069612;
-  color: white;
+a.checkoutButton:hover {
+  text-decoration: underline;
 }
 
 label {
@@ -240,7 +245,7 @@ input {
   .admin-container{
     display: flex;
   }
-  
+
   .new-item-container{
     display: flex;
     flex-direction: row;
@@ -383,11 +388,61 @@ input {
 
 .new-user-cont {
   display: flex;
+  flex-direction: column;
+  background-color: white;
 }
 
-.new-user-left, .new-user-right {
+.new-user-section{
+  background-color: white;
   width: 50%;
-  margin: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+
+  label {
+    background-color: white;
+  }
+  
+  input {
+    background-color: white;
+  }
+
+  select {
+    background-color: white;
+  }
+}
+
+.new-user-subsection-title {
+  background-color: white;
+  font-family: Poppins;
+  font-size: 24px;
+  font-weight: 600;
+  margin-left: -5px;
+}
+
+.create-new-user-checkbox {
+  background-color: white;
+
+  input {
+    height: 20px;
+    width: 20px;
+  }
+}
+
+.checkbox-container {
+  background-color: white;
+}
+
+.create-new-user-waivers {
+  background-color: white;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+
+  ul, li {
+    background-color: white;
+  }
 }
 
 .create-button-cont {
@@ -397,20 +452,22 @@ input {
 
 .long-section{
   display: flex;
-    flex-direction: column;
-    gap: 12px;
-    height: 300px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    width: 100%;
-    border-bottom: 1px solid #E4E7EE;
-    margin-bottom: 12px;
+  flex-direction: column;
+  gap: 12px;
+  height: 300px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 100%;
+  border-bottom: 1px solid #E4E7EE;
+  margin-bottom: 12px;
+  background-color: white;
 }
 
 .section-status {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  background-color: white;
 }
 
 button#delete-item{
@@ -420,7 +477,9 @@ button#delete-item{
 .actions-links {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .action {
@@ -433,10 +492,33 @@ button#delete-item{
   align-items: center;
 }
 
-.membershipInfo, .accountInfo, .secondary-info {
+.new-tool-cont {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-direction: row;
+  background-color: white;
+  padding: 20px;
+}
+
+.new-tool-section{
+  background-color: white;
+  width: 50%;
+  margin: 10px;
+
+  label {
+    background-color: white;
+  }
+  
+  input {
+    background-color: white;
+  }
+
+  select {
+    background-color: white;
+  }
+}
+
+.section-title-small {
+  background-color: white;
 }
 
 p.section-title-small {

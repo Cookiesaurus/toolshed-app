@@ -40,9 +40,13 @@ export const login = async (formData) => {
         "SELECT *, AES_Decrypt(Password ,'') as pwd FROM Accounts WHERE Email='" +
         formData.get("email") +
         "'";
+    console.log(query);
     const result = await db.execute(query).then((res) => {
+        console.log(res);
         user = res[0][0];
-        dbPass = res[0][0] ? res[0][0].pwd.toString() : null;
+        console.log(user);
+        dbPass = user ? (user.pwd ? user.pwd.toString() : null) : null;
+        console.log(dbPass);
     });
     if (!dbPass || formData.get("password") != dbPass) {
         console.log("Wrong credentials!");
@@ -115,10 +119,10 @@ export const updateMembership = async (planName, customerId) => {
     let query = "UPDATE Accounts SET Membership_Level = ";
     // Get membership level according to name
     let amt;
-    if (planName == "tinker") amt = 1;
-    else if (planName == "macgyver") amt = 2;
-    else if (planName == "builder") amt = 3;
-    else if (planName == "contractor") amt = 4;
+    if (planName == "tinker" || planName == "Tinkerer") amt = 1;
+    else if (planName == "macgyver" || planName == "MacGyver") amt = 2;
+    else if (planName == "builder" || planName == "Builder") amt = 3;
+    else if (planName == "contractor" || planName == "Contractor") amt = 4;
 
     query += String(amt) + " WHERE Email = '" + cust_email + "';";
     // Get account from email
@@ -246,7 +250,7 @@ WHERE Transaction_Types.Transaction_Details = "Tool Check Out" AND Transactions.
             }
             // Send customer email that the card got charged
         });
-        return {message: "success"}
+        return { message: "success" };
     } catch (error) {
         console.error("Error getting late tools.", error);
     } finally {

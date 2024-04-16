@@ -39,32 +39,32 @@ export const addNewUserFromAdmin = async (formData) =>{
     let membershipCode;
     switch(membership){
         case "Tinkerer":
-            membershipCode = 2
+            membershipCode = 1
             break;
         case "MacGyver":
-            membershipCode = 3
+            membershipCode = 2
             break;
         case "Builder":
-            membershipCode = 4
+            membershipCode = 3
             break;
         case "Contractor":
-            membershipCode = 5
+            membershipCode = 4
             break;
     }
 
     let genderCode;
     switch(gender){
         case "Male":
-            genderCode = 2
+            genderCode = 1
             break;
         case "Female":
-            genderCode = 3
+            genderCode = 2
             break;
         case "Other":
-            genderCode = 4
+            genderCode = 3
             break;
         case "Would Rather Not Specify":
-            genderCode = 5
+            genderCode = 4
             break;
     }
 
@@ -104,7 +104,7 @@ export const addNewUserFromAdmin = async (formData) =>{
         Address_Line2, City, State, Postal_Code, Secondary_First_Name, Secondary_Last_Name,
         Secondary_Email, Secondary_Phone_Number, Account_Notes, Membership_Level, Membership_Status,
         Privilege_Level) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? ,? ,? ,? ,?, ? );`;
+        VALUES (?, ?, ?, ?, ?, ?, AES_ENCRYPT(?, ""), ?, ?, ?, ?, ?, ?, ?, ? , ? ,? ,? ,? ,?, ? );`;
 
     if(!parse.error){
         const data = [first, last, date, genderCode, organization, email, pass, number, 

@@ -4,6 +4,7 @@ import mysql from "mysql2/promise";
 import { v4 } from "uuid";
 import { client } from "@/components/Square/Client";
 import { lateToolPayment, updateMembership } from "./actions";
+// import { getCustomerByEmail } from "@/components/Square/Customer";
 
 // Different APIs for Square functions
 const {
@@ -14,6 +15,7 @@ const {
     subscriptionsApi,
     catalogApi,
     refundsApi,
+    giftCardsApi,
 } = client;
 BigInt.prototype.toJSON = function () {
     return this.toString();
@@ -99,20 +101,18 @@ export const deleteCardFromFile = async (cardId) => {
 };
 
 // Function to pay using just a credit card.
-// -- Should not be in use as of yet.
 // -- params sourceID - tokenized card to use to create payment.
 // -- returns the payment if successful, nothing if unsuccessful (as of yet).
-export const submitPayment = async (sourceId) => {
+export const submitPayment = async (sourceId, amt) => {
     try {
         const { result } = await paymentsApi.createPayment({
             idempotencyKey: v4(),
             sourceId,
             amountMoney: {
                 currency: "USD",
-                amount: 100,
+                amount: 100 * amt,
             },
         });
-
         return result;
     } catch (error) {
         console.log("Error in submitting payment : ", error);
@@ -127,14 +127,23 @@ export const submitPayment = async (sourceId) => {
 };
 
 // Function to submit payment for the first time.
-export const subscribe = async (sourceId, planName, addCardBool, custId) => {
+export const subscribe = async (sourceId, planName, custId) => {
     let amount;
     let cardId;
 
-    if (planName == "tinker") amount = 25;
-    else if (planName == "macgyver") amount = 35;
-    else if (planName == "builder") amount = 50;
-    else if (planName == "contractor") amount = 100;
+    if (planName == "tinker" || planName == "Tinkerer") {
+        amount = 25;
+        planName = "tinker";
+    } else if (planName == "macgyver" || planName == "MacGyver") {
+        amount = 35;
+        planName = "macgyver";
+    } else if (planName == "builder" || planName == "Builder") {
+        amount = 50;
+        planName = "builder";
+    } else if (planName == "contractor" || planName == "Contractor") {
+        amount = 100;
+        planName = "contractor";
+    }
 
     try {
         // Create a payment
@@ -176,6 +185,7 @@ export const subscribe = async (sourceId, planName, addCardBool, custId) => {
         return JSON.stringify({ status: 200, subscription });
     } catch (error) {
         console.log("Error in subscribing : ", error);
+        // return { error: "400" };
     }
     // DEBUG
     // console.log("PROPS: amount - ", planName);
@@ -195,15 +205,6 @@ export const createSquareCustomer = async (userInfo, customerId) => {
             givenName: userInfo.firstName,
             familyName: userInfo.lastName,
             emailAddress: userInfo.email,
-            address: {
-                addressLine1: userInfo.addressFirst,
-                addressLine2: userInfo.addressSecond
-                    ? userInfo.addressSecond
-                    : null,
-                administrativeDistrictLevel1: userInfo.state,
-                postalCode: userInfo.zipCode,
-                country: "US",
-            },
             referenceId: String(customerId),
             note: "New Customer added.",
         });
@@ -609,6 +610,122 @@ export const publishInvoice = async (invoiceId, version) => {
             console.log("Amount has been paid ");
         }
         return invoice;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const buyGiftCard = async (source, custToGift, amt) => {
+    // If card on file,
+    // Create gift card
+    const gc = await createGiftCard();
+    // Create order with custom amount
+    const order = await createOrder(custId);
+    // Load gift card
+    // Create invoice
+    // Publish invoice
+    // If credit card
+    // This should not be called
+    // Make payment
+};
+
+export const createGiftCard = async () => {
+    try {
+        const response = await giftCardsApi.createGiftCard({
+            idempotencyKey: v4(),
+            locationId: process.env.LOCATION_ID,
+            giftCard: {
+                type: "DIGITAL",
+                ganSource: "SQUARE",
+            },
+        });
+        return response.result.giftCard;
+        // console.log(response.result.giftCard);
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+// Activate gift card
+// Source can be card token, or Card ID
+export const activateGiftCard = async (gcId, gcGan, amt, source) => {
+    try {
+        const response =
+            await client.giftCardActivitiesApi.createGiftCardActivity({
+                idempotencyKey: v4(),
+                giftCardActivity: {
+                    type: "ACTIVATE",
+                    locationId: process.env.LOCATION_ID,
+                    giftCardId: gcId,
+                    giftCardGan: gcGan,
+                    activateActivityDetails: {
+                        amountMoney: {
+                            amount: amt * 100,
+                            currency: "USD",
+                        },
+                        buyerPaymentInstrumentIds: [source],
+                    },
+                },
+            });
+
+        // console.log(response.result);
+        console.log("Gift card activated.");
+        return response.result.giftCardActivity;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getCustomerByEmail = async (email) => {
+    let customer;
+    try {
+        const response = await customersApi.searchCustomers({
+            query: {
+                filter: {
+                    emailAddress: {
+                        exact: email,
+                    },
+                },
+            },
+        });
+        if (response.result == {}) console.log("HERE", response.result);
+        // console.log("Customer is : ", response.result.customers[0]);
+        if (response.result.customers) {
+            return response.result.customers[0];
+        } else {
+            return { error: "No account found" };
+        }
+    } catch (error) {
+        console.log("Error : ", error);
+        if (error.statusCode) console.log(error.statusCode);
+        return { error: "No account found" };
+    }
+};
+
+export const linkCustomerToGiftCard = async (gid, custId) => {
+    try {
+        const response = await giftCardsApi.linkCustomerToGiftCard(gid, {
+            customerId: custId,
+        });
+
+        // console.log(response.result);
+        return response.result.giftCard;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getGiftCards = async (type, state, limit, cursor, custId) => {
+    try {
+        const response = await giftCardsApi.listGiftCards(
+            type,
+            state,
+            limit,
+            cursor,
+            custId
+        );
+        // console.log(response.result)
+        return response.result.giftCards;
     } catch (error) {
         console.log(error);
     }

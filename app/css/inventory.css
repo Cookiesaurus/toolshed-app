@@ -36,6 +36,7 @@
 .inven-cont {
     display: flex;
     justify-content: space-around;
+    margin-bottom: 10px;
 }
 
 .inven-items {
@@ -46,11 +47,12 @@
 
 .inventory-item {
     padding: 12px;
+    border: 1px solid #2222224A;
+    max-width: 200px;
 }
 
 
 .inventory-image {
-    border: 1px solid #2222224A;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -61,13 +63,12 @@
 
 .item-aval {
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
-    gap: 12px;
 }
 .product-info {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
 }
 
 

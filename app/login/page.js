@@ -37,7 +37,7 @@ export default function Page() {
           <h1 className="pagetitle">Sign In</h1>
         </div>
         <form action={handleLogin} className="loginbox">
-          <div>
+          <div className="login-section">
             <label htmlFor="login-email" className="sr-only">
               Email
             </label>
@@ -48,7 +48,7 @@ export default function Page() {
               placeholder={" myemail@example.com"}
             />
           </div>
-          <div className="login-center">
+          <div className="login-center" className="login-section">
             <label htmlFor="login-password" className="sr-only">
               Submit
             </label>
@@ -59,20 +59,20 @@ export default function Page() {
               placeholder={" Password"}
               id="login-password"
             />
-            <label htmlFor="show-passwords" className="checkbox-container">
-              Show passwords
-              <input
-                className="checkbox"
-                type="checkbox"
-                id="show-passwords"
-                name="show-passwords"
-                value="show"
-                onChange={togglePasswordVisibility}
-              />
-              <span className="checkmark"></span>
-            </label>
+            
           </div>
-          <div>
+          <div className="login-section">
+            <input
+              className="login-checkbox"
+              type="checkbox"
+              id="show-passwords"
+              name="show-passwords"
+              value="show"
+              onChange={togglePasswordVisibility}
+            />
+            <label htmlFor="show-passwords">Show passwords</label>
+          </div>
+          <div className="login-section">
             <button value={"Submit"} id="login-submit">
               Login
             </button>
