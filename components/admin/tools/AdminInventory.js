@@ -1,15 +1,10 @@
 "use client";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPencil,
-  faCartShopping,
-  faHandHolding
-} from "@fortawesome/free-solid-svg-icons";
+import {faPencil} from "@fortawesome/free-solid-svg-icons";
 import DataTable from "react-data-table-component";
 
 const AdminInventory = ({ inventory }) => {
-  console.log(inventory)
   const columns = [
     {
       name: "ID",
@@ -68,22 +63,6 @@ const AdminInventory = ({ inventory }) => {
             style={{ backgroundColor: "transparent" }}
           />
           Edit
-        </Link>
-        </div>
-        <div className="action" role="listitem">
-        <Link
-          className="checkoutButton"
-          href={{
-            pathname: "/admin/inventory/checkout",
-            query: { tool_id: item.Tool_ID }
-          }}
-        >
-          <FontAwesomeIcon
-            icon={faCartShopping}
-            color="white"
-            style={{ backgroundColor: "transparent" }}
-          />
-          Checkout
         </Link>
         </div>
       </div>

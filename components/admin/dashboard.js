@@ -43,6 +43,11 @@ const Dashboard = ({ users, inventory, dataTable }) => {
       name: "Transaction Status",
       selector: (row) => row.status,
       sortable: true
+    },
+    {
+      name: "Check In Date",
+      selector: (row) => row.check,
+      sortable: true
     }
   ];
 
@@ -50,6 +55,8 @@ const Dashboard = ({ users, inventory, dataTable }) => {
     const start = new Date(row.Transaction_Date).toLocaleDateString('en-US', options);
     let end = '';
     row.End_Date === null ? end = '' : end = new Date(row.End_Date).toLocaleDateString('en-US', options);
+    let check = ''; 
+    row.Check_In_Date === null ? check = '' : check = new Date(row.Check_In_Date).toLocaleDateString('en-US', options);
 
     return {
       name: row.Name,
@@ -57,7 +64,8 @@ const Dashboard = ({ users, inventory, dataTable }) => {
       start: start,
       end: end,
       type: row.Transaction_Details,
-      status: row.Transaction_Status
+      status: row.Transaction_Status,
+      check: check
     }
   })
 

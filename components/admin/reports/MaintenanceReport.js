@@ -6,62 +6,81 @@ import { faArrowUpFromBracket,  } from "@fortawesome/free-solid-svg-icons";
 import * as XLSX from 'xlsx'
 import jsPDF from "jspdf";
 import autoTable from 'jspdf-autotable'
-const MaintenanceReport = ({loanData}) => {
+const MaintenanceReport = ({toolData}) => {
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  const reportHeader = new Date()
+  function RoundToHun(decimal) {
+    const roundedDecimal = parseFloat(decimal).toFixed(2);
+    const roundedNum = parseFloat(roundedDecimal);
+    return roundedNum;
+  }
   const columns = [
     {
-      name: "Name",
+      name: "Tool ID",
+      selector: (row) => row.id,
+      sortable: true
+    },
+    {
+      name: "Tool",
       selector: (row) => row.name,
       sortable: true
     },
     {
-      name: "Date",
-      selector: (row) => row.date,
+      name: "Brand",
+      selector: (row) => row.brand,
       sortable: true
     },
     {
-      name: "Amount",
-      selector: (row) => row.amount,
+      name: "Replacement Fee",
+      selector: (row) => row.fee,
       sortable: true
     },
     {
-      name: "Item(s)",
-      selector: (row) => row.items,
+      name: "Current Location",
+      selector: (row) => row.curloc,
       sortable: true
     },
     {
-      name: "Location",
-      selector: (row) => row.location
-    },
-    {
-      name: "Action",
-      selector: (row) => row.action
+      name: "In House Location",
+      selector: (row) => row.loc
     }
   ];
 
+  const tableData = toolData.map((row)=>{
+    return {
+      id: row.Tool_ID,
+      name: row.Tool_Name,
+      brand: row.Brand_Name,
+      fee: row.Tool_Replacement_Cost,
+      curloc: row.Current_Location,
+      loc: row.Location_Code
+    }
+  })
+
 
   const downloadExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(customerData);
+    const worksheet = XLSX.utils.json_to_sheet(tableData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
-    XLSX.writeFile(workbook, "Presidents.xlsx", { compression: true });
+    XLSX.writeFile(workbook, `Maintenance-Report-${reportHeader.toLocaleDateString('en-US', options)}.xlsx`, { compression: true });
   };
 
   const downlaodPDF = () => {
     const doc = new jsPDF({ orientation: "landscape"})
-    doc.text('Report Header', 10, 10)
+    doc.text(`Maintenance-Report-${reportHeader.toLocaleDateString('en-US', options)}`, 10, 10)
     
     //itereate through the data to make an array 
-    const data = customerData.map(obj => [obj.Account_ID, obj.Name, obj.Email, obj.Organization, obj.Membership_Title]);
+    const data = toolData.map(obj => [obj.Tool_ID, obj.Tool_Name, obj.Brand_Name, obj.Tool_Replacement_Cost, obj.Current_Location, obj.Location_Code]);
     
     //create the columns
-    const columns = ['ID', 'Name', 'Email', 'Organization', 'Membership'];
+    const columns = ['Tool ID', 'Tool', 'Brand', 'Replacement Fee', 'Current Location', 'In House Location'];
   
     autoTable(doc, {
       head: [columns],
       body: data,
     })
     //name of file
-    doc.save('test.pdf')
+    doc.save(`Maintenance-Report-${reportHeader.toLocaleDateString('en-US', options)}.pdf`)
   }
 
 
@@ -70,18 +89,6 @@ const MaintenanceReport = ({loanData}) => {
     <>
       <div className="reports-header">
         <h1>Maintenance Report</h1>
-
-        <form>
-          <label htmlFor="start-date">Starts On or After</label>
-          <input type="date" id="start-date" name="start"></input>
-          <label htmlFor="end-date">Ends On or After</label>
-          <input type="date" id="end-date" name="end"></input>
-          <label htmlFor="location">Location</label>
-          <select defaultValue="location" id="location">
-            <option id="location">Location</option>
-            <option>Location 2</option>
-          </select>
-        </form>
         <div className="download-buttons">
           <button className="downloads" onClick={downloadExcel}>
             <FontAwesomeIcon icon={faArrowUpFromBracket} size="xs" /> Excel
@@ -91,8 +98,8 @@ const MaintenanceReport = ({loanData}) => {
           </button>
         </div>
       </div>
-      <div className="data">
-        <DataTable columns={columns} />
+      <div className="mainContent datatable">
+        <DataTable columns={columns} data={tableData} pagination/>
       </div>
     </>
   );

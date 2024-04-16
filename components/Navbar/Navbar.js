@@ -66,9 +66,17 @@ useEffect(()=>{
       </div>
       <div className="navbar-section">
         <div className="account-hover">
-          <a className="login-button" href={session && session.isLoggedIn ? "/account/profile" : "/login"}>
+          {/* <a className="login-button" href={session && session.isLoggedIn ? "/account/profile" : "/login"}>
             {session && session.isLoggedIn ? "Profile" : "Login"}
-          </a>
+          </a> */}
+          <Link className="login-button"
+            href={{
+              pathname: session && session.isLoggedIn ? "/account/profile" : "/login",
+              query: { account_id: session?.user?.Account_ID }
+            }}
+          >
+            {session && session.isLoggedIn ? "Profile" : "Login"}
+          </Link>
           {session && session.isLoggedIn && (
             <div className="dropdown-content">
               <div className="account">
@@ -78,7 +86,10 @@ useEffect(()=>{
                   : "Profile Name "}
                 </p>
               </div>{" "}
-              <Link href={"/account/profile"}>
+              <Link href={{
+                  pathname: "/account/profile",
+                  query: { account_id: session?.user?.Account_ID }
+                }}>
                 <FontAwesomeIcon
                   icon={faUser}
                   style={{
@@ -90,7 +101,10 @@ useEffect(()=>{
                 />
                 <p>Account Settings</p>
               </Link>
-              <Link href={"/account/transaction-history"}>
+              <Link href={{
+                  pathname: "/account/transaction-history",
+                  query: { account_id: session?.user?.Account_ID }
+                }}>
                 <FontAwesomeIcon
                   icon={faFileInvoice}
                   style={{
@@ -111,7 +125,7 @@ useEffect(()=>{
                       paddingRight: "10px",
                       backgroundColor: "white"
                     }}
-                    aria-label="Go to account transaction"
+                    aria-label="Go to admin dashboard"
                   />
                   <p>Admin Dashbaord</p>
                 </Link>

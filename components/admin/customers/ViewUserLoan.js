@@ -1,110 +1,101 @@
 "use client";
 import DataTable from "react-data-table-component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleInfo,
-  faPlus
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
 import Link from "next/link";
-const ViewUserLoan = ({ customerData }) => {
+const ViewUserLoan = ({ customerData, data }) => {
+  console.log(data[0])
+  const options = { year: "numeric", month: "2-digit", day: "2-digit" };
   const columns = [
     {
-      name: "Date",
-      selector: (row) => row.id
+      name: "Customer Name",
+      selector: (row) => row.name
     },
     {
-      name: "Amount",
-      selector: (row) => row.name,
+      name: "Tool",
+      selector: (row) => row.tool,
       sortable: true
     },
     {
-      name: "Payment Method",
-      selector: (row) => row.email,
+      name: "Transaction Start Date",
+      selector: (row) => row.start,
       sortable: true
     },
     {
-      name: "Loan Items",
-      selector: (row) => row.organization,
+      name: "Transaction End Date",
+      selector: (row) => row.end,
       sortable: true
     },
     {
-      name: "Membership",
-      selector: (row) => row.membership,
+      name: "Transaction Type",
+      selector: (row) => row.type,
       sortable: true
     },
     {
-      name: "Action",
-      selector: (row) => row.action
+      name: "Transaction Status",
+      selector: (row) => row.status,
+      sortable: true
+    },
+    {
+      name: "Check In Date",
+      selector: (row) => row.check,
+      sortable: true
     }
   ];
 
-  const data = customerData.map((user) => {
-    let membership;
-    if (user.Membership_Level === 1) {
-      membership = "Tinkerer";
-    } else if (user.Membership_Level === 2) {
-      membership = "MacGyver";
-    } else if (user.Membership_Level === 3 || user.Membership_Level === 4) {
-      membership = "Builder";
-    }
-    let expirationDate = new Date(user.Membership_Expiration_Date);
-    expirationDate = expirationDate.toDateString();
-
-    let name = user.First_Name + " " + user.Last_Name;
-
-    const actions = (
-      <div>
-        <Link
-          className="loansButton"
-          href={{
-            pathname: "/admin/customers/loan/details",
-            query: { account_id: user.Account_ID }
-          }}
-        >
-          <FontAwesomeIcon
-            icon={faCircleInfo}
-            style={{ backgroundColor: "transparent" }}
-          />
-          Details
-        </Link>
-        <br />
-      </div>
+  const datatable = data.map((row) => {
+    const start = new Date(row.Transaction_Date).toLocaleDateString(
+      "en-US",
+      options
     );
+    let end = "";
+    row.End_Date === null
+      ? (end = "")
+      : (end = new Date(row.End_Date).toLocaleDateString("en-US", options));
+    let check = "";
+    row.Check_In_Date === null
+      ? (check = "")
+      : (check = new Date(row.Check_In_Date).toLocaleDateString(
+          "en-US",
+          options
+        ));
 
     return {
-      id: user.Account_ID,
-      name: name,
-      email: user.Email,
-      organization: user.Organization_Name,
-      membership: membership,
-      member_expiration: expirationDate,
-      action: actions
+      name: row.Name,
+      tool: row.Tool_Name,
+      start: start,
+      end: end,
+      type: row.Transaction_Details,
+      status: row.Transaction_Status,
+      check: check
     };
   });
 
   return (
     <>
       <div className="title_and_buttons">
-      {customerData.map((user) => (
-  <>
-    <h1>{user.First_Name + " " + user.Last_Name}</h1>
-    <div className="buttonsContainer">
-      <Link
-        href={{
-          pathname: "/admin/customers/transactions",
-          query: { account_id: user.Account_ID }
-        }}
-      >
-        <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
-        Add a transaction
-      </Link>
-    </div>
-  </>
-))}
+        {customerData.map((user, index) => (
+          <React.Fragment key={index}>
+            <h1>{user.First_Name + " " + user.Last_Name}</h1>
+            <div className="buttonsContainer" key={index}>
+              <Link
+                href={{
+                  pathname: "/admin/customers/transactions",
+                  query: { account_id: user.Account_ID }
+                }}
+                key={index}
+              >
+                <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
+                Add a transaction
+              </Link>
+            </div>
+            </React.Fragment>
+        ))}
       </div>
 
       <div className="mainContent datatable">
-        <DataTable columns={columns} data={data} pagination />
+        <DataTable columns={columns} data={datatable} pagination />
       </div>
     </>
   );
