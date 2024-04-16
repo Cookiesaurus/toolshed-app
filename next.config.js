@@ -8,18 +8,6 @@ const nextConfig = {
         remotePatterns: [
           {
             protocol: 'https',
-            hostname: 'cdn.dummyjson.com',
-            port: '',
-            pathname: '/**/**',
-          },
-          {
-            protocol: 'https',
-            hostname: 'images.unsplash.com',
-            port: '',
-            pathname: '/**/**',
-          },
-          {
-            protocol: 'https',
             hostname: 'myturn-prod-images-in.s3-us-west-2.amazonaws.com',
             port: '',
             pathname: '/**/**'

@@ -24,6 +24,30 @@ const PopularTools = ({ tools }) => {
     }
     return <p className="light-paragraph">{location}</p>;
   };
+
+  const ToolStatus = ({ productItem }) => {
+    let statusClass;
+    switch (productItem.Tool_Status_Details) {
+      case "Available":
+        statusClass = "stock-green";
+        break;
+      case "Checked Out":
+        statusClass = "stock-red";
+        break;
+      case "Maintenance":
+        statusClass = "stock-orange";
+        break;
+      case "Disabled":
+        statusClass = "stock-gray";
+        break;
+      default:
+        statusClass = "";
+    }
+
+    return <p className={statusClass}>{productItem.Tool_Status_Details}</p>;
+  };
+
+  
   return (
     <>
       <h2> Popular Tools</h2>
@@ -47,7 +71,7 @@ const PopularTools = ({ tools }) => {
               </div>
               <div className="product-info">
                 <p className="product-title">{tool.Tool_Name}</p>
-                <p className="stock-green">{tool.Tool_Status_Details}</p>
+                <ToolStatus productItem={tool} />
                 <ToolLocation productItem={tool} />
               </div>
             </Link>
