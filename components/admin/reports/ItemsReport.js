@@ -6,62 +6,151 @@ import { faArrowUpFromBracket,  } from "@fortawesome/free-solid-svg-icons";
 import * as XLSX from 'xlsx'
 import jsPDF from "jspdf";
 import autoTable from 'jspdf-autotable'
-const ItemsReport = ({loanData}) => {
+const ItemsReport = ({itemsData}) => {
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  const reportHeader = new Date()
+  console.log(itemsData)
   const columns = [
     {
-      name: "Name",
+      name: "Customer Name",
       selector: (row) => row.name,
       sortable: true
     },
     {
-      name: "Date",
+      name: "Reservation Date",
       selector: (row) => row.date,
       sortable: true
     },
     {
-      name: "Amount",
-      selector: (row) => row.amount,
+      name: "Tool Name",
+      selector: (row) => row.tool,
       sortable: true
     },
     {
-      name: "Item(s)",
-      selector: (row) => row.items,
+      name: "Return Date",
+      selector: (row) => row.return,
       sortable: true
     },
     {
-      name: "Location",
+      name: "Pick Up Location",
       selector: (row) => row.location
-    },
-    {
-      name: "Action",
-      selector: (row) => row.action
     }
   ];
 
+  const tableData = itemsData.map((row)=>{
+     let resDate = new Date (row.Transaction_Date).toLocaleDateString('en-US', options)
+     let retDate;
+     row.End_Date ? retDate = new Date(row.End_Date).toLocaleDateString('en-US', options) : 'Return Date Not Set'
+     let current;
+     switch(row.Current_Location){
+         case 1:
+             current = "Main"
+             break;
+         case 2:
+             current = "Mobile Unit - Thomas P. Ryan Center (Monday)"
+             break;
+         case 3:
+             current = "Mobile Unit - Edgerton Recreation Center (Tuesday)"
+             break;
+         case 4:
+             current = "Mobile Unit - Willie Walker Lightfoot Recreation Center (Wednesday)"
+             break;
+         case 5:
+             current = "Mobile Unit - David F. Gantt Reacreation Center (Thursday)"
+             break;
+     }
+    return {
+      name: row.Name,
+      date: resDate,
+      tool: row.Tool_Name,
+      return: retDate,
+      location: current
+    }
+  })
+
+  const excelData = itemsData.map((row)=>{
+    let resDate = new Date (row.Transaction_Date).toLocaleDateString('en-US', options)
+     let retDate;
+     row.End_Date ? retDate = new Date(row.End_Date).toLocaleDateString('en-US', options) : 'Return Date Not Set'
+     let current;
+     switch(row.Current_Location){
+         case 1:
+             current = "Main"
+             break;
+         case 2:
+             current = "Mobile Unit - Thomas P. Ryan Center (Monday)"
+             break;
+         case 3:
+             current = "Mobile Unit - Edgerton Recreation Center (Tuesday)"
+             break;
+         case 4:
+             current = "Mobile Unit - Willie Walker Lightfoot Recreation Center (Wednesday)"
+             break;
+         case 5:
+             current = "Mobile Unit - David F. Gantt Reacreation Center (Thursday)"
+             break;
+     }
+    return {
+      Customer_Name: row.Name,
+      Reservation_Date: resDate,
+      Tool_Name: row.Tool_Name,
+      Return_Date: retDate,
+      Pickup_Location: current
+    }
+  })
+
+  const pdfData = itemsData.map((row)=>{
+    let resDate = new Date (row.Transaction_Date).toLocaleDateString('en-US', options)
+     let retDate;
+     row.End_Date ? retDate = new Date(row.End_Date).toLocaleDateString('en-US', options) : 'Return Date Not Set'
+     let current;
+     switch(row.Current_Location){
+         case 1:
+             current = "Main"
+             break;
+         case 2:
+             current = "Mobile Unit - Thomas P. Ryan Center (Monday)"
+             break;
+         case 3:
+             current = "Mobile Unit - Edgerton Recreation Center (Tuesday)"
+             break;
+         case 4:
+             current = "Mobile Unit - Willie Walker Lightfoot Recreation Center (Wednesday)"
+             break;
+         case 5:
+             current = "Mobile Unit - David F. Gantt Reacreation Center (Thursday)"
+             break;
+     }
+    return [
+      row.Name,
+      resDate,
+      row.Tool_Name,
+      retDate,
+      current
+    ]
+  })
 
   const downloadExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(customerData);
+    const worksheet = XLSX.utils.json_to_sheet(excelData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
-    XLSX.writeFile(workbook, "Presidents.xlsx", { compression: true });
+    XLSX.writeFile(workbook, `Checked-Items-Report-${reportHeader.toLocaleDateString('en-US', options)}.xlsx`, { compression: true });
   };
 
   const downlaodPDF = () => {
     const doc = new jsPDF({ orientation: "landscape"})
-    doc.text('Report Header', 10, 10)
+    doc.text(`Checked-Items-Report-${reportHeader.toLocaleDateString('en-US', options)}`, 10, 10)
     
-    //itereate through the data to make an array 
-    const data = customerData.map(obj => [obj.Account_ID, obj.Name, obj.Email, obj.Organization, obj.Membership_Title]);
     
     //create the columns
-    const columns = ['ID', 'Name', 'Email', 'Organization', 'Membership'];
+    const columns = ['Customer Name', 'Reservation Date', 'Tool Name', 'Return Date', 'Pickup Location'];
   
     autoTable(doc, {
       head: [columns],
-      body: data,
+      body: pdfData,
     })
     //name of file
-    doc.save('test.pdf')
+    doc.save(`Checked-Items-Report-${reportHeader.toLocaleDateString('en-US', options)}.pdf`)
   }
 
 
@@ -80,7 +169,7 @@ const ItemsReport = ({loanData}) => {
         </div>
       </div>
       <div className="data">
-        <DataTable columns={columns} />
+        <DataTable columns={columns} data={tableData}/>
       </div>
     </>
   );
