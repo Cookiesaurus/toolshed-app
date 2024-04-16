@@ -11,38 +11,55 @@ import {
   faChartColumn,
   faClockRotateLeft
 } from "@fortawesome/free-solid-svg-icons";
-const Dashboard = ({ users, inventory }) => {
+const Dashboard = ({ users, inventory, dataTable }) => {
+  console.log(dataTable)
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
   const columns = [
     {
-      name: "User",
-      selector: (row) => row.id
+      name: "Customer Name",
+      selector: (row) => row.name
     },
     {
-      name: "Name",
-      selector: (row) => row.name,
+      name: "Tool",
+      selector: (row) => row.tool,
       sortable: true
     },
     {
-      name: "Due Date",
-      selector: (row) => row.location,
+      name: "Transaction Start Date",
+      selector: (row) => row.start,
       sortable: true
     },
     {
-      name: "Item",
+      name: "Transaction End Date",
+      selector: (row) => row.end,
+      sortable: true
+    },
+    {
+      name: "Transaction Type",
       selector: (row) => row.type,
       sortable: true
     },
     {
-      name: "Location",
-      selector: (row) => row.brand,
-      sortable: true
-    },
-    {
-      name: "Action",
+      name: "Transaction Status",
       selector: (row) => row.status,
       sortable: true
     }
   ];
+
+  const data = dataTable.map((row)=>{
+    const start = new Date(row.Transaction_Date).toLocaleDateString('en-US', options);
+    let end = '';
+    row.End_Date === null ? end = '' : end = new Date(row.End_Date).toLocaleDateString('en-US', options);
+
+    return {
+      name: row.Name,
+      tool: row.Tool_Name,
+      start: start,
+      end: end,
+      type: row.Transaction_Details,
+      status: row.Transaction_Status
+    }
+  })
 
   return (
     <>
@@ -106,7 +123,7 @@ const Dashboard = ({ users, inventory }) => {
 
       <div className="mainContent datatable">
         <h2 className="white">Recent Activities</h2>
-        <DataTable columns={columns} className="white" />
+        <DataTable columns={columns} className="white" data={data} pagination/>
       </div>
     </>
   );
