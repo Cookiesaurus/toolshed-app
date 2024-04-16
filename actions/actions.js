@@ -281,35 +281,37 @@ WHERE Transaction_Types.Transaction_Details = "Tool Check Out" AND Transactions.
     return tools;
 };
 
-const createChangedPasswordEmail = async (email) =>{
-    try {
-        await transporter.sendMail({
-            from: EMAIL,
-            to: email,
-            subject: "SEAC Tool SHED:  Password Changed Successfully",
-            text: `This is to confirm that the password for your account at SEAC Tool SHED has been successfully changed.
+export const addTransaction = async (custId, status, type, planName) => {
+    const db = await pool.getConnection();
+    const query = `INSERT INTO Transactions (Account_ID, Transaction_Status, Transaction_Date, Transaction_Type, Payment_Amount) 
+VALUES (?, ?, curdate(), ?, ?);`;
+    const getUserIdQuery =
+        'SELECT Account_ID FROM Accounts WHERE Customer_ID="' + custId + '";';
+    let amount = 0;
 
-            If you did not request this change or believe it to be an unauthorized action, please contact us immediately at toolshed@seacrochester.org or 585-271-8665.
-            
-            Thank you for helping us maintain the security of your account.
-            
-            `,
-            html: `<!DOCTYPE html>
-            <html lang="en">
-            <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Password Changed Successfully</title>
-            </head>
-            <body>
-              <h1>SEAC Tool SHED:  Password Changed Successfully</h1>
-              <p>This is to confirm that the password for your account at <strong>SEAC Tool SHED</strong> has been successfully changed.</p>
-              <p>If you did not request this change or believe it to be an unauthorized action, please contact us immediately at <strong>toolshed@seacrochester.org or 585-271-8665</strong>.</p>
-              <p>Thank you for helping us maintain the security of your account.</p>
-            </body>
-            </html>`
-        });
-    } catch (error) {
-        console.log(error)
+    if (planName == "tinker" || planName == "Tinkerer") {
+        amount = 25;
+        planName = "tinker";
+    } else if (planName == "macgyver" || planName == "MacGyver") {
+        amount = 35;
+        planName = "macgyver";
+    } else if (planName == "builder" || planName == "Builder") {
+        amount = 50;
+        planName = "builder";
+    } else if (planName == "contractor" || planName == "Contractor") {
+        amount = 100;
+        planName = "contractor";
     }
-}
+    let data = [custId, status, type, amount];
+    let res;
+    try {
+        res = await db.execute(getUserIdQuery);
+        let accId = res[0][0].Account_ID;
+        data = [accId, status, type, amount];
+        res = db.execute(query, data);
+    } catch (error) {
+        console.error(error);
+    } finally {
+        db.release();
+    }
+};
