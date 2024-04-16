@@ -272,3 +272,38 @@ WHERE Transaction_Types.Transaction_Details = "Tool Check Out" AND Transactions.
     }
     return tools;
 };
+
+export const addTransaction = async (custId, status, type, planName) => {
+    const db = await pool.getConnection();
+    const query = `INSERT INTO Transactions (Account_ID, Transaction_Status, Transaction_Date, Transaction_Type, Payment_Amount) 
+VALUES (?, ?, curdate(), ?, ?);`;
+    const getUserIdQuery =
+        'SELECT Account_ID FROM Accounts WHERE Customer_ID="' + custId + '";';
+    let amount = 0;
+
+    if (planName == "tinker" || planName == "Tinkerer") {
+        amount = 25;
+        planName = "tinker";
+    } else if (planName == "macgyver" || planName == "MacGyver") {
+        amount = 35;
+        planName = "macgyver";
+    } else if (planName == "builder" || planName == "Builder") {
+        amount = 50;
+        planName = "builder";
+    } else if (planName == "contractor" || planName == "Contractor") {
+        amount = 100;
+        planName = "contractor";
+    }
+    let data = [custId, status, type, amount];
+    let res;
+    try {
+        res = await db.execute(getUserIdQuery);
+        let accId = res[0][0].Account_ID;
+        data = [accId, status, type, amount];
+        res = db.execute(query, data);
+    } catch (error) {
+        console.error(error);
+    } finally {
+        db.release();
+    }
+};

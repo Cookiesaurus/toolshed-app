@@ -10,6 +10,7 @@ import { PaymentForm, CreditCard } from "react-square-web-payments-sdk";
 import { subscribe } from "@/actions/squareActions";
 import { setMaxParserCache } from "mysql2";
 import { useRouter } from "next/navigation";
+import { addTransaction } from "@/actions/actions";
 
 const appId = "sandbox-sq0idb-b3GBVpDWCRZfpKe13OsWQQ";
 const locationId = "LFETGS2GE8TGC";
@@ -20,6 +21,7 @@ BigInt.prototype.toJSON = function () {
 export default function Signupform({ waivers, genders, membershiplevel }) {
     const router = useRouter();
     const [amt, setAmt] = useState(null);
+    const [accId, setAccId] = useState(null);
     const CardModal = ({ planName, custId, amt }) => {
         return (
             <div className="section">
@@ -28,7 +30,6 @@ export default function Signupform({ waivers, genders, membershiplevel }) {
                     locationId={locationId}
                     cardTokenizeResponseReceived={async (token) => {
                         // we’ll come back to this soon
-                        console.log("Token is : ", token);
                         let result = await subscribe(
                             token.token,
                             planName,
@@ -37,6 +38,7 @@ export default function Signupform({ waivers, genders, membershiplevel }) {
                         result = JSON.parse(result);
                         if (result.status == 200) {
                             console.log("Sign up successful.");
+                            addTransaction(custId, "Closed", 1, planName);
                             router.push("/");
                         } else {
                             console.log("Card tokenizer result : ", result);

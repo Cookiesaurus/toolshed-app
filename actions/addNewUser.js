@@ -9,6 +9,7 @@ import {
 } from "@/components/FormComponents/newUserSchema";
 import { transporter, EMAIL } from "@/app/config/nodemailer";
 import { NextResponse } from "next/server";
+import { addTransaction } from "./actions";
 const pool = mysql.createPool({
     host: process.env.DB_HOSTNAME,
     database: process.env.DB,
@@ -108,12 +109,11 @@ export const testAddNewUser = async (formData) => {
             organization,
         ];
         const db = await pool.getConnection();
-        console.log(data);
         let cust_id;
         try {
             const rows = await db.execute(query, data);
             const acc_id = rows[0].insertId;
-            console.log("ID Created", acc_id)
+            console.log("ID Created", acc_id);
             console.log(rows);
             console.log("Account inserted successfully!");
             let squareInfo = { firstName: first, lastName: last, email: email };

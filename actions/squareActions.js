@@ -285,6 +285,61 @@ export const addSubscription = async (cardId, subPlanId, custId, orderId) => {
     // console.log("Plan to be added : ", plan);
 };
 
+export const getSubPlanVar = async (name) => {
+    try {
+        // const res = await catalogApi.searchCatalogObjects();
+        const attrValue = name + " subscription";
+        const res = await client.catalogApi.searchCatalogObjects({
+            objectTypes: ["SUBSCRIPTION_PLAN_VARIATION"],
+            query: {
+                exactQuery: {
+                    attributeName: "name",
+                    attributeValue: attrValue,
+                },
+            },
+        });
+        return res.result.objects[0];
+    } catch (error) {
+        console.log("Error getting Subscription Plan Variation: ", error);
+    }
+};
+
+export const getItemVarId = async (name) => {
+    try {
+        const attrValue = name + " subscription";
+        const response = await client.catalogApi.searchCatalogObjects({
+            objectTypes: ["ITEM"],
+            query: {
+                exactQuery: {
+                    attributeName: "name",
+                    attributeValue: attrValue,
+                },
+            },
+        });
+        const itemVarId = response.result.objects[0].itemData.variations[0].id;
+        return itemVarId;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const swapPlan = async (subId, planVarId, orderId) => {
+    try {
+        const response = await subscriptionsApi.swapPlan(subId, {
+            newPlanVariationId: planVarId,
+            phases: [
+                {
+                    ordinal: 0,
+                    orderTemplateId: orderId,
+                },
+            ],
+        });
+        return response.result;
+    } catch (error) {
+        console.error("Could not swap plan : ", error);
+    }
+};
+
 // Function to retrieve the item variation for given plan name
 export const getItemVariation = async (planName) => {
     let planId;
@@ -401,7 +456,7 @@ export const getCards = async (custId) => {
     }
 };
 
-const getSubscription = async (custId) => {
+export const getSubscription = async (custId) => {
     const cus = custId;
     try {
         let subscription = await subscriptionsApi.searchSubscriptions({
@@ -410,6 +465,7 @@ const getSubscription = async (custId) => {
                     customerIds: [cus],
                 },
             },
+            include: ["actions"],
         });
         subscription = subscription.result.subscriptions[0];
         return JSON.stringify(subscription);
@@ -428,31 +484,41 @@ export const updateSubscription = async (custId, plan) => {
         let sub = await getSubscription(custId);
         sub = JSON.parse(sub);
         console.log("420sa -> Subscription ID : ", sub.id);
-        const sub_id = sub.id;
+        const subId = sub.id;
         // Get plan variation ID
-        let fullplan = await getItemVariation(plan);
-        const plan_id = fullplan.id;
-        let orderId = await createOrder(custId, plan_id);
-        // Create Order from plan ID and customer ID
-        // Swap plan
+        // let fullplan = await getItemVariation(plan);
+        // const plan_id = fullplan.id;
+        // let orderId = await createOrder(custId, plan_id);
 
-        // Change subscription
-        // const result = await subscriptionsApi.updateSubscription(sub_id, {
-        //     newPlanVariationId: process.env.SUBSCRIPTION_PLAN_ID, // Put plan variation ID,
-        //     phases: [
-        //         {
-        //             ordinal: 0,
-        //             orderTemplateId: orderId, // Put Order Template ID
-        //         },
-        //     ],
-        // });
+        // New plan ID
+        let planId = await getSubPlanVar(plan);
+        planId = planId.id;
+        let itemVarId = await getItemVarId(plan);
+        let orderId = await createOrder(custId, itemVarId);
+        let res = await swapPlan(subId, planId, orderId);
+        console.log(res);
+
         // update membership level in database
-        console.log("Updated membership: ", result);
-        return result;
+        // console.log("Updated membership: ", result);
+        // return result;
         // Change in database
     } catch (error) {
         console.log("Could not update membership : ", error);
         return JSON.stringify({ error });
+    }
+};
+
+export const cancelSubscription = async (custId) => {
+    try {
+        // Get subscriptin
+        let sub = await getSubscription(custId);
+        sub = JSON.parse(sub);
+        console.log(sub);
+        // Cancel subsctiption
+        let res = await subscriptionsApi.cancelSubscription(sub.id);
+        return res.result.subscription;
+    } catch (error) {
+        console.log("Could not cancel subscription: ", error);
     }
 };
 
