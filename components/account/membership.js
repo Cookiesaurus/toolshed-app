@@ -130,7 +130,7 @@ const Membership = ({ user }) => {
             let sub = await getSubscription(custId);
             sub = JSON.parse(sub);
             setSub(sub);
-            sub.actions.map((action) => {
+            sub.actions && sub.actions.map((action) => {
                 if (action.type == "SWAP_PLAN") {
                     setSwap(action.effectiveDate);
                 }
