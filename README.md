@@ -17,10 +17,6 @@
   </p>
 </div>
 
-
-# toolshed-app
-A database web application for the Southeast Area Coalition's Toolshed program in the Rochester area.
-
 ### Built With
 ![Next JS](https://img.shields.io/badge/Next.JS-black?style=for-the-badge&logo=next.js&logoColor=white)
 ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
