@@ -359,8 +359,8 @@ export const processCheckIn = async (accountID, transactionID, toolID, floatingS
                 console.log('transactions table updated')
             })
 
-            const insertCheckIn = `INSERT INTO Transactions (Account_ID, Tool_ID, Transaction_Status, Transaction_Date, Transaction_Type) 
-            VALUES (?, ?, "Closed", curdate(), 6);`
+            const insertCheckIn = `INSERT INTO Transactions (Account_ID, Tool_ID, Transaction_Status, Transaction_Date, Transaction_Type, Check_In_Date) 
+            VALUES (?, ?, "Closed", curdate(), 6, curdate());`
             const checkInData = [accountID, toolID]
 
             await db.query(insertCheckIn, checkInData).then((response)=>{
