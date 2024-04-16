@@ -434,3 +434,43 @@ export const processCheckIn = async (accountID, transactionID, toolID, floatingS
     }
     return {status: 'success'}
 }
+
+export const addCustomTransaction = async (accountID, formData) =>{
+    const transactiontype = formData.get("transactionType");
+    const transactionStart = formData.get("transactionStart");
+    const transactionEnd = formData.get("transactionEnd");
+    const transactionAmount = formData.get("transactionAmount");
+
+
+    let transStart = new Date(transactionStart);
+    transStart = transStart.toString() === 'Invalid Date' ? null : transStart;
+
+
+    let transEnd = new Date(transactionEnd);
+    transEnd = transEnd.toString() === 'Invalid Date' ? null : transEnd;
+
+    //have to check if transaction amount is a number or not
+    if(isNaN(transactionAmount) || transStart === null){
+        return{status: 'NaN'}
+    }else{
+        try {
+            const db = await pool.getConnection();
+            const insertTransactionQuery = 
+                `INSERT INTO Transactions (Account_ID, Transaction_Status, Transaction_Date, Transaction_Type, Payment_Amount, End_Date)
+                VALUES (?, 'Closed', ?, ?, ?, ?)`;
+            const data = [accountID, transStart, transactiontype, transactionAmount, transEnd]
+            console.log(data)
+            db.execute(insertTransactionQuery, data).then(()=>{
+                console.log('transaction completed')
+                return {status: 'success'}
+            })
+
+            db.release()
+            return {status: 'success'}
+        } catch (error) {
+            console.error(error)
+            return {status: 'error'}
+        }
+    }
+
+}
