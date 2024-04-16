@@ -9,8 +9,9 @@ const CheckOutItem = ({customerName, toolInfo, transactionID}) => {
   const [showToast, setShowToast] = useState(false);
   const [showErrorToast, setErrorShowToast] = useState(false);
   function handleCheckOut(formData){
-    console.log('in checkout')
-    processCheckOut(transactionID, formData)
+    let email = customerName?.Email
+    let toolName = toolInfo?.Tool_Name
+    processCheckOut(email, toolName, transactionID, formData)
       .then((response)=>{
         if(response.status === 'error'){
           console.log('error')

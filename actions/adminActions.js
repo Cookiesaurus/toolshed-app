@@ -1,7 +1,7 @@
 "use server";
 import mysql from "mysql2/promise";
-import { UserSchema } from "@/components/FormComponents/newUserSchema";
-import { createSquareCustomer } from "@/actions/squareActions";
+import { transporter, EMAIL } from "@/app/config/nodemailer";
+import {UserSchema} from "@/components/FormComponents/newUserSchema";
 const pool = mysql.createPool({
     host: process.env.DB_HOSTNAME,
     database: process.env.DB,
@@ -335,11 +335,13 @@ export const deleteUser = async (id) => {
     }
 };
 
-export const processCheckOut = async (transactionID, formData) => {
-    const returnDate = new Date(formData.get("returnDate"));
-    console.log(isNaN(returnDate.getTime()));
-    const loanFee = formData.get("loanFee");
-    const loanLength = formData.get("loanLength");
+export const processCheckOut = async (email, toolName, transactionID, formData) =>{
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    let returnDate = new Date(formData.get('returnDate'));
+    const checkOutDate = new Date().toLocaleDateString('en-US', options);
+    console.log(isNaN(returnDate.getTime()))
+    const loanFee = formData.get('loanFee');
+    const loanLength = formData.get('loanLength');
 
     if (isNaN(returnDate.getTime())) {
         return { status: "date error" };
@@ -353,7 +355,9 @@ export const processCheckOut = async (transactionID, formData) => {
             if (loanFee > 0) {
                 //process a payment
             }
-            return { status: "success" };
+            returnDate = returnDate.toLocaleDateString('en-US', options);
+            await createCheckOutEmail(email, toolName, checkOutDate, returnDate)
+            return {status: 'success'}
         } catch (error) {
             console.error(error);
             return { status: "error" };
@@ -557,3 +561,45 @@ export const addCustomTransaction = async (accountID, formData) =>{
     }
 
 }
+
+
+const createCheckOutEmail = async (email, tool, checkOutDate, dueDate) => {
+    try {
+        await transporter.sendMail({
+            from: EMAIL,
+            to: email,
+            subject: "Tool Checked Out Successfully",
+            text: `We're writing to confirm that you have successfully checked out the following tool from SEAC Tool SHED:
+            Tool: ${tool}
+            Checkout Date: ${checkOutDate}
+            Due Date: ${dueDate}
+            Please make sure to return the tool by the specified due date to avoid any late fees. 
+            If you need to extend the loan period or have any questions, feel free to contact us at toolshed@seacrochester.org or 585-271-8665.
+            Thank you for using SEAC Tool SHED. We hope the tool helps you with your project, and we look forward to serving you again in the future!
+            `,
+            html: `<!DOCTYPE html>
+            <html lang="en">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Tool Checked Out Successfully</title>
+            </head>
+            <body>
+              <h1>Tool Checked Out Successfully</h1>
+              <p>We're writing to confirm that you have successfully checked out the following tool from <strong>SEAC Tool SHED</strong>:</p>
+              <ul>
+                <li><strong>Tool:</strong> ${toolName}</li>
+                <li><strong>Checkout Date:</strong> ${checkOutDate}</li>
+                <li><strong>Due Date:</strong> ${dueDate}]</li>
+              </ul>
+              <p>Please make sure to return the tool by the specified due date to avoid any late fees. If you need to extend the loan period or have any questions, feel free to contact us at <strong>toolshed@seacrochester.org or 585-271-8665</strong>.</p>
+              <p>Thank you for using <strong>SEAC Tool SHED</strong>. We hope the tool helps you with your project, and we look forward to serving you again in the future!</p>
+            </body>
+            </html>
+            
+            `,
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};

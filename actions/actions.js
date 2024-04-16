@@ -89,17 +89,24 @@ export const changePassword = async (formData) => {
 
         const [rows, fields] = await connection.execute(sql, [newPass, email]);
 
-        connection.release();
         if (rows.changedRows > 0) {
-            return { success: "Password updated successfully!" };
+            connection.release();
+            await createChangedPasswordEmail(email).then(()=>{
+                console.log('email sent')
+            })
+            return { status: "success" };
         } else {
+            console.log(rows)
+            connection.release();
             return {
-                error: "There was an error when trying to update your password.",
+                status: 'error',
             };
         }
     } catch (error) {
+        connection.release();
+        console.error(error)
         return {
-            error: "There was an error when trying to update your password.",
+            status: 'error',
         };
     }
 };
@@ -194,14 +201,15 @@ export const updateUserProfile = async (accountID, formData) => {
             const rows = await db.execute(query, data);
             console.log(rows);
             console.log("Account updated successfully!");
+            db.release();
+            return {status: 'success'}
         } catch (error) {
             console.error("Error inserting account:", error);
-        } finally {
-            db.release();
+            return {status: 'error'}
         }
     } else {
         console.log(parse.error);
-        return { error: "There was an errpr" };
+        return { status: "error 2" };
     }
 };
 

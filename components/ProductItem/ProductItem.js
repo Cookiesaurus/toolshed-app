@@ -50,6 +50,8 @@ const ProductItem = ({ tool, session }) => {
 
   let toolID = tool?.Tool_ID
   let status = tool?.Tool_Status_Details;
+  let toolName = tool?.Tool_Name;
+  let pickupLoc = tool?.Location_Name;
   let email;
   let accountID;
 
@@ -61,7 +63,7 @@ const ProductItem = ({ tool, session }) => {
   }
 
   function handleButtonClick(){
-    pickUpTool(toolID, accountID, email, status)
+    pickUpTool(toolID, accountID, email, status, toolName, pickupLoc)
       .then((response) => {
        if(response.status === 'too many'){
         setShowErrorToast(true)

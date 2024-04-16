@@ -11,6 +11,7 @@ const Profile = ({user}) =>{
     const [showProfile, setShowProfile] = useState(true);
     const [showProfileModal, setShowProfileModal] = useState(false);
     const [showToast, setShowToast] = useState(false);
+    const [showErrorTwo, setShowErrorTwo] = useState(false);
     const handleOpenProfileModal = () => {
         setShowProfileModal(true);
         setShowProfile(false);
@@ -26,11 +27,14 @@ const Profile = ({user}) =>{
     let accountID = user.Account_ID
     updateUserProfile(accountID, formData)
       .then((response) => {
-        if (response.error) {
+        if (response.status === 'error') {
           setFormError(true)
-        } else {
+        } else if(response.status === 'success'){
           console.log("success");
           setShowToast(true)
+        }else if(response.status === 'error 2'){
+            setShowErrorTwo(true)
+            console.log(`query error`)
         }
       })
       .catch((error) => {
@@ -42,7 +46,8 @@ const Profile = ({user}) =>{
         return (
           <>
            <form className='profile_info' action={handleFormSubmit}>
-           {formError && <ErrorToast message="Error updating account information: Primary First name, last name, and email cannot be empty. Address information cannot be empty and zip code cannot be more
+           {formError && <ErrorToast message="There was an error when trying to update ypur account information. Please try again" />}           
+            {formError && <ErrorToast message="Error updating account information: Primary First name, last name, and email cannot be empty. Address information cannot be empty and zip code cannot be more
                 than 5 digits long." />}
             {showToast && <Toast message="Account information updated successfully!" />}
                 <div className='primary_info'>
