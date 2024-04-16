@@ -10,29 +10,33 @@ import { addTransaction } from "@/actions/actions";
 
 // Make component for subscription plans
 const MembershipForm = ({ custId }) => {
-    // Function for updating plan when value is changed
     const [selectedPlan, setSelectedPlan] = useState(null);
     const [subscribe, setSubscribe] = useState(false);
     const selectionChanged = (res) => {
         setSelectedPlan(res.target.value);
     };
+    let resUs;
     useEffect(() => {
         const fn = async () => {
             try {
                 if (selectedPlan == null) return;
-                const result = await updateSubscription(custId, selectedPlan);
-                console.log("updated subscription: ", result);
+                resUs = await updateSubscription(custId, selectedPlan);
+                // console.log(selectedPlan);
+                // console.log("Result : ", resUs);
+                // setSdate(resUs.effectiveDate);
+                addTransaction(custId, "Closed", 2, selectedPlan);
+                // console.log("updated subscription: ");
                 setSubscribe(false);
+                return resUs;
             } catch (error) {
                 console.log("Could not update subscription: ", error);
             }
         };
-        fn();
+        if (subscribe) {
+            fn();
+            // setSubscribe(false);
+        }
     }, [subscribe]);
-    //Set action to update membership
-    const upgradeMembership = () => {
-        setSubscribe(true);
-    };
     return (
         <form
             className="select-level"
@@ -90,7 +94,12 @@ const MembershipForm = ({ custId }) => {
                 {/* <label className="selection-label" for="contractor"> */}
                 <label className="selection-label">$100 Contractor level</label>
             </div>
-            <button className="profile-button" onClick={upgradeMembership}>
+            <button
+                className="profile-button"
+                onClick={() => {
+                    setSubscribe(true);
+                }}
+            >
                 Update Membership
             </button>
         </form>
@@ -110,6 +119,7 @@ const Membership = ({ user }) => {
     const [cdate, setCdate] = useState(null);
     const [sub, setSub] = useState(null);
     const [swap, setSwap] = useState(null);
+    const [sdate, setSdate] = useState(null);
     // const [cancelSwap, setCancelSwap] = useState(false);
     // const [cancelCancel, setCancelCancel] = useState(false);
 
@@ -130,12 +140,8 @@ const Membership = ({ user }) => {
             let sub = await getSubscription(custId);
             sub = JSON.parse(sub);
             setSub(sub);
-            sub.actions && sub.actions.map((action) => {
-                if (action.type == "SWAP_PLAN") {
-                    setSwap(action.effectiveDate);
-                }
-            });
-            setCdate(sub.canceledDate);
+            sub.actions && setSdate(sub.actions[0].effectiveDate);
+            sub.canceledDate && setCdate(sub.canceledDate);
         };
         fn();
     }, []);
@@ -150,12 +156,8 @@ const Membership = ({ user }) => {
             fn();
             setCancel(false);
         }
-    }, [cancel]);
+    }, [cancel, swap]);
 
-    const autoRenewal = renewal === 1 ? true : false;
-    const updateMembership = () => {
-        setShowPlans(true);
-    };
     const showNormal = () => {
         setShowPlans(false);
     };
@@ -168,8 +170,8 @@ const Membership = ({ user }) => {
                     <h2 className="customer-name">{membership}</h2>
                     {cdate ? (
                         <p>You membership is set to end on {cdate}</p>
-                    ) : swap ? (
-                        <p>Your subscription is changing on {swap}</p>
+                    ) : sdate ? (
+                        <p>Your subscription is changing on {sdate}</p>
                     ) : null}
                 </div>
                 {showPlans ? (
@@ -182,11 +184,14 @@ const Membership = ({ user }) => {
                 ) : (
                     <>
                         <div className="account-info">
-                            {!swap && !cdate && (
+                            {!sdate && !cdate && (
                                 <>
                                     <button
                                         className="profile-button"
-                                        onClick={updateMembership}
+                                        onClick={() => {
+                                            setShowPlans(true);
+                                            // setSwap(true);
+                                        }}
                                     >
                                         Upgrade Membership
                                     </button>
@@ -202,26 +207,6 @@ const Membership = ({ user }) => {
                                 </>
                             )}
                         </div>
-                        {swap && (
-                            <button
-                                className="profile-button"
-                                onClick={() => {
-                                    setCancelSwap(true);
-                                }}
-                            >
-                                Cancel Plan Change
-                            </button>
-                        )}
-                        {cdate && (
-                            <button
-                                className="profile-button"
-                                onClick={() => {
-                                    setCancelCancel(true);
-                                }}
-                            >
-                                Cancel Subscription Cancellation
-                            </button>
-                        )}
                     </>
                 )}
             </div>

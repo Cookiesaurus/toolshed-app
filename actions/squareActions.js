@@ -319,7 +319,7 @@ export const getItemVarId = async (name) => {
         const itemVarId = response.result.objects[0].itemData.variations[0].id;
         return itemVarId;
     } catch (error) {
-        console.error(error);
+        console.log(error);
     }
 };
 
@@ -334,6 +334,7 @@ export const swapPlan = async (subId, planVarId, orderId) => {
                 },
             ],
         });
+        console.log("Plan has been swapped");
         return response.result;
     } catch (error) {
         console.error("Could not swap plan : ", error);
@@ -476,19 +477,18 @@ export const getSubscription = async (custId) => {
 };
 
 export const updateSubscription = async (custId, plan) => {
-    // console.log("Plan is : ", plan);
-    // console.log("Customer ID : ", custId);
+    console.log("Plan is : ", plan);
+    console.log("Customer ID : ", custId);
+    console.log(!plan);
     if (!plan) return;
+    let res;
+    let parse;
     try {
         // Get subscription ID
         let sub = await getSubscription(custId);
         sub = JSON.parse(sub);
         console.log("420sa -> Subscription ID : ", sub.id);
         const subId = sub.id;
-        // Get plan variation ID
-        // let fullplan = await getItemVariation(plan);
-        // const plan_id = fullplan.id;
-        // let orderId = await createOrder(custId, plan_id);
 
         // New plan ID
         let planId = await getSubPlanVar(plan);
@@ -496,16 +496,19 @@ export const updateSubscription = async (custId, plan) => {
         let itemVarId = await getItemVarId(plan);
         let orderId = await createOrder(custId, itemVarId);
         let res = await swapPlan(subId, planId, orderId);
-        console.log(res);
-
-        // update membership level in database
-        // console.log("Updated membership: ", result);
-        // return result;
-        // Change in database
+        // console.log(res.subscription);
+        const act = res.actions[0];
+        parse = {
+            id: act.id,
+            effectiveDate: act.effectiveDate,
+            newPlanVariationId: act.newPlanVariationId,
+        };
     } catch (error) {
         console.log("Could not update membership : ", error);
-        return JSON.stringify({ error });
+        // return JSON.stringify({ error });
     }
+    console.log(parse);
+    return parse;
 };
 
 export const cancelSubscription = async (custId) => {
