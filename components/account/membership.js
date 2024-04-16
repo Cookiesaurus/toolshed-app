@@ -107,7 +107,7 @@ const Membership = ({ user }) => {
     } else if (membershipLevel == 3) {
         membership = "Builder";
     } else if (membershipLevel == 4) {
-        membership = "Builder";
+        membership = "Contractor";
     }
 
     const autoRenewal = renewal === 1 ? true : false;
