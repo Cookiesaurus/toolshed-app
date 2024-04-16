@@ -305,3 +305,132 @@ export const cancelReservation = async (toolID, transaction) =>{
     }
 
 }
+
+export const processCheckIn = async (accountID, transactionID, toolID, floatingStatus, formData) =>{
+    const returnLoc = formData.get('returnLoc')
+    const dropOffLoc = formData.get('curLoc')
+    const replacementFee = formData.get('replaceFee');
+    console.log(replacementFee)
+    const cleanFee = formData.get('cleanFee'); //null values
+    const toolStatus = formData.get('tool-status')
+
+    let curLocationCode;
+    console.log(dropOffLoc)
+    switch(dropOffLoc){
+        case "Main Location":
+            curLocationCode = 1
+            break;
+        case "Mobile Unit - Thomas P. Ryan Center (Monday)":
+            curLocationCode = 2
+            break;
+        case "Mobile Unit - Edgerton Recreation Center (Tuesday)":
+            curLocationCode = 3
+            break;
+        case "Mobile Unit - Willie Walker Lightfoot Recreation Center (Wednesday)":
+            curLocationCode = 4
+            break;
+        case "Mobile Unit - David F. Gantt Reacreation Center (Thursday)":
+            curLocationCode = 5
+            break;
+    }
+
+    let statusCode;
+    switch(toolStatus){
+        case "Available":
+            statusCode = 1
+            break;
+        case "Checked Out":
+            statusCode = 2
+            break;
+        case "Maintenance":
+            statusCode = 3
+            break;
+        case "Disabled":
+            statusCode = 4
+            break;
+    }
+
+    try {
+        const db = await pool.getConnection();
+        console.log("locations", returnLoc, dropOffLoc)
+        if((returnLoc === dropOffLoc && !floatingStatus) || floatingStatus){
+            const updateCheckOut = `UPDATE Transactions SET Transaction_Status = "Closed" WHERE Transactions.Transaction_ID = ${transactionID};`
+            await db.execute(updateCheckOut).then((response)=>{
+                console.log('transactions table updated')
+            })
+
+            const insertCheckIn = `INSERT INTO Transactions (Account_ID, Tool_ID, Transaction_Status, Transaction_Date, Transaction_Type) 
+            VALUES (?, ?, "Closed", curdate(), 6);`
+            const checkInData = [accountID, toolID]
+
+            await db.query(insertCheckIn, checkInData).then((response)=>{
+                console.log('transactions table values inserted')
+            })
+
+            const updateToolStatus = `Update Tools SET Tool_Status = ${statusCode} WHERE Tool_ID = ${toolID};`
+            await db.execute(updateToolStatus).then((response)=>{
+                console.log('One : tools table values updated')
+            })
+
+            const updateToolLocation = `Update Tools SET Tools.Current_Location = ${curLocationCode} WHERE Tools.Tool_ID = ${toolID};`
+            await db.execute(updateToolLocation).then((response)=>{
+                console.log('Two : transactions table values inserted')
+            })
+
+            db.release()
+            
+            //check the fee values 
+            if((cleanFee ?? null) && (replacementFee ?? null)){
+                console.log('apply both fees')
+                
+                const cleanFeeQuery = `INSERT INTO Transactions (Account_ID, Tool_ID, Transaction_Status, Transaction_Date, Transaction_Type, Payment_Amount)
+                VALUES (?, ?, "Closed", curdate(), 12, 5);`
+                const cleanFeeData = [accountID, toolID]
+
+                await db.execute(cleanFeeQuery, cleanFeeData).then((response)=>{
+                    console.log('One : Cleaning Fee')
+                })
+
+                const replaceFeeQuery = `INSERT INTO Transactions (Account_ID, Tool_ID, Transaction_Status, Transaction_Date, Transaction_Type, Payment_Amount)
+                VALUES (?, ?, "Closed", curdate(), 11, ?);`
+                const replaceFeeData = [accountID, toolID, replacementFee]
+
+                await db.execute(replaceFeeQuery, replaceFeeData).then((response)=>{
+                    console.log('One : replacement fee')
+                })
+                db.release()
+                return {status: 'success both fees applied'}
+            }
+            else if(cleanFee ?? null){
+                const cleanFeeQuery = `INSERT INTO Transactions (Account_ID, Tool_ID, Transaction_Status, Transaction_Date, Transaction_Type, Payment_Amount)
+                VALUES (?, ?, "Closed", curdate(), 12, 5);`
+                const cleanFeeData = [accountID, toolID]
+
+                await db.execute(cleanFeeQuery, cleanFeeData).then((response)=>{
+                    console.log('Two : Cleaning Fee')
+                })
+                db.release()
+                return {status: 'success clean fees applied'}
+            }else if(replacementFee ?? null){
+                const replaceFeeQuery = `INSERT INTO Transactions (Account_ID, Tool_ID, Transaction_Status, Transaction_Date, Transaction_Type, Payment_Amount)
+                VALUES (?, ?, "Closed", curdate(), 11, ?);`
+                const replaceFeeData = [accountID, toolID, replacementFee]
+
+                await db.execute(replaceFeeQuery, replaceFeeData).then((response)=>{
+                    console.log('Two : replacement fee')
+                })
+                db.release()
+                return {status: 'success replacement fees applied'}
+            }
+            db.release()
+        }else{
+            db.release()
+            return {status: `location`}
+        }
+
+    } catch (error) {
+        console.error(error)
+        return {status: 'error'}
+    }
+    return {status: 'success'}
+}
