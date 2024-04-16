@@ -6,6 +6,7 @@ import {
     cancelSubscription,
     getSubscription,
 } from "@/actions/squareActions";
+import { addTransaction } from "@/actions/actions";
 
 // Make component for subscription plans
 const MembershipForm = ({ custId }) => {
@@ -30,9 +31,7 @@ const MembershipForm = ({ custId }) => {
     }, [subscribe]);
     //Set action to update membership
     const upgradeMembership = () => {
-        console.log(selectedPlan);
         setSubscribe(true);
-        console.log(subscribe);
     };
     return (
         <form
@@ -110,6 +109,9 @@ const Membership = ({ user }) => {
     const [cancel, setCancel] = useState(false);
     const [cdate, setCdate] = useState(null);
     const [sub, setSub] = useState(null);
+    const [swap, setSwap] = useState(null);
+    // const [cancelSwap, setCancelSwap] = useState(false);
+    // const [cancelCancel, setCancelCancel] = useState(false);
 
     let membership;
     if (membershipLevel == 1) {
@@ -128,6 +130,11 @@ const Membership = ({ user }) => {
             let sub = await getSubscription(custId);
             sub = JSON.parse(sub);
             setSub(sub);
+            sub.actions.map((action) => {
+                if (action.type == "SWAP_PLAN") {
+                    setSwap(action.effectiveDate);
+                }
+            });
             setCdate(sub.canceledDate);
         };
         fn();
@@ -137,6 +144,7 @@ const Membership = ({ user }) => {
         const fn = async () => {
             const res = await cancelSubscription(custId);
             setCdate(res.canceledDate);
+            addTransaction(custId, "Closed", 4, 0);
         };
         if (cancel) {
             fn();
@@ -160,6 +168,8 @@ const Membership = ({ user }) => {
                     <h2 className="customer-name">{membership}</h2>
                     {cdate ? (
                         <p>You membership is set to end on {cdate}</p>
+                    ) : swap ? (
+                        <p>Your subscription is changing on {swap}</p>
                     ) : null}
                 </div>
                 {showPlans ? (
@@ -172,38 +182,46 @@ const Membership = ({ user }) => {
                 ) : (
                     <>
                         <div className="account-info">
-                            <button
-                                className="profile-button"
-                                onClick={updateMembership}
-                            >
-                                Upgrade Membership
-                            </button>
-                            {cdate ? null : (
-                                <button
-                                    className="profile-button"
-                                    onClick={() => {
-                                        // Set cancel true
-                                        setCancel(true);
-                                    }}
-                                >
-                                    Cancel Subscription
-                                </button>
+                            {!swap && !cdate && (
+                                <>
+                                    <button
+                                        className="profile-button"
+                                        onClick={updateMembership}
+                                    >
+                                        Upgrade Membership
+                                    </button>
+                                    <button
+                                        className="profile-button"
+                                        onClick={() => {
+                                            // Set cancel true
+                                            setCancel(true);
+                                        }}
+                                    >
+                                        Cancel Subscription
+                                    </button>
+                                </>
                             )}
                         </div>
-                        <div className="switch-container">
-                            <label className="switch" htmlFor="auto-renewal">
-                                <input
-                                    type="checkbox"
-                                    id="auto-renewal"
-                                    checked={autoRenewal}
-                                    onChange={(res) => {
-                                        console.log(res);
-                                    }}
-                                />
-                                <span className="slider round"></span>
-                            </label>
-                            <p>Auto Renewal</p>
-                        </div>
+                        {swap && (
+                            <button
+                                className="profile-button"
+                                onClick={() => {
+                                    setCancelSwap(true);
+                                }}
+                            >
+                                Cancel Plan Change
+                            </button>
+                        )}
+                        {cdate && (
+                            <button
+                                className="profile-button"
+                                onClick={() => {
+                                    setCancelCancel(true);
+                                }}
+                            >
+                                Cancel Subscription Cancellation
+                            </button>
+                        )}
                     </>
                 )}
             </div>

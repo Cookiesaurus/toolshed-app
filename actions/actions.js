@@ -279,7 +279,7 @@ export const addTransaction = async (custId, status, type, planName) => {
 VALUES (?, ?, curdate(), ?, ?);`;
     const getUserIdQuery =
         'SELECT Account_ID FROM Accounts WHERE Customer_ID="' + custId + '";';
-    let amount;
+    let amount = 0;
 
     if (planName == "tinker" || planName == "Tinkerer") {
         amount = 25;
