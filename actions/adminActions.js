@@ -39,32 +39,32 @@ export const addNewUserFromAdmin = async (formData) =>{
     let membershipCode;
     switch(membership){
         case "Tinkerer":
-            membershipCode = 2
+            membershipCode = 1
             break;
         case "MacGyver":
-            membershipCode = 3
+            membershipCode = 2
             break;
         case "Builder":
-            membershipCode = 4
+            membershipCode = 3
             break;
         case "Contractor":
-            membershipCode = 5
+            membershipCode = 4
             break;
     }
 
     let genderCode;
     switch(gender){
         case "Male":
-            genderCode = 2
+            genderCode = 1
             break;
         case "Female":
-            genderCode = 3
+            genderCode = 2
             break;
         case "Other":
-            genderCode = 4
+            genderCode = 3
             break;
         case "Would Rather Not Specify":
-            genderCode = 5
+            genderCode = 4
             break;
     }
 
