@@ -5,6 +5,8 @@ import base64;
 import numbers;
 from datetime import datetime;
 import re;
+from square.client import Client
+import os
 
 #Connect to the database
 conn = pymysql.connect(
@@ -20,6 +22,7 @@ curr = conn.cursor()
 #Fetch data from CSV file
 dataframe1 = pd.read_excel('SEAC_Tool_Shed_Inventory.xlsx')
 
+client = Client(access_token=os.environ['SQUARE_ACCESS_TOKEN'],environment='sandbox')
 
 #Function to insert tools into database
 def insertTools():
@@ -95,15 +98,6 @@ def insertTools():
         curr.execute(query % tuple(values))
         conn.commit()
         
-        #Query using the tool IDs from excel
-        #query = """INSERT INTO Tools (Old_Tool_ID, Tool_Name, Brand_Name, Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Tool_Manual,Default_Late_Fee, Default_Loan_Length, Renewal_Amount, Tool_Replacement_Cost, Is_Floating, Is_Featured, Tool_Link) 
-        #VALUES ('%s', '%s', '%s',  %f, '%s', %d, %d, '%s', '%s',  %d, "%s", %.2f, %d, %d, %.2f, %d, %d, '%s')"""
-        #curr.execute(query)
-        #conn.commit()
-       
-        # except:
-        #     print(Tool_ID, Tool_Name, Tool_Brand,Tool_Weight, Tool_Size, Home_Location, Current_Location, Location_Code, Tool_Description, Tool_Status, Default_Late_Fee, Default_Loan_Length, Renewal_Amount,  Tool_Replacement_Cost)
-        # Committing insertion
 
         new_query = "SELECT Tool_ID FROM Tools WHERE Old_Tool_ID='" + Tool_ID + "'"
         curr.execute(new_query)
@@ -302,8 +296,30 @@ def account_migration():
         
         curr.execute(query)
         conn.commit()
+        '''
+        result = client.customers.create_customer(
+        body = {
+            "given_name": First_Name,
+            "family_name": Last_Name,
+            "email_address": Email
+        }
+        )
+        if(result.is_success()):
+            created_customer = result.body.get('customer')
+            
+            if created_customer:
+                customer_id = created_customer.get('id')
+                print("Customer created, ID: " + customer_id)
+            else:
+                print("Error")
+            query = 'UPDATE Accounts SET Customer_ID = "' + str(customer_id) + '" WHERE First_Name = "' + First_Name + '" AND Last_Name = "' + Last_Name + '"'
+            curr.execute(query)
+            conn.commit()
+        else:
+            print('Error creating customer: ', result.errors)
         
-        print('Added Account: ' + First_Name + ' ' + Last_Name)    
+        '''
+        print("Added Account: " + First_Name + " " + Last_Name)    
     
 insertTools()
 alter_Tools()
