@@ -83,9 +83,14 @@ const AdminNavBar = ({session}) => {
       </div>
       <div className="navbar-section">
         <div className="account-hover">
-          <a className="login-button" href={session && session.isLoggedIn ? "/account/profile" : "/login"}>
+        <Link className="login-button"
+            href={{
+              pathname: session && session.isLoggedIn ? "/account/profile" : "/login",
+              query: { account_id: session?.user?.Account_ID }
+            }}
+          >
             {session && session.isLoggedIn ? "Profile" : "Login"}
-          </a>
+          </Link>
           {session && session.isLoggedIn && (
             <div className="dropdown-content">
               <div className="account">
@@ -95,7 +100,10 @@ const AdminNavBar = ({session}) => {
                     : "Profile Name "}
                 </p>
               </div>{" "}
-              <Link href={"/account/profile"}>
+              <Link href={{
+                  pathname: "/account/profile",
+                  query: { account_id: session?.user?.Account_ID }
+                }}>
                 <FontAwesomeIcon
                   icon={faUser}
                   style={{
@@ -107,7 +115,10 @@ const AdminNavBar = ({session}) => {
                 />
                 <p>Account Settings</p>
               </Link>
-              <Link href={"/account/transaction-history"}>
+              <Link href={{
+                  pathname: "/account/transaction-history",
+                  query: { account_id: session?.user?.Account_ID }
+                }}>
                 <FontAwesomeIcon
                   icon={faFileInvoice}
                   style={{
