@@ -456,6 +456,20 @@ export const updateSubscription = async (custId, plan) => {
     }
 };
 
+export const cancelSubscription = async (custId) => {
+    try {
+        // Get subscriptin
+        let sub = await getSubscription(custId);
+        sub = JSON.parse(sub);
+        console.log(sub);
+        // Cancel subsctiption
+        let res = await subscriptionsApi.cancelSubscription(sub.id);
+        console.log("Successfully canceled membership: ", res)
+    } catch (error) {
+        console.log("Could not cancel subscription: ", error);
+    }
+};
+
 const changeDBMembership = async (custId, plan) => {
     const db = await mysql.createConnection({
         host: process.env.DB_HOSTNAME,
