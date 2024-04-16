@@ -434,30 +434,31 @@ export const processCheckIn = async (
                 console.log("transactions table updated");
             });
 
-            const insertCheckIn = `INSERT INTO Transactions (Account_ID, Tool_ID, Transaction_Status, Transaction_Date, Transaction_Type) 
-            VALUES (?, ?, "Closed", curdate(), 6);`;
-            const checkInData = [accountID, toolID];
 
-            await db.query(insertCheckIn, checkInData).then((response) => {
-                console.log("transactions table values inserted");
-            });
+            const insertCheckIn = `INSERT INTO Transactions (Account_ID, Tool_ID, Transaction_Status, Transaction_Date, Transaction_Type, Check_In_Date) 
+            VALUES (?, ?, "Closed", curdate(), 6, curdate());`
+            const checkInData = [accountID, toolID]
 
-            const updateToolStatus = `Update Tools SET Tool_Status = ${statusCode} WHERE Tool_ID = ${toolID};`;
-            await db.execute(updateToolStatus).then((response) => {
-                console.log("One : tools table values updated");
-            });
+            await db.query(insertCheckIn, checkInData).then((response)=>{
+                console.log('transactions table values inserted')
+            })
 
-            const updateToolLocation = `Update Tools SET Tools.Current_Location = ${curLocationCode} WHERE Tools.Tool_ID = ${toolID};`;
-            await db.execute(updateToolLocation).then((response) => {
-                console.log("Two : transactions table values inserted");
-            });
+            const updateToolStatus = `Update Tools SET Tool_Status = ${statusCode} WHERE Tool_ID = ${toolID};`
+            await db.execute(updateToolStatus).then((response)=>{
+                console.log('One : tools table values updated')
+            })
 
-            db.release();
+            const updateToolLocation = `Update Tools SET Tools.Current_Location = ${curLocationCode} WHERE Tools.Tool_ID = ${toolID};`
+            await db.execute(updateToolLocation).then((response)=>{
+                console.log('Two : transactions table values inserted')
+            })
 
-            //check the fee values
-            if ((cleanFee ?? null) && (replacementFee ?? null)) {
-                console.log("apply both fees");
-
+            db.release()
+            
+            //check the fee values 
+            if((cleanFee ?? null) && (replacementFee ?? null)){
+                console.log('apply both fees')
+                
                 const cleanFeeQuery = `INSERT INTO Transactions (Account_ID, Tool_ID, Transaction_Status, Transaction_Date, Transaction_Type, Payment_Amount)
                 VALUES (?, ?, "Closed", curdate(), 12, 5);`;
                 const cleanFeeData = [accountID, toolID];
@@ -513,5 +514,46 @@ export const processCheckIn = async (
         console.error(error);
         return { status: "error" };
     }
-    return { status: "success" };
-};
+
+    return {status: 'success'}
+}
+
+export const addCustomTransaction = async (accountID, formData) =>{
+    const transactiontype = formData.get("transactionType");
+    const transactionStart = formData.get("transactionStart");
+    const transactionEnd = formData.get("transactionEnd");
+    const transactionAmount = formData.get("transactionAmount");
+
+
+    let transStart = new Date(transactionStart);
+    transStart = transStart.toString() === 'Invalid Date' ? null : transStart;
+
+
+    let transEnd = new Date(transactionEnd);
+    transEnd = transEnd.toString() === 'Invalid Date' ? null : transEnd;
+
+    //have to check if transaction amount is a number or not
+    if(isNaN(transactionAmount) || transStart === null){
+        return{status: 'NaN'}
+    }else{
+        try {
+            const db = await pool.getConnection();
+            const insertTransactionQuery = 
+                `INSERT INTO Transactions (Account_ID, Transaction_Status, Transaction_Date, Transaction_Type, Payment_Amount, End_Date)
+                VALUES (?, 'Closed', ?, ?, ?, ?)`;
+            const data = [accountID, transStart, transactiontype, transactionAmount, transEnd]
+            console.log(data)
+            db.execute(insertTransactionQuery, data).then(()=>{
+                console.log('transaction completed')
+                return {status: 'success'}
+            })
+
+            db.release()
+            return {status: 'success'}
+        } catch (error) {
+            console.error(error)
+            return {status: 'error'}
+        }
+    }
+
+}

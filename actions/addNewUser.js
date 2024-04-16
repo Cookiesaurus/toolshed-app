@@ -118,6 +118,10 @@ export const testAddNewUser = async (formData) => {
             console.log("Account inserted successfully!");
             let squareInfo = { firstName: first, lastName: last, email: email };
             cust_id = await createSquareCustomer(squareInfo, acc_id);
+            await createSignedUpEmail(email).then(()=>{
+                console.log('email sent')
+            })
+            db.release();
             return cust_id;
         } catch (error) {
             console.error("Error inserting account:", error);
@@ -126,7 +130,7 @@ export const testAddNewUser = async (formData) => {
         }
     } else {
         console.log(parse.error);
-        return { error: "There was an errpr" };
+        return { status: "error" };
     }
 };
 
@@ -205,9 +209,28 @@ const createSignedUpEmail = async (email) => {
         await transporter.sendMail({
             from: EMAIL,
             to: email,
-            subject: "Welcome to the SEAC Tool SHED",
-            text: "This is a text string",
-            html: "<h1>Test title </h1> <p>Some body text</p>",
+            subject: "Welcome to the SEAC Tool SHED!",
+            text: `Welcome to the South East Area Coalition Tool SHED! 
+            Welcome to the South East Area Coalition Tool SHED! We're thrilled to have you as a new member of our community.
+            As a member, you now have access to a wide range of tools and equipment to help you with your projects and DIY endeavors. Whether you're a seasoned handyman or just starting out, we're here to support you every step of the way.
+            We're here to help you make your projects a success. If you have any questions or need assistance, feel free to contact us at toolshed@seacrochester.org or 585-271-8665.
+            Once again, welcome to the SEAC Tool SHED community! We look forward to serving you and seeing the amazing projects you create.`,
+            html: `<!DOCTYPE html>
+            <html lang="en">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Welcome to the South East Area Coalition Tool SHED!</title>
+            </head>
+            <body>
+              <h1>Welcome to the South East Area Coalition Tool SHED!</h1>
+              <p>Welcome to the South East Area Coalition Tool SHED! We're thrilled to have you as a new member of our community.</p>
+              <p>As a member, you now have access to a wide range of tools and equipment to help you with your projects and DIY endeavors. Whether you're a seasoned handyman or just starting out, we're here to support you every step of the way.</p>
+              <p>We're here to help you make your projects a success. If you have any questions or need assistance, feel free to contact us at toolshed@seacrochester.org or 585-271-8665.</p>
+              <p>Once again, welcome to the SEAC Tool SHED community! We look forward to serving you and seeing the amazing projects you create.</p>
+            </body>
+            </html>
+            `,
         });
     } catch (error) {
         console.log(error);

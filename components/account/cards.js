@@ -9,7 +9,7 @@ import {
     faTrashCan,
     faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import { formHandler } from "@/lib/actions/formHandler";
+
 
 const AddNewPasswordModal = ({ onClose }) => {
     return (
