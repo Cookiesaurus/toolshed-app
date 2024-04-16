@@ -121,7 +121,7 @@ const InActiveMembershipReport = ({membershipData}) => {
           </button>
         </div>
       </div>
-      <div className="data">
+      <div className="datatable mainContent">
         <DataTable columns={columns} data={tableData} pagination defaultSortFieldId={1}/>
       </div>
     </>

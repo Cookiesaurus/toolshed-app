@@ -9,7 +9,6 @@ import autoTable from 'jspdf-autotable'
 const ActiveMembershipReport = ({membershipData}) => {
   const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
   const reportHeader = new Date()
-  console.log(membershipData)
   const columns = [
     {
       name: "Customer Name",
@@ -122,7 +121,7 @@ const ActiveMembershipReport = ({membershipData}) => {
           </button>
         </div>
       </div>
-      <div className="data">
+      <div className="datatable mainContent">
         <DataTable columns={columns} data={tableData} pagination defaultSortFieldId={1}/>
       </div>
     </>
