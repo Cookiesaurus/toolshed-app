@@ -152,7 +152,6 @@ export default async function Page({ searchParams }) {
                     <div className="conditions">
                         <h1> </h1>
                     </div>
-                    <Sort/>
                 </div>
                 <div className="inventory-cont">
                     <Filters

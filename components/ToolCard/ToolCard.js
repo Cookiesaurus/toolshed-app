@@ -68,6 +68,7 @@ const ToolCard = ({ tools, admin }) => {
                       width={230}
                       height={280}
                       className="popular-img"
+                      priority={true}
                     />
                   </div>
                   <div className="product-info">
