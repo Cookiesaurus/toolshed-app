@@ -112,7 +112,7 @@ const ProductItem = ({ tool, session }) => {
                 </div>
               </div>
               <div className="replace-cont">
-                <p className="replacement">Replacement Cost:</p>
+                <p className="replacement"><strong>Replacement Cost:</strong></p>
                 <p className="cost">
                   ${RoundToHun(tool.Tool_Replacement_Cost)}
                 </p>
@@ -120,20 +120,20 @@ const ProductItem = ({ tool, session }) => {
               <div className="product-info">
                 <div className="info-left">
                   {tool?.Tool_Description && (
-                  <p className="product-info">Description: {tool.Tool_Description}</p>
+                  <p className="product-info"><strong>Description:</strong> {tool.Tool_Description}</p>
                 )}
-                  <p className="product-info">Brand: {tool.Brand_Name}</p>
+                  <p className="product-info"><strong>Brand:</strong> {tool.Brand_Name}</p>
                   <p className="product-info">
-                    Weight: {RoundToTenth(tool.Tool_Weight)} lbs
+                    <strong>Weight:</strong> {RoundToTenth(tool.Tool_Weight)} lbs
                   </p>
-                  <p className="product-info">Location: {tool.Location_Name}</p>
+                  <p className="product-info"><strong>Location:</strong> {tool.Location_Name}</p>
                 </div>
               </div>
               <div className="product-description">
-                <p>Categories : {tool.Category_Name}</p>
+                <p><strong>Categories:</strong> {tool.Category_Name}</p>
               </div>
               <div className="product-description">
-                <p>Item Types: {tool.Types}</p>
+                <p><strong>Item Types:</strong> {tool.Types}</p>
               </div>
               {tool?.Tool_Manual && (
                 <div className="produc-manual">
