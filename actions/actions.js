@@ -89,17 +89,24 @@ export const changePassword = async (formData) => {
 
         const [rows, fields] = await connection.execute(sql, [newPass, email]);
 
-        connection.release();
         if (rows.changedRows > 0) {
-            return { success: "Password updated successfully!" };
+            connection.release();
+            await createChangedPasswordEmail(email).then(()=>{
+                console.log('email sent')
+            })
+            return { status: "success" };
         } else {
+            console.log(rows)
+            connection.release();
             return {
-                error: "There was an error when trying to update your password.",
+                status: 'error',
             };
         }
     } catch (error) {
+        connection.release();
+        console.error(error)
         return {
-            error: "There was an error when trying to update your password.",
+            status: 'error',
         };
     }
 };
@@ -194,14 +201,15 @@ export const updateUserProfile = async (accountID, formData) => {
             const rows = await db.execute(query, data);
             console.log(rows);
             console.log("Account updated successfully!");
+            db.release();
+            return {status: 'success'}
         } catch (error) {
             console.error("Error inserting account:", error);
-        } finally {
-            db.release();
+            return {status: 'error'}
         }
     } else {
         console.log(parse.error);
-        return { error: "There was an errpr" };
+        return { status: "error 2" };
     }
 };
 
@@ -272,3 +280,36 @@ WHERE Transaction_Types.Transaction_Details = "Tool Check Out" AND Transactions.
     }
     return tools;
 };
+
+const createChangedPasswordEmail = async (email) =>{
+    try {
+        await transporter.sendMail({
+            from: EMAIL,
+            to: email,
+            subject: "SEAC Tool SHED:  Password Changed Successfully",
+            text: `This is to confirm that the password for your account at SEAC Tool SHED has been successfully changed.
+
+            If you did not request this change or believe it to be an unauthorized action, please contact us immediately at toolshed@seacrochester.org or 585-271-8665.
+            
+            Thank you for helping us maintain the security of your account.
+            
+            `,
+            html: `<!DOCTYPE html>
+            <html lang="en">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Password Changed Successfully</title>
+            </head>
+            <body>
+              <h1>SEAC Tool SHED:  Password Changed Successfully</h1>
+              <p>This is to confirm that the password for your account at <strong>SEAC Tool SHED</strong> has been successfully changed.</p>
+              <p>If you did not request this change or believe it to be an unauthorized action, please contact us immediately at <strong>toolshed@seacrochester.org or 585-271-8665</strong>.</p>
+              <p>Thank you for helping us maintain the security of your account.</p>
+            </body>
+            </html>`
+        });
+    } catch (error) {
+        console.log(error)
+    }
+}
