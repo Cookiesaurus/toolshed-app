@@ -150,6 +150,33 @@ def addTypes( string, tool_id ):
 
         curr.execute(insert_query)
         conn.commit()
+
+def alter_Tools():
     
+    query = """UPDATE Tools
+        SET Brand_Name = "Lowe's"
+        WHERE Old_Tool_ID IN ('I000104', 'I000105', 'I000106');"""
+    curr.execute(query)
+    conn.commit()
+    
+    query = """UPDATE Tools
+        SET Tool_Description = "Rotary Tool Kit with 2- attachment's & 30 accessories- Grinder, sander, Engraver- router. has storage case"
+        WHERE Old_Tool_ID = "M000148";"""
+    curr.execute(query)
+    conn.commit()
+    
+    query = """UPDATE Tools
+        SET Tool_Description = "Dremel Multi Tool with Case can cut and sand with the correct attachment's"
+        WHERE Old_Tool_ID = "M000159";"""
+    curr.execute(query)
+    conn.commit()
+    
+    query = """UPDATE Tools
+        SET Tool_Description = "Follow instructions provided to clean the carpet cleaner before returning - a $20 fee will be applied to the card on file if it hasn't! :)"
+        WHERE Old_Tool_ID = "Z000037";"""
+    curr.execute(query)
+    conn.commit()
+
 insertTools()
+alter_Tools()
 print("Tool import complete")
