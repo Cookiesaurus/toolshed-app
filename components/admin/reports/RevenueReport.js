@@ -53,10 +53,22 @@ const RevenueReport = ({loanData}) => {
     }
   })
 
+  const excelData = loanData.map((row)=>{
+    const date = new Date(row.Transaction_Date).toLocaleDateString('en-US', options);
+    const payment = RoundToHun(row.Payment_Amount)
+    return {
+      Customer_Name: row.Name,
+      Email: row.Email,
+      Payment_Amount: payment,
+      Transaction_Date: date,
+      Transaction_Type: row.Transaction_Details,
+    }
+  })
+
 
 
   const downloadExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(tableData);
+    const worksheet = XLSX.utils.json_to_sheet(excelData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
     XLSX.writeFile(workbook, `Revenue-Report-${reportHeader.toLocaleDateString('en-US', options)}.xlsx`, { compression: true });
