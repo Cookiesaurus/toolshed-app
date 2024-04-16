@@ -1,7 +1,11 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { updateSubscription } from "@/actions/squareActions";
+import {
+    updateSubscription,
+    cancelSubscription,
+    getSubscription,
+} from "@/actions/squareActions";
 
 // Make component for subscription plans
 const MembershipForm = ({ custId }) => {
@@ -31,7 +35,10 @@ const MembershipForm = ({ custId }) => {
         console.log(subscribe);
     };
     return (
-        <form className="select-level" style={{ background: 'white', textAlign: 'center' }}>
+        <form
+            className="select-level"
+            style={{ background: "white", textAlign: "center" }}
+        >
             <div className="option-container">
                 <input
                     className="selection-option"
@@ -41,7 +48,9 @@ const MembershipForm = ({ custId }) => {
                     id="tinker"
                     onClick={selectionChanged}
                 />
-                <label htmlFor="tinker" className="selection-label">$25 Tinker level</label>
+                <label htmlFor="tinker" className="selection-label">
+                    $25 Tinker level
+                </label>
             </div>
 
             <div className="option-container">
@@ -98,6 +107,9 @@ const Membership = ({ user }) => {
     renewal = user.user.Membership_Auto_Renewal;
     custId = user.user.Customer_ID;
     const [showPlans, setShowPlans] = useState(false);
+    const [cancel, setCancel] = useState(false);
+    const [cdate, setCdate] = useState(null);
+    const [sub, setSub] = useState(null);
 
     let membership;
     if (membershipLevel == 1) {
@@ -109,6 +121,28 @@ const Membership = ({ user }) => {
     } else if (membershipLevel == 4) {
         membership = "Builder";
     }
+
+    // Get and set subscription
+    useEffect(() => {
+        const fn = async () => {
+            let sub = await getSubscription(custId);
+            sub = JSON.parse(sub);
+            setSub(sub);
+            setCdate(sub.canceledDate);
+        };
+        fn();
+    }, []);
+    useEffect(() => {
+        // Cancel subscription
+        const fn = async () => {
+            const res = await cancelSubscription(custId);
+            setCdate(res.canceledDate);
+        };
+        if (cancel) {
+            fn();
+            setCancel(false);
+        }
+    }, [cancel]);
 
     const autoRenewal = renewal === 1 ? true : false;
     const updateMembership = () => {
@@ -124,11 +158,16 @@ const Membership = ({ user }) => {
                 <div className="account-email">
                     <p className="light-paragraph">Current Membership Level</p>
                     <h2 className="customer-name">{membership}</h2>
+                    {cdate ? (
+                        <p>You membership is set to end on {cdate}</p>
+                    ) : null}
                 </div>
                 {showPlans ? (
                     <>
                         <MembershipForm custId={custId} />
-                        <button className="cancel-button" onClick={showNormal}>Cancel</button>
+                        <button className="cancel-button" onClick={showNormal}>
+                            Cancel
+                        </button>
                     </>
                 ) : (
                     <>
@@ -139,9 +178,17 @@ const Membership = ({ user }) => {
                             >
                                 Upgrade Membership
                             </button>
-                            <Link href={""} className="cancel-button">
-                                Cancel Subscription
-                            </Link>
+                            {cdate ? null : (
+                                <button
+                                    className="profile-button"
+                                    onClick={() => {
+                                        // Set cancel true
+                                        setCancel(true);
+                                    }}
+                                >
+                                    Cancel Subscription
+                                </button>
+                            )}
                         </div>
                         <div className="switch-container">
                             <label className="switch" htmlFor="auto-renewal">

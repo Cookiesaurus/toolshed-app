@@ -401,7 +401,7 @@ export const getCards = async (custId) => {
     }
 };
 
-const getSubscription = async (custId) => {
+export const getSubscription = async (custId) => {
     const cus = custId;
     try {
         let subscription = await subscriptionsApi.searchSubscriptions({
@@ -464,7 +464,7 @@ export const cancelSubscription = async (custId) => {
         console.log(sub);
         // Cancel subsctiption
         let res = await subscriptionsApi.cancelSubscription(sub.id);
-        console.log("Successfully canceled membership: ", res)
+        return res.result.subscription;
     } catch (error) {
         console.log("Could not cancel subscription: ", error);
     }
