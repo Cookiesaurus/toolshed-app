@@ -70,22 +70,6 @@ const SearchTools = ({ inventory }) => {
           Edit
         </Link>
         </div>
-        <div className="action" role="listitem">
-        <Link
-          className="checkoutButton"
-          href={{
-            pathname: "/admin/inventory/checkout",
-            query: { tool_id: item.Tool_ID }
-          }}
-        >
-          <FontAwesomeIcon
-            icon={faCartShopping}
-            color="white"
-            style={{ backgroundColor: "transparent" }}
-          />
-          Checkout
-        </Link>
-        </div>
       </div>
     );
     return {

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPencil,
-  faCartShopping,
   faHandHolding
 } from "@fortawesome/free-solid-svg-icons";
 import DataTable from "react-data-table-component";
@@ -17,11 +16,6 @@ const Search = ({ customerData }) => {
     {
       name: "Name",
       selector: (row) => row.name,
-      sortable: true
-    },
-    {
-      name: "Email",
-      selector: (row) => row.email,
       sortable: true
     },
     {
@@ -45,7 +39,7 @@ const Search = ({ customerData }) => {
     }
   ];
   const data = customerData.map((user) => {
-    let expirationDate = new Date(user.Expiration_Date);
+    let expirationDate = new Date(user.Membership_Expiration_Date);
     expirationDate = expirationDate.toDateString();
 
     const actions = (
@@ -88,9 +82,8 @@ const Search = ({ customerData }) => {
 
     return {
       id: user.Account_ID,
-      name: user.Name,
-      email: user.Email,
-      organization: user.Organization,
+      name: user.First_Name + " " + user.Last_Name,
+      organization: user.Organization_Name,
       membership: user.Membership_Title,
       member_expiration: expirationDate,
       action: actions
@@ -99,9 +92,6 @@ const Search = ({ customerData }) => {
 
   return (
     <>
-      <div className="filterOptionsContainer">
-        <h1>All Users</h1>
-      </div>
 
       <div className="mainContent">
         <DataTable columns={columns} data={data} pagination/>
