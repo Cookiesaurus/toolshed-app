@@ -10,8 +10,8 @@ const pool = mysql.createPool({
     password: process.env.DB_PASSWORD
   });
 
-export async function pickUpTool(toolID, accountID, email, status){
-    if(status === 'Disabled' || status === 'Maintence' || status === 'Checked Out'){
+export async function pickUpTool(toolID, accountID, email, status, toolName, pickupLoc){
+    if(status === 'Disabled' || status === 'Maintenance' || status === 'Checked Out'){
         return {status: 'This tool is not able to be reserved at this time'}
     }else{
         //check the users membership and get the max number of tools they can check out
@@ -52,7 +52,7 @@ export async function pickUpTool(toolID, accountID, email, status){
 
         await db.query(toolStatusUpdateQuery)
         
-        //await createTransactionEmail(email)
+        await createTransactionEmail(email, pickupLoc, toolName)
         
         db.release();
         return {status: 'success'}
@@ -64,14 +64,37 @@ export async function pickUpTool(toolID, accountID, email, status){
 }
 
 
-const createTransactionEmail = async (email) =>{
+const createTransactionEmail = async (email, pickupLoc, toolName) =>{
     try {
         await transporter.sendMail({
             from: EMAIL,
             to: email,
-            subject: "Tool Reserved For Pickup",
-            text: "You've reserved a tool at the tool shed!",
-            html: "<h1>Yay! </h1> <p>You've reserved a tool at the tool shed!</p>"
+            subject: "SEAC Tool SHED: Tool Reservation Confirmation",
+            text: `We're writing to confirm your reservation for the following tool pickup at the SEAC Tool SHED:
+            Tool: ${toolName}
+            Pickup Location: ${pickupLoc}
+            Please make sure to pick up your reserved tool at the specified location on the designated date. Our team will have the tool ready for you and will be happy to assist you with any questions you may have.
+            If you have any changes to your reservation or need assistance, please contact us at  toolshed@seacrochester.org or 585-271-8665. as soon as possible.
+            Thank you for choosing the SEAC Tool SHED. We look forward to serving you!
+            `,
+            html: `<!DOCTYPE html>
+            <html lang="en">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Tool Reservation Confirmation</title>
+            </head>
+            <body>
+              <h1>Tool Reservation Confirmation</h1>
+              <p>We're writing to confirm your reservation for the following tool pickup at <strong>the SEAC Tool SHED</strong>:</p>
+              <ul>
+                <li><strong>Tool:</strong> ${toolName}</li>
+                <li><strong>Pickup Location:</strong>${pickupLoc}</li>
+              </ul>
+              <p>Please make sure to pick up your reserved tool at the specified location on the designated date. Our team will have the tool ready for you and will be happy to assist you with any questions you may have.</p>
+              <p>If you have any changes to your reservation or need assistance, please contact us at <strong> toolshed@seacrochester.org or 585-271-8665</strong> as soon as possible.</p>
+            </body>
+            </html>`
         });
     } catch (error) {
         console.log(error)
