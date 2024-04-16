@@ -8,9 +8,7 @@ import * as XLSX from 'xlsx'
 import jsPDF from "jspdf";
 import autoTable from 'jspdf-autotable'
 
-
 const LoanReport = ({loanData}) => {
-  console.log(loanData)
   const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
   const reportHeader = new Date()
   function RoundToHun(decimal) {
