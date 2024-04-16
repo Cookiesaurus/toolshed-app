@@ -127,14 +127,23 @@ export const submitPayment = async (sourceId, amt) => {
 };
 
 // Function to submit payment for the first time.
-export const subscribe = async (sourceId, planName, addCardBool, custId) => {
+export const subscribe = async (sourceId, planName, custId) => {
     let amount;
     let cardId;
 
-    if (planName == "tinker") amount = 25;
-    else if (planName == "macgyver") amount = 35;
-    else if (planName == "builder") amount = 50;
-    else if (planName == "contractor") amount = 100;
+    if (planName == "tinker" || planName == "Tinkerer") {
+        amount = 25;
+        planName = "tinker";
+    } else if (planName == "macgyver" || planName == "MacGyver") {
+        amount = 35;
+        planName = "macgyver";
+    } else if (planName == "builder" || planName == "Builder") {
+        amount = 50;
+        planName = "builder";
+    } else if (planName == "contractor" || planName == "Contractor") {
+        amount = 100;
+        planName = "contractor";
+    }
 
     try {
         // Create a payment
@@ -176,6 +185,7 @@ export const subscribe = async (sourceId, planName, addCardBool, custId) => {
         return JSON.stringify({ status: 200, subscription });
     } catch (error) {
         console.log("Error in subscribing : ", error);
+        // return { error: "400" };
     }
     // DEBUG
     // console.log("PROPS: amount - ", planName);
@@ -195,15 +205,6 @@ export const createSquareCustomer = async (userInfo, customerId) => {
             givenName: userInfo.firstName,
             familyName: userInfo.lastName,
             emailAddress: userInfo.email,
-            address: {
-                addressLine1: userInfo.addressFirst,
-                addressLine2: userInfo.addressSecond
-                    ? userInfo.addressSecond
-                    : null,
-                administrativeDistrictLevel1: userInfo.state,
-                postalCode: userInfo.zipCode,
-                country: "US",
-            },
             referenceId: String(customerId),
             note: "New Customer added.",
         });
