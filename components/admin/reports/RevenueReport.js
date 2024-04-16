@@ -7,6 +7,13 @@ import * as XLSX from 'xlsx'
 import jsPDF from "jspdf";
 import autoTable from 'jspdf-autotable'
 const RevenueReport = ({loanData}) => {
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  const reportHeader = new Date()
+  function RoundToHun(decimal) {
+    const roundedDecimal = parseFloat(decimal).toFixed(2);
+    const roundedNum = parseFloat(roundedDecimal);
+    return roundedNum;
+  }
   const columns = [
     {
       name: "Name",
@@ -14,54 +21,64 @@ const RevenueReport = ({loanData}) => {
       sortable: true
     },
     {
-      name: "Date",
-      selector: (row) => row.date,
+      name: "Email",
+      selector: (row) => row.email,
       sortable: true
     },
     {
-      name: "Amount",
+      name: "Payment Amount",
       selector: (row) => row.amount,
       sortable: true
     },
     {
-      name: "Item(s)",
-      selector: (row) => row.items,
+      name: "Transaction Date",
+      selector: (row) => row.date,
       sortable: true
     },
     {
-      name: "Location",
-      selector: (row) => row.location
-    },
-    {
-      name: "Action",
-      selector: (row) => row.action
+      name: "Transaction Type",
+      selector: (row) => row.type
     }
   ];
 
+  const tableData = loanData.map((row)=>{
+    const date = new Date(row.Transaction_Date).toLocaleDateString('en-US', options);
+    const payment = RoundToHun(row.Payment_Amount)
+    return {
+      name: row.Name,
+      email: row.Email,
+      amount: payment,
+      date: date,
+      type: row.Transaction_Details,
+    }
+  })
+
+
 
   const downloadExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(customerData);
+    const worksheet = XLSX.utils.json_to_sheet(tableData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
-    XLSX.writeFile(workbook, "Presidents.xlsx", { compression: true });
+    XLSX.writeFile(workbook, `Revenue-Report-${reportHeader.toLocaleDateString('en-US', options)}.xlsx`, { compression: true });
   };
 
   const downlaodPDF = () => {
     const doc = new jsPDF({ orientation: "landscape"})
-    doc.text('Report Header', 10, 10)
+    doc.text(`Revenue-Report-${reportHeader.toLocaleDateString('en-US', options)}`, 10, 10)
     
     //itereate through the data to make an array 
-    const data = customerData.map(obj => [obj.Account_ID, obj.Name, obj.Email, obj.Organization, obj.Membership_Title]);
+     const data = loanData.map(obj => [obj.Name, obj.Email, RoundToHun(obj.Payment_Amount), 
+      obj.Transaction_Date =  new Date(obj.Transaction_Date).toLocaleDateString('en-US', options), obj.Transaction_Details]);
     
     //create the columns
-    const columns = ['ID', 'Name', 'Email', 'Organization', 'Membership'];
+    const columns = ['Name', 'Email', 'Payment Amount', 'Transaction Date', 'Transaction Type'];
   
     autoTable(doc, {
       head: [columns],
       body: data,
     })
     //name of file
-    doc.save('test.pdf')
+    doc.save(`Revenue-Report-${reportHeader.toLocaleDateString('en-US', options)}.pdf`)
   }
 
 
@@ -79,8 +96,8 @@ const RevenueReport = ({loanData}) => {
           </button>
         </div>
       </div>
-      <div className="data">
-        <DataTable columns={columns} />
+      <div className="mainContent datatable">
+        <DataTable columns={columns} data={tableData} pagination/>
       </div>
     </>
   );
