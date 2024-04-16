@@ -285,16 +285,6 @@ export default function Signupform({ waivers, genders, membershiplevel }) {
                             <span className="checkmark"></span>
                         </label>
                     </div>
-                    <label htmlFor="name-title" className="sr-only">
-                        Title
-                    </label>
-                    <input
-                        type="text"
-                        className="input"
-                        placeholder="Title"
-                        name="name-title"
-                        id="name-title"
-                    />
                     <label htmlFor="organization" className="sr-only">
                         Organization
                     </label>
