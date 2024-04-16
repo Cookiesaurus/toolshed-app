@@ -16,7 +16,7 @@ export default async function AdminPage() {
     Transaction_Types.Transaction_Details, Transactions.End_Date, Transactions.Check_In_Date, Transactions.Payment_Amount FROM Transactions
     LEFT JOIN Accounts ON Transactions.Account_ID = Accounts.Account_ID
     LEFT JOIN Tools ON Transactions.Tool_ID = Tools.Tool_ID
-    LEFT JOIN Transaction_Types ON Transactions.Transaction_Type = Transaction_Types.Transaction_Type;`)
+    LEFT JOIN Transaction_Types ON Transactions.Transaction_Type = Transaction_Types.Transaction_Type ORDER BY Transactions.Transaction_ID DESC;`)
     
     customers = JSON.parse(JSON.stringify(customers))
     inventory = JSON.parse(JSON.stringify(inventory))
