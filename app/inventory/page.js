@@ -5,6 +5,8 @@ import InventoryItems from "@/components/InventoryItems/InventoryItems";
 import db from "../config/db.mjs";
 import ToolCard from "@/components/ToolCard/ToolCard";
 import { getSession } from "@/actions/actions";
+import { Suspense } from "react";
+import InventoryLoading from "@/components/InventoryItems/InventoryLoading";
 
 //Helper function - not needed for now
 /*const checkForParams = (searchParams) => {
@@ -162,15 +164,19 @@ export default async function Page({ searchParams }) {
                         admin={admin > 3 ? true : false}
                     />
                     {useInven ? (
-                        <InventoryItems
-                            tools={tools}
-                            admin={admin > 3 ? true : false}
-                        />
+                        <Suspense fallback={<InventoryLoading/>}>
+                            <InventoryItems
+                                tools={tools}
+                                admin={admin > 3 ? true : false}
+                            />
+                        </Suspense>
                     ) : (
-                        <ToolCard
-                            tools={tools}
-                            admin={admin > 3 ? true : false}
-                        />
+                        <Suspense fallback={<InventoryLoading/>}>
+                            <ToolCard
+                                tools={tools}
+                                admin={admin > 3 ? true : false}
+                            />
+                        </Suspense>
                     )}
                 </div>
             </div>
