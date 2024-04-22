@@ -10,10 +10,10 @@ import os
 
 #Connect to the database
 conn = pymysql.connect(
-    host='localhost',
-    user='root',
+    host='ls-9858058d0f47c2e4c292c2426c0260847de1aa38.c3i8ssyyouhq.us-east-2.rds.amazonaws.com',
+    user='dbmasteruser',
     db='SEAC_Tool_Shed',
-    password='password',
+    password=';p+Y<z15XBle|lw[1JXJPuy00Yg<knMj',
     port=3306
 )
 curr = conn.cursor()
@@ -303,7 +303,7 @@ def account_migration():
         
         curr.execute(query)
         conn.commit()
-        '''
+        
         result = client.customers.create_customer(
         body = {
             "given_name": First_Name,
@@ -325,7 +325,6 @@ def account_migration():
         else:
             print('Error creating customer: ', result.errors)
         
-        '''
         print("Added Account: " + First_Name + " " + Last_Name)    
     
 insertTools()
