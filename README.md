@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Cookiesaurus/toolshed-app/">
-    <img src="/the-tool-shed-logo-transparent-bg.png" alt="Logo" width="300" height="300">
+    <img src="/app/public/images/the-tool-shed-logo-transparent-bg.png" alt="Logo" width="300" height="300">
   </a>
 
 <h1 align="center">SEAC Tool Shed</h3>
